@@ -39,7 +39,7 @@ namespace ElastoSystem
 
         private void Novedades_Load(object sender, EventArgs e)
         {
-
+          
         }
 
         private void lblfecha_Click(object sender, EventArgs e)

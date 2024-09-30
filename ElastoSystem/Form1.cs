@@ -65,6 +65,8 @@ namespace ElastoSystem
 
                         if(IsPasswordValid(tbpassword.Text, storedHashedPassword))
                         {
+                            VariablesGlobales.Usuario = tbusuario.Text;
+
                             MessageBox.Show("Bienvenido " + tbusuario.Text);
                             MenuPrincipal menuPrincipal = new();
                             menuPrincipal.TextoLabelID = id;
