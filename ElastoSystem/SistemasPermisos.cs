@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Isopoh.Cryptography.Argon2;
+using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Asn1.Cmp;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Cryptography;
+using Isopoh.Cryptography.Argon2;
 
 namespace ElastoSystem
 {
@@ -384,9 +387,67 @@ namespace ElastoSystem
                 conn.Close();
             }
         }
+
+        private void MandarALlamarInfoUsuarios()
+        {
+            try
+            {
+                string userQuery = "SELECT ID, Usuario, Paswd, No_Trabajador, Estatus FROM elastosystem_login";
+                MySqlDataAdapter userinfoAdapter = new MySqlDataAdapter(userQuery, connectionString);
+                DataTable dt = new DataTable();
+                userinfoAdapter.Fill(dt);
+                dgvUsuarioyPassword.DataSource = dt;
+
+                dgvUsuarioyPassword.Columns["ID"].Visible = false;
+                dgvUsuarioyPassword.Columns["Paswd"].Visible = false;
+                dgvUsuarioyPassword.Columns["Usuario"].HeaderText = "USUARIO";
+                dgvUsuarioyPassword.Columns["No_Trabajador"].HeaderText = "No. TRABAJADOR";
+                dgvUsuarioyPassword.Columns["Estatus"].HeaderText = "ESTATUS";
+                dt.DefaultView.Sort = "Usuario ASC";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mandar a llamar a los usuarios y contraseñas del campo Gestion de Usuarios: " + ex.Message);
+            }
+        }
+
+        private void Buscador()
+        {
+            MySqlConnection conn = new MySqlConnection(connectionString);
+
+            try
+            {
+                conn.Open();
+
+                string valorBusqueda = txbBuscador.Text;
+                string searchQuery = "SELECT ID, Paswd, Usuario, No_Trabajador, Estatus FROM elastosystem_login WHERE Usuario LIKE @ValorBusqueda OR No_Trabajador LIKE @ValorBusqueda";
+
+                MySqlDataAdapter adaptador = new MySqlDataAdapter(searchQuery, connectionString);
+                adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
+
+                DataTable tableResultados = new DataTable();
+                adaptador.Fill(tableResultados);
+
+                dgvUsuarioyPassword.DataSource = tableResultados;
+
+                dgvUsuarioyPassword.Columns["ID"].Visible = false;
+                dgvUsuarioyPassword.Columns["Paswd"].Visible = false;
+                tableResultados.DefaultView.Sort = "Usuario ASC";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscador datos: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
         private void SistemasPermisos_Load(object sender, EventArgs e)
         {
             MandarALlamarUsuarios();
+            MandarALlamarInfoUsuarios();
         }
 
         private void cbUsuarios_SelectedIndexChanged(object sender, EventArgs e)
@@ -646,6 +707,239 @@ namespace ElastoSystem
             if (chbPendientesMaquinado.Checked == true)
             {
                 chbMaquinado.Checked = true;
+            }
+        }
+
+        private void txbBuscador_TextChanged(object sender, EventArgs e)
+        {
+            Buscador();
+        }
+
+        private void LimpiarCampos()
+        {
+            txbID.Clear();
+            txbUsuario.Clear();
+            txbPassword.Clear();
+            txbNoTrabajador.Clear();
+            cbEstatus.SelectedIndex = -1;
+            lblCampos.Visible = false;
+            pbCampos.Visible = false;
+            pbUsuario.Visible = false;
+            pbPassword.Visible = false;
+            pbEstatus.Visible = false;
+        }
+
+        private void dgvUsuarioyPassword_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnActualizarUsuario.Visible = true;
+            btnEliminar.Visible = true;
+            btnNuevo.Visible = true;
+            btnAgregar.Visible = false;
+
+            LimpiarCampos();
+
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvUsuarioyPassword.Rows[e.RowIndex];
+
+                txbID.Text = row.Cells["ID"].Value.ToString();
+                txbUsuario.Text = row.Cells["Usuario"].Value.ToString();
+                txbNoTrabajador.Text = row.Cells["No_Trabajador"].Value.ToString();
+                cbEstatus.Text = row.Cells["Estatus"].Value.ToString();
+            }
+
+        }
+
+        private bool VerificarCamposVacios()
+        {
+            if (string.IsNullOrEmpty(txbUsuario.Text) ||
+                string.IsNullOrEmpty(txbPassword.Text) ||
+                string.IsNullOrEmpty(cbEstatus.Text))
+            {
+                MessageBox.Show("Ingresa los datos obligatorios");
+                pbCampos.Visible = true;
+                lblCampos.Visible = true;
+                pbUsuario.Visible = true;
+                pbPassword.Visible = true;
+                pbEstatus.Visible = true;
+                return true;
+            }
+
+            return false;
+        }
+
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+            LimpiarCampos();
+            btnNuevo.Visible = false;
+            btnActualizarUsuario.Visible = false;
+            btnEliminar.Visible = false;
+            btnAgregar.Visible = true;
+        }
+
+        private void btnActualizarUsuario_Click_1(object sender, EventArgs e)
+        {
+            if (VerificarCamposVacios())
+            {
+                return;
+            }
+
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string hashedPassword = Argon2.Hash(txbPassword.Text);
+
+                    string updateQuery = "UPDATE elastosystem_login SET Usuario = @Usuario, Paswd = @Password, No_Trabajador = @NoTrabajador, Estatus = @Estatus WHERE ID = @ID";
+                    MySqlCommand updateCommand = new MySqlCommand(updateQuery, conn);
+
+                    updateCommand.Parameters.AddWithValue("@ID", txbID.Text);
+                    updateCommand.Parameters.AddWithValue("@Usuario", txbUsuario.Text);
+                    updateCommand.Parameters.AddWithValue("@Password", hashedPassword);
+                    updateCommand.Parameters.AddWithValue("@NoTrabajador", txbNoTrabajador.Text);
+                    updateCommand.Parameters.AddWithValue("@Estatus", cbEstatus.Text);
+
+                    int rowsAffected = updateCommand.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Usuario actualizado correctamente");
+                        LimpiarCampos();
+                        MandarALlamarInfoUsuarios();
+                        txbBuscador.Clear();
+                        btnNuevo.PerformClick();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al actualizar el usuario: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            }
+        }
+
+        private void tabGestionUsuarios_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ValidarNumero(KeyPressEventArgs e, TextBox textBox)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            if (VerificarCamposVacios())
+            {
+                return;
+            }
+
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string checkUsuario = "SELECT COUNT(*) FROM elastosystem_login WHERE Usuario = @Usuario";
+                    MySqlCommand checkUsuaioCommand = new MySqlCommand(checkUsuario, conn);
+                    checkUsuaioCommand.Parameters.AddWithValue("@Usuario", txbUsuario.Text);
+
+                    int UsuarioCount = Convert.ToInt32(checkUsuaioCommand.ExecuteScalar());
+
+                    if (UsuarioCount > 0)
+                    {
+                        MessageBox.Show("El Usuario ya existe");
+                        return;
+                    }
+
+                    string hashedPassword = Argon2.Hash(txbPassword.Text);
+
+                    string insertQuery = "INSERT INTO elastosystem_login(Usuario, Paswd, No_Trabajador, Estatus) VALUES(@Usuario, @Password, @NoTrabajador, @Estatus)";
+                    MySqlCommand insertCommand = new MySqlCommand(insertQuery, conn);
+
+                    insertCommand.Parameters.AddWithValue("@Usuario", txbUsuario.Text);
+                    insertCommand.Parameters.AddWithValue("@Password", hashedPassword);
+                    insertCommand.Parameters.AddWithValue("@NoTrabajador", txbNoTrabajador.Text);
+                    insertCommand.Parameters.AddWithValue("@Estatus", cbEstatus.Text);
+
+                    int rowsAffected = insertCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Usuario agregado correctamente");
+                        LimpiarCampos();
+                        txbBuscador.Clear();
+                        MandarALlamarInfoUsuarios();
+                        btnNuevo.PerformClick();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al agregar al usuario");
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al agregar al usuario: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void txbNoTrabajador_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumero(e, txbNoTrabajador);
+        }
+
+        private void btnEliminar_Click_1(object sender, EventArgs e)
+        {
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string deleteQuery = "DELETE FROM elastosystem_login WHERE ID = @ID";
+                    MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, conn);
+
+                    deleteCommand.Parameters.AddWithValue("@ID", txbID.Text);
+
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                    if(rowsAffected > 0)
+                    {
+                        MessageBox.Show("Usuario eliminado correctamente");
+                        LimpiarCampos();
+                        txbBuscador.Clear();
+                        MandarALlamarInfoUsuarios();
+                        btnNuevo.PerformClick();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontro ningun usuario con ese ID");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ocurrio un error al eliminar al usuario: "+ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
             }
         }
     }

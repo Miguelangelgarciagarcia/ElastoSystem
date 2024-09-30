@@ -436,7 +436,7 @@
             btnPermisos.Padding = new Padding(20, 0, 0, 0);
             btnPermisos.Size = new Size(187, 36);
             btnPermisos.TabIndex = 4;
-            btnPermisos.Text = "Permisos";
+            btnPermisos.Text = "Control Accesos";
             btnPermisos.TextAlign = ContentAlignment.MiddleLeft;
             btnPermisos.UseVisualStyleBackColor = true;
             btnPermisos.Visible = false;

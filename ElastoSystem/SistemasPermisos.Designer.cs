@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SistemasPermisos));
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             label2 = new Label();
             cbUsuarios = new ComboBox();
@@ -69,6 +72,30 @@
             chbPendientesMaquinado = new CheckBox();
             chbSolicitudMaquinado = new CheckBox();
             chbMaquinado = new CheckBox();
+            tabControl1 = new TabControl();
+            tabGestionUsuarios = new TabPage();
+            pbEstatus = new PictureBox();
+            pbPassword = new PictureBox();
+            pbUsuario = new PictureBox();
+            pbCampos = new PictureBox();
+            lblCampos = new Label();
+            txbID = new TextBox();
+            cbEstatus = new ComboBox();
+            label6 = new Label();
+            txbNoTrabajador = new TextBox();
+            label7 = new Label();
+            txbPassword = new TextBox();
+            label5 = new Label();
+            txbUsuario = new TextBox();
+            label4 = new Label();
+            btnEliminar = new Button();
+            btnAgregar = new Button();
+            btnActualizarUsuario = new Button();
+            btnNuevo = new Button();
+            txbBuscador = new TextBox();
+            label3 = new Label();
+            dgvUsuarioyPassword = new DataGridView();
+            tabPermisosUsuarios = new TabPage();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -76,6 +103,14 @@
             panel5.SuspendLayout();
             panel6.SuspendLayout();
             panel7.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tabGestionUsuarios.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbEstatus).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbPassword).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbUsuario).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbCampos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvUsuarioyPassword).BeginInit();
+            tabPermisosUsuarios.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -84,11 +119,11 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Montserrat", 22F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(38, 44);
+            label1.Location = new Point(29, 31);
             label1.Name = "label1";
-            label1.Size = new Size(411, 41);
+            label1.Size = new Size(384, 41);
             label1.TabIndex = 0;
-            label1.Text = "PERMISOS DE USUARIOS";
+            label1.Text = "CONTROL DE ACCESOS";
             // 
             // label2
             // 
@@ -96,7 +131,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Montserrat", 15F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(38, 111);
+            label2.Location = new Point(26, 33);
             label2.Name = "label2";
             label2.Size = new Size(98, 27);
             label2.TabIndex = 1;
@@ -106,7 +141,7 @@
             // 
             cbUsuarios.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
             cbUsuarios.FormattingEnabled = true;
-            cbUsuarios.Location = new Point(152, 108);
+            cbUsuarios.Location = new Point(140, 30);
             cbUsuarios.Name = "cbUsuarios";
             cbUsuarios.Size = new Size(288, 35);
             cbUsuarios.TabIndex = 2;
@@ -121,7 +156,7 @@
             panel1.Controls.Add(chbEditarProducto);
             panel1.Controls.Add(chbNuevoProducto);
             panel1.Controls.Add(chbAlmacen);
-            panel1.Location = new Point(48, 165);
+            panel1.Location = new Point(15, 95);
             panel1.Name = "panel1";
             panel1.Size = new Size(240, 224);
             panel1.TabIndex = 3;
@@ -208,7 +243,7 @@
             // 
             lblNumeroTemp.AutoSize = true;
             lblNumeroTemp.BackColor = Color.Transparent;
-            lblNumeroTemp.Location = new Point(38, 147);
+            lblNumeroTemp.Location = new Point(10, 77);
             lblNumeroTemp.Name = "lblNumeroTemp";
             lblNumeroTemp.Size = new Size(80, 15);
             lblNumeroTemp.TabIndex = 4;
@@ -225,7 +260,7 @@
             panel2.Controls.Add(chbConsumiblesAlmacen);
             panel2.Controls.Add(chbIndicadorCompras);
             panel2.Controls.Add(chbCompras);
-            panel2.Location = new Point(298, 165);
+            panel2.Location = new Point(265, 95);
             panel2.Name = "panel2";
             panel2.Size = new Size(240, 224);
             panel2.TabIndex = 5;
@@ -327,7 +362,7 @@
             panel3.Controls.Add(chbGenerarCredencial);
             panel3.Controls.Add(chbRegistroTrabajador);
             panel3.Controls.Add(chbRecursosHumanos);
-            panel3.Location = new Point(1048, 165);
+            panel3.Location = new Point(1015, 95);
             panel3.Name = "panel3";
             panel3.Size = new Size(240, 224);
             panel3.TabIndex = 6;
@@ -377,7 +412,7 @@
             panel4.Controls.Add(chbPermisos);
             panel4.Controls.Add(chbRequisicion);
             panel4.Controls.Add(chbSistemas);
-            panel4.Location = new Point(48, 395);
+            panel4.Location = new Point(15, 325);
             panel4.Name = "panel4";
             panel4.Size = new Size(240, 224);
             panel4.TabIndex = 7;
@@ -429,7 +464,7 @@
             btnactualizar.FlatStyle = FlatStyle.Flat;
             btnactualizar.Font = new Font("Montserrat", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             btnactualizar.ForeColor = Color.White;
-            btnactualizar.Location = new Point(944, 665);
+            btnactualizar.Location = new Point(837, 356);
             btnactualizar.Name = "btnactualizar";
             btnactualizar.Size = new Size(318, 47);
             btnactualizar.TabIndex = 8;
@@ -445,7 +480,7 @@
             panel5.Controls.Add(chbNuevaCotizacion);
             panel5.Controls.Add(chbClientes);
             panel5.Controls.Add(chbVentas);
-            panel5.Location = new Point(298, 395);
+            panel5.Location = new Point(265, 325);
             panel5.Name = "panel5";
             panel5.Size = new Size(240, 224);
             panel5.TabIndex = 9;
@@ -520,7 +555,7 @@
             panel6.BackColor = Color.FromArgb(3, 42, 76);
             panel6.Controls.Add(chbReporteProduccion);
             panel6.Controls.Add(chbProduccion);
-            panel6.Location = new Point(798, 165);
+            panel6.Location = new Point(769, 95);
             panel6.Name = "panel6";
             panel6.Size = new Size(240, 224);
             panel6.TabIndex = 10;
@@ -557,7 +592,7 @@
             panel7.Controls.Add(chbPendientesMaquinado);
             panel7.Controls.Add(chbSolicitudMaquinado);
             panel7.Controls.Add(chbMaquinado);
-            panel7.Location = new Point(548, 165);
+            panel7.Location = new Point(519, 95);
             panel7.Name = "panel7";
             panel7.Size = new Size(240, 224);
             panel7.TabIndex = 11;
@@ -601,6 +636,344 @@
             chbMaquinado.UseVisualStyleBackColor = true;
             chbMaquinado.CheckedChanged += chbMaquinado_CheckedChanged;
             // 
+            // tabControl1
+            // 
+            tabControl1.Controls.Add(tabGestionUsuarios);
+            tabControl1.Controls.Add(tabPermisosUsuarios);
+            tabControl1.Location = new Point(29, 88);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(1281, 665);
+            tabControl1.TabIndex = 12;
+            // 
+            // tabGestionUsuarios
+            // 
+            tabGestionUsuarios.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabGestionUsuarios.Controls.Add(pbEstatus);
+            tabGestionUsuarios.Controls.Add(pbPassword);
+            tabGestionUsuarios.Controls.Add(pbUsuario);
+            tabGestionUsuarios.Controls.Add(pbCampos);
+            tabGestionUsuarios.Controls.Add(lblCampos);
+            tabGestionUsuarios.Controls.Add(txbID);
+            tabGestionUsuarios.Controls.Add(cbEstatus);
+            tabGestionUsuarios.Controls.Add(label6);
+            tabGestionUsuarios.Controls.Add(txbNoTrabajador);
+            tabGestionUsuarios.Controls.Add(label7);
+            tabGestionUsuarios.Controls.Add(txbPassword);
+            tabGestionUsuarios.Controls.Add(label5);
+            tabGestionUsuarios.Controls.Add(txbUsuario);
+            tabGestionUsuarios.Controls.Add(label4);
+            tabGestionUsuarios.Controls.Add(btnEliminar);
+            tabGestionUsuarios.Controls.Add(btnAgregar);
+            tabGestionUsuarios.Controls.Add(btnActualizarUsuario);
+            tabGestionUsuarios.Controls.Add(btnNuevo);
+            tabGestionUsuarios.Controls.Add(txbBuscador);
+            tabGestionUsuarios.Controls.Add(label3);
+            tabGestionUsuarios.Controls.Add(dgvUsuarioyPassword);
+            tabGestionUsuarios.Cursor = Cursors.Hand;
+            tabGestionUsuarios.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            tabGestionUsuarios.Location = new Point(4, 24);
+            tabGestionUsuarios.Name = "tabGestionUsuarios";
+            tabGestionUsuarios.Padding = new Padding(3);
+            tabGestionUsuarios.Size = new Size(1273, 637);
+            tabGestionUsuarios.TabIndex = 0;
+            tabGestionUsuarios.Text = "Gestion de Usuarios";
+            tabGestionUsuarios.UseVisualStyleBackColor = true;
+            tabGestionUsuarios.Click += tabGestionUsuarios_Click;
+            // 
+            // pbEstatus
+            // 
+            pbEstatus.Image = (Image)resources.GetObject("pbEstatus.Image");
+            pbEstatus.Location = new Point(673, 386);
+            pbEstatus.Name = "pbEstatus";
+            pbEstatus.Size = new Size(10, 20);
+            pbEstatus.SizeMode = PictureBoxSizeMode.Zoom;
+            pbEstatus.TabIndex = 57;
+            pbEstatus.TabStop = false;
+            pbEstatus.Visible = false;
+            // 
+            // pbPassword
+            // 
+            pbPassword.Image = (Image)resources.GetObject("pbPassword.Image");
+            pbPassword.Location = new Point(673, 256);
+            pbPassword.Name = "pbPassword";
+            pbPassword.Size = new Size(10, 20);
+            pbPassword.SizeMode = PictureBoxSizeMode.Zoom;
+            pbPassword.TabIndex = 56;
+            pbPassword.TabStop = false;
+            pbPassword.Visible = false;
+            // 
+            // pbUsuario
+            // 
+            pbUsuario.Image = (Image)resources.GetObject("pbUsuario.Image");
+            pbUsuario.Location = new Point(673, 212);
+            pbUsuario.Name = "pbUsuario";
+            pbUsuario.Size = new Size(10, 20);
+            pbUsuario.SizeMode = PictureBoxSizeMode.Zoom;
+            pbUsuario.TabIndex = 55;
+            pbUsuario.TabStop = false;
+            pbUsuario.Visible = false;
+            // 
+            // pbCampos
+            // 
+            pbCampos.Image = (Image)resources.GetObject("pbCampos.Image");
+            pbCampos.Location = new Point(863, 173);
+            pbCampos.Name = "pbCampos";
+            pbCampos.Size = new Size(10, 20);
+            pbCampos.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCampos.TabIndex = 54;
+            pbCampos.TabStop = false;
+            pbCampos.Visible = false;
+            // 
+            // lblCampos
+            // 
+            lblCampos.AutoSize = true;
+            lblCampos.BackColor = Color.Transparent;
+            lblCampos.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblCampos.ForeColor = Color.White;
+            lblCampos.Location = new Point(874, 170);
+            lblCampos.Name = "lblCampos";
+            lblCampos.Size = new Size(177, 22);
+            lblCampos.TabIndex = 53;
+            lblCampos.Text = "Campos Obilgatorios";
+            lblCampos.Visible = false;
+            // 
+            // txbID
+            // 
+            txbID.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbID.Location = new Point(683, 170);
+            txbID.Name = "txbID";
+            txbID.Size = new Size(90, 27);
+            txbID.TabIndex = 47;
+            txbID.Visible = false;
+            // 
+            // cbEstatus
+            // 
+            cbEstatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbEstatus.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            cbEstatus.FormattingEnabled = true;
+            cbEstatus.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
+            cbEstatus.Location = new Point(810, 382);
+            cbEstatus.Name = "cbEstatus";
+            cbEstatus.Size = new Size(241, 30);
+            cbEstatus.TabIndex = 46;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.BackColor = Color.Transparent;
+            label6.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(683, 385);
+            label6.Name = "label6";
+            label6.Size = new Size(72, 22);
+            label6.TabIndex = 45;
+            label6.Text = "Estatus:";
+            // 
+            // txbNoTrabajador
+            // 
+            txbNoTrabajador.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNoTrabajador.Location = new Point(810, 338);
+            txbNoTrabajador.Name = "txbNoTrabajador";
+            txbNoTrabajador.Size = new Size(241, 27);
+            txbNoTrabajador.TabIndex = 44;
+            txbNoTrabajador.KeyPress += txbNoTrabajador_KeyPress;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.BackColor = Color.Transparent;
+            label7.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label7.ForeColor = Color.White;
+            label7.Location = new Point(683, 341);
+            label7.Name = "label7";
+            label7.Size = new Size(127, 22);
+            label7.TabIndex = 43;
+            label7.Text = "No_Trabajador:";
+            // 
+            // txbPassword
+            // 
+            txbPassword.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbPassword.Location = new Point(810, 250);
+            txbPassword.Name = "txbPassword";
+            txbPassword.Size = new Size(241, 27);
+            txbPassword.TabIndex = 42;
+            txbPassword.UseSystemPasswordChar = true;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = Color.Transparent;
+            label5.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(683, 253);
+            label5.Name = "label5";
+            label5.Size = new Size(90, 22);
+            label5.TabIndex = 41;
+            label5.Text = "Password:";
+            // 
+            // txbUsuario
+            // 
+            txbUsuario.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbUsuario.Location = new Point(810, 206);
+            txbUsuario.Name = "txbUsuario";
+            txbUsuario.Size = new Size(241, 27);
+            txbUsuario.TabIndex = 40;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(683, 209);
+            label4.Name = "label4";
+            label4.Size = new Size(74, 22);
+            label4.TabIndex = 39;
+            label4.Text = "Usuario:";
+            // 
+            // btnEliminar
+            // 
+            btnEliminar.BackColor = Color.FromArgb(255, 102, 0);
+            btnEliminar.Cursor = Cursors.Hand;
+            btnEliminar.FlatAppearance.BorderSize = 0;
+            btnEliminar.FlatStyle = FlatStyle.Flat;
+            btnEliminar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEliminar.ForeColor = Color.White;
+            btnEliminar.Location = new Point(693, 465);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(130, 33);
+            btnEliminar.TabIndex = 38;
+            btnEliminar.Text = "ELIMINAR";
+            btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Visible = false;
+            btnEliminar.Click += btnEliminar_Click_1;
+            // 
+            // btnAgregar
+            // 
+            btnAgregar.BackColor = Color.FromArgb(255, 102, 0);
+            btnAgregar.Cursor = Cursors.Hand;
+            btnAgregar.FlatAppearance.BorderSize = 0;
+            btnAgregar.FlatStyle = FlatStyle.Flat;
+            btnAgregar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnAgregar.ForeColor = Color.White;
+            btnAgregar.Location = new Point(1080, 465);
+            btnAgregar.Name = "btnAgregar";
+            btnAgregar.Size = new Size(130, 33);
+            btnAgregar.TabIndex = 37;
+            btnAgregar.Text = "AGREGAR";
+            btnAgregar.UseVisualStyleBackColor = false;
+            btnAgregar.Click += btnAgregar_Click;
+            // 
+            // btnActualizarUsuario
+            // 
+            btnActualizarUsuario.BackColor = Color.FromArgb(255, 102, 0);
+            btnActualizarUsuario.Cursor = Cursors.Hand;
+            btnActualizarUsuario.FlatAppearance.BorderSize = 0;
+            btnActualizarUsuario.FlatStyle = FlatStyle.Flat;
+            btnActualizarUsuario.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnActualizarUsuario.ForeColor = Color.White;
+            btnActualizarUsuario.Location = new Point(893, 465);
+            btnActualizarUsuario.Name = "btnActualizarUsuario";
+            btnActualizarUsuario.Size = new Size(130, 33);
+            btnActualizarUsuario.TabIndex = 36;
+            btnActualizarUsuario.Text = "ACTUALIZAR";
+            btnActualizarUsuario.UseVisualStyleBackColor = false;
+            btnActualizarUsuario.Visible = false;
+            btnActualizarUsuario.Click += btnActualizarUsuario_Click_1;
+            // 
+            // btnNuevo
+            // 
+            btnNuevo.BackColor = Color.FromArgb(255, 102, 0);
+            btnNuevo.Cursor = Cursors.Hand;
+            btnNuevo.FlatAppearance.BorderSize = 0;
+            btnNuevo.FlatStyle = FlatStyle.Flat;
+            btnNuevo.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnNuevo.ForeColor = Color.White;
+            btnNuevo.Location = new Point(1103, 136);
+            btnNuevo.Name = "btnNuevo";
+            btnNuevo.Size = new Size(130, 33);
+            btnNuevo.TabIndex = 35;
+            btnNuevo.Text = "NUEVO";
+            btnNuevo.UseVisualStyleBackColor = false;
+            btnNuevo.Visible = false;
+            btnNuevo.Click += btnNuevo_Click;
+            // 
+            // txbBuscador
+            // 
+            txbBuscador.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbBuscador.Location = new Point(149, 32);
+            txbBuscador.Name = "txbBuscador";
+            txbBuscador.Size = new Size(208, 27);
+            txbBuscador.TabIndex = 21;
+            txbBuscador.TextChanged += txbBuscador_TextChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Montserrat", 15F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(26, 31);
+            label3.Name = "label3";
+            label3.Size = new Size(117, 27);
+            label3.TabIndex = 20;
+            label3.Text = "Buscador:";
+            // 
+            // dgvUsuarioyPassword
+            // 
+            dgvUsuarioyPassword.AllowUserToAddRows = false;
+            dgvUsuarioyPassword.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvUsuarioyPassword.BackgroundColor = Color.White;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvUsuarioyPassword.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dgvUsuarioyPassword.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvUsuarioyPassword.Location = new Point(24, 78);
+            dgvUsuarioyPassword.Name = "dgvUsuarioyPassword";
+            dgvUsuarioyPassword.ReadOnly = true;
+            dgvUsuarioyPassword.RowHeadersVisible = false;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvUsuarioyPassword.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dgvUsuarioyPassword.RowTemplate.Height = 25;
+            dgvUsuarioyPassword.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvUsuarioyPassword.Size = new Size(592, 522);
+            dgvUsuarioyPassword.TabIndex = 19;
+            dgvUsuarioyPassword.CellDoubleClick += dgvUsuarioyPassword_CellDoubleClick;
+            // 
+            // tabPermisosUsuarios
+            // 
+            tabPermisosUsuarios.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabPermisosUsuarios.Controls.Add(lblNumeroTemp);
+            tabPermisosUsuarios.Controls.Add(cbUsuarios);
+            tabPermisosUsuarios.Controls.Add(label2);
+            tabPermisosUsuarios.Controls.Add(btnactualizar);
+            tabPermisosUsuarios.Controls.Add(panel5);
+            tabPermisosUsuarios.Controls.Add(panel6);
+            tabPermisosUsuarios.Controls.Add(panel7);
+            tabPermisosUsuarios.Controls.Add(panel4);
+            tabPermisosUsuarios.Controls.Add(panel1);
+            tabPermisosUsuarios.Controls.Add(panel3);
+            tabPermisosUsuarios.Controls.Add(panel2);
+            tabPermisosUsuarios.Cursor = Cursors.Hand;
+            tabPermisosUsuarios.Location = new Point(4, 24);
+            tabPermisosUsuarios.Name = "tabPermisosUsuarios";
+            tabPermisosUsuarios.Padding = new Padding(3);
+            tabPermisosUsuarios.Size = new Size(1273, 637);
+            tabPermisosUsuarios.TabIndex = 1;
+            tabPermisosUsuarios.Text = "Permisos de Usuarios";
+            tabPermisosUsuarios.UseVisualStyleBackColor = true;
+            // 
             // SistemasPermisos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -608,17 +981,7 @@
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(1322, 792);
-            Controls.Add(panel7);
-            Controls.Add(panel6);
-            Controls.Add(panel5);
-            Controls.Add(btnactualizar);
-            Controls.Add(panel4);
-            Controls.Add(panel3);
-            Controls.Add(panel2);
-            Controls.Add(lblNumeroTemp);
-            Controls.Add(panel1);
-            Controls.Add(cbUsuarios);
-            Controls.Add(label2);
+            Controls.Add(tabControl1);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "SistemasPermisos";
@@ -638,6 +1001,16 @@
             panel6.PerformLayout();
             panel7.ResumeLayout(false);
             panel7.PerformLayout();
+            tabControl1.ResumeLayout(false);
+            tabGestionUsuarios.ResumeLayout(false);
+            tabGestionUsuarios.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbEstatus).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbPassword).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbUsuario).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbCampos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvUsuarioyPassword).EndInit();
+            tabPermisosUsuarios.ResumeLayout(false);
+            tabPermisosUsuarios.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -685,5 +1058,29 @@
         private CheckBox chbPendientesMaquinado;
         private CheckBox chbSolicitudMaquinado;
         private CheckBox chbMaquinado;
+        private TabControl tabControl1;
+        private TabPage tabGestionUsuarios;
+        private TabPage tabPermisosUsuarios;
+        private DataGridView dgvUsuarioyPassword;
+        private Label label3;
+        private TextBox txbBuscador;
+        private Button btnNuevo;
+        private Button btnEliminar;
+        private Button btnAgregar;
+        private Button btnActualizarUsuario;
+        private TextBox txbUsuario;
+        private Label label4;
+        private TextBox txbPassword;
+        private Label label5;
+        private Label label6;
+        private TextBox txbNoTrabajador;
+        private Label label7;
+        private ComboBox cbEstatus;
+        private TextBox txbID;
+        private PictureBox pbCampos;
+        private Label lblCampos;
+        private PictureBox pbEstatus;
+        private PictureBox pbPassword;
+        private PictureBox pbUsuario;
     }
 }
