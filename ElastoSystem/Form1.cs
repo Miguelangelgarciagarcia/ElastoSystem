@@ -1,6 +1,8 @@
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using Isopoh.Cryptography.Argon2;
 
 namespace ElastoSystem
 {
@@ -34,12 +36,12 @@ namespace ElastoSystem
 
             tbusuario.TabIndex = 0;
             tbpassword.TabIndex = 1;
-            string query = "SELECT * FROM elastosystem_login WHERE Usuario = @Usuario AND Password = @Password ";
+
+            string query = "SELECT ID, Usuario, Paswd FROM elastosystem_login WHERE Usuario = @Usuario";
             MySqlConnection databaseConnection = new MySqlConnection(connectionString);
             MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
             commandDatabase.CommandTimeout = 60;
             commandDatabase.Parameters.AddWithValue("@Usuario", tbusuario.Text);
-            commandDatabase.Parameters.AddWithValue("@Password", tbpassword.Text);
             MySqlDataReader reader;
 
             try
@@ -52,11 +54,20 @@ namespace ElastoSystem
                     while (reader.Read())
                     {
                         string id = reader["ID"].ToString();
-                        MessageBox.Show("Bienvenido " + tbusuario.Text);
-                        MenuPrincipal menuPrincipal = new();
-                        menuPrincipal.TextoLabelID = id;
-                        menuPrincipal.Show();
-                        this.Hide();
+                        string storedHashedPassword = reader["Paswd"].ToString();
+
+                        if(IsPasswordValid(tbpassword.Text, storedHashedPassword))
+                        {
+                            MessageBox.Show("Bienvenido " + tbusuario.Text);
+                            MenuPrincipal menuPrincipal = new();
+                            menuPrincipal.TextoLabelID = id;
+                            menuPrincipal.Show();
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("ERROR en Usuario o contraseña, vulve a intentar");
+                        }
 
                     }
                 }
@@ -73,6 +84,11 @@ namespace ElastoSystem
             {
                 databaseConnection.Close();
             }
+        }
+
+        private bool IsPasswordValid(string password, string storedHashedPassword)
+        {
+            return Argon2.Verify(storedHashedPassword, password);
         }
 
         public Form1()
