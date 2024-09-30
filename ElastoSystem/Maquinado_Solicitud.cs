@@ -248,7 +248,7 @@ namespace ElastoSystem
         {
             string fecha = DateTime.Now.ToString("yyyy/MM/dd");
             string rutaarchivo = lblRutaArchivo.Text.Replace("\\", "\\\\");
-            MySqlConnection conn = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection conn = new MySqlConnection(connectionRespaldo);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             try
@@ -262,14 +262,14 @@ namespace ElastoSystem
                         bytesFoto = ms.ToArray();
                     }
                     cmd.Connection = conn;
-                    cmd.CommandText = "INSERT INTO maquinado (ID_MAQUINADO, FECHA, SOLICITANTE, DEPTO, TIPO, TIPO_DESC, PRIORIDAD, DESCRIPCION, RECOMENDACION, IMAGEN, RUTA) VALUES ('" + lblFolio.Text + "', '" + fecha + "', '" + cbSolicitante.Text + "', '" + txbDepartamento.Text + "', '" + cbTipo.Text + "', '" + txbDescripcion.Text + "', '" + cbPrioridad.Text + "', '" + txbDescripcionDelMaquinado.Text + "', '" + txbRecomendacionesSugerencias.Text + "', @Foto, '" + rutaarchivo + "');";
+                    cmd.CommandText = "INSERT INTO elastosystem_maquinado (ID_MAQUINADO, FECHA, SOLICITANTE, PRIORIDAD, RECOMENDACIONES, TIPO, DESCRIPCION, DESCRIPCION_MAQUINADO, ARCHIVO, RUTA, ESTATUS) VALUES ('" + lblFolio.Text + "', '" + fecha + "', '" + cbSolicitante.Text + "', '" + txbDepartamento.Text + "', '" + cbTipo.Text + "', '" + txbDescripcion.Text + "', '" + cbPrioridad.Text + "', '" + txbDescripcionDelMaquinado.Text + "', '" + txbRecomendacionesSugerencias.Text + "', @Foto, '" + rutaarchivo + "');";
                     cmd.Parameters.AddWithValue("@Foto", bytesFoto);
                     cmd.ExecuteNonQuery();
                 }
                 else
                 {
                     cmd.Connection = conn;
-                    cmd.CommandText = "INSERT INTO maquinado (ID_MAQUINADO, FECHA, SOLICITANTE, DEPTO, TIPO, TIPO_DESC, PRIORIDAD, DESCRIPCION, RECOMENDACION) VALUES ('" + lblFolio.Text + "', '" + fecha + "', '" + cbSolicitante.Text + "', '" + txbDepartamento.Text + "', '" + cbTipo.Text + "', '" + txbDescripcion.Text + "', '" + cbPrioridad.Text + "', '" + txbDescripcionDelMaquinado.Text + "', '" + txbRecomendacionesSugerencias.Text + "');";
+                    cmd.CommandText = "INSERT INTO elastosystem_maquinado (ID_MAQUINADO, FECHA, SOLICITANTE, DEPTO, TIPO, TIPO_DESC, PRIORIDAD, DESCRIPCION, RECOMENDACION) VALUES ('" + lblFolio.Text + "', '" + fecha + "', '" + cbSolicitante.Text + "', '" + txbDepartamento.Text + "', '" + cbTipo.Text + "', '" + txbDescripcion.Text + "', '" + cbPrioridad.Text + "', '" + txbDescripcionDelMaquinado.Text + "', '" + txbRecomendacionesSugerencias.Text + "');";
                     cmd.ExecuteNonQuery();
                 }
                 MessageBox.Show("REQUERIMIENTO " + lblFolio.Text + " ENVIADO CON EXITO");
@@ -289,6 +289,7 @@ namespace ElastoSystem
         }
 
         string connectionStringelastotec = "server=10.120.1.3 ; username=root; password=; database=elastotec";
+        string connectionRespaldo = "server=10.120.1.104 ; username=root; password=; database=elastosystem";
 
         private void Maquinado_Solicitud_Load(object sender, EventArgs e)
         {
