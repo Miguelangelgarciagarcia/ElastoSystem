@@ -37,7 +37,7 @@ namespace ElastoSystem
             tbusuario.TabIndex = 0;
             tbpassword.TabIndex = 1;
 
-            string query = "SELECT ID, Usuario, Paswd FROM elastosystem_login WHERE Usuario = @Usuario";
+            string query = "SELECT ID, Usuario, Paswd, Estatus FROM elastosystem_login WHERE Usuario = @Usuario";
             MySqlConnection databaseConnection = new MySqlConnection(connectionString);
             MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
             commandDatabase.CommandTimeout = 60;
@@ -55,6 +55,13 @@ namespace ElastoSystem
                     {
                         string id = reader["ID"].ToString();
                         string storedHashedPassword = reader["Paswd"].ToString();
+                        string estatus = reader["Estatus"].ToString();
+
+                        if ( estatus != "ACTIVO")
+                        {
+                            MessageBox.Show("El usuario no está activo. Contacte al administrador");
+                            return;
+                        }
 
                         if(IsPasswordValid(tbpassword.Text, storedHashedPassword))
                         {
