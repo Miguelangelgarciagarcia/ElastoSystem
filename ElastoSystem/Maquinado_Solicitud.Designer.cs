@@ -34,10 +34,8 @@
             lblfecha = new Label();
             label5 = new Label();
             panel4 = new Panel();
-            label3 = new Label();
-            txbDepartamento = new TextBox();
+            txbSolicitante = new TextBox();
             label2 = new Label();
-            cbSolicitante = new ComboBox();
             label15 = new Label();
             btnEnviarSolicitud = new Button();
             panel1 = new Panel();
@@ -131,37 +129,22 @@
             // panel4
             // 
             panel4.BackColor = Color.FromArgb(3, 42, 76);
-            panel4.Controls.Add(label3);
-            panel4.Controls.Add(txbDepartamento);
+            panel4.Controls.Add(txbSolicitante);
             panel4.Controls.Add(label2);
-            panel4.Controls.Add(cbSolicitante);
             panel4.Controls.Add(label15);
             panel4.Location = new Point(24, 133);
             panel4.Name = "panel4";
             panel4.Size = new Size(551, 167);
             panel4.TabIndex = 29;
             // 
-            // label3
+            // txbSolicitante
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(21, 112);
-            label3.Name = "label3";
-            label3.Size = new Size(137, 22);
-            label3.TabIndex = 19;
-            label3.Text = "Departamento:";
-            // 
-            // txbDepartamento
-            // 
-            txbDepartamento.Enabled = false;
-            txbDepartamento.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbDepartamento.Location = new Point(164, 109);
-            txbDepartamento.Name = "txbDepartamento";
-            txbDepartamento.ReadOnly = true;
-            txbDepartamento.Size = new Size(359, 27);
-            txbDepartamento.TabIndex = 18;
+            txbSolicitante.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbSolicitante.Location = new Point(158, 80);
+            txbSolicitante.Name = "txbSolicitante";
+            txbSolicitante.ReadOnly = true;
+            txbSolicitante.Size = new Size(359, 27);
+            txbSolicitante.TabIndex = 19;
             // 
             // label2
             // 
@@ -175,24 +158,13 @@
             label2.TabIndex = 17;
             label2.Text = "DATOS GENERALES";
             // 
-            // cbSolicitante
-            // 
-            cbSolicitante.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbSolicitante.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            cbSolicitante.FormattingEnabled = true;
-            cbSolicitante.Location = new Point(164, 62);
-            cbSolicitante.Name = "cbSolicitante";
-            cbSolicitante.Size = new Size(359, 30);
-            cbSolicitante.TabIndex = 16;
-            cbSolicitante.SelectedIndexChanged += cbSolicitante_SelectedIndexChanged;
-            // 
             // label15
             // 
             label15.AutoSize = true;
             label15.BackColor = Color.Transparent;
             label15.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label15.ForeColor = Color.White;
-            label15.Location = new Point(21, 65);
+            label15.Location = new Point(21, 83);
             label15.Name = "label15";
             label15.Size = new Size(103, 22);
             label15.TabIndex = 3;
@@ -492,10 +464,8 @@
         private Label label5;
         private Panel panel4;
         private Label label2;
-        private ComboBox cbSolicitante;
         private Label label15;
         private Button btnEnviarSolicitud;
-        private Label label3;
         private Panel panel1;
         private Label label4;
         private TextBox txbRecomendacionesSugerencias;
@@ -513,9 +483,9 @@
         private Panel panel5;
         private Button btnLimpiar;
         private Button btnCargarArchivo;
-        private TextBox txbDepartamento;
         private Label lblRutaArchivo;
         private TextBox txbNombreArchivo;
         private PictureBox pbImagen;
+        private TextBox txbSolicitante;
     }
 }
