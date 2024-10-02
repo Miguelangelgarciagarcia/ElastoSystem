@@ -31,7 +31,14 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
-            panel1 = new Panel();
+            pnlPendientesMaquinado = new Panel();
+            pnlRealizado = new Panel();
+            lblRutaComprobante = new Label();
+            label8 = new Label();
+            btnRegresar = new Button();
+            txbNombreComprobante = new TextBox();
+            btnCargarArchivo = new Button();
+            btnFinalizado = new Button();
             btnActualizar = new Button();
             btnRealizado = new Button();
             dgvPendientesMaquinado = new DataGridView();
@@ -61,7 +68,8 @@
             txbFolio = new TextBox();
             label12 = new Label();
             txbRuta = new TextBox();
-            panel1.SuspendLayout();
+            pnlPendientesMaquinado.SuspendLayout();
+            pnlRealizado.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPendientesMaquinado).BeginInit();
             panel4.SuspendLayout();
             panel2.SuspendLayout();
@@ -83,16 +91,115 @@
             label1.TabIndex = 2;
             label1.Text = "ACTIVIDADES DE MAQUINADO";
             // 
-            // panel1
+            // pnlPendientesMaquinado
             // 
-            panel1.BackColor = Color.FromArgb(3, 42, 76);
-            panel1.Controls.Add(btnActualizar);
-            panel1.Controls.Add(btnRealizado);
-            panel1.Controls.Add(dgvPendientesMaquinado);
-            panel1.Location = new Point(22, 90);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(742, 709);
-            panel1.TabIndex = 19;
+            pnlPendientesMaquinado.BackColor = Color.FromArgb(3, 42, 76);
+            pnlPendientesMaquinado.Controls.Add(pnlRealizado);
+            pnlPendientesMaquinado.Controls.Add(btnActualizar);
+            pnlPendientesMaquinado.Controls.Add(btnRealizado);
+            pnlPendientesMaquinado.Controls.Add(dgvPendientesMaquinado);
+            pnlPendientesMaquinado.Location = new Point(22, 90);
+            pnlPendientesMaquinado.Name = "pnlPendientesMaquinado";
+            pnlPendientesMaquinado.Size = new Size(742, 709);
+            pnlPendientesMaquinado.TabIndex = 19;
+            // 
+            // pnlRealizado
+            // 
+            pnlRealizado.BackColor = Color.FromArgb(3, 42, 76);
+            pnlRealizado.Controls.Add(lblRutaComprobante);
+            pnlRealizado.Controls.Add(label8);
+            pnlRealizado.Controls.Add(btnRegresar);
+            pnlRealizado.Controls.Add(txbNombreComprobante);
+            pnlRealizado.Controls.Add(btnCargarArchivo);
+            pnlRealizado.Controls.Add(btnFinalizado);
+            pnlRealizado.Location = new Point(0, 0);
+            pnlRealizado.Name = "pnlRealizado";
+            pnlRealizado.Size = new Size(742, 709);
+            pnlRealizado.TabIndex = 21;
+            pnlRealizado.Visible = false;
+            // 
+            // lblRutaComprobante
+            // 
+            lblRutaComprobante.AutoSize = true;
+            lblRutaComprobante.BackColor = Color.Transparent;
+            lblRutaComprobante.Font = new Font("Montserrat", 8F, FontStyle.Bold, GraphicsUnit.Point);
+            lblRutaComprobante.ForeColor = Color.White;
+            lblRutaComprobante.Location = new Point(59, 446);
+            lblRutaComprobante.Name = "lblRutaComprobante";
+            lblRutaComprobante.Size = new Size(120, 15);
+            lblRutaComprobante.TabIndex = 29;
+            lblRutaComprobante.Text = "Ruta Comprobante";
+            lblRutaComprobante.Visible = false;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.BackColor = Color.Transparent;
+            label8.Font = new Font("Montserrat", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.ForeColor = Color.White;
+            label8.Location = new Point(214, 80);
+            label8.Name = "label8";
+            label8.Size = new Size(334, 33);
+            label8.TabIndex = 28;
+            label8.Text = "CARGAR COMPROBANTE";
+            // 
+            // btnRegresar
+            // 
+            btnRegresar.BackColor = Color.FromArgb(255, 102, 0);
+            btnRegresar.Cursor = Cursors.Hand;
+            btnRegresar.FlatAppearance.BorderSize = 0;
+            btnRegresar.FlatStyle = FlatStyle.Flat;
+            btnRegresar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnRegresar.ForeColor = Color.White;
+            btnRegresar.Location = new Point(24, 19);
+            btnRegresar.Name = "btnRegresar";
+            btnRegresar.Size = new Size(134, 29);
+            btnRegresar.TabIndex = 27;
+            btnRegresar.Text = "REGRESAR";
+            btnRegresar.UseVisualStyleBackColor = false;
+            btnRegresar.Click += btnRegresar_Click;
+            // 
+            // txbNombreComprobante
+            // 
+            txbNombreComprobante.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNombreComprobante.Location = new Point(59, 409);
+            txbNombreComprobante.Name = "txbNombreComprobante";
+            txbNombreComprobante.ReadOnly = true;
+            txbNombreComprobante.Size = new Size(425, 22);
+            txbNombreComprobante.TabIndex = 26;
+            txbNombreComprobante.TextAlign = HorizontalAlignment.Center;
+            // 
+            // btnCargarArchivo
+            // 
+            btnCargarArchivo.BackColor = Color.FromArgb(255, 102, 0);
+            btnCargarArchivo.Cursor = Cursors.Hand;
+            btnCargarArchivo.FlatAppearance.BorderSize = 0;
+            btnCargarArchivo.FlatStyle = FlatStyle.Flat;
+            btnCargarArchivo.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCargarArchivo.ForeColor = Color.White;
+            btnCargarArchivo.Location = new Point(502, 404);
+            btnCargarArchivo.Name = "btnCargarArchivo";
+            btnCargarArchivo.Size = new Size(178, 29);
+            btnCargarArchivo.TabIndex = 20;
+            btnCargarArchivo.Text = "CARGAR ARCHIVO";
+            btnCargarArchivo.UseVisualStyleBackColor = false;
+            btnCargarArchivo.Click += btnCargarArchivo_Click;
+            // 
+            // btnFinalizado
+            // 
+            btnFinalizado.BackColor = Color.FromArgb(255, 102, 0);
+            btnFinalizado.Cursor = Cursors.Hand;
+            btnFinalizado.FlatAppearance.BorderSize = 0;
+            btnFinalizado.FlatStyle = FlatStyle.Flat;
+            btnFinalizado.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnFinalizado.ForeColor = Color.White;
+            btnFinalizado.Location = new Point(276, 486);
+            btnFinalizado.Name = "btnFinalizado";
+            btnFinalizado.Size = new Size(183, 35);
+            btnFinalizado.TabIndex = 19;
+            btnFinalizado.Text = "FINALIZADO";
+            btnFinalizado.UseVisualStyleBackColor = false;
+            btnFinalizado.Click += btnFinalizado_Click;
             // 
             // btnActualizar
             // 
@@ -456,13 +563,15 @@
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel4);
-            Controls.Add(panel1);
+            Controls.Add(pnlPendientesMaquinado);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Maquinado_Administrar";
             Text = "Maquinado_Administrar";
             Load += Maquinado_Administrar_Load;
-            panel1.ResumeLayout(false);
+            pnlPendientesMaquinado.ResumeLayout(false);
+            pnlRealizado.ResumeLayout(false);
+            pnlRealizado.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPendientesMaquinado).EndInit();
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
@@ -482,7 +591,7 @@
         #endregion
 
         private Label label1;
-        private Panel panel1;
+        private Panel pnlPendientesMaquinado;
         private DataGridView dgvPendientesMaquinado;
         private Button btnActualizar;
         private Button btnRealizado;
@@ -512,5 +621,12 @@
         private TextBox txbFolio;
         private PictureBox pbImagen;
         private TextBox txbRuta;
+        private Panel pnlRealizado;
+        private Button btnRegresar;
+        private TextBox txbNombreComprobante;
+        private Button btnCargarArchivo;
+        private Button btnFinalizado;
+        private Label label8;
+        private Label lblRutaComprobante;
     }
 }

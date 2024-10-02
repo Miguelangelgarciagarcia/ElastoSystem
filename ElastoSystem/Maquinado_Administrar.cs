@@ -20,7 +20,7 @@ namespace ElastoSystem
         public Maquinado_Administrar()
         {
             InitializeComponent();
-            
+
         }
         private void MandarALlamarPendientesMaquinado()
         {
@@ -55,6 +55,7 @@ namespace ElastoSystem
         }
 
         byte[] archivoBytes;
+        byte[] comprobanteBytes;
         private void MandarALlamarRestoMaquinado()
         {
             MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionLocal);
@@ -74,7 +75,7 @@ namespace ElastoSystem
                         {
                             archivoBytes = (byte[])reader["ARCHIVO"];
 
-                            if(archivoBytes != null && archivoBytes.Length > 0)
+                            if (archivoBytes != null && archivoBytes.Length > 0)
                             {
                                 if (EsImagen(archivoBytes))
                                 {
@@ -113,7 +114,7 @@ namespace ElastoSystem
                         {
                             txbNombreArchivo.Text = string.Empty;
                         }
-                        
+
                     }
                 }
                 else
@@ -135,7 +136,7 @@ namespace ElastoSystem
         {
             try
             {
-                using(MemoryStream ms = new MemoryStream(archivoBytes))
+                using (MemoryStream ms = new MemoryStream(archivoBytes))
                 {
                     Image.FromStream(ms);
                 }
@@ -149,7 +150,7 @@ namespace ElastoSystem
 
         private void DescargarImagen()
         {
-            if(archivoBytes != null && archivoBytes.Length > 0)
+            if (archivoBytes != null && archivoBytes.Length > 0)
             {
                 string extensionArchivo = Path.GetExtension(txbRuta.Text);
                 string nombreArchivo = txbNombreArchivo.Text;
@@ -172,7 +173,7 @@ namespace ElastoSystem
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al guardar el archivo: "+ex.Message);
+                        MessageBox.Show("Error al guardar el archivo: " + ex.Message);
                     }
                 }
             }
@@ -255,7 +256,111 @@ namespace ElastoSystem
 
         private void btnRealizado_Click(object sender, EventArgs e)
         {
-            
+            if (string.IsNullOrEmpty(txbFolio.Text))
+            {
+                MessageBox.Show("No se ha seleccionado ningun maquinado");
+            }
+            else
+            {
+                pnlRealizado.Visible = true;
+            }
+
+        }
+
+        private void btnRegresar_Click(object sender, EventArgs e)
+        {
+            pnlRealizado.Visible = false;
+            txbNombreComprobante.Clear();
+            comprobanteBytes = null;
+            lblRutaComprobante.Text = string.Empty;
+            Limpiar();
+            MandarALlamarPendientesMaquinado();
+        }
+
+        private void CargarComprobante()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filter = "Todos los archivos (*.*)|*.*";
+            openFileDialog.Title = "Seleccionar Archivo";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+
+                string fileName = Path.GetFileName(filePath);
+
+                txbNombreComprobante.Text = fileName;
+                lblRutaComprobante.Text = filePath;
+
+                try
+                {
+                    comprobanteBytes = File.ReadAllBytes(filePath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar el archivo" + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No se seleccionó ningún archivo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnCargarArchivo_Click(object sender, EventArgs e)
+        {
+            CargarComprobante();
+        }
+
+        private void btnFinalizado_Click(object sender, EventArgs e)
+        {
+            if(!string.IsNullOrWhiteSpace(txbNombreComprobante.Text) &&
+                !string.IsNullOrWhiteSpace(lblRutaComprobante.Text) &&
+                comprobanteBytes != null && comprobanteBytes.Length > 0)
+            {
+                MandarComprobanteABD();
+            }
+            else
+            {
+                MessageBox.Show("Debes de subir tu comprobante");
+            }
+        }
+
+        private void MandarComprobanteABD()
+        {
+            string fecha = DateTime.Now.ToString("yyyy/MM/dd");
+            string rutaarchivo = lblRutaComprobante.Text.Replace("\\", "\\\\");
+            string estatus = "FINALIZADA";
+            string usuario = VariablesGlobales.Usuario;
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionLocal);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "UPDATE elastosystem_maquinado SET ESTATUS = @Estatus, FECHA_TERMINO = @FechaTermino, RUTA_COMPROBANTE = @RutaComprobante, COMPROBANTE = @Comprobante, USUARIO_FINALIZO = @UsuarioFinalizo WHERE ID_MAQUINADO = @IdMaquinado";
+
+                cmd.Parameters.AddWithValue("@IdMaquinado", txbFolio.Text);
+                cmd.Parameters.AddWithValue("@Estatus", estatus);
+                cmd.Parameters.AddWithValue("@FechaTermino", fecha);
+                cmd.Parameters.AddWithValue("@RutaComprobante", rutaarchivo);
+                cmd.Parameters.AddWithValue("@Comprobante", comprobanteBytes);
+                cmd.Parameters.AddWithValue("@UsuarioFinalizo", usuario);
+                
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("MAQUINADO " + txbFolio.Text + " FINALIZADO CON EXITO");
+                Limpiar();
+                btnRegresar.PerformClick();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL FINALIZAR EL MAQUINADO " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }
