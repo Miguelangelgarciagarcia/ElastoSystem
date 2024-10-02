@@ -38,7 +38,7 @@ namespace ElastoSystem
                                     ELSE 5
                                 END,
                                 ID_MAQUINADO DESC";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionElastoSystem);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionLocal);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgvPendientesMaquinado.DataSource = dt;
@@ -53,9 +53,11 @@ namespace ElastoSystem
                 MessageBox.Show(ex.Message);
             }
         }
+
+        byte[] archivoBytes;
         private void MandarALlamarRestoMaquinado()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionElastoSystem);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionLocal);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT ARCHIVO, RUTA FROM elastosystem_maquinado WHERE ID_MAQUINADO LIKE '" + txbFolio.Text + "' ";
@@ -63,33 +65,55 @@ namespace ElastoSystem
             {
                 MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
                 reader = comando.ExecuteReader();
+
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
                         try
                         {
-                            byte[] imageData = (byte[])reader["ARCHIVO"];
-                            using (MemoryStream ms = new MemoryStream(imageData))
+                            archivoBytes = (byte[])reader["ARCHIVO"];
+
+                            if(archivoBytes != null && archivoBytes.Length > 0)
                             {
-                                pbImagen.Image = Image.FromStream(ms);
+                                if (EsImagen(archivoBytes))
+                                {
+                                    using (MemoryStream ms = new MemoryStream(archivoBytes))
+                                    {
+                                        pbImagen.Image = Image.FromStream(ms);
+                                    }
+                                }
+                                else
+                                {
+                                    pbImagen.Image = null;
+                                }
                                 validacion = "1";
                             }
+                            else
+                            {
+                                pbImagen.Image = null;
+                                validacion = "0";
+                            }
                         }
-                        catch
+                        catch (Exception ex)
                         {
                             pbImagen.Image = null;
                             validacion = "0";
+                            MessageBox.Show("Error al procesar el archivo" + ex.Message);
                         }
                         try
                         {
                             txbNombreArchivo.Text = reader.GetString("RUTA");
+                            string rutacompleta = txbNombreArchivo.Text;
+                            txbRuta.Text = rutacompleta;
+                            string nombrearchivo = Path.GetFileName(rutacompleta);
+                            txbNombreArchivo.Text = nombrearchivo;
                         }
-                        catch { }
-                        string rutacompleta = txbNombreArchivo.Text;
-                        txbRuta.Text = rutacompleta;
-                        string nombrearchivo = Path.GetFileName(rutacompleta);
-                        txbNombreArchivo.Text = nombrearchivo;
+                        catch
+                        {
+                            txbNombreArchivo.Text = string.Empty;
+                        }
+                        
                     }
                 }
                 else
@@ -106,50 +130,55 @@ namespace ElastoSystem
                 mySqlConnection.Close();
             }
         }
+
+        private bool EsImagen(byte[] archivoBytes)
+        {
+            try
+            {
+                using(MemoryStream ms = new MemoryStream(archivoBytes))
+                {
+                    Image.FromStream(ms);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private void DescargarImagen()
         {
-            if (pbImagen.Image != null)
+            if(archivoBytes != null && archivoBytes.Length > 0)
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-
+                string extensionArchivo = Path.GetExtension(txbRuta.Text);
                 string nombreArchivo = txbNombreArchivo.Text;
-                saveFileDialog.FileName = string.IsNullOrWhiteSpace(nombreArchivo) ? "archivo" : nombreArchivo;
 
-                saveFileDialog.Filter = "Todos los archivos (*.*)|*.*";
-                saveFileDialog.Title = "Guardar Maquinado";
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    FileName = nombreArchivo,
+                    Filter = "Todos los archivos (*.*)|*.*",
+                    DefaultExt = extensionArchivo
+                };
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
-                        string rutaArchivo = saveFileDialog.FileName;
-
-                        // Verificar si el archivo ya existe y eliminarlo si es necesario
-                        if (File.Exists(rutaArchivo))
-                        {
-                            File.Delete(rutaArchivo);
-                        }
-
-                        // Clona la imagen para evitar problemas con la imagen en uso
-                        using (Image imagenClonada = (Image)pbImagen.Image.Clone())
-                        {
-                            using (MemoryStream ms = new MemoryStream())
-                            {
-                                imagenClonada.Save(rutaArchivo);
-                            }
-                        }
-
-                        MessageBox.Show("Maquinado guardado correctamente en '" + rutaArchivo + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        File.WriteAllBytes(saveFileDialog.FileName, archivoBytes);
+                        MessageBox.Show("Archivo guardado correctamente");
+                        string argument = "/select, \"" + saveFileDialog.FileName + "\"";
+                        System.Diagnostics.Process.Start("explorer.exe", argument);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Ocurrió un error al guardar el archivo. Detalles: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error al guardar el archivo: "+ex.Message);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("No hay archivo para guardar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                MessageBox.Show("No hay archivo para descargar.");
             }
         }
         private void Limpiar()
