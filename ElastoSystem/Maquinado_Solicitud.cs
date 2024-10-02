@@ -83,25 +83,41 @@ namespace ElastoSystem
             txbNombreArchivo.Text = null;
             pbImagen.Image = null;
         }
-        
+
+        private byte[] archivoBytes;
+
         private void CargarArchivo()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Archivos de imagen|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Todos los archivos|*.*";
+
+            openFileDialog.Filter = "Todos los archivos (*.*)|*.*";
             openFileDialog.Title = "Seleccionar Archivo";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filePath = openFileDialog.FileName;
 
-                string fileName = System.IO.Path.GetFileName(filePath);
+                string fileName = Path.GetFileName(filePath);
 
                 txbNombreArchivo.Text = fileName;
                 lblRutaArchivo.Text = filePath;
+
                 try
                 {
-                    pbImagen.Image = Image.FromFile(filePath);
-                    validacion = "1";
+                    archivoBytes = File.ReadAllBytes(filePath);
+
+                    if (EsImagen(filePath))
+                    {
+                        pbImagen.Image = Image.FromFile(filePath);
+                        validacion = "1";
+                    }
+                    else
+                    {
+                        pbImagen.Image = null;
+                        MessageBox.Show("Archivo cargado correctamente, pero no se puede previsualizar", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        validacion = "1";
+                    }
+
 
                 }
                 catch (Exception ex)
@@ -114,6 +130,16 @@ namespace ElastoSystem
                 MessageBox.Show("No se seleccionó ningún archivo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private bool EsImagen(string filePath)
+        {
+            string extension = Path.GetExtension(filePath).ToLower();
+
+            string[] extensionesImagen = { ".png", ".jpg", ".jpeg", ".gif", ".bmp" };
+
+            return extensionesImagen.Contains(extension);
+        }
+
         private void EnviarSolicitud()
         {
             string fecha = DateTime.Now.ToString("yyyy/MM/dd");
@@ -126,12 +152,6 @@ namespace ElastoSystem
             {
                 if (validacion == "1")
                 {
-                    byte[] bytesFoto;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        pbImagen.Image.Save(ms, ImageFormat.Jpeg);
-                        bytesFoto = ms.ToArray();
-                    }
                     cmd.Connection = conn;
                     cmd.CommandText = "INSERT INTO elastosystem_maquinado (FECHA, SOLICITANTE, PRIORIDAD, RECOMENDACIONES, TIPO, DESCRIPCION, DESCRIPCION_MAQUINADO, ARCHIVO, RUTA, ESTATUS) VALUES (@FECHA, @SOLICITANTE, @PRIORIDAD, @RECOMENDACIONES, @TIPO, @DESCRIPCION, @DESCRIPCION_MAQUINADO, @ARCHIVO, @RUTA, @ESTATUS);";
 
@@ -142,7 +162,7 @@ namespace ElastoSystem
                     cmd.Parameters.AddWithValue("@TIPO", cbTipo.Text);
                     cmd.Parameters.AddWithValue("@DESCRIPCION", txbDescripcion.Text);
                     cmd.Parameters.AddWithValue("@DESCRIPCION_MAQUINADO", txbDescripcionDelMaquinado.Text);
-                    cmd.Parameters.AddWithValue("@ARCHIVO", bytesFoto);
+                    cmd.Parameters.AddWithValue("@ARCHIVO", archivoBytes);
                     cmd.Parameters.AddWithValue("@RUTA", rutaarchivo);
                     cmd.Parameters.AddWithValue("@ESTATUS", estatus);
                     cmd.ExecuteNonQuery();

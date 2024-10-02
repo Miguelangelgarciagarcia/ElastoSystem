@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             panel1 = new Panel();
             btnActualizar = new Button();
@@ -60,7 +60,6 @@
             btnDescargar = new Button();
             txbFolio = new TextBox();
             label12 = new Label();
-            txbDepartamento = new TextBox();
             txbRuta = new TextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPendientesMaquinado).BeginInit();
@@ -103,9 +102,9 @@
             btnActualizar.FlatStyle = FlatStyle.Flat;
             btnActualizar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             btnActualizar.ForeColor = Color.White;
-            btnActualizar.Location = new Point(466, 17);
+            btnActualizar.Location = new Point(582, 22);
             btnActualizar.Name = "btnActualizar";
-            btnActualizar.Size = new Size(191, 39);
+            btnActualizar.Size = new Size(145, 29);
             btnActualizar.TabIndex = 20;
             btnActualizar.Text = "ACTUALIZAR";
             btnActualizar.UseVisualStyleBackColor = false;
@@ -119,9 +118,9 @@
             btnRealizado.FlatStyle = FlatStyle.Flat;
             btnRealizado.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             btnRealizado.ForeColor = Color.White;
-            btnRealizado.Location = new Point(260, 17);
+            btnRealizado.Location = new Point(400, 22);
             btnRealizado.Name = "btnRealizado";
-            btnRealizado.Size = new Size(191, 39);
+            btnRealizado.Size = new Size(157, 29);
             btnRealizado.TabIndex = 19;
             btnRealizado.Text = "REALIZADO";
             btnRealizado.UseVisualStyleBackColor = false;
@@ -129,27 +128,28 @@
             // 
             // dgvPendientesMaquinado
             // 
+            dgvPendientesMaquinado.AllowUserToAddRows = false;
             dgvPendientesMaquinado.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPendientesMaquinado.BackgroundColor = Color.White;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvPendientesMaquinado.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvPendientesMaquinado.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvPendientesMaquinado.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPendientesMaquinado.Location = new Point(16, 67);
             dgvPendientesMaquinado.Name = "dgvPendientesMaquinado";
             dgvPendientesMaquinado.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dgvPendientesMaquinado.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dgvPendientesMaquinado.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvPendientesMaquinado.RowTemplate.Height = 25;
             dgvPendientesMaquinado.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPendientesMaquinado.Size = new Size(711, 626);
@@ -434,15 +434,6 @@
             label12.TabIndex = 17;
             label12.Text = "FOLIO:";
             // 
-            // txbDepartamento
-            // 
-            txbDepartamento.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbDepartamento.Location = new Point(779, 57);
-            txbDepartamento.Name = "txbDepartamento";
-            txbDepartamento.ReadOnly = true;
-            txbDepartamento.Size = new Size(204, 27);
-            txbDepartamento.TabIndex = 34;
-            // 
             // txbRuta
             // 
             txbRuta.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
@@ -451,6 +442,7 @@
             txbRuta.ReadOnly = true;
             txbRuta.Size = new Size(204, 27);
             txbRuta.TabIndex = 35;
+            txbRuta.Visible = false;
             // 
             // Maquinado_Administrar
             // 
@@ -459,7 +451,6 @@
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
             Controls.Add(txbRuta);
-            Controls.Add(txbDepartamento);
             Controls.Add(panel6);
             Controls.Add(panel5);
             Controls.Add(panel3);
@@ -520,7 +511,6 @@
         private Button btnDescargar;
         private TextBox txbFolio;
         private PictureBox pbImagen;
-        private TextBox txbDepartamento;
         private TextBox txbRuta;
     }
 }
