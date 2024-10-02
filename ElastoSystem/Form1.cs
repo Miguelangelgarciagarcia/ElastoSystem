@@ -244,7 +244,7 @@ namespace ElastoSystem
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Maquinado_Administrar temporal = new();
+            Maquinado_Historial temporal = new();
             temporal.Show();
             this.Hide();
         }
