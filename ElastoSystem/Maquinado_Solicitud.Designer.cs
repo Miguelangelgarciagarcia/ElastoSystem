@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             lblFolio = new Label();
             label8 = new Label();
@@ -58,12 +60,17 @@
             btnCargarArchivo = new Button();
             btnLimpiar = new Button();
             lblRutaArchivo = new Label();
+            panel6 = new Panel();
+            dgvHistorialMaquinado = new DataGridView();
+            label3 = new Label();
             panel4.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbImagen).BeginInit();
+            panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvHistorialMaquinado).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -72,7 +79,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Montserrat", 24F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(24, 37);
+            label1.Location = new Point(24, 28);
             label1.Name = "label1";
             label1.Size = new Size(486, 44);
             label1.TabIndex = 1;
@@ -84,7 +91,7 @@
             lblFolio.BackColor = Color.Transparent;
             lblFolio.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             lblFolio.ForeColor = Color.White;
-            lblFolio.Location = new Point(1108, 52);
+            lblFolio.Location = new Point(1108, 43);
             lblFolio.Name = "lblFolio";
             lblFolio.Size = new Size(101, 30);
             lblFolio.TabIndex = 19;
@@ -96,7 +103,7 @@
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             label8.ForeColor = Color.White;
-            label8.Location = new Point(1036, 51);
+            label8.Location = new Point(1036, 42);
             label8.Name = "label8";
             label8.Size = new Size(75, 30);
             label8.TabIndex = 18;
@@ -108,7 +115,7 @@
             lblfecha.BackColor = Color.Transparent;
             lblfecha.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             lblfecha.ForeColor = Color.White;
-            lblfecha.Location = new Point(1041, 82);
+            lblfecha.Location = new Point(1041, 73);
             lblfecha.Name = "lblfecha";
             lblfecha.Size = new Size(100, 20);
             lblfecha.TabIndex = 17;
@@ -120,7 +127,7 @@
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(985, 82);
+            label5.Location = new Point(985, 73);
             label5.Name = "label5";
             label5.Size = new Size(58, 20);
             label5.TabIndex = 16;
@@ -132,7 +139,7 @@
             panel4.Controls.Add(txbSolicitante);
             panel4.Controls.Add(label2);
             panel4.Controls.Add(label15);
-            panel4.Location = new Point(24, 133);
+            panel4.Location = new Point(24, 105);
             panel4.Name = "panel4";
             panel4.Size = new Size(551, 167);
             panel4.TabIndex = 29;
@@ -178,7 +185,7 @@
             btnEnviarSolicitud.FlatStyle = FlatStyle.Flat;
             btnEnviarSolicitud.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             btnEnviarSolicitud.ForeColor = Color.White;
-            btnEnviarSolicitud.Location = new Point(766, 539);
+            btnEnviarSolicitud.Location = new Point(1087, 469);
             btnEnviarSolicitud.Name = "btnEnviarSolicitud";
             btnEnviarSolicitud.Size = new Size(215, 41);
             btnEnviarSolicitud.TabIndex = 13;
@@ -193,7 +200,7 @@
             panel1.Controls.Add(txbRecomendacionesSugerencias);
             panel1.Controls.Add(cbPrioridad);
             panel1.Controls.Add(label7);
-            panel1.Location = new Point(581, 133);
+            panel1.Location = new Point(581, 105);
             panel1.Name = "panel1";
             panel1.Size = new Size(400, 167);
             panel1.TabIndex = 30;
@@ -249,7 +256,7 @@
             panel2.Controls.Add(label9);
             panel2.Controls.Add(cbTipo);
             panel2.Controls.Add(label10);
-            panel2.Location = new Point(24, 318);
+            panel2.Location = new Point(24, 290);
             panel2.Name = "panel2";
             panel2.Size = new Size(368, 167);
             panel2.TabIndex = 31;
@@ -315,7 +322,7 @@
             panel3.BackColor = Color.FromArgb(3, 42, 76);
             panel3.Controls.Add(txbDescripcionDelMaquinado);
             panel3.Controls.Add(label12);
-            panel3.Location = new Point(398, 318);
+            panel3.Location = new Point(398, 290);
             panel3.Name = "panel3";
             panel3.Size = new Size(583, 167);
             panel3.TabIndex = 32;
@@ -347,7 +354,7 @@
             panel5.Controls.Add(pbImagen);
             panel5.Controls.Add(txbNombreArchivo);
             panel5.Controls.Add(btnCargarArchivo);
-            panel5.Location = new Point(998, 133);
+            panel5.Location = new Point(998, 105);
             panel5.Name = "panel5";
             panel5.Size = new Size(304, 352);
             panel5.TabIndex = 33;
@@ -396,7 +403,7 @@
             btnLimpiar.FlatStyle = FlatStyle.Flat;
             btnLimpiar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             btnLimpiar.ForeColor = Color.White;
-            btnLimpiar.Location = new Point(445, 539);
+            btnLimpiar.Location = new Point(890, 469);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(170, 41);
             btnLimpiar.TabIndex = 34;
@@ -410,12 +417,64 @@
             lblRutaArchivo.BackColor = Color.Transparent;
             lblRutaArchivo.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             lblRutaArchivo.ForeColor = Color.White;
-            lblRutaArchivo.Location = new Point(24, 497);
+            lblRutaArchivo.Location = new Point(24, 469);
             lblRutaArchivo.Name = "lblRutaArchivo";
             lblRutaArchivo.Size = new Size(111, 21);
             lblRutaArchivo.TabIndex = 37;
             lblRutaArchivo.Text = "Ruta Archivo";
             lblRutaArchivo.Visible = false;
+            // 
+            // panel6
+            // 
+            panel6.BackColor = Color.FromArgb(3, 42, 76);
+            panel6.Controls.Add(label3);
+            panel6.Controls.Add(dgvHistorialMaquinado);
+            panel6.Location = new Point(24, 539);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(1278, 266);
+            panel6.TabIndex = 38;
+            // 
+            // dgvHistorialMaquinado
+            // 
+            dgvHistorialMaquinado.AllowUserToAddRows = false;
+            dgvHistorialMaquinado.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvHistorialMaquinado.BackgroundColor = Color.White;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvHistorialMaquinado.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvHistorialMaquinado.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvHistorialMaquinado.Location = new Point(19, 48);
+            dgvHistorialMaquinado.Name = "dgvHistorialMaquinado";
+            dgvHistorialMaquinado.ReadOnly = true;
+            dgvHistorialMaquinado.RowHeadersVisible = false;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dgvHistorialMaquinado.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dgvHistorialMaquinado.RowTemplate.Height = 25;
+            dgvHistorialMaquinado.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvHistorialMaquinado.Size = new Size(1235, 197);
+            dgvHistorialMaquinado.TabIndex = 24;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(498, 12);
+            label3.Name = "label3";
+            label3.Size = new Size(227, 22);
+            label3.TabIndex = 39;
+            label3.Text = "HISTORIAL MAQUINADOS";
             // 
             // Maquinado_Solicitud
             // 
@@ -423,6 +482,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(panel6);
             Controls.Add(lblRutaArchivo);
             Controls.Add(btnLimpiar);
             Controls.Add(panel5);
@@ -451,6 +511,9 @@
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbImagen).EndInit();
+            panel6.ResumeLayout(false);
+            panel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvHistorialMaquinado).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -487,5 +550,8 @@
         private TextBox txbNombreArchivo;
         private PictureBox pbImagen;
         private TextBox txbSolicitante;
+        private Panel panel6;
+        private Label label3;
+        private DataGridView dgvHistorialMaquinado;
     }
 }

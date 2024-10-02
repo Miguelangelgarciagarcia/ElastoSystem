@@ -197,13 +197,35 @@ namespace ElastoSystem
                 conn.Close();
             }
         }
+        private void MandarALlamarHistorial()
+        {
+            try
+            {
+                string tabla = @"SELECT ID_MAQUINADO, FECHA, PRIORIDAD, DESCRIPCION_MAQUINADO, ESTATUS
+                                FROM elastosystem_maquinado
+                                WHERE SOLICITANTE = @SOLICITANTE
+                                ORDER BY ID_MAQUINADO DESC";
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionLocal);
+                mySqlAdapter.SelectCommand.Parameters.AddWithValue("@SOLICITANTE", txbSolicitante.Text);
+                DataTable dt = new DataTable();
+                mySqlAdapter.Fill(dt);
+                dgvHistorialMaquinado.DataSource = dt;
+                dgvHistorialMaquinado.Columns["ID_MAQUINADO"].HeaderText = "FOLIO";
+                dgvHistorialMaquinado.Columns["DESCRIPCION_MAQUINADO"].HeaderText = "MAQUINADO";
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         private void Maquinado_Solicitud_Load(object sender, EventArgs e)
         {
             Fecha();
             Folio();
             txbSolicitante.Text = VariablesGlobales.Usuario;
+            MandarALlamarHistorial();
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
