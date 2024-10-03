@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Crypto.Parameters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,149 +31,80 @@ namespace ElastoSystem
             txbNoCuenta.TabIndex = 7;
             txbClabe.TabIndex = 8;
         }
-        private void IDIncrementable()
-        {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            int idprod;
-            string sql = "SELECT ID FROM clientes ORDER BY ID DESC LIMIT 1 ";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        idprod = Convert.ToInt32(reader["ID"]);
-                        int idnuevo = idprod + 1;
-                        lblID.Text = idnuevo.ToString();
-                    }
-                }
-                else
-                {
-
-                }
-                this.BeginInvoke(new Action(() =>
-                {
-                    txbEmpresa.Focus();
-                }));
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            /*
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            int idprod;
-            string sql = "SELECT ID FROM elastosystem_ventas_clientes ORDER BY ID DESC LIMIT 1 ";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        idprod = Convert.ToInt32(reader["ID"]);
-                        int idnuevo = idprod + 1;
-                        lblID.Text = idnuevo.ToString();
-                    }
-                }
-                else
-                {
-
-                }
-                this.BeginInvoke(new Action(() =>
-                {
-                    txbEmpresa.Focus();
-                }));
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            */
-        }
         private void MandarALlamarBDClientes()
         {
-            string tabla = "SELECT * FROM clientes";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionStringelastotec);
-            DataTable dt = new DataTable();
-            mySqlAdapter.Fill(dt);
-            dgvClientes.DataSource = dt;
-            dt.DefaultView.Sort = "ID DESC";
-            /*
             string tabla = "SELECT * FROM elastosystem_ventas_clientes";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
             dgvClientes.DataSource = dt;
-            dt.DefaultView.Sort = "ID DESC";
-            */
+            dt.DefaultView.Sort = "Empresa ASC";
+            dgvClientes.Columns["ID"].Visible = false;
+            dgvClientes.Columns["RFC"].Visible = false;
+            dgvClientes.Columns["Banco"].Visible=false;
+            dgvClientes.Columns["NoCuenta"].Visible= false;
+            dgvClientes.Columns["Clabe"].Visible = false;
         }
         private void AgregarCliente()
         {
             try
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;
-                if (string.IsNullOrWhiteSpace(txbEmpresa.Text) || string.IsNullOrWhiteSpace(txbCliente.Text) || string.IsNullOrWhiteSpace(txbTelefono.Text) || string.IsNullOrEmpty(txbCorreo.Text) || string.IsNullOrEmpty(txbRFC.Text))
+                if (string.IsNullOrWhiteSpace(txbEmpresa.Text) || string.IsNullOrWhiteSpace(txbCliente.Text) || string.IsNullOrWhiteSpace(txbTelefono.Text) || string.IsNullOrEmpty(txbCorreo.Text) || string.IsNullOrEmpty(txbRFC.Text) || string.IsNullOrEmpty(txbDireccion.Text) || string.IsNullOrEmpty(txbBanco.Text) || string.IsNullOrEmpty(txbNoCuenta.Text) || string.IsNullOrEmpty(txbClabe.Text))
                 {
-                    MessageBox.Show("Favor de Ingresar todos los datos");
+                    MessageBox.Show("Favor de Ingresar todos los datos obligatorios.");
+                    VisiblesCampos();
                 }
                 else
                 {
-                    comando.CommandText = "INSERT INTO clientes (ID, NOMBRE, CONTACTO, TELEFONO, EMAIL, DIRECCION, RFC, BANCO, NOCUENTA, CLABE) VALUES('" + lblID.Text + "','" + txbEmpresa.Text + "','" + txbCliente.Text + "','" + txbTelefono.Text + "' , '" + txbCorreo.Text + "', '" + txbDireccion.Text + "', '" + txbRFC.Text + "', '" + txbBanco.Text + "', '" + txbNoCuenta.Text + "', '" + txbClabe.Text + "');";
+                    comando.CommandText = "INSERT INTO elastosystem_ventas_clientes (Empresa, Direccion, Telefono, Correo, RFC, Contacto, Banco, NoCuenta, Clabe) VALUES('" + txbEmpresa.Text + "','" + txbDireccion.Text + "','" + txbTelefono.Text + "' , '" + txbCorreo.Text + "','" + txbRFC.Text + "','" + txbCliente.Text + "','" + txbBanco.Text + "' , '" + txbNoCuenta.Text + "', '" + txbClabe.Text + "');";
                     comando.ExecuteNonQuery();
                     mySqlConnection.Close();
-                    MessageBox.Show("Cliente No. " + lblID.Text + " registrado");
+                    MessageBox.Show("Cliente: " + txbCliente.Text + " registrado");
                     LimpiarDatosCliente();
-                    IDIncrementable();
                     MandarALlamarBDClientes();
+                    OcultarCampos();
                 }
             }
             catch
             {
                 MessageBox.Show("Error al registrar datos");
             }
-            /*
-            try
-            {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
-                mySqlConnection.Open();
-                MySqlCommand comando = new MySqlCommand();
-                comando.Connection = mySqlConnection;
-                if (string.IsNullOrWhiteSpace(txbEmpresa.Text) || string.IsNullOrWhiteSpace(txbCliente.Text) || string.IsNullOrWhiteSpace(txbTelefono.Text) || string.IsNullOrEmpty(txbCliente.Text))
-                {
-                    MessageBox.Show("Favor de Ingresar todos los datos");
-                }
-                else
-                {
-                    comando.CommandText = "INSERT INTO elastosystem_ventas_clientes (ID, Empresa, Cliente, Telefono, Correo) VALUES('" + lblID.Text + "','" + txbEmpresa.Text + "','" + txbCliente.Text + "','" + txbTelefono.Text + "' , '" + txbCorreo.Text + "');";
-                    comando.ExecuteNonQuery();
-                    mySqlConnection.Close();
-                    MessageBox.Show("Cliente No. " + lblID.Text + " registrado");
-                    lblID.Text = string.Empty; txbEmpresa.Clear(); txbCliente.Clear(); txbTelefono.Clear(); txbCorreo.Text = string.Empty;
-                    IDIncrementable();
-                    MandarALlamarBDClientes();
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error al registrar datos");
-            }
-            */
         }
+
+        private void VisiblesCampos()
+        {
+            lblCampos.Visible = true;
+            pbCampos.Visible = true;
+            pbEmpresa.Visible = true;
+            pbCliente.Visible = true;
+            pbTelefono.Visible = true;
+            pbCorreo.Visible = true;
+            pbRFC.Visible = true;
+            pbDireccion.Visible = true; 
+            pbBanco.Visible = true;
+            pbNoCuenta.Visible = true;
+            pbClabe.Visible = true;
+        }
+
+        private void OcultarCampos()
+        {
+            lblCampos.Visible = false;
+            pbCampos.Visible = false;
+            pbEmpresa.Visible = false;
+            pbCliente.Visible = false;
+            pbTelefono.Visible = false;
+            pbCorreo.Visible = false;
+            pbRFC.Visible = false;
+            pbDireccion.Visible = false;
+            pbBanco.Visible = false;
+            pbNoCuenta.Visible = false;
+            pbClabe.Visible = false;
+        }
+
         private void LimpiarDatosCliente()
         {
             txbEmpresa.Clear();
@@ -184,6 +116,8 @@ namespace ElastoSystem
             txbBanco.Clear();
             txbNoCuenta.Clear();
             txbClabe.Clear();
+            txbBuscador.Clear();
+            
         }
         private void BotonesHabilitadosEInhabilitadosDGV()
         {
@@ -208,14 +142,14 @@ namespace ElastoSystem
         {
             try
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;
-                comando.CommandText = "DELETE FROM clientes WHERE ID = '" + lblID.Text + "'";
+                comando.CommandText = "DELETE FROM elastosystem_ventas_clientes WHERE ID = '" + lblID.Text + "'";
                 comando.ExecuteNonQuery();
                 mySqlConnection.Close();
-                MessageBox.Show("Cliente No. " + lblID.Text + " eliminado");
+                MessageBox.Show("Cliente: " + txbEmpresa.Text + " eliminado");
                 LimpiarDatosCliente();
                 MandarALlamarBDClientes();
             }
@@ -223,88 +157,44 @@ namespace ElastoSystem
             {
                 MessageBox.Show("Error al eliminar cliente");
             }
-            /*
-            try
-            {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
-                mySqlConnection.Open();
-                MySqlCommand comando = new MySqlCommand();
-                comando.Connection = mySqlConnection;
-                comando.CommandText = "DELETE FROM elastosystem_ventas_clientes WHERE ID = '" + lblID.Text + "'";
-                comando.ExecuteNonQuery();
-                mySqlConnection.Close();
-                MessageBox.Show("Cliente No. " + lblID.Text + " eliminado");
-                lblID.Text = string.Empty; txbEmpresa.Clear(); txbCliente.Clear(); txbTelefono.Clear(); txbCorreo.Text = string.Empty;
-                MandarALlamarBDClientes();
-            }
-            catch
-            {
-                MessageBox.Show("Error al eliminar cliente");
-            }
-            */
         }
         private void ActualizarRegistro()
         {
             try
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;
-                if (string.IsNullOrWhiteSpace(txbEmpresa.Text) || string.IsNullOrWhiteSpace(txbCliente.Text) || string.IsNullOrWhiteSpace(txbTelefono.Text) || string.IsNullOrEmpty(txbCorreo.Text))
+                if (string.IsNullOrWhiteSpace(txbEmpresa.Text) || string.IsNullOrWhiteSpace(txbCliente.Text) || string.IsNullOrWhiteSpace(txbTelefono.Text) || string.IsNullOrEmpty(txbCorreo.Text) || string.IsNullOrEmpty(txbRFC.Text) || string.IsNullOrEmpty(txbDireccion.Text) || string.IsNullOrEmpty(txbBanco.Text) || string.IsNullOrEmpty(txbNoCuenta.Text) || string.IsNullOrEmpty(txbClabe.Text))
                 {
                     MessageBox.Show("Favor de Ingresar todos los datos");
+                    VisiblesCampos();
                 }
                 else
                 {
-                    comando.CommandText = "UPDATE clientes SET NOMBRE = '" + txbEmpresa.Text + "', CONTACTO = '" + txbCliente.Text + "', TELEFONO = '" + txbTelefono.Text + "', EMAIL = '" + txbCorreo.Text + "', DIRECCION = '" + txbDireccion.Text + "', RFC = '" + txbRFC.Text + "' , BANCO = '" + txbBanco.Text + "', NOCUENTA = '" + txbNoCuenta.Text + "', CLABE = '" + txbClabe.Text + "' WHERE ID = '" + lblID.Text + "'";
+                    comando.CommandText = "UPDATE elastosystem_ventas_clientes SET Empresa = '" + txbEmpresa.Text + "', Direccion = '" + txbDireccion.Text + "', Telefono = '" + txbTelefono.Text + "', Correo = '" + txbCorreo.Text + "', RFC = '" + txbRFC.Text + "', Contacto = '" + txbCliente.Text + "', Banco = '" + txbBanco.Text + "', NoCuenta = '" + txbNoCuenta.Text + "', Clabe = '" + txbClabe.Text + "' WHERE ID = '" + lblID.Text + "'";
                     comando.ExecuteNonQuery();
                     mySqlConnection.Close();
-                    MessageBox.Show("Cliente No. " + lblID.Text + " actaualizado");
+                    MessageBox.Show("Cliente: " + txbCliente.Text + " actaualizado");
                     LimpiarDatosCliente();
                     MandarALlamarBDClientes();
-                    btnNuevo.PerformClick();
+                    OcultarCampos();
                 }
             }
             catch
             {
                 MessageBox.Show("Error al actualizar datos");
             }
-            /*
-            try
-            {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
-                mySqlConnection.Open();
-                MySqlCommand comando = new MySqlCommand();
-                comando.Connection = mySqlConnection;
-                if (string.IsNullOrWhiteSpace(txbEmpresa.Text) || string.IsNullOrWhiteSpace(txbCliente.Text) || string.IsNullOrWhiteSpace(txbTelefono.Text) || string.IsNullOrEmpty(txbCliente.Text))
-                {
-                    MessageBox.Show("Favor de Ingresar todos los datos");
-                }
-                else
-                {
-                    comando.CommandText = "UPDATE elastosystem_ventas_clientes SET Empresa = '" + txbEmpresa.Text + "', Cliente = '" + txbCliente.Text + "', Telefono = '" + txbTelefono.Text + "', Correo = '" + txbCorreo.Text + "' WHERE ID = '" + lblID.Text + "'";
-                    comando.ExecuteNonQuery();
-                    mySqlConnection.Close();
-                    MessageBox.Show("Cliente No. " + lblID.Text + " actaualizado");
-                    lblID.Text = string.Empty; txbEmpresa.Clear(); txbCliente.Clear(); txbTelefono.Clear(); txbCorreo.Text = string.Empty;
-                    MandarALlamarBDClientes();
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error al actualizar datos");
-            }
-            */
         }
         private void Buscador()
         {
             try
             {
                 string valorBusqueda = txbBuscador.Text;
-                string consulta = "SELECT * FROM clientes WHERE CONTACTO LIKE @ValorBusqueda OR NOMBRE LIKE @ValorBusqueda";
+                string consulta = "SELECT * FROM elastosystem_ventas_clientes WHERE Empresa LIKE @ValorBusqueda OR Contacto LIKE @ValorBusqueda";
 
-                MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, connectionStringelastotec);
+                MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
 
                 adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
 
@@ -318,37 +208,7 @@ namespace ElastoSystem
             {
                 MessageBox.Show("Error al buscar datos: " + ex.Message);
             }
-            /*
-            try
-            {
-                // Asegúrate de tener una conexión a la base de datos (connectionString)
-                string valorBusqueda = txbBuscador.Text;
-                string consulta = "SELECT * FROM elastosystem_ventas_clientes WHERE cliente LIKE @ValorBusqueda OR empresa LIKE @ValorBusqueda";
-
-                // Crear un adaptador de datos
-                MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, connectionString);
-
-                // Configurar los parámetros del adaptador
-                adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
-
-                // Crear un conjunto de datos para almacenar los resultados
-                DataSet datos = new DataSet();
-
-                // Rellenar el conjunto de datos con los resultados de la consulta
-                adaptador.Fill(datos, "Resultados");
-
-                // Asignar el conjunto de datos al DataGridView
-                dgvClientes.DataSource = datos.Tables["Resultados"];
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al buscar datos: " + ex.Message);
-            }
-            */
         }
-
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
-        string connectionStringelastotec = "server=10.120.1.3 ; username=root; password=; database=elastotec";
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -357,7 +217,6 @@ namespace ElastoSystem
         private void Ventas_Clientes_Load(object sender, EventArgs e)
         {
             MandarALlamarBDClientes();
-            IDIncrementable();
             OrdenTab();
         }
         private void btnAgregarCliente_Click(object sender, EventArgs e)
@@ -374,6 +233,7 @@ namespace ElastoSystem
         }
         private void dgvClientes_DoubleClick(object sender, EventArgs e)
         {
+            OcultarCampos();
             DataGridView dgv = (DataGridView)sender;
 
             if (dgv.SelectedCells.Count > 0)
@@ -410,9 +270,6 @@ namespace ElastoSystem
                 string clabe = dgv.Rows[rowIndex].Cells[9].Value.ToString();
                 txbClabe.Text = clabe;
 
-
-
-
             }
             BotonesHabilitadosEInhabilitadosDGV();
         }
@@ -420,7 +277,7 @@ namespace ElastoSystem
         {
             BotonesHabilitadosEInhabilitadosNuevo();
             LimpiarDatosCliente();
-            IDIncrementable();
+            lblID.Text = string.Empty;
         }
         private void btnEliminar_Click(object sender, EventArgs e)
         {
@@ -456,6 +313,7 @@ namespace ElastoSystem
 
         private void txbBuscador_TextChanged(object sender, EventArgs e)
         {
+            OcultarCampos();
             Buscador();
         }
     }

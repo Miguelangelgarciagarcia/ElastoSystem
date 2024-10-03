@@ -32,8 +32,8 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ventas_Clientes));
             label1 = new Label();
-            label2 = new Label();
             label3 = new Label();
             txbEmpresa = new TextBox();
             label4 = new Label();
@@ -46,10 +46,20 @@
             btnActualizar = new Button();
             lblID = new Label();
             dgvClientes = new DataGridView();
-            btnBuscar = new Button();
             txbBuscador = new TextBox();
             label7 = new Label();
             panel2 = new Panel();
+            pbEmpresa = new PictureBox();
+            pbCliente = new PictureBox();
+            pbTelefono = new PictureBox();
+            pbCorreo = new PictureBox();
+            pbRFC = new PictureBox();
+            pbDireccion = new PictureBox();
+            pbBanco = new PictureBox();
+            pbNoCuenta = new PictureBox();
+            pbClabe = new PictureBox();
+            pbCampos = new PictureBox();
+            lblCampos = new Label();
             label12 = new Label();
             txbClabe = new TextBox();
             label11 = new Label();
@@ -66,6 +76,16 @@
             panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbEmpresa).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbCliente).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbTelefono).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbCorreo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbRFC).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbDireccion).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbBanco).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbNoCuenta).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbClabe).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbCampos).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -82,29 +102,17 @@
             label1.Text = "CLIENTES";
             label1.Click += label1_Click;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(23, 17);
-            label2.Name = "label2";
-            label2.Size = new Size(84, 21);
-            label2.TabIndex = 2;
-            label2.Text = "ID Cliente";
-            // 
             // label3
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(23, 55);
+            label3.Location = new Point(37, 55);
             label3.Name = "label3";
-            label3.Size = new Size(77, 21);
+            label3.Size = new Size(80, 21);
             label3.TabIndex = 3;
-            label3.Text = "Empresa";
+            label3.Text = "Empresa:";
             // 
             // txbEmpresa
             // 
@@ -120,11 +128,11 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(23, 96);
+            label4.Location = new Point(37, 96);
             label4.Name = "label4";
-            label4.Size = new Size(63, 21);
+            label4.Size = new Size(66, 21);
             label4.TabIndex = 8;
-            label4.Text = "Cliente";
+            label4.Text = "Cliente:";
             // 
             // txbCliente
             // 
@@ -156,11 +164,11 @@
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(23, 134);
+            label5.Location = new Point(37, 134);
             label5.Name = "label5";
-            label5.Size = new Size(73, 21);
+            label5.Size = new Size(76, 21);
             label5.TabIndex = 12;
-            label5.Text = "Telefono";
+            label5.Text = "Telefono:";
             // 
             // label6
             // 
@@ -168,11 +176,11 @@
             label6.BackColor = Color.Transparent;
             label6.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(23, 172);
+            label6.Location = new Point(37, 172);
             label6.Name = "label6";
-            label6.Size = new Size(60, 21);
+            label6.Size = new Size(63, 21);
             label6.TabIndex = 13;
-            label6.Text = "Correo";
+            label6.Text = "Correo:";
             // 
             // btnAgregarCliente
             // 
@@ -203,7 +211,7 @@
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(130, 39);
             btnActualizar.TabIndex = 15;
-            btnActualizar.Text = "GUARDAR";
+            btnActualizar.Text = "ACTUALIZAR";
             btnActualizar.UseVisualStyleBackColor = false;
             btnActualizar.Visible = false;
             btnActualizar.Click += btnActualizar_Click;
@@ -219,9 +227,11 @@
             lblID.Size = new Size(182, 21);
             lblID.TabIndex = 16;
             lblID.Text = "ID_PRODUCTOERROR";
+            lblID.Visible = false;
             // 
             // dgvClientes
             // 
+            dgvClientes.AllowUserToAddRows = false;
             dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvClientes.BackgroundColor = Color.FromArgb(205, 215, 224);
             dgvClientes.BorderStyle = BorderStyle.None;
@@ -243,7 +253,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dgvClientes.DefaultCellStyle = dataGridViewCellStyle2;
             dgvClientes.GridColor = SystemColors.ActiveCaptionText;
-            dgvClientes.Location = new Point(49, 457);
+            dgvClientes.Location = new Point(21, 64);
             dgvClientes.Name = "dgvClientes";
             dgvClientes.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -264,31 +274,15 @@
             dgvClientes.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvClientes.RowTemplate.Height = 25;
             dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvClientes.Size = new Size(1244, 326);
+            dgvClientes.Size = new Size(1194, 318);
             dgvClientes.TabIndex = 17;
             dgvClientes.SelectionChanged += dgvClientes_SelectionChanged;
             dgvClientes.DoubleClick += dgvClientes_DoubleClick;
             // 
-            // btnBuscar
-            // 
-            btnBuscar.BackColor = Color.FromArgb(255, 102, 0);
-            btnBuscar.Cursor = Cursors.Hand;
-            btnBuscar.FlatAppearance.BorderSize = 0;
-            btnBuscar.FlatStyle = FlatStyle.Flat;
-            btnBuscar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            btnBuscar.ForeColor = Color.White;
-            btnBuscar.Location = new Point(424, 30);
-            btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(108, 33);
-            btnBuscar.TabIndex = 18;
-            btnBuscar.Text = "BUSCAR";
-            btnBuscar.UseVisualStyleBackColor = false;
-            btnBuscar.Click += btnBuscar_Click;
-            // 
             // txbBuscador
             // 
             txbBuscador.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            txbBuscador.Location = new Point(21, 34);
+            txbBuscador.Location = new Point(135, 24);
             txbBuscador.Name = "txbBuscador";
             txbBuscador.Size = new Size(379, 24);
             txbBuscador.TabIndex = 19;
@@ -302,7 +296,7 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(21, 10);
+            label7.Location = new Point(23, 27);
             label7.Name = "label7";
             label7.Size = new Size(101, 21);
             label7.TabIndex = 20;
@@ -312,6 +306,17 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(3, 42, 76);
+            panel2.Controls.Add(pbEmpresa);
+            panel2.Controls.Add(pbCliente);
+            panel2.Controls.Add(pbTelefono);
+            panel2.Controls.Add(pbCorreo);
+            panel2.Controls.Add(pbRFC);
+            panel2.Controls.Add(pbDireccion);
+            panel2.Controls.Add(pbBanco);
+            panel2.Controls.Add(pbNoCuenta);
+            panel2.Controls.Add(pbClabe);
+            panel2.Controls.Add(pbCampos);
+            panel2.Controls.Add(lblCampos);
             panel2.Controls.Add(label12);
             panel2.Controls.Add(txbClabe);
             panel2.Controls.Add(label11);
@@ -325,7 +330,6 @@
             panel2.Controls.Add(btnNuevo);
             panel2.Controls.Add(btnLimpiar);
             panel2.Controls.Add(btnEliminar);
-            panel2.Controls.Add(label2);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(txbEmpresa);
             panel2.Controls.Add(label4);
@@ -337,10 +341,133 @@
             panel2.Controls.Add(btnAgregarCliente);
             panel2.Controls.Add(label5);
             panel2.Controls.Add(label6);
-            panel2.Location = new Point(49, 136);
+            panel2.Location = new Point(49, 93);
             panel2.Name = "panel2";
             panel2.Size = new Size(1244, 300);
             panel2.TabIndex = 21;
+            // 
+            // pbEmpresa
+            // 
+            pbEmpresa.Image = (Image)resources.GetObject("pbEmpresa.Image");
+            pbEmpresa.Location = new Point(26, 56);
+            pbEmpresa.Name = "pbEmpresa";
+            pbEmpresa.Size = new Size(10, 20);
+            pbEmpresa.SizeMode = PictureBoxSizeMode.Zoom;
+            pbEmpresa.TabIndex = 65;
+            pbEmpresa.TabStop = false;
+            pbEmpresa.Visible = false;
+            // 
+            // pbCliente
+            // 
+            pbCliente.Image = (Image)resources.GetObject("pbCliente.Image");
+            pbCliente.Location = new Point(26, 94);
+            pbCliente.Name = "pbCliente";
+            pbCliente.Size = new Size(10, 20);
+            pbCliente.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCliente.TabIndex = 64;
+            pbCliente.TabStop = false;
+            pbCliente.Visible = false;
+            // 
+            // pbTelefono
+            // 
+            pbTelefono.Image = (Image)resources.GetObject("pbTelefono.Image");
+            pbTelefono.Location = new Point(26, 137);
+            pbTelefono.Name = "pbTelefono";
+            pbTelefono.Size = new Size(10, 20);
+            pbTelefono.SizeMode = PictureBoxSizeMode.Zoom;
+            pbTelefono.TabIndex = 63;
+            pbTelefono.TabStop = false;
+            pbTelefono.Visible = false;
+            // 
+            // pbCorreo
+            // 
+            pbCorreo.Image = (Image)resources.GetObject("pbCorreo.Image");
+            pbCorreo.Location = new Point(26, 172);
+            pbCorreo.Name = "pbCorreo";
+            pbCorreo.Size = new Size(10, 20);
+            pbCorreo.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCorreo.TabIndex = 62;
+            pbCorreo.TabStop = false;
+            pbCorreo.Visible = false;
+            // 
+            // pbRFC
+            // 
+            pbRFC.Image = (Image)resources.GetObject("pbRFC.Image");
+            pbRFC.Location = new Point(26, 211);
+            pbRFC.Name = "pbRFC";
+            pbRFC.Size = new Size(10, 20);
+            pbRFC.SizeMode = PictureBoxSizeMode.Zoom;
+            pbRFC.TabIndex = 61;
+            pbRFC.TabStop = false;
+            pbRFC.Visible = false;
+            // 
+            // pbDireccion
+            // 
+            pbDireccion.Image = (Image)resources.GetObject("pbDireccion.Image");
+            pbDireccion.Location = new Point(633, 56);
+            pbDireccion.Name = "pbDireccion";
+            pbDireccion.Size = new Size(10, 20);
+            pbDireccion.SizeMode = PictureBoxSizeMode.Zoom;
+            pbDireccion.TabIndex = 60;
+            pbDireccion.TabStop = false;
+            pbDireccion.Visible = false;
+            // 
+            // pbBanco
+            // 
+            pbBanco.Image = (Image)resources.GetObject("pbBanco.Image");
+            pbBanco.Location = new Point(633, 96);
+            pbBanco.Name = "pbBanco";
+            pbBanco.Size = new Size(10, 20);
+            pbBanco.SizeMode = PictureBoxSizeMode.Zoom;
+            pbBanco.TabIndex = 59;
+            pbBanco.TabStop = false;
+            pbBanco.Visible = false;
+            // 
+            // pbNoCuenta
+            // 
+            pbNoCuenta.Image = (Image)resources.GetObject("pbNoCuenta.Image");
+            pbNoCuenta.Location = new Point(633, 135);
+            pbNoCuenta.Name = "pbNoCuenta";
+            pbNoCuenta.Size = new Size(10, 20);
+            pbNoCuenta.SizeMode = PictureBoxSizeMode.Zoom;
+            pbNoCuenta.TabIndex = 58;
+            pbNoCuenta.TabStop = false;
+            pbNoCuenta.Visible = false;
+            // 
+            // pbClabe
+            // 
+            pbClabe.Image = (Image)resources.GetObject("pbClabe.Image");
+            pbClabe.Location = new Point(633, 172);
+            pbClabe.Name = "pbClabe";
+            pbClabe.Size = new Size(10, 20);
+            pbClabe.SizeMode = PictureBoxSizeMode.Zoom;
+            pbClabe.TabIndex = 57;
+            pbClabe.TabStop = false;
+            pbClabe.Visible = false;
+            // 
+            // pbCampos
+            // 
+            pbCampos.Image = (Image)resources.GetObject("pbCampos.Image");
+            pbCampos.Location = new Point(484, 19);
+            pbCampos.Name = "pbCampos";
+            pbCampos.Size = new Size(10, 20);
+            pbCampos.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCampos.TabIndex = 56;
+            pbCampos.TabStop = false;
+            pbCampos.Visible = false;
+            // 
+            // lblCampos
+            // 
+            lblCampos.AutoSize = true;
+            lblCampos.BackColor = Color.Transparent;
+            lblCampos.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblCampos.ForeColor = Color.White;
+            lblCampos.Location = new Point(495, 16);
+            lblCampos.Name = "lblCampos";
+            lblCampos.Size = new Size(177, 22);
+            lblCampos.TabIndex = 55;
+            lblCampos.Text = "Campos Obilgatorios";
+            lblCampos.Visible = false;
             // 
             // label12
             // 
@@ -348,11 +475,11 @@
             label12.BackColor = Color.Transparent;
             label12.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label12.ForeColor = Color.White;
-            label12.Location = new Point(640, 169);
+            label12.Location = new Point(642, 169);
             label12.Name = "label12";
-            label12.Size = new Size(53, 21);
+            label12.Size = new Size(56, 21);
             label12.TabIndex = 28;
-            label12.Text = "Clabe";
+            label12.Text = "Clabe:";
             // 
             // txbClabe
             // 
@@ -368,11 +495,11 @@
             label11.BackColor = Color.Transparent;
             label11.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label11.ForeColor = Color.White;
-            label11.Location = new Point(640, 131);
+            label11.Location = new Point(642, 131);
             label11.Name = "label11";
-            label11.Size = new Size(93, 21);
+            label11.Size = new Size(96, 21);
             label11.TabIndex = 26;
-            label11.Text = "No. Cuenta";
+            label11.Text = "No. Cuenta:";
             // 
             // txbNoCuenta
             // 
@@ -388,11 +515,11 @@
             label10.BackColor = Color.Transparent;
             label10.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label10.ForeColor = Color.White;
-            label10.Location = new Point(640, 93);
+            label10.Location = new Point(642, 93);
             label10.Name = "label10";
-            label10.Size = new Size(57, 21);
+            label10.Size = new Size(60, 21);
             label10.TabIndex = 24;
-            label10.Text = "Banco";
+            label10.Text = "Banco:";
             // 
             // txbBanco
             // 
@@ -408,11 +535,11 @@
             label9.BackColor = Color.Transparent;
             label9.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label9.ForeColor = Color.White;
-            label9.Location = new Point(23, 210);
+            label9.Location = new Point(37, 210);
             label9.Name = "label9";
-            label9.Size = new Size(41, 21);
+            label9.Size = new Size(44, 21);
             label9.TabIndex = 22;
-            label9.Text = "RFC";
+            label9.Text = "RFC:";
             // 
             // txbRFC
             // 
@@ -428,11 +555,11 @@
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label8.ForeColor = Color.White;
-            label8.Location = new Point(640, 55);
+            label8.Location = new Point(642, 55);
             label8.Name = "label8";
-            label8.Size = new Size(80, 21);
+            label8.Size = new Size(83, 21);
             label8.TabIndex = 20;
-            label8.Text = "Direccion";
+            label8.Text = "Dirección:";
             // 
             // txbDireccion
             // 
@@ -498,11 +625,11 @@
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
             panel1.Controls.Add(label7);
-            panel1.Controls.Add(btnBuscar);
             panel1.Controls.Add(txbBuscador);
-            panel1.Location = new Point(741, 48);
+            panel1.Controls.Add(dgvClientes);
+            panel1.Location = new Point(49, 416);
             panel1.Name = "panel1";
-            panel1.Size = new Size(552, 71);
+            panel1.Size = new Size(1244, 403);
             panel1.TabIndex = 22;
             // 
             // Ventas_Clientes
@@ -513,7 +640,6 @@
             ClientSize = new Size(1338, 831);
             Controls.Add(panel1);
             Controls.Add(panel2);
-            Controls.Add(dgvClientes);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Ventas_Clientes";
@@ -522,6 +648,16 @@
             ((System.ComponentModel.ISupportInitialize)dgvClientes).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbEmpresa).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbCliente).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbTelefono).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbCorreo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbRFC).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbDireccion).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbBanco).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbNoCuenta).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbClabe).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbCampos).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -531,7 +667,6 @@
         #endregion
 
         private Label label1;
-        private Label label2;
         private Label label3;
         private TextBox txbEmpresa;
         private Label label4;
@@ -544,7 +679,6 @@
         private Button btnActualizar;
         private Label lblID;
         private DataGridView dgvClientes;
-        private Button btnBuscar;
         private TextBox txbBuscador;
         private Label label7;
         private Panel panel2;
@@ -562,5 +696,16 @@
         private TextBox txbNoCuenta;
         private Label label10;
         private TextBox txbBanco;
+        private PictureBox pbCampos;
+        private Label lblCampos;
+        private PictureBox pbEmpresa;
+        private PictureBox pbCliente;
+        private PictureBox pbTelefono;
+        private PictureBox pbCorreo;
+        private PictureBox pbRFC;
+        private PictureBox pbDireccion;
+        private PictureBox pbBanco;
+        private PictureBox pbNoCuenta;
+        private PictureBox pbClabe;
     }
 }
