@@ -19,12 +19,13 @@ namespace ElastoSystem
         }
         private void MandarALlamarProductos()
         {
-            string tabla = "SELECT CLAVE, NOMBRE, PRECIO_A, LIMITE_A, PRECIO_AA, LIMITE_AA, PRECIO_AAA, LIMITE_AAA FROM productos";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionStringelastotec);
+            string tabla = "SELECT * FROM elastosystem_ventas_productos";
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
             dgvProductos.DataSource = dt;
-            dt.DefaultView.Sort = "CLAVE ASC";
+            dt.DefaultView.Sort = "Clave ASC";
+            dgvProductos.Columns["Familia"].Visible = false;
             
         }
         private void Buscador()
@@ -32,9 +33,9 @@ namespace ElastoSystem
             try
             {
                 string valorBusqueda = txbBuscador.Text;
-                string consulta = "SELECT  CLAVE, NOMBRE, PRECIO_A, LIMITE_A, PRECIO_AA, LIMITE_AA, PRECIO_AAA, LIMITE_AAA FROM productos WHERE CLAVE LIKE @ValorBusqueda OR NOMBRE LIKE @ValorBusqueda";
+                string consulta = "SELECT * FROM elastosystem_ventas_productos WHERE Clave LIKE @ValorBusqueda OR Nombre LIKE @ValorBusqueda";
 
-                MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, connectionStringelastotec);
+                MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
 
                 adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
 
@@ -70,83 +71,119 @@ namespace ElastoSystem
             txbPrecioAA.Clear();
             txbLimiteAA.Clear();
             txbPrecioAAA.Clear();
+            txbClaveAlterna.Clear();
             txbLimiteAAA.Clear();
         }
         private void ActualizarDatos()
         {
             try
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;
-                if (string.IsNullOrWhiteSpace(txbClave.Text) || string.IsNullOrWhiteSpace(txbProducto.Text) || string.IsNullOrWhiteSpace(txbPrecioA.Text) || string.IsNullOrEmpty(txbLimiteA.Text))
+                if (string.IsNullOrWhiteSpace(txbClave.Text) || string.IsNullOrWhiteSpace(txbProducto.Text) || string.IsNullOrWhiteSpace(txbPrecioA.Text) || string.IsNullOrEmpty(txbLimiteA.Text) || string.IsNullOrEmpty(txbPrecioAA.Text) || string.IsNullOrEmpty(txbLimiteAA.Text) || string.IsNullOrEmpty(txbPrecioAAA.Text) || string.IsNullOrEmpty(txbLimiteAAA.Text))
                 {
                     MessageBox.Show("Favor de Ingresar todos los datos necesarios");
+                    VisibleCampos();
                 }
                 else
                 {
-                    comando.CommandText = "UPDATE productos SET NOMBRE = '" + txbProducto.Text + "', PRECIO_A = '" + txbPrecioA.Text + "', LIMITE_A = '" + txbLimiteA.Text + "', PRECIO_AA = '" + txbPrecioAA.Text + "', LIMITE_AA = '" + txbLimiteAA.Text + "', PRECIO_AAA = '" + txbPrecioAAA.Text + "' , LIMITE_AAA = '" + txbLimiteAAA.Text + "' WHERE CLAVE = '" + txbClave.Text + "'";
+                    comando.CommandText = "UPDATE elastosystem_ventas_productos SET Clave = '"+txbClave.Text+"', Nombre = '" + txbProducto.Text + "', Precio_A = '" + txbPrecioA.Text + "', Limite_A = '" + txbLimiteA.Text + "', Precio_AA = '" + txbPrecioAA.Text + "', Limite_AA = '" + txbLimiteAA.Text + "', Precio_AAA = '" + txbPrecioAAA.Text + "' , Limite_AAA = '" + txbLimiteAAA.Text + "' WHERE Clave = '" + txbClaveAlterna.Text + "'";
                     comando.ExecuteNonQuery();
                     mySqlConnection.Close();
-                    MessageBox.Show("Producto " + txbClave.Text + " actaualizado");
+                    MessageBox.Show("Producto " + txbClaveAlterna.Text + " actaualizado");
                     LimpiarDatos();
                     MandarALlamarProductos();
                     btnNuevo.PerformClick();
+                    OcultarCampos();
+                    txbBuscador.Clear();
                 }
             }
-            catch
+            catch ( Exception ex )
             {
-                MessageBox.Show("Error al actualizar datos");
+                MessageBox.Show("Error al actualizar datos: "+ex.Message);
             }
         }
         private void EliminarProducto()
         {
             try
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;
-                comando.CommandText = "DELETE FROM productos WHERE CLAVE = '" + txbClave.Text + "'";
+                comando.CommandText = "DELETE FROM elastosystem_ventas_productos WHERE Clave = '" + txbClave.Text + "'";
                 comando.ExecuteNonQuery();
                 mySqlConnection.Close();
                 MessageBox.Show("Producto " + txbClave.Text + " eliminado");
                 LimpiarDatos();
                 MandarALlamarProductos();
+                txbBuscador.Clear();
             }
-            catch
+            catch ( Exception ex )
             {
-                MessageBox.Show("Error al eliminar cliente");
+                MessageBox.Show("Error al eliminar cliente"+ex.Message);
             }
         }
         private void AgregarProducto()
         {
             try
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;
-                if (string.IsNullOrWhiteSpace(txbClave.Text) || string.IsNullOrWhiteSpace(txbProducto.Text) || string.IsNullOrWhiteSpace(txbPrecioA.Text) || string.IsNullOrEmpty(txbLimiteA.Text))
+                if (string.IsNullOrWhiteSpace(txbClave.Text) || string.IsNullOrWhiteSpace(txbProducto.Text) || string.IsNullOrWhiteSpace(txbPrecioA.Text) || string.IsNullOrEmpty(txbLimiteA.Text) || string.IsNullOrEmpty(txbPrecioAA.Text) || string.IsNullOrEmpty(txbLimiteAA.Text) || string.IsNullOrEmpty(txbPrecioAAA.Text) || string.IsNullOrEmpty(txbLimiteAAA.Text))
                 {
                     MessageBox.Show("Favor de Ingresar todos los datos");
+                    VisibleCampos();
                 }
                 else
                 {
-                    comando.CommandText = "INSERT INTO productos (CLAVE, NOMBRE, PRECIO_A, LIMITE_A, PRECIO_AA, LIMITE_AA, PRECIO_AAA, LIMITE_AAA) VALUES('" + txbClave.Text + "','" + txbProducto.Text + "','" + txbPrecioA.Text + "','" + txbLimiteA.Text + "' , '" + txbPrecioAA.Text + "', '" + txbLimiteAA.Text + "', '" + txbPrecioAAA.Text + "', '" + txbLimiteAAA.Text + "');";
+                    comando.CommandText = "INSERT INTO elastosystem_ventas_productos (Clave, Nombre, Precio_A, Limite_A, Precio_AA, Limite_AA, Precio_AAA, Limite_AAA) VALUES('" + txbClave.Text + "','" + txbProducto.Text + "','" + txbPrecioA.Text + "','" + txbLimiteA.Text + "' , '" + txbPrecioAA.Text + "', '" + txbLimiteAA.Text + "', '" + txbPrecioAAA.Text + "', '" + txbLimiteAAA.Text + "');";
                     comando.ExecuteNonQuery();
                     mySqlConnection.Close();
                     MessageBox.Show("Producto " + txbClave.Text + " registrado");
                     LimpiarDatos();
                     MandarALlamarProductos();
+                    OcultarCampos();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Error al registrar datos");
+                MessageBox.Show("Error al registrar datos"+ex.Message);
             }
         }
+
+        private void VisibleCampos()
+        {
+            lblCampos.Visible = true;
+            pbCampos.Visible = true;
+            pbClave.Visible = true;
+            pbProducto.Visible = true;
+            pbPrecioA.Visible = true;
+            pbLimiteA.Visible = true;
+            pbPrecioAA.Visible = true;
+            pbLimiteAA.Visible = true;
+            pbPrecioAAA.Visible = true;
+            pbLimiteAAA.Visible = true;
+        }
+
+        private void OcultarCampos()
+        {
+            lblCampos.Visible= false;
+            pbCampos.Visible = false;
+            pbClave.Visible= false;
+            pbProducto.Visible= false;
+            pbPrecioA.Visible= false;
+            pbLimiteA.Visible= false;
+            pbPrecioAA.Visible= false;
+            pbLimiteAA.Visible= false;
+            pbPrecioAAA.Visible= false;
+            pbLimiteAAA.Visible = false;
+        }
+
         private void Nuevo()
         {
             txbClave.Enabled = true;
@@ -155,6 +192,7 @@ namespace ElastoSystem
             btnNuevo.Visible = false;
             btnAgregar.Visible = true;
             LimpiarDatos();
+            txbBuscador.Clear();
         }
         private void Tabuladores()
         {
@@ -169,8 +207,6 @@ namespace ElastoSystem
             txbLimiteAAA.TabIndex = 7;
         }
 
-
-        string connectionStringelastotec = "server=10.120.1.3 ; username=root; password=; database=elastotec";
 
         private void Ventas_ListaPrecios_Load(object sender, EventArgs e)
         {
@@ -199,7 +235,6 @@ namespace ElastoSystem
 
         private void dgvProductos_DoubleClick(object sender, EventArgs e)
         {
-            txbClave.Enabled = false;
             DataGridView dgv = (DataGridView)sender;
 
             if (dgv.SelectedCells.Count > 0)
@@ -208,6 +243,7 @@ namespace ElastoSystem
 
                 string clave = dgv.Rows[rowIndex].Cells[0].Value.ToString();
                 txbClave.Text = clave;
+                txbClaveAlterna.Text = clave;
 
                 string producto = dgv.Rows[rowIndex].Cells[1].Value.ToString();
                 txbProducto.Text = producto;
