@@ -21,7 +21,6 @@ namespace ElastoSystem
         {
             InitializeComponent();
         }
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
         private void fecha_Tick(object sender, EventArgs e)
         {
 
@@ -31,7 +30,7 @@ namespace ElastoSystem
             try
             {
                 string tabla = "SELECT Folio, Descripcion, Solicitante, Prioridad FROM elastosystem_sistemas_req WHERE Estatus = 'ACTIVO'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgvPendientesSistemas.DataSource = dt;
@@ -53,7 +52,7 @@ namespace ElastoSystem
         }
         private void Folio()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT Folio FROM elastosystem_sistemas_req";
@@ -97,7 +96,7 @@ namespace ElastoSystem
         private void EnviarRequerimiento()
         {
             string query = "SELECT * FROM elastosystem_login WHERE Usuario='" + tbusuario.Text + "' AND Password='" + tbpassword.Text + "'";
-            MySqlConnection databaseConnection = new MySqlConnection(connectionString);
+            MySqlConnection databaseConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
             commandDatabase.CommandTimeout = 60;
             MySqlDataReader reader;
@@ -137,7 +136,7 @@ namespace ElastoSystem
                 string estats = "ACTIVO";
                 DateTime fechainicio = DateTime.Now;
                 string fechai = fechainicio.ToString("yyyy-MM-dd");
-                MySqlConnection conn = new MySqlConnection(connectionString);
+                MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand();
                 try

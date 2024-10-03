@@ -32,7 +32,7 @@ namespace ElastoSystem
                 string tabla = @"SELECT ID_MAQUINADO, FECHA, FECHA_TERMINO, SOLICITANTE, DESCRIPCION_MAQUINADO, USUARIO_FINALIZO 
                                 FROM elastosystem_maquinado
                                 WHERE ESTATUS = 'FINALIZADA'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionElastoSystem);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgvHistorialMaquinado.DataSource = dt;
@@ -51,7 +51,7 @@ namespace ElastoSystem
 
         private void Buscador()
         {
-            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionElastoSystem);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
 
             try
             {
@@ -60,7 +60,7 @@ namespace ElastoSystem
                 string valorBusqueda = txbBuscador.Text;
                 string searchQuery = "SELECT ID_MAQUINADO, FECHA, FECHA_TERMINO, SOLICITANTE, DESCRIPCION_MAQUINADO, USUARIO_FINALIZO FROM elastosystem_maquinado WHERE (ID_MAQUINADO LIKE @ValorBusqueda OR SOLICITANTE LIKE @ValorBusqueda OR DESCRIPCION_MAQUINADO LIKE @ValorBusqueda OR USUARIO_FINALIZO LIKE @ValorBusqueda) AND ESTATUS = 'FINALIZADA' AND FECHA IS NOT NULL AND FECHA_TERMINO IS NOT NULL";
 
-                MySqlDataAdapter adaptador = new MySqlDataAdapter(searchQuery, VariablesGlobales.ConexionElastoSystem);
+                MySqlDataAdapter adaptador = new MySqlDataAdapter(searchQuery, VariablesGlobales.ConexionBDElastotecnica);
                 adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
 
                 DataTable tableResultados = new DataTable();
@@ -100,7 +100,7 @@ namespace ElastoSystem
         byte[] comprobanteBytes;
         private void MandarALlamarComprobante()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionElastoSystem);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT COMPROBANTE, RUTA_COMPROBANTE FROM elastosystem_maquinado WHERE ID_MAQUINADO LIKE '" + txbFolio.Text + "' ";

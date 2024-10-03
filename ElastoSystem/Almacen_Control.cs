@@ -21,7 +21,7 @@ namespace ElastoSystem
 
         private void MandarALlamarNombre()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String id = txbNoTrabajador.Text;
             string nombre = ""; string app = ""; string apm = "";
@@ -58,7 +58,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarProducto()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String id = txbIDProducto.Text;
             string producto = ""; string unidad = "";
@@ -97,7 +97,7 @@ namespace ElastoSystem
         }
         private void ExistenciasYEnvioTemporal()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String idProducto = txbIDProducto.Text;
             MySqlDataReader reader = null;
@@ -188,7 +188,7 @@ namespace ElastoSystem
         private void MandarALlamarBDTemporal()
         {
             string tabla = "SELECT Producto, Cantidad, Unidad FROM elastosystem_almacenregistro_salidas_temp";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
             dgvTemporal.DataSource = dt;
@@ -217,7 +217,7 @@ namespace ElastoSystem
         {
             try
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;
@@ -235,14 +235,12 @@ namespace ElastoSystem
         private void MandaALlamarBDSalidas()
         {
             string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
             dgvBD.DataSource = dt;
             dt.DefaultView.Sort = "Folio DESC";
         }
-
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
 
         private void txbNoTrabajador_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -342,7 +340,7 @@ namespace ElastoSystem
         {
             try
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;

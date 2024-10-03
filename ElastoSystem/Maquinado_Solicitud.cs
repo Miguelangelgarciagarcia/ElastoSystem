@@ -31,7 +31,7 @@ namespace ElastoSystem
         }
         private void Folio()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionElastoSystem);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT ID_MAQUINADO FROM elastosystem_maquinado";
@@ -145,7 +145,7 @@ namespace ElastoSystem
             string fecha = DateTime.Now.ToString("yyyy/MM/dd");
             string rutaarchivo = lblRutaArchivo.Text.Replace("\\", "\\\\");
             string estatus = "ACTIVA";
-            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionElastoSystem);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             try
@@ -205,7 +205,7 @@ namespace ElastoSystem
                                 FROM elastosystem_maquinado
                                 WHERE SOLICITANTE = @SOLICITANTE
                                 ORDER BY ID_MAQUINADO DESC";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionLocal);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 mySqlAdapter.SelectCommand.Parameters.AddWithValue("@SOLICITANTE", txbSolicitante.Text);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);

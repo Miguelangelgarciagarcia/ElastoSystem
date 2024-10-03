@@ -49,7 +49,7 @@ namespace ElastoSystem
             try
             {
                 string tabla = "SELECT ID, Nombre, Email, Telefono, RFC, Direccion, Productos, Contacto, NumeroCuenta, Critico FROM elastosystem_compras_proveedores";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla,VariablesGlobales.ConexionElastoSystem);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla,VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgvProveedores.DataSource = dt;
@@ -71,7 +71,7 @@ namespace ElastoSystem
                 string valorBusqueda = txbBuscador.Text;
                 string consulta = "SELECT ID, Nombre, Email, Telefono, RFC, Direccion, Productos, Contacto, NumeroCuenta, Critico FROM elastosystem_compras_proveedores WHERE Nombre LIKE @ValorBusqueda OR Productos LIKE @ValorBusqueda";
 
-                MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionElastoSystem);
+                MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
 
                 adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
 
@@ -91,7 +91,7 @@ namespace ElastoSystem
             try
             {
                 bool boolCritico = chbCritico.Checked;
-                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionElastoSystem);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;
@@ -134,7 +134,7 @@ namespace ElastoSystem
             try
             {
                 bool boolCritico = chbCritico.Checked;
-                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionElastoSystem);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;
@@ -163,7 +163,7 @@ namespace ElastoSystem
         {
             try
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionElastoSystem);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;

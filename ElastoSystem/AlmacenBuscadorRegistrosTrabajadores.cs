@@ -21,7 +21,6 @@ namespace ElastoSystem
 {
     public partial class AlmacenBuscadorRegistrosTrabajadores : Form
     {
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
         private DateTime fecha1;
         private DateTime fecha2;
         public AlmacenBuscadorRegistrosTrabajadores()
@@ -31,7 +30,7 @@ namespace ElastoSystem
         private void MandarALlamarApellido()
         {
             cbNombre.Items.Clear(); txtbNoTrabajador.Clear();
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT Apellido_Paterno FROM elastosystem_rh";
@@ -74,7 +73,7 @@ namespace ElastoSystem
         private void MandarALlamarNombre()
         {
             txtbNoTrabajador.Clear(); cbNombre.Items.Clear();
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String Nombre = cbApellidoPaterno.Text;
             MySqlDataReader reader = null;
@@ -105,7 +104,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarNoTrabajador()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String nombre = cbNombre.Text;
             String apellido_paterno = cbApellidoPaterno.Text;
@@ -135,7 +134,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarProductos()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT Producto FROM elastosystem_almacen";
@@ -262,12 +261,12 @@ namespace ElastoSystem
 
             Calendario1.Visible = false;
             Calendario2.Visible = false;
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             if (checkBox1.Checked & checkBox2.Checked & checkBox3.Checked)
             {
                 string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
@@ -276,7 +275,7 @@ namespace ElastoSystem
             {
                 String no_traba = txtbNoTrabajador.Text;
                 string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE No_Trabajador = '" + no_traba + "'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
@@ -286,7 +285,7 @@ namespace ElastoSystem
                 String no_traba = txtbNoTrabajador.Text;
                 string producto = cbProducto.Text;
                 string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE No_Trabajador = '" + no_traba + "'AND Producto = '" + producto + "'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
@@ -295,7 +294,7 @@ namespace ElastoSystem
             {
                 string producto = cbProducto.Text;
                 string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE Producto = '" + producto + "'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
@@ -307,7 +306,7 @@ namespace ElastoSystem
                 string fechafin = txtbFechaTermino.Text;
 
                 string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE Fecha >= '" + fechaini + "' AND Fecha <= '" + fechafin + "'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
@@ -320,7 +319,7 @@ namespace ElastoSystem
                 string fechaini = txtbFechaInicio.Text;
                 string fechafin = txtbFechaTermino.Text;
                 string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE Fecha >= '" + fechaini + "' AND Fecha <= '" + fechafin + "' AND No_Trabajador = '" + no_traba + "'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
@@ -331,7 +330,7 @@ namespace ElastoSystem
                 string fechaini = txtbFechaInicio.Text;
                 string fechafin = txtbFechaTermino.Text;
                 string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE Fecha >= '" + fechaini + "' AND Fecha <= '" + fechafin + "' AND Producto = '" + product + "'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
@@ -343,7 +342,7 @@ namespace ElastoSystem
                 string fechaini = txtbFechaInicio.Text;
                 string fechafin = txtbFechaTermino.Text;
                 string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE Fecha >= '" + fechaini + "' AND Fecha <= '" + fechafin + "' AND Producto = '" + product + "' AND No_Trabajador = '" + not + "'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;

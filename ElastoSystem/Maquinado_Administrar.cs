@@ -38,7 +38,7 @@ namespace ElastoSystem
                                     ELSE 5
                                 END,
                                 ID_MAQUINADO DESC";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionElastoSystem);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgvPendientesMaquinado.DataSource = dt;
@@ -58,7 +58,7 @@ namespace ElastoSystem
         byte[] comprobanteBytes;
         private void MandarALlamarRestoMaquinado()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionElastoSystem);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT ARCHIVO, RUTA FROM elastosystem_maquinado WHERE ID_MAQUINADO LIKE '" + txbFolio.Text + "' ";
@@ -333,7 +333,7 @@ namespace ElastoSystem
             string rutaarchivo = lblRutaComprobante.Text.Replace("\\", "\\\\");
             string estatus = "FINALIZADA";
             string usuario = VariablesGlobales.Usuario;
-            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionElastoSystem);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             try

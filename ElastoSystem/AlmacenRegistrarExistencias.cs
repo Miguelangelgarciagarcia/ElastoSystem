@@ -26,7 +26,7 @@ namespace ElastoSystem
         private void MandarALlamarAlmacen()
         {
             string tabla = "SELECT ID_Producto, Producto, Descripcion, Existencias, Unidad FROM elastosystem_almacen";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
             dgv.DataSource = dt;
@@ -36,7 +36,6 @@ namespace ElastoSystem
             }));
         }
 
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
 
         private void OrdenTab()
         {
@@ -52,7 +51,7 @@ namespace ElastoSystem
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String codigo = txbID.Text;
             MySqlDataReader reader = null;
@@ -101,7 +100,7 @@ namespace ElastoSystem
             if (!string.IsNullOrEmpty(txbID.Text) & !string.IsNullOrEmpty(txbProducto.Text) & !string.IsNullOrEmpty(txbExistencias.Text) & !string.IsNullOrEmpty(txbAdd.Text) & !string.IsNullOrEmpty(txbNotas.Text) & !string.IsNullOrEmpty(txbclave.Text))
             {
                 string query = "SELECT * FROM elastosystem_login WHERE No_Trabajador='" + txbclave.Text + "'";
-                MySqlConnection databaseConnection = new MySqlConnection(connectionString);
+                MySqlConnection databaseConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
                 commandDatabase.CommandTimeout = 60;
                 MySqlDataReader reader;
@@ -144,7 +143,7 @@ namespace ElastoSystem
 
                 try
                 {
-                    MySqlConnection conn = new MySqlConnection(connectionString);
+                    MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                     conn.Open();
                     MySqlCommand cmd = new MySqlCommand();
                     if (labelprueba.Text == "exito")

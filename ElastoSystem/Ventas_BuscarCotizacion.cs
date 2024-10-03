@@ -34,7 +34,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarCotizacion()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT DIA, MES, ANO, IDCLIENTE, DESCUENTO, SUBTOTAL, IVA, TOTAL FROM cotizacion WHERE IDFOLIO LIKE '" + cbFolio.Text + "' ";
@@ -135,7 +135,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarDatosCliente()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT NOMBRE, TELEFONO, EMAIL, CONTACTO FROM clientes WHERE ID LIKE '" + lblIDCliente.Text + "' ";
@@ -173,7 +173,7 @@ namespace ElastoSystem
             try
             {
                 string tabla = "SELECT CLAVE, PRODUCTO, PRECIO, CANTIDAD, TOTAL FROM pedidos WHERE IDFOLIO = '" + cbFolio.Text + "'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionStringelastotec);
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgvListaProductos.DataSource = dt;
@@ -213,7 +213,7 @@ namespace ElastoSystem
         private void Clave()
         {
             cbClave.Items.Clear();
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT CLAVE FROM productos";
@@ -247,7 +247,7 @@ namespace ElastoSystem
         private void Productos()
         {
             cbProductos.Items.Clear();
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT NOMBRE FROM productos";
@@ -279,7 +279,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarContactos()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT CONCAT (ID, '-', CONTACTO) CONTAC FROM clientes";
@@ -315,7 +315,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarEmpresas()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT CONCAT (ID, '-', NOMBRE) NOM FROM clientes";
@@ -351,7 +351,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarInfoEmpresa()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
 
             String empresa = cbEmpresa.Text;
@@ -392,7 +392,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarInfoContacto()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
 
             String contacto = cbContacto.Text;
@@ -434,7 +434,7 @@ namespace ElastoSystem
         private void MandarALlamarFolios()
         {
             cbFolio.Items.Clear();
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT IDFOLIO FROM cotizacion WHERE IDCLIENTE LIKE '" + lblIDConEmp.Text + "'";
@@ -508,7 +508,7 @@ namespace ElastoSystem
         }
         private void InfoClave()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String clave = cbClave.Text;
             MySqlDataReader reader = null;
@@ -541,7 +541,7 @@ namespace ElastoSystem
         }
         private void InfoProducto()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String producto = cbProductos.Text;
             MySqlDataReader reader = null;
@@ -638,7 +638,7 @@ namespace ElastoSystem
             int mes = fechaActual.Month;
             int anio = fechaActual.Year;
 
-            MySqlConnection conn = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             try
@@ -686,7 +686,7 @@ namespace ElastoSystem
         }
         private void EliminarPedidos()
         {
-            MySqlConnection conn = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
@@ -716,7 +716,7 @@ namespace ElastoSystem
                 float cantidad = Convert.ToSingle(dgvListaProductos.Rows[i].Cells["CANTIDAD"].Value);
                 float importe = Convert.ToSingle(dgvListaProductos.Rows[i].Cells["TOTAL"].Value);
 
-                MySqlConnection conn = new MySqlConnection(connectionStringelastotec);
+                MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand();
                 try
@@ -735,8 +735,6 @@ namespace ElastoSystem
                 }
             }
         }
-
-        string connectionStringelastotec = "server=10.120.1.3 ; username=root; password=; database=elastotec";
 
         private void Ventas_BuscarCotizacion_Load(object sender, EventArgs e)
         {

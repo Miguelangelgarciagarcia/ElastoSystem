@@ -48,6 +48,7 @@
             panel3 = new Panel();
             pictureBox3 = new PictureBox();
             pictureBox5 = new PictureBox();
+            lblIP = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -310,6 +311,19 @@
             pictureBox5.TabStop = false;
             pictureBox5.MouseMove += pictureBox5_MouseMove;
             // 
+            // lblIP
+            // 
+            lblIP.AutoSize = true;
+            lblIP.BackColor = Color.Transparent;
+            lblIP.Cursor = Cursors.Hand;
+            lblIP.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            lblIP.ForeColor = SystemColors.AppWorkspace;
+            lblIP.Location = new Point(594, 628);
+            lblIP.Name = "lblIP";
+            lblIP.Size = new Size(68, 16);
+            lblIP.TabIndex = 25;
+            lblIP.Text = "ERROR IP";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
@@ -317,6 +331,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(674, 653);
+            Controls.Add(lblIP);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
@@ -376,5 +391,6 @@
         private Panel panel3;
         private PictureBox pictureBox3;
         private PictureBox pictureBox5;
+        private Label lblIP;
     }
 }

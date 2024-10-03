@@ -17,7 +17,6 @@ namespace ElastoSystem
 {
     public partial class MenuPrincipal : Form
     {
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
         public string TextoLabelID
         {
             set { labelid.Text = value; }
@@ -33,7 +32,7 @@ namespace ElastoSystem
         private void definirMenus()
         {
             string idmenu = labelid.Text;
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
@@ -248,7 +247,7 @@ namespace ElastoSystem
         }
         private void EliminarConsumiblesPorSurtir()
         {
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
@@ -269,7 +268,7 @@ namespace ElastoSystem
         }
         private void PorSurtir()
         {
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
@@ -290,7 +289,7 @@ namespace ElastoSystem
         private void MandarCorreoCompras()
         {
             string tabla = "SELECT * FROM elastosystem_almacenconsumiblesporsurtir";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
             dgv.DataSource = dt;
@@ -652,6 +651,11 @@ namespace ElastoSystem
         {
             openChildForm(new Maquinado_Administrar());
             HideSubMenu();
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

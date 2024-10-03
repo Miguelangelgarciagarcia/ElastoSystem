@@ -21,7 +21,7 @@ namespace ElastoSystem
 
         private void EliminarConsumiblesPorSurtir()
         {
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
@@ -42,7 +42,7 @@ namespace ElastoSystem
         }
         private void PorSurtir()
         {
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
@@ -63,7 +63,7 @@ namespace ElastoSystem
         private void MandarALlamarConsumibles()
         {
             string cons = "SELECT * FROM elastosystem_almacen";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(cons, connectionString);
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(cons, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dta = new DataTable();
             mySqlAdapter.Fill(dta);
             dgvGeneral.DataSource = dta;
@@ -74,12 +74,11 @@ namespace ElastoSystem
             EliminarConsumiblesPorSurtir();
             PorSurtir();
             string tabla = "SELECT * FROM elastosystem_almacenconsumiblesporsurtir";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
             dgv.DataSource = dt;
         }
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
 
         private void button1_Click(object sender, EventArgs e)
         {

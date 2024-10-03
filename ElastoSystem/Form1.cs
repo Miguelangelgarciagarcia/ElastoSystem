@@ -14,8 +14,7 @@ namespace ElastoSystem
         {
             //PRUEBA CONEXION A BASE DE DATOS elastosystem
 
-            string mysqlCon = "server=10.120.1.3; user=root; password=";
-            MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             try
             {
                 mySqlConnection.Open();
@@ -38,7 +37,7 @@ namespace ElastoSystem
             tbpassword.TabIndex = 1;
 
             string query = "SELECT ID, Usuario, Paswd, Estatus FROM elastosystem_login WHERE Usuario = @Usuario";
-            MySqlConnection databaseConnection = new MySqlConnection(connectionString);
+            MySqlConnection databaseConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
             commandDatabase.CommandTimeout = 60;
             commandDatabase.Parameters.AddWithValue("@Usuario", tbusuario.Text);
@@ -109,8 +108,13 @@ namespace ElastoSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            MandarALlamarIP();
 
+        }
 
+        private void MandarALlamarIP()
+        {
+            lblIP.Text = VariablesGlobales.IPServidor;
         }
 
         //CODIGO PARA MOVER PANEL SUPERIOR
@@ -123,9 +127,6 @@ namespace ElastoSystem
         {
 
         }
-
-
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
 
         private void btnlogin_Click(object sender, EventArgs e)
         {

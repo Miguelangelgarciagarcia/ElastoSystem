@@ -29,7 +29,7 @@ namespace ElastoSystem
         }
         private void IDIncremetable()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             int idprod;
@@ -66,7 +66,7 @@ namespace ElastoSystem
         private void LlamarBaseDatosConsumibles()
         {
             string tabla = "SELECT ID_Producto, Producto, Descripcion, Unidad, Stock_Minimo, Estatus FROM elastosystem_almacen";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
             dgvConsumibles.DataSource = dt;
@@ -99,7 +99,7 @@ namespace ElastoSystem
                 {
                     try
                     {
-                        MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+                        MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                         mySqlConnection.Open();
                         MySqlCommand comando = new MySqlCommand();
                         comando.Connection = mySqlConnection;
@@ -196,8 +196,6 @@ namespace ElastoSystem
                 MessageBox.Show("No hay una imagen para guardar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
         private void button2_Click(object sender, EventArgs e)
         {
 
@@ -214,7 +212,7 @@ namespace ElastoSystem
         {
             try
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 mySqlConnection.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = mySqlConnection;

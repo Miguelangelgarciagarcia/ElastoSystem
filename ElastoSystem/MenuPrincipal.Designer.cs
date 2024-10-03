@@ -36,6 +36,7 @@
             PBIconoMin = new PictureBox();
             panelSideMenu = new Panel();
             sbmMaquinado = new Panel();
+            btnHistoricoMaquinado = new Button();
             btnPendientesMaquinado = new Button();
             btnSolicitudMquinado = new Button();
             btnMaquinado = new Button();
@@ -191,13 +192,33 @@
             // sbmMaquinado
             // 
             sbmMaquinado.BackColor = Color.FromArgb(3, 52, 92);
+            sbmMaquinado.Controls.Add(btnHistoricoMaquinado);
             sbmMaquinado.Controls.Add(btnPendientesMaquinado);
             sbmMaquinado.Controls.Add(btnSolicitudMquinado);
             sbmMaquinado.Dock = DockStyle.Top;
             sbmMaquinado.Location = new Point(0, 1103);
             sbmMaquinado.Name = "sbmMaquinado";
-            sbmMaquinado.Size = new Size(187, 83);
+            sbmMaquinado.Size = new Size(187, 124);
             sbmMaquinado.TabIndex = 15;
+            // 
+            // btnHistoricoMaquinado
+            // 
+            btnHistoricoMaquinado.Dock = DockStyle.Top;
+            btnHistoricoMaquinado.Enabled = false;
+            btnHistoricoMaquinado.FlatAppearance.BorderSize = 0;
+            btnHistoricoMaquinado.FlatStyle = FlatStyle.Flat;
+            btnHistoricoMaquinado.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnHistoricoMaquinado.ForeColor = Color.White;
+            btnHistoricoMaquinado.Location = new Point(0, 72);
+            btnHistoricoMaquinado.Name = "btnHistoricoMaquinado";
+            btnHistoricoMaquinado.Padding = new Padding(20, 0, 0, 0);
+            btnHistoricoMaquinado.Size = new Size(187, 36);
+            btnHistoricoMaquinado.TabIndex = 5;
+            btnHistoricoMaquinado.Text = "Historico Maquinado";
+            btnHistoricoMaquinado.TextAlign = ContentAlignment.MiddleLeft;
+            btnHistoricoMaquinado.UseVisualStyleBackColor = true;
+            btnHistoricoMaquinado.Visible = false;
+            btnHistoricoMaquinado.Click += button2_Click_1;
             // 
             // btnPendientesMaquinado
             // 
@@ -484,7 +505,7 @@
             // 
             panel1.Controls.Add(btninfo);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 1186);
+            panel1.Location = new Point(0, 1227);
             panel1.Name = "panel1";
             panel1.Size = new Size(187, 56);
             panel1.TabIndex = 0;
@@ -975,5 +996,6 @@
         private Button btnPendientesMaquinado;
         private Button btnSolicitudMquinado;
         private Button btnMaquinado;
+        private Button btnHistoricoMaquinado;
     }
 }

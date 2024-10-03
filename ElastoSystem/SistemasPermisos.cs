@@ -23,11 +23,10 @@ namespace ElastoSystem
             InitializeComponent();
         }
 
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
 
         private void MandarALlamarUsuarios()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT Usuario FROM elastosystem_login";
@@ -59,7 +58,7 @@ namespace ElastoSystem
 
         private void MandarALlamarNo()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String no = cbUsuarios.Text;
             MySqlDataReader reader = null;
@@ -94,7 +93,7 @@ namespace ElastoSystem
         private void MandarALlamarPermisos()
         {
             string id = lblNumeroTemp.Text;
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
@@ -366,7 +365,7 @@ namespace ElastoSystem
             bool boolSolicitud_Maquinado = chbSolicitudMaquinado.Checked;
             bool boolPendientes_Maquinado = chbPendientesMaquinado.Checked;
 
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             try
@@ -393,7 +392,7 @@ namespace ElastoSystem
             try
             {
                 string userQuery = "SELECT ID, Usuario, Paswd, No_Trabajador, Estatus FROM elastosystem_login";
-                MySqlDataAdapter userinfoAdapter = new MySqlDataAdapter(userQuery, connectionString);
+                MySqlDataAdapter userinfoAdapter = new MySqlDataAdapter(userQuery, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 userinfoAdapter.Fill(dt);
                 dgvUsuarioyPassword.DataSource = dt;
@@ -413,7 +412,7 @@ namespace ElastoSystem
 
         private void Buscador()
         {
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
 
             try
             {
@@ -422,7 +421,7 @@ namespace ElastoSystem
                 string valorBusqueda = txbBuscador.Text;
                 string searchQuery = "SELECT ID, Paswd, Usuario, No_Trabajador, Estatus FROM elastosystem_login WHERE Usuario LIKE @ValorBusqueda OR No_Trabajador LIKE @ValorBusqueda";
 
-                MySqlDataAdapter adaptador = new MySqlDataAdapter(searchQuery, connectionString);
+                MySqlDataAdapter adaptador = new MySqlDataAdapter(searchQuery, VariablesGlobales.ConexionBDElastotecnica);
                 adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
 
                 DataTable tableResultados = new DataTable();
@@ -784,7 +783,7 @@ namespace ElastoSystem
                 return;
             }
 
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -843,7 +842,7 @@ namespace ElastoSystem
                 return;
             }
 
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -906,7 +905,7 @@ namespace ElastoSystem
 
         private void btnEliminar_Click_1(object sender, EventArgs e)
         {
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {

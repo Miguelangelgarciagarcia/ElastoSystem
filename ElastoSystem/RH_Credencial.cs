@@ -28,7 +28,6 @@ namespace ElastoSystem
         {
             InitializeComponent();
         }
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -45,7 +44,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarNoTrabajadores()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT ID FROM elastosystem_rh";
@@ -77,7 +76,7 @@ namespace ElastoSystem
         private void MandarALlamarInformacion()
         {
 
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String codigo = cbClave.Text;
             MySqlDataReader reader = null;
