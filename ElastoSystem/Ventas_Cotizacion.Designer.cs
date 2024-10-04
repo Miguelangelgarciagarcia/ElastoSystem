@@ -178,6 +178,7 @@
             // 
             txbCorreo.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txbCorreo.Location = new Point(145, 177);
+            txbCorreo.MaxLength = 500;
             txbCorreo.Name = "txbCorreo";
             txbCorreo.Size = new Size(1076, 27);
             txbCorreo.TabIndex = 32;

@@ -381,10 +381,12 @@ namespace ElastoSystem
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO elastosystem_ventas_cotizacion (ID, Fecha, ID_Cliente, Descuento, Subtotal, IVA, Total, Sigla03, Excepto) VALUES (@ID, @FECHA, @IDCLIENTE, @DESCUENTO, @SUBTOTAL, @IVA, @TOTAL, @SIGLA03, @EXCEPTO);";
+                cmd.CommandText = "INSERT INTO elastosystem_ventas_cotizacion (ID, Fecha, ID_Cliente, Contacto, Empresa, Descuento, Subtotal, IVA, Total, Sigla03, Excepto) VALUES (@ID, @FECHA, @IDCLIENTE, @CONTACTO, @EMPRESA, @DESCUENTO, @SUBTOTAL, @IVA, @TOTAL, @SIGLA03, @EXCEPTO);";
                 cmd.Parameters.AddWithValue("@ID",lblFolio.Text);
                 cmd.Parameters.AddWithValue("@FECHA",fecha);
                 cmd.Parameters.AddWithValue("@IDCLIENTE",lblIDCliente.Text);
+                cmd.Parameters.AddWithValue("@CONTACTO", txbContacto.Text);
+                cmd.Parameters.AddWithValue("@EMPRESA", txbEmpresa.Text);
                 cmd.Parameters.AddWithValue("@DESCUENTO", txbDescuento.Text);
                 cmd.Parameters.AddWithValue("@SUBTOTAL", txbSubtotal.Text);
                 cmd.Parameters.AddWithValue("@IVA", txbIVA.Text);
@@ -923,7 +925,7 @@ namespace ElastoSystem
             try
             {
                 string valorBusqueda = txbBuscador.Text;
-                string consulta = "SELECT Contacto, Empresa, Telefono, Correo FROM elastosystem_ventas_clientes WHERE Empresa LIKE @ValorBusqueda OR Contacto LIKE @ValorBusqueda";
+                string consulta = "SELECT ID, Contacto, Empresa, Telefono, Correo FROM elastosystem_ventas_clientes WHERE Empresa LIKE @ValorBusqueda OR Contacto LIKE @ValorBusqueda";
 
                 MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
 
@@ -948,28 +950,36 @@ namespace ElastoSystem
 
         private void dgvClientes_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            DataGridView dgv = (DataGridView)sender;
-
-            if (dgv.SelectedCells.Count > 0)
+            try
             {
-                int rowIndex = dgv.SelectedCells[0].RowIndex;
+                DataGridView dgv = (DataGridView)sender;
 
-                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
-                lblIDCliente.Text = id;
+                if (dgv.SelectedCells.Count > 0)
+                {
+                    int rowIndex = dgv.SelectedCells[0].RowIndex;
 
-                string contacto = dgv.Rows[rowIndex].Cells[1].Value.ToString();
-                txbContacto.Text = contacto;
+                    string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                    lblIDCliente.Text = id;
 
-                string empresa = dgv.Rows[rowIndex].Cells[2].Value.ToString();
-                txbEmpresa.Text = empresa;
+                    string contacto = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                    txbContacto.Text = contacto;
 
-                string telefono = dgv.Rows[rowIndex].Cells[3].Value.ToString();
-                txbTelefono.Text = telefono;
+                    string empresa = dgv.Rows[rowIndex].Cells[2].Value.ToString();
+                    txbEmpresa.Text = empresa;
 
-                string correo = dgv.Rows[rowIndex].Cells[4].Value.ToString();
-                txbCorreo.Text = correo;
+                    string telefono = dgv.Rows[rowIndex].Cells[3].Value.ToString();
+                    txbTelefono.Text = telefono;
+
+                    string correo = dgv.Rows[rowIndex].Cells[4].Value.ToString();
+                    txbCorreo.Text = correo;
+                }
+                btnCerrar.PerformClick();
             }
-            btnCerrar.PerformClick();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
     }
 }
