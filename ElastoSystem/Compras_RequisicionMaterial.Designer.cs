@@ -36,6 +36,14 @@
             lblfecha = new Label();
             label5 = new Label();
             panel5 = new Panel();
+            cbTipoUso = new ComboBox();
+            btnModificar = new Button();
+            btnEliminar = new Button();
+            btnNuevo = new Button();
+            label13 = new Label();
+            label12 = new Label();
+            btnAgregar = new Button();
+            txbNotas = new TextBox();
             cbProveedor = new ComboBox();
             label10 = new Label();
             cbUnidad = new ComboBox();
@@ -50,36 +58,19 @@
             panel1 = new Panel();
             label14 = new Label();
             dgvListaMateriales = new DataGridView();
+            panel4 = new Panel();
+            btnRequerimiento = new Button();
             Descripcion = new DataGridViewTextBoxColumn();
             Cantidad = new DataGridViewTextBoxColumn();
             Unidad = new DataGridViewTextBoxColumn();
             Precio = new DataGridViewTextBoxColumn();
             Proveedor = new DataGridViewTextBoxColumn();
-            btnAgregar = new Button();
-            btnModificar = new Button();
-            btnEliminar = new Button();
-            panel2 = new Panel();
-            panel4 = new Panel();
-            cbUsuarios = new ComboBox();
-            label15 = new Label();
-            btnRequerimiento = new Button();
-            label4 = new Label();
-            txbUsuario = new TextBox();
-            label11 = new Label();
-            btnEnviarReq = new Button();
-            txbPassword = new TextBox();
-            panel3 = new Panel();
-            cbTipoUso = new ComboBox();
-            label13 = new Label();
-            label12 = new Label();
-            txbNotas = new TextBox();
-            btnNuevo = new Button();
+            TipoUso = new DataGridViewTextBoxColumn();
+            Comentarios = new DataGridViewTextBoxColumn();
             panel5.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaMateriales).BeginInit();
-            panel2.SuspendLayout();
             panel4.SuspendLayout();
-            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -145,6 +136,14 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(3, 42, 76);
+            panel5.Controls.Add(cbTipoUso);
+            panel5.Controls.Add(btnModificar);
+            panel5.Controls.Add(btnEliminar);
+            panel5.Controls.Add(btnNuevo);
+            panel5.Controls.Add(label13);
+            panel5.Controls.Add(label12);
+            panel5.Controls.Add(btnAgregar);
+            panel5.Controls.Add(txbNotas);
             panel5.Controls.Add(cbProveedor);
             panel5.Controls.Add(label10);
             panel5.Controls.Add(cbUnidad);
@@ -158,9 +157,120 @@
             panel5.Controls.Add(txbDescripcion);
             panel5.Location = new Point(24, 105);
             panel5.Name = "panel5";
-            panel5.Size = new Size(564, 385);
+            panel5.Size = new Size(564, 670);
             panel5.TabIndex = 20;
             panel5.Paint += panel5_Paint;
+            // 
+            // cbTipoUso
+            // 
+            cbTipoUso.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbTipoUso.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            cbTipoUso.FormattingEnabled = true;
+            cbTipoUso.Items.AddRange(new object[] { "ACTIVO FIJO", "ENERGIA ELECTRICA", "GASTOS ADMINISTRATIVOS", "HERRAMIENTAS", "INTERNET Y TELEFONO", "LIMPIEZA", "MANTENIMIENTO", "MATERIA PRIMA", "PAPELERIA", "REFACCIONES", "UNIFORMES", "VIGILANCIA", "OTROS" });
+            cbTipoUso.Location = new Point(147, 371);
+            cbTipoUso.Name = "cbTipoUso";
+            cbTipoUso.Size = new Size(393, 30);
+            cbTipoUso.TabIndex = 15;
+            // 
+            // btnModificar
+            // 
+            btnModificar.BackColor = Color.FromArgb(255, 102, 0);
+            btnModificar.Cursor = Cursors.Hand;
+            btnModificar.Enabled = false;
+            btnModificar.FlatAppearance.BorderSize = 0;
+            btnModificar.FlatStyle = FlatStyle.Flat;
+            btnModificar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnModificar.ForeColor = Color.White;
+            btnModificar.Location = new Point(224, 623);
+            btnModificar.Name = "btnModificar";
+            btnModificar.Size = new Size(113, 30);
+            btnModificar.TabIndex = 23;
+            btnModificar.Text = "MODIFICAR";
+            btnModificar.UseVisualStyleBackColor = false;
+            btnModificar.Click += btnModificar_Click;
+            // 
+            // btnEliminar
+            // 
+            btnEliminar.BackColor = Color.FromArgb(255, 102, 0);
+            btnEliminar.Cursor = Cursors.Hand;
+            btnEliminar.Enabled = false;
+            btnEliminar.FlatAppearance.BorderSize = 0;
+            btnEliminar.FlatStyle = FlatStyle.Flat;
+            btnEliminar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEliminar.ForeColor = Color.White;
+            btnEliminar.Location = new Point(26, 624);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(113, 30);
+            btnEliminar.TabIndex = 24;
+            btnEliminar.Text = "ELIMINAR";
+            btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Click += btnEliminar_Click;
+            // 
+            // btnNuevo
+            // 
+            btnNuevo.BackColor = Color.FromArgb(255, 102, 0);
+            btnNuevo.Cursor = Cursors.Hand;
+            btnNuevo.FlatAppearance.BorderSize = 0;
+            btnNuevo.FlatStyle = FlatStyle.Flat;
+            btnNuevo.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnNuevo.ForeColor = Color.White;
+            btnNuevo.Location = new Point(415, 623);
+            btnNuevo.Name = "btnNuevo";
+            btnNuevo.Size = new Size(113, 30);
+            btnNuevo.TabIndex = 27;
+            btnNuevo.Text = "NUEVO";
+            btnNuevo.UseVisualStyleBackColor = false;
+            btnNuevo.Visible = false;
+            btnNuevo.Click += btnNuevo_Click;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.BackColor = Color.Transparent;
+            label13.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label13.ForeColor = Color.White;
+            label13.Location = new Point(26, 374);
+            label13.Name = "label13";
+            label13.Size = new Size(104, 22);
+            label13.TabIndex = 14;
+            label13.Text = "Tipo de Uso";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.BackColor = Color.Transparent;
+            label12.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label12.ForeColor = Color.White;
+            label12.Location = new Point(25, 423);
+            label12.Name = "label12";
+            label12.Size = new Size(256, 22);
+            label12.TabIndex = 15;
+            label12.Text = "Proyecto / Notas / Comentarios";
+            // 
+            // btnAgregar
+            // 
+            btnAgregar.BackColor = Color.FromArgb(255, 102, 0);
+            btnAgregar.Cursor = Cursors.Hand;
+            btnAgregar.FlatAppearance.BorderSize = 0;
+            btnAgregar.FlatStyle = FlatStyle.Flat;
+            btnAgregar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnAgregar.ForeColor = Color.White;
+            btnAgregar.Location = new Point(415, 623);
+            btnAgregar.Name = "btnAgregar";
+            btnAgregar.Size = new Size(113, 30);
+            btnAgregar.TabIndex = 22;
+            btnAgregar.Text = "AGREGAR";
+            btnAgregar.UseVisualStyleBackColor = false;
+            btnAgregar.Click += button1_Click;
+            // 
+            // txbNotas
+            // 
+            txbNotas.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNotas.Location = new Point(25, 448);
+            txbNotas.Multiline = true;
+            txbNotas.Name = "txbNotas";
+            txbNotas.Size = new Size(515, 158);
+            txbNotas.TabIndex = 14;
             // 
             // cbProveedor
             // 
@@ -287,9 +397,9 @@
             panel1.BackColor = Color.FromArgb(3, 42, 76);
             panel1.Controls.Add(label14);
             panel1.Controls.Add(dgvListaMateriales);
-            panel1.Location = new Point(713, 105);
+            panel1.Location = new Point(594, 105);
             panel1.Name = "panel1";
-            panel1.Size = new Size(599, 385);
+            panel1.Size = new Size(718, 596);
             panel1.TabIndex = 21;
             // 
             // label14
@@ -318,7 +428,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvListaMateriales.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Descripcion, Cantidad, Unidad, Precio, Proveedor });
+            dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios });
             dgvListaMateriales.Enabled = false;
             dgvListaMateriales.Location = new Point(16, 36);
             dgvListaMateriales.Name = "dgvListaMateriales";
@@ -332,9 +442,34 @@
             dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvListaMateriales.RowTemplate.Height = 25;
             dgvListaMateriales.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvListaMateriales.Size = new Size(567, 331);
+            dgvListaMateriales.Size = new Size(688, 546);
             dgvListaMateriales.TabIndex = 19;
             dgvListaMateriales.DoubleClick += dgvListaMateriales_DoubleClick;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.FromArgb(3, 42, 76);
+            panel4.Controls.Add(btnRequerimiento);
+            panel4.Location = new Point(594, 707);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(718, 68);
+            panel4.TabIndex = 28;
+            // 
+            // btnRequerimiento
+            // 
+            btnRequerimiento.BackColor = Color.FromArgb(255, 102, 0);
+            btnRequerimiento.Cursor = Cursors.Hand;
+            btnRequerimiento.FlatAppearance.BorderSize = 0;
+            btnRequerimiento.FlatStyle = FlatStyle.Flat;
+            btnRequerimiento.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnRequerimiento.ForeColor = Color.White;
+            btnRequerimiento.Location = new Point(97, 15);
+            btnRequerimiento.Name = "btnRequerimiento";
+            btnRequerimiento.Size = new Size(542, 36);
+            btnRequerimiento.TabIndex = 13;
+            btnRequerimiento.Text = "Enviar Requerimiento";
+            btnRequerimiento.UseVisualStyleBackColor = false;
+            btnRequerimiento.Click += button1_Click_1;
             // 
             // Descripcion
             // 
@@ -361,251 +496,15 @@
             Proveedor.HeaderText = "Proveedor";
             Proveedor.Name = "Proveedor";
             // 
-            // btnAgregar
+            // TipoUso
             // 
-            btnAgregar.BackColor = Color.FromArgb(255, 102, 0);
-            btnAgregar.Cursor = Cursors.Hand;
-            btnAgregar.FlatAppearance.BorderSize = 0;
-            btnAgregar.FlatStyle = FlatStyle.Flat;
-            btnAgregar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            btnAgregar.ForeColor = Color.White;
-            btnAgregar.Location = new Point(594, 213);
-            btnAgregar.Name = "btnAgregar";
-            btnAgregar.Size = new Size(113, 30);
-            btnAgregar.TabIndex = 22;
-            btnAgregar.Text = "AGREGAR";
-            btnAgregar.UseVisualStyleBackColor = false;
-            btnAgregar.Click += button1_Click;
+            TipoUso.HeaderText = "TipoUso";
+            TipoUso.Name = "TipoUso";
             // 
-            // btnModificar
+            // Comentarios
             // 
-            btnModificar.BackColor = Color.FromArgb(255, 102, 0);
-            btnModificar.Cursor = Cursors.Hand;
-            btnModificar.Enabled = false;
-            btnModificar.FlatAppearance.BorderSize = 0;
-            btnModificar.FlatStyle = FlatStyle.Flat;
-            btnModificar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            btnModificar.ForeColor = Color.White;
-            btnModificar.Location = new Point(594, 311);
-            btnModificar.Name = "btnModificar";
-            btnModificar.Size = new Size(113, 30);
-            btnModificar.TabIndex = 23;
-            btnModificar.Text = "MODIFICAR";
-            btnModificar.UseVisualStyleBackColor = false;
-            btnModificar.Click += btnModificar_Click;
-            // 
-            // btnEliminar
-            // 
-            btnEliminar.BackColor = Color.FromArgb(255, 102, 0);
-            btnEliminar.Cursor = Cursors.Hand;
-            btnEliminar.Enabled = false;
-            btnEliminar.FlatAppearance.BorderSize = 0;
-            btnEliminar.FlatStyle = FlatStyle.Flat;
-            btnEliminar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            btnEliminar.ForeColor = Color.White;
-            btnEliminar.Location = new Point(594, 261);
-            btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(113, 30);
-            btnEliminar.TabIndex = 24;
-            btnEliminar.Text = "ELIMINAR";
-            btnEliminar.UseVisualStyleBackColor = false;
-            btnEliminar.Click += btnEliminar_Click;
-            // 
-            // panel2
-            // 
-            panel2.BackColor = Color.FromArgb(3, 42, 76);
-            panel2.Controls.Add(panel4);
-            panel2.Controls.Add(label4);
-            panel2.Controls.Add(txbUsuario);
-            panel2.Controls.Add(label11);
-            panel2.Controls.Add(btnEnviarReq);
-            panel2.Controls.Add(txbPassword);
-            panel2.Location = new Point(859, 523);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(453, 223);
-            panel2.TabIndex = 25;
-            // 
-            // panel4
-            // 
-            panel4.BackColor = Color.FromArgb(3, 42, 76);
-            panel4.Controls.Add(cbUsuarios);
-            panel4.Controls.Add(label15);
-            panel4.Controls.Add(btnRequerimiento);
-            panel4.Location = new Point(0, 0);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(453, 223);
-            panel4.TabIndex = 28;
-            // 
-            // cbUsuarios
-            // 
-            cbUsuarios.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbUsuarios.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            cbUsuarios.FormattingEnabled = true;
-            cbUsuarios.Location = new Point(116, 51);
-            cbUsuarios.Name = "cbUsuarios";
-            cbUsuarios.Size = new Size(321, 30);
-            cbUsuarios.TabIndex = 16;
-            cbUsuarios.SelectedIndexChanged += cbUsuarios_SelectedIndexChanged;
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.BackColor = Color.Transparent;
-            label15.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label15.ForeColor = Color.White;
-            label15.Location = new Point(21, 54);
-            label15.Name = "label15";
-            label15.Size = new Size(78, 22);
-            label15.TabIndex = 3;
-            label15.Text = "Usuario:";
-            // 
-            // btnRequerimiento
-            // 
-            btnRequerimiento.BackColor = Color.FromArgb(255, 102, 0);
-            btnRequerimiento.Cursor = Cursors.Hand;
-            btnRequerimiento.FlatAppearance.BorderSize = 0;
-            btnRequerimiento.FlatStyle = FlatStyle.Flat;
-            btnRequerimiento.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
-            btnRequerimiento.ForeColor = Color.White;
-            btnRequerimiento.Location = new Point(123, 142);
-            btnRequerimiento.Name = "btnRequerimiento";
-            btnRequerimiento.Size = new Size(238, 54);
-            btnRequerimiento.TabIndex = 13;
-            btnRequerimiento.Text = "Enviar Requerimiento";
-            btnRequerimiento.UseVisualStyleBackColor = false;
-            btnRequerimiento.Click += button1_Click_1;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label4.ForeColor = Color.White;
-            label4.Location = new Point(76, 40);
-            label4.Name = "label4";
-            label4.Size = new Size(78, 22);
-            label4.TabIndex = 3;
-            label4.Text = "Usuario:";
-            // 
-            // txbUsuario
-            // 
-            txbUsuario.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbUsuario.Location = new Point(160, 37);
-            txbUsuario.Name = "txbUsuario";
-            txbUsuario.Size = new Size(244, 27);
-            txbUsuario.TabIndex = 4;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.BackColor = Color.Transparent;
-            label11.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label11.ForeColor = Color.White;
-            label11.Location = new Point(45, 90);
-            label11.Name = "label11";
-            label11.Size = new Size(109, 22);
-            label11.TabIndex = 5;
-            label11.Text = "Contraseña:";
-            // 
-            // btnEnviarReq
-            // 
-            btnEnviarReq.BackColor = Color.FromArgb(255, 102, 0);
-            btnEnviarReq.Cursor = Cursors.Hand;
-            btnEnviarReq.FlatAppearance.BorderSize = 0;
-            btnEnviarReq.FlatStyle = FlatStyle.Flat;
-            btnEnviarReq.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
-            btnEnviarReq.ForeColor = Color.White;
-            btnEnviarReq.Location = new Point(123, 142);
-            btnEnviarReq.Name = "btnEnviarReq";
-            btnEnviarReq.Size = new Size(238, 54);
-            btnEnviarReq.TabIndex = 13;
-            btnEnviarReq.Text = "Enviar Requerimiento";
-            btnEnviarReq.UseVisualStyleBackColor = false;
-            btnEnviarReq.Click += btnEnviarReq_Click;
-            btnEnviarReq.KeyPress += btnEnviarReq_KeyPress;
-            // 
-            // txbPassword
-            // 
-            txbPassword.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbPassword.Location = new Point(160, 85);
-            txbPassword.Name = "txbPassword";
-            txbPassword.Size = new Size(244, 27);
-            txbPassword.TabIndex = 6;
-            txbPassword.UseSystemPasswordChar = true;
-            txbPassword.KeyPress += txbPassword_KeyPress;
-            // 
-            // panel3
-            // 
-            panel3.BackColor = Color.FromArgb(3, 42, 76);
-            panel3.Controls.Add(cbTipoUso);
-            panel3.Controls.Add(label13);
-            panel3.Controls.Add(label12);
-            panel3.Controls.Add(txbNotas);
-            panel3.Location = new Point(24, 523);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(811, 223);
-            panel3.TabIndex = 26;
-            // 
-            // cbTipoUso
-            // 
-            cbTipoUso.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbTipoUso.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            cbTipoUso.FormattingEnabled = true;
-            cbTipoUso.Items.AddRange(new object[] { "ACTIVO FIJO", "ENERGIA ELECTRICA", "GASTOS ADMINISTRATIVOS", "HERRAMIENTAS", "INTERNET Y TELEFONO", "LIMPIEZA", "MANTENIMIENTO", "MATERIA PRIMA", "PAPELERIA", "REFACCIONES", "UNIFORMES", "VIGILANCIA", "OTROS" });
-            cbTipoUso.Location = new Point(563, 90);
-            cbTipoUso.Name = "cbTipoUso";
-            cbTipoUso.Size = new Size(229, 30);
-            cbTipoUso.TabIndex = 15;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.BackColor = Color.Transparent;
-            label13.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label13.ForeColor = Color.White;
-            label13.Location = new Point(627, 65);
-            label13.Name = "label13";
-            label13.Size = new Size(104, 22);
-            label13.TabIndex = 14;
-            label13.Text = "Tipo de Uso";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.BackColor = Color.Transparent;
-            label12.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label12.ForeColor = Color.White;
-            label12.Location = new Point(25, 21);
-            label12.Name = "label12";
-            label12.Size = new Size(256, 22);
-            label12.TabIndex = 7;
-            label12.Text = "Proyecto / Notas / Comentarios";
-            // 
-            // txbNotas
-            // 
-            txbNotas.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbNotas.Location = new Point(25, 46);
-            txbNotas.Multiline = true;
-            txbNotas.Name = "txbNotas";
-            txbNotas.Size = new Size(515, 136);
-            txbNotas.TabIndex = 6;
-            // 
-            // btnNuevo
-            // 
-            btnNuevo.BackColor = Color.FromArgb(255, 102, 0);
-            btnNuevo.Cursor = Cursors.Hand;
-            btnNuevo.FlatAppearance.BorderSize = 0;
-            btnNuevo.FlatStyle = FlatStyle.Flat;
-            btnNuevo.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            btnNuevo.ForeColor = Color.White;
-            btnNuevo.Location = new Point(594, 213);
-            btnNuevo.Name = "btnNuevo";
-            btnNuevo.Size = new Size(113, 30);
-            btnNuevo.TabIndex = 27;
-            btnNuevo.Text = "NUEVO";
-            btnNuevo.UseVisualStyleBackColor = false;
-            btnNuevo.Visible = false;
-            btnNuevo.Click += btnNuevo_Click;
+            Comentarios.HeaderText = "Comentarios";
+            Comentarios.Name = "Comentarios";
             // 
             // Compras_RequisicionMaterial
             // 
@@ -613,12 +512,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
-            Controls.Add(btnNuevo);
-            Controls.Add(panel3);
-            Controls.Add(panel2);
-            Controls.Add(btnEliminar);
-            Controls.Add(btnModificar);
-            Controls.Add(btnAgregar);
+            Controls.Add(panel4);
             Controls.Add(panel1);
             Controls.Add(panel5);
             Controls.Add(lblFolio);
@@ -635,12 +529,7 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaMateriales).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
             panel4.ResumeLayout(false);
-            panel4.PerformLayout();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -668,28 +557,21 @@
         private TextBox txbCantidad;
         private ComboBox cbProveedor;
         private Label label10;
-        private Panel panel2;
-        private Label label4;
-        private TextBox txbUsuario;
-        private Label label11;
-        private Button btnEnviarReq;
-        private TextBox txbPassword;
-        private Panel panel3;
         private ComboBox cbTipoUso;
         private Label label13;
-        private Label label12;
-        private TextBox txbNotas;
         private Label label14;
         private DataGridView dgvListaMateriales;
+        private Button btnNuevo;
+        private Label label12;
+        private TextBox txbNotas;
+        private Panel panel4;
+        private Button btnRequerimiento;
         private DataGridViewTextBoxColumn Descripcion;
         private DataGridViewTextBoxColumn Cantidad;
         private DataGridViewTextBoxColumn Unidad;
         private DataGridViewTextBoxColumn Precio;
         private DataGridViewTextBoxColumn Proveedor;
-        private Button btnNuevo;
-        private Panel panel4;
-        private ComboBox cbUsuarios;
-        private Label label15;
-        private Button btnRequerimiento;
+        private DataGridViewTextBoxColumn TipoUso;
+        private DataGridViewTextBoxColumn Comentarios;
     }
 }

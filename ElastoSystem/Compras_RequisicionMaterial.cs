@@ -36,9 +36,11 @@ namespace ElastoSystem
                     string cantidadsnt = txbCantidad.Text;
                     string unidadsnt = cbUnidad.Text;
                     string proveedorsnt = cbProveedor.Text;
-                    dgvListaMateriales.Rows.Add(descripcionsnt, cantidadsnt, unidadsnt, preciosnt, proveedorsnt);
+                    string tipouso = cbTipoUso.Text;
+                    string comentarios = txbNotas.Text;
+                    dgvListaMateriales.Rows.Add(descripcionsnt, cantidadsnt, unidadsnt, preciosnt, proveedorsnt, tipouso, comentarios);
 
-                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null;
+                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear();
                     dgvListaMateriales.Enabled = true;
                 }
                 else
@@ -48,9 +50,11 @@ namespace ElastoSystem
                     string unidad = cbUnidad.Text;
                     string precio = txbPrecio.Text;
                     string proveedor = cbProveedor.Text;
-                    dgvListaMateriales.Rows.Add(descripcion, cantidad, unidad, precio, proveedor);
+                    string tipouso = cbTipoUso.Text;
+                    string comentarios = txbNotas.Text;
+                    dgvListaMateriales.Rows.Add(descripcion, cantidad, unidad, precio, proveedor, tipouso, comentarios);
 
-                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null;
+                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear();
                     dgvListaMateriales.Enabled = true;
                 }
 
@@ -73,17 +77,16 @@ namespace ElastoSystem
             {
                 dgvListaMateriales.Rows.Remove(row);
             }
-            txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null;
+            txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text=null; txbNotas.Clear();
             btnEliminar.Enabled = false;
             btnModificar.Enabled = false;
             btnAgregar.Visible = true;
             btnNuevo.Visible = false;
             txbDescripcion.Focus();
-            dgvListaMateriales.Enabled = false;
         }
         private void Nuevo()
         {
-            txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null;
+            txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear();
             btnEliminar.Enabled = false;
             btnModificar.Enabled = false;
             btnAgregar.Visible = true;
@@ -100,10 +103,10 @@ namespace ElastoSystem
         }
         private void MaNdarALlamarProveedores()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringb);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
-            string sql = "SELECT NOMBRE FROM proveedores";
+            string sql = "SELECT Nombre FROM elastosystem_compras_proveedores";
             try
             {
                 HashSet<string> unicos = new HashSet<string>();
@@ -140,48 +143,7 @@ namespace ElastoSystem
         }
         private void Folio()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringb);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            string sql = "SELECT IDFOLIO FROM folioreq";
-
-            try
-            {
-                int ultimoFolio = 0;
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        string folioString = reader["IDFOLIO"].ToString();
-                        if (int.TryParse(folioString, out int folio))
-                        {
-                            ultimoFolio = folio;
-                        }
-                        else
-                        {
-
-                        }
-                    }
-                    ultimoFolio = ultimoFolio + 1;
-                    lblFolio.Text = ultimoFolio.ToString();
-                }
-                else
-                {
-
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-            /*
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT ID FROM elastosystem_compras_requisicion";
@@ -221,47 +183,19 @@ namespace ElastoSystem
             {
                 mySqlConnection.Close();
             }
-            */
-        }
-        private void MandarAIndicador()
-        {
-            DateTime fechainicio = DateTime.Now;
-            string fechai = fechainicio.ToString("yyyy-MM-dd");
-            int folio = int.Parse(lblFolio.Text);
-            string fechacero = "0000-00-00";
-            MySqlConnection conn = new MySqlConnection(connectionStringb);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand();
-            try
-            {
-                cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO indicador_compras (FOLIO_REQ, FECHA_REQ, FECHA_ORD) VALUES ('" + folio + "','" + fechai + "','"+fechacero+"');";
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
         }
         private void EnviarRequerimiento()
         {
-            DateTime fechainicio = DateTime.Now;
-            int dia = fechainicio.Day;
-            int mes = fechainicio.Month;
-            int anio = fechainicio.Year;
-            MySqlConnection conn = new MySqlConnection(connectionStringb);
+            string fecha = DateTime.Now.ToString("yyyy/MM/dd");
+            string estatus = "ABIERTA";
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "SELECT COUNT(*) FROM folioreq WHERE IDFOLIO = @IDFOLIO";
-                cmd.Parameters.AddWithValue("@IDFOLIO", lblFolio.Text);
+                cmd.CommandText = "SELECT COUNT(*) FROM elastosystem_compras_requisicion WHERE ID = @ID";
+                cmd.Parameters.AddWithValue("@ID", lblFolio.Text);
 
                 int count = Convert.ToInt32(cmd.ExecuteScalar());
                 if (count > 0)
@@ -271,20 +205,15 @@ namespace ElastoSystem
                 }
                 else
                 {
-                    OcuparFolio();
-                    cmd.CommandText = "INSERT INTO reqversion2 (ID_REQ, SOLICITANTE, DIA, MES, ANO, NOTAS, USO)" + "VALUES (@ID_REQ, @SOLICITANTE, @DIA, @MES, @ANO, @NOTAS, @USO)";
-                    cmd.Parameters.AddWithValue("@ID_REQ", lblFolio.Text);
-                    cmd.Parameters.AddWithValue("@SOLICITANTE", cbUsuarios.Text);
-                    cmd.Parameters.AddWithValue("@DIA", dia);
-                    cmd.Parameters.AddWithValue("@MES", mes);
-                    cmd.Parameters.AddWithValue("@ANO", anio);
-                    cmd.Parameters.AddWithValue("@NOTAS", txbNotas.Text);
-                    cmd.Parameters.AddWithValue("@USO", cbTipoUso.Text);
+                    cmd.CommandText = "INSERT INTO elastosystem_compras_requisicion (ID, Usuario, Fecha, Estatus)" + "VALUES (@IDREQ, @SOLICITANTE, @FECHA, @ESTATUS)";
+                    cmd.Parameters.AddWithValue("@IDREQ", lblFolio.Text);
+                    cmd.Parameters.AddWithValue("@SOLICITANTE", VariablesGlobales.Usuario);
+                    cmd.Parameters.AddWithValue("@FECHA", fecha);
+                    cmd.Parameters.AddWithValue("@ESTATUS", estatus);
 
                     cmd.ExecuteNonQuery();
-                    MandarAIndicador();
                     EnviarRequisicionDesglosada();
-                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; dgvListaMateriales.Rows.Clear(); txbNotas.Clear(); cbTipoUso.Text = null; txbUsuario.Clear(); txbPassword.Clear();
+                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; dgvListaMateriales.Rows.Clear(); txbNotas.Clear(); cbTipoUso.Text = null;
                     MessageBox.Show("Orden: " + lblFolio.Text + " enviada con exito");
                     Folio();
                 }
@@ -294,99 +223,6 @@ namespace ElastoSystem
                 MessageBox.Show(e.Message);
             }
             finally { conn.Close(); }
-
-
-            /*
-            try
-            {
-                cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO reqversion2 (ID_REQ, SOLICITANTE, DIA, MES, ANO, NOTAS, USO) VALUES ('" + lblFolio.Text + "', '" + cbUsuarios.Text + "', '" + dia + "', '" + mes + "', '" + anio + "', '" + txbNotas.Text + "', '" + cbTipoUso.Text + "');";
-                cmd.ExecuteNonQuery();
-                conn.Close();
-                EnviarRequisicionDesglosada();
-                OcuparFolio();
-                MandarAIndicador();
-                txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; dgvListaMateriales.Rows.Clear(); txbNotas.Clear(); cbTipoUso.Text = null; txbUsuario.Clear(); txbPassword.Clear();
-                MessageBox.Show("Orden: " + lblFolio.Text + " enviada con exito");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            Folio();
-            */
-
-
-
-            //CODIGO QUE FUNCIONA CON LA BASE DE DATOS ELASTOSYSTEM
-            /*
-            if (dgvListaMateriales.RowCount > 0)
-            {
-                string query = "SELECT * FROM elastosystem_login WHERE Usuario='" + txbUsuario.Text + "' AND Password='" + txbPassword.Text + "'";
-                MySqlConnection databaseConnection = new MySqlConnection(connectionString);
-                MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
-                commandDatabase.CommandTimeout = 60;
-                MySqlDataReader reader;
-                int verificacion = 0;
-                try
-                {
-                    databaseConnection.Open();
-                    reader = commandDatabase.ExecuteReader();
-
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            verificacion = 1;
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("ERROR en Usuario o Contraseña, vuelve a intentarlo");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    databaseConnection.Close();
-                }
-                if (verificacion == 0)
-                {
-
-                }
-                else
-                {
-                    DateTime fechainicio = DateTime.Now;
-                    string fechai = fechainicio.ToString("yyyy-MM-dd");
-                    string estatus = "PENDIENTE";
-                    MySqlConnection conn = new MySqlConnection(connectionString);
-                    conn.Open();
-                    MySqlCommand cmd = new MySqlCommand();
-                    try
-                    {
-                        cmd.Connection = conn;
-                        cmd.CommandText = "INSERT INTO elastosystem_compras_requisicion (ID, Usuario, Fecha, Notas, TipoUso, Estatus) VALUES ('" + lblFolio.Text + "', '" + txbUsuario.Text + "', '" + fechai + "', '" + txbNotas.Text + "', '" + cbTipoUso.Text + "', '" + estatus + "');";
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                        EnviarRequisicionDesglosada();
-                        txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; dgvListaMateriales.Rows.Clear(); txbNotas.Clear(); cbTipoUso.Text = null; txbUsuario.Clear(); txbPassword.Clear();
-                        MessageBox.Show("Orden: " + lblFolio.Text + " enviada con exito");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    Folio();
-                }
-            }
-            else
-            {
-                MessageBox.Show("No puedes enviar un requisicion vacia");
-            }
-            */
         }
         private void EnviarRequisicionDesglosada()
         {
@@ -398,15 +234,26 @@ namespace ElastoSystem
                 string unidad = dgvListaMateriales.Rows[i].Cells["Unidad"].Value.ToString();
                 float precio = Convert.ToSingle(dgvListaMateriales.Rows[i].Cells["Precio"].Value);
                 string proveedor = dgvListaMateriales.Rows[i].Cells["Proveedor"].Value.ToString();
-                string estatus = "PENDIENTE";
+                string tipouso = dgvListaMateriales.Rows[i].Cells["TipoUso"].Value.ToString();
+                string comentarios = dgvListaMateriales.Rows[i].Cells["Comentarios"].Value.ToString();
+                string estatus = "ABIERTA";
 
-                MySqlConnection conn = new MySqlConnection(connectionStringb);
+                MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand();
                 try
                 {
                     cmd.Connection = conn;
-                    cmd.CommandText = "INSERT INTO req_partidas (DESCRIPCION_P, CANTIDAD_P, UNIDAD_P, PRECIO_P, PROVEEDOR_P, STATUS_P, IDFOLIO) VALUES ('" + descripcion + "', '" + cantidad + "', '" + unidad + "', '" + precio + "', '" + proveedor + "', '" + estatus + "', '" + lblFolio.Text + "');";
+                    cmd.CommandText = "INSERT INTO elastosystem_compras_requisicion_desglosada (ID, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Estatus) VALUES (@ID, @DESCRIPCION, @CANTIDAD, @UNIDAD, @PRECIO, @PROVEEDOR, @TIPOUSO, @COMENTARIOS, @ESTATUS);";
+                    cmd.Parameters.AddWithValue("@ID", lblFolio.Text);
+                    cmd.Parameters.AddWithValue("@DESCRIPCION", descripcion);
+                    cmd.Parameters.AddWithValue("@CANTIDAD", cantidad);
+                    cmd.Parameters.AddWithValue("@UNIDAD", unidad);
+                    cmd.Parameters.AddWithValue("@PRECIO", precio);
+                    cmd.Parameters.AddWithValue("@PROVEEDOR",proveedor);
+                    cmd.Parameters.AddWithValue("@TIPOUSO", tipouso);
+                    cmd.Parameters.AddWithValue("@COMENTARIOS", comentarios);
+                    cmd.Parameters.AddWithValue("@ESTATUS", estatus);
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -418,62 +265,6 @@ namespace ElastoSystem
                     conn.Close();
                 }
             }
-        }
-        private void CargarUsuarios()
-        {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringb);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            string sql = "SELECT APATERNO, AMATERNO, NOMBRE FROM empleados WHERE PERMISO = 2";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        string apaterno = reader["APATERNO"].ToString();
-                        string amaterno = reader["AMATERNO"].ToString();
-                        string nombre = reader["NOMBRE"].ToString();
-
-
-                        string nombreCompleto = $"{nombre} {apaterno} {amaterno}";
-
-                        if (!cbUsuarios.Items.Contains(nombreCompleto))
-                        {
-                            cbUsuarios.Items.Add(nombreCompleto);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                // Cerrar la conexión
-                mySqlConnection.Close();
-            }
-        }
-        private void OcuparFolio()
-        {
-            MySqlConnection conn = new MySqlConnection(connectionStringb);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand();
-            try
-            {
-                cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO folioreq (IDFOLIO) VALUES ('" + lblFolio.Text + "');";
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally { conn.Close(); }
         }
         private void label3_Click(object sender, EventArgs e)
         {
@@ -493,15 +284,10 @@ namespace ElastoSystem
         private void Compras_RequisicionMaterial_Load(object sender, EventArgs e)
         {
             MaNdarALlamarProveedores();
-            CargarUsuarios();
             Fecha();
             Folio();
             Tabs();
         }
-
-
-        string connectionStringb = "server=10.120.1.3 ; username=root; password= ; database=elastotec";
-        string connectionString = "server=10.120.1.3 ; username=root; password= ; database=elastosystem";
 
         private void dgvListaMateriales_DoubleClick(object sender, EventArgs e)
         {
@@ -531,6 +317,11 @@ namespace ElastoSystem
                 string proveedor = dgv.Rows[rowIndex].Cells[4].Value.ToString();
                 cbProveedor.Text = proveedor;
 
+                string tipouso = dgv.Rows[rowIndex].Cells[5].Value.ToString();
+                cbTipoUso.Text = tipouso;
+
+                string comentarios = dgv.Rows[rowIndex].Cells[6].Value.ToString();
+                txbNotas.Text = comentarios;
             }
         }
 
