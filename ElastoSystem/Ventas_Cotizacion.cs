@@ -36,11 +36,11 @@ namespace ElastoSystem
         }
         private void Folio()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             int idprod;
-            string sql = "SELECT IDFOLIO FROM foliocot ORDER BY IDFOLIO DESC LIMIT 1 ";
+            string sql = "SELECT ID FROM elastosystem_ventas_cotizacion ORDER BY ID DESC LIMIT 1 ";
             try
             {
                 MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
@@ -50,9 +50,9 @@ namespace ElastoSystem
                 {
                     while (reader.Read())
                     {
-                        idprod = Convert.ToInt32(reader["IDFOLIO"]);
+                        idprod = Convert.ToInt32(reader["ID"]);
                         int idnuevo = idprod + 1;
-                        txbFolio.Text = idnuevo.ToString();
+                        lblFolio.Text = idnuevo.ToString();
                     }
                 }
                 else
@@ -61,7 +61,7 @@ namespace ElastoSystem
                 }
                 this.BeginInvoke(new Action(() =>
                 {
-                    cbContacto.Focus();
+                    txbContacto.Focus();
                 }));
 
             }
@@ -70,155 +70,7 @@ namespace ElastoSystem
                 MessageBox.Show(ex.Message);
             }
         }
-        private void MandarALlamarContactos()
-        {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            string sql = "SELECT CONCAT (ID, '-', CONTACTO) CONTAC FROM clientes";
-            try
-            {
-                HashSet<string> unicos = new HashSet<string>();
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        string contacto = reader["CONTAC"].ToString();
-                        if (!string.IsNullOrWhiteSpace(contacto))
-                        {
-                            cbContacto.Items.Add(contacto);
-                        }
-                    }
-                    cbContacto.Sorted = true;
-                }
-                else
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-        }
-        private void MandarALlamarEmpresas()
-        {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            string sql = "SELECT CONCAT (ID, '-', NOMBRE) NOM FROM clientes";
-            try
-            {
-                HashSet<string> unicos = new HashSet<string>();
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        string contacto = reader["NOM"].ToString();
-                        if (!string.IsNullOrWhiteSpace(contacto))
-                        {
-                            cbEmpresa.Items.Add(contacto);
-                        }
-                    }
-                    cbEmpresa.Sorted = true;
-                }
-                else
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-        }
-        
-        private void MandarALlamarInfoContacto()
-        {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
-            mySqlConnection.Open();
-
-            String contacto = cbContacto.Text;
-            int guionIndex = contacto.IndexOf("-");
-            string ncontacto = guionIndex != -1 ? contacto.Substring(0, guionIndex).Trim() : contacto;
-
-            MySqlDataReader reader = null;
-            string sql = "SELECT NOMBRE, TELEFONO, EMAIL FROM clientes WHERE ID LIKE '" + ncontacto + "' ";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        cbEmpresa.Text = reader.GetString("NOMBRE");
-                        txbTelefono.Text = reader.GetString("TELEFONO");
-                        txbCorreo.Text = reader.GetString("EMAIL");
-                    }
-                }
-                else
-                {
-                    
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-        }
-        private void MandarALlamarInfoEmpresa()
-        {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
-            mySqlConnection.Open();
-
-            String empresa = cbEmpresa.Text;
-            int guionIndex = empresa.IndexOf("-");
-            string nempresa = guionIndex != -1 ? empresa.Substring(0, guionIndex).Trim() : empresa;
-
-            MySqlDataReader reader = null;
-            string sql = "SELECT CONTACTO, TELEFONO, EMAIL FROM clientes WHERE ID LIKE '" + nempresa + "' ";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        cbContacto.Text = reader.GetString("CONTACTO");
-                        txbTelefono.Text = reader.GetString("TELEFONO");
-                        txbCorreo.Text = reader.GetString("EMAIL");
-                    }
-                }
-                else
-                {
-                    //MessageBox.Show("ERROR AL LLAMAR LOS DATOS");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-        }
+        /*
         private void AgregarCliente()
         {
             try
@@ -248,44 +100,13 @@ namespace ElastoSystem
                 MessageBox.Show("Error al registrar datos");
             }
         }
-        private void IDIncrementable()
-        {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            int idprod;
-            string sql = "SELECT ID FROM clientes ORDER BY ID DESC LIMIT 1 ";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        idprod = Convert.ToInt32(reader["ID"]);
-                        int idnuevo = idprod + 1;
-                        lblID.Text = idnuevo.ToString();
-                    }
-                }
-                else
-                {
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        */
         private void Clave()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
-            string sql = "SELECT CLAVE FROM productos";
+            string sql = "SELECT Clave FROM elastosystem_ventas_productos";
             try
             {
                 HashSet<string> unicos = new HashSet<string>();
@@ -295,7 +116,7 @@ namespace ElastoSystem
                 {
                     while (reader.Read())
                     {
-                        cbClave.Items.Add(reader["CLAVE"].ToString());
+                        cbClave.Items.Add(reader["Clave"].ToString());
                     }
                     cbClave.Sorted = true;
                 }
@@ -315,10 +136,10 @@ namespace ElastoSystem
         }
         private void Productos()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
-            string sql = "SELECT NOMBRE FROM productos";
+            string sql = "SELECT Nombre FROM elastosystem_ventas_productos";
             try
             {
                 HashSet<string> unicos = new HashSet<string>();
@@ -328,7 +149,7 @@ namespace ElastoSystem
                 {
                     while (reader.Read())
                     {
-                        cbProductos.Items.Add(reader["NOMBRE"].ToString());
+                        cbProductos.Items.Add(reader["Nombre"].ToString());
                     }
                     cbProductos.Sorted = true;
                 }
@@ -347,11 +168,11 @@ namespace ElastoSystem
         }
         private void InfoClave()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String clave = cbClave.Text;
             MySqlDataReader reader = null;
-            string sql = "SELECT NOMBRE, PRECIO_A FROM productos WHERE CLAVE LIKE '" + clave + "' ";
+            string sql = "SELECT Nombre, Precio_A FROM elastosystem_ventas_productos WHERE Clave LIKE '" + clave + "' ";
             try
             {
                 MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
@@ -360,8 +181,8 @@ namespace ElastoSystem
                 {
                     while (reader.Read())
                     {
-                        cbProductos.Text = reader.GetString("NOMBRE");
-                        txbPrecio.Text = reader.GetString("PRECIO_A");
+                        cbProductos.Text = reader.GetString("Nombre");
+                        txbPrecio.Text = reader.GetString("Precio_A");
                     }
                 }
                 else
@@ -380,11 +201,11 @@ namespace ElastoSystem
         }
         private void InfoProducto()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String producto = cbProductos.Text;
             MySqlDataReader reader = null;
-            string sql = "SELECT CLAVE, PRECIO_A FROM productos WHERE NOMBRE LIKE '" + producto + "' ";
+            string sql = "SELECT Clave, Precio_A FROM elastosystem_ventas_productos WHERE Nombre LIKE '" + producto + "' ";
             try
             {
                 MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
@@ -393,8 +214,8 @@ namespace ElastoSystem
                 {
                     while (reader.Read())
                     {
-                        cbClave.Text = reader.GetString("CLAVE");
-                        txbPrecio.Text = reader.GetString("PRECIO_A");
+                        cbClave.Text = reader.GetString("Clave");
+                        txbPrecio.Text = reader.GetString("Precio_A");
                     }
                 }
                 else
@@ -505,7 +326,7 @@ namespace ElastoSystem
                 txbTotal.Text = total.ToString();
             }
         }
-
+        /*
         private void EnviarCorreo(string fromEmail, string toEmail, string subject, string body, string smtpHost, int smtpPort, string smtpUser, string smtpPass, string pdfCatalogo, string pdfCuentasBancarias)
         {
             // Crear el mensaje de correo
@@ -531,28 +352,11 @@ namespace ElastoSystem
             // Enviar el correo
             smtpClient.Send(mail);
         }
-        private  void OcuparFolio()
-        {
-            MySqlConnection conn = new MySqlConnection(connectionStringelastotec);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand();
-            try
-            {
-                cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO foliocot (IDFOLIO) VALUES ('" + txbFolio.Text + "');";
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally { conn.Close(); }
-        }
+        */
         private void Limpiar()
         {
-            cbContacto.Text = null;
-            cbEmpresa.Text = null;
+            txbContacto.Clear();
+            txbEmpresa.Clear();
             txbTelefono.Clear();
             txbCorreo.Clear();
             cbClave.Text = null;
@@ -569,35 +373,26 @@ namespace ElastoSystem
         }
         private void MandarACotizacion()
         {
-            OcuparFolio();
-            string idcguion;
-            if (lblContactoOEmpresa.Text == "CONTACTO")
-            {
-                string idguion = cbContacto.Text;
-                string[] partes = idguion.Split('-');
-                idcguion = partes[0].Trim();
-            }
-            else
-            {
-                string idguion = cbEmpresa.Text;
-                string[] partes = idguion.Split('-');
-                idcguion = partes[0].Trim();
-            }
-
-            DateTime fechaActual = DateTime.Now;
-            int dia = fechaActual.Day;
-            int mes = fechaActual.Month;
-            int anio = fechaActual.Year;
-
-            MySqlConnection conn = new MySqlConnection(connectionStringelastotec);
+            string fecha = DateTime.Now.ToString("yyyy/MM/dd");
+            bool boolCritico = chbSigla03.Checked;
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO cotizacion (IDFOLIO, DIA, MES, ANO, IDCLIENTE, DESCUENTO, SUBTOTAL, IVA, TOTAL) VALUES ('" + txbFolio.Text + "', '" + dia + "', '" + mes + "', '" + anio + "', '" + idcguion + "', '" + txbDescuento.Text + "', '" + txbSubtotal.Text + "', '" + txbIVA.Text + "', '" + txbTotal.Text + "');";
+                cmd.CommandText = "INSERT INTO elastosystem_ventas_cotizacion (ID, Fecha, ID_Cliente, Descuento, Subtotal, IVA, Total, Sigla03, Excepto) VALUES (@ID, @FECHA, @IDCLIENTE, @DESCUENTO, @SUBTOTAL, @IVA, @TOTAL, @SIGLA03, @EXCEPTO);";
+                cmd.Parameters.AddWithValue("@ID",lblFolio.Text);
+                cmd.Parameters.AddWithValue("@FECHA",fecha);
+                cmd.Parameters.AddWithValue("@IDCLIENTE",lblIDCliente.Text);
+                cmd.Parameters.AddWithValue("@DESCUENTO", txbDescuento.Text);
+                cmd.Parameters.AddWithValue("@SUBTOTAL", txbSubtotal.Text);
+                cmd.Parameters.AddWithValue("@IVA", txbIVA.Text);
+                cmd.Parameters.AddWithValue("@TOTAL", txbTotal.Text);
+                cmd.Parameters.AddWithValue("@SIGLA03", boolCritico);
+                cmd.Parameters.AddWithValue("@EXCEPTO", txbPartidas.Text);
                 cmd.ExecuteNonQuery();
-                MandarAPedidos();
+                MandarACotizacionDesglosada();
                 Limpiar();
                 Folio();
             }
@@ -610,24 +405,31 @@ namespace ElastoSystem
                 conn.Close();
             }
         }
-        private void MandarAPedidos()
+
+        private void MandarACotizacionDesglosada()
         {
             int filas = dgvListaProductos.Rows.Count;
             for (int i = 0; i < filas; i++)
             {
                 string clave = dgvListaProductos.Rows[i].Cells["CLAV"].Value.ToString();
                 string producto = dgvListaProductos.Rows[i].Cells["PRODUCTO"].Value.ToString();
-                float precio = Convert.ToSingle(dgvListaProductos.Rows[i].Cells["PRECIO"].Value);
-                float cantidad = Convert.ToSingle(dgvListaProductos.Rows[i].Cells["CANTIDAD"].Value);
-                float importe = Convert.ToSingle(dgvListaProductos.Rows[i].Cells["IMPORTE"].Value);
+                int cantidad = Convert.ToInt32(dgvListaProductos.Rows[i].Cells["CANTIDAD"].Value);
+                double precio = Convert.ToDouble(dgvListaProductos.Rows[i].Cells["PRECIO"].Value);
+                double importe = Convert.ToDouble(dgvListaProductos.Rows[i].Cells["IMPORTE"].Value);
 
-                MySqlConnection conn = new MySqlConnection(connectionStringelastotec);
+                MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand();
                 try
                 {
                     cmd.Connection = conn;
-                    cmd.CommandText = "INSERT INTO pedidos (CLAVE, PRODUCTO, PRECIO, CANTIDAD, TOTAL, IDFOLIO) VALUES ('" + clave + "', '" + producto + "', '" + precio + "', '" + cantidad + "', '" + importe + "', '" + txbFolio.Text + "');";
+                    cmd.CommandText = "INSERT INTO elastosystem_ventas_cotizacion_desglosada (ID, Clave, Producto, Cantidad, Precio, Importe) VALUES (@ID, @CLAVE, @PRODUCTO, @CANTIDAD, @PRECIO, @IMPORTE);";
+                    cmd.Parameters.AddWithValue("@ID", lblFolio.Text);
+                    cmd.Parameters.AddWithValue("@CLAVE", clave);
+                    cmd.Parameters.AddWithValue("@PRODUCTO", producto);
+                    cmd.Parameters.AddWithValue("@CANTIDAD", cantidad);
+                    cmd.Parameters.AddWithValue("@PRECIO", precio);
+                    cmd.Parameters.AddWithValue("@IMPORTE", importe);
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -641,34 +443,25 @@ namespace ElastoSystem
             }
         }
 
-        string connectionStringelastotec = "server=10.120.1.3 ; username=root; password=; database=elastotec";
-
         private void Ventas_Cotizacion_Load(object sender, EventArgs e)
         {
             Fecha();
             Folio();
-            MandarALlamarContactos();
-            MandarALlamarEmpresas();
-            IDIncrementable();
             Clave();
             Productos();
         }
 
         private void cbContacto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MandarALlamarInfoContacto();
-            lblContactoOEmpresa.Text = "CONTACTO";
         }
 
         private void cbEmpresa_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MandarALlamarInfoEmpresa();
-            lblContactoOEmpresa.Text = "EMPRESA";
         }
 
         private void btnAgregarCliente_Click(object sender, EventArgs e)
         {
-            AgregarCliente();
+            //AgregarCliente();
         }
 
         private void cbClave_SelectedIndexChanged(object sender, EventArgs e)
@@ -724,24 +517,14 @@ namespace ElastoSystem
 
         private void btnGenerarCot_Click(object sender, EventArgs e)
         {
-            if (cbContacto.Text.Length > 0 && cbEmpresa.Text.Length > 0 && txbTelefono.Text.Length > 0 && txbCorreo.Text.Length > 0 && dgvListaProductos.Rows.Count > 0)
+            if (txbContacto.Text.Length > 0 && txbEmpresa.Text.Length > 0 && txbTelefono.Text.Length > 0 && txbCorreo.Text.Length > 0 && dgvListaProductos.Rows.Count > 0)
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Archivos PDF (*.pdf)|*.pdf";
                 saveFileDialog.Title = "Guardar PDF";
-                saveFileDialog.FileName = txbFolio.Text + ".pdf";
-                string contactosguion;
-                try
-                {
-                    string contactocguion = cbContacto.Text;
-                    string[] partes = contactocguion.Split('-');
-                    contactosguion = partes[1].Trim();
-                }
-                catch
-                {
-                    contactosguion = cbContacto.Text;
-                }
-                
+                saveFileDialog.FileName = lblFolio.Text + ".pdf";
+                string contactosguion = txbContacto.Text;
+
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -804,13 +587,13 @@ namespace ElastoSystem
                     whiteFontb.Color = BaseColor.WHITE;
 
                     string fecha = lblFecha.Text;
-                    string cotizacion = txbFolio.Text;
+                    string cotizacion = lblFolio.Text;
                     string ocyrequi = "FECHA DE COTIZACIÓN: \n  " + fecha + "\n" + "NO. COTIZACIÓN: \n   " + cotizacion;
 
                     string contacto = contactosguion;
                     string telefono = txbTelefono.Text;
                     string correo = txbCorreo.Text;
-                    string empresa = cbEmpresa.Text;
+                    string empresa = txbEmpresa.Text;
                     string datosdelproveedor = "A NOMBRE DE: " + contacto + "\n " + telefono + "\n " + correo + "\n " + empresa;
 
 
@@ -1013,7 +796,7 @@ namespace ElastoSystem
 
                     MessageBox.Show("PDF guardado como '" + System.IO.Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     MandarACotizacion();
-                    
+
 
                     if (System.IO.File.Exists(rutaArchivoPDF))
                     {
@@ -1029,7 +812,6 @@ namespace ElastoSystem
             {
                 MessageBox.Show("DEBES DE LLENAR TODOS LOS CAMPOS OBLIGATORIOS");
             }
-
 
         }
 
@@ -1083,7 +865,7 @@ namespace ElastoSystem
 
         private void btnEnvCorreo_Click(object sender, EventArgs e)
         {
-            
+
             /*
             string fromEmail = "ventas@elastotecnica.com";
             string toEmail = "miguel_tec_programador@outlook.com";
@@ -1106,6 +888,88 @@ namespace ElastoSystem
                 MessageBox.Show("Error al enviar el correo: " + ex.Message);
             }
             */
+        }
+
+        private void btnBuscarCliente_Click(object sender, EventArgs e)
+        {
+            pnlBuscador.Visible = true;
+            btnBuscarCliente.Visible = false;
+            btnCerrar.Visible = true;
+            MandarALlamarListaClientes();
+            txbBuscador.Focus();
+        }
+
+        private void MandarALlamarListaClientes()
+        {
+            string tabla = "SELECT ID, Contacto, Empresa, Telefono, Correo FROM elastosystem_ventas_clientes";
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
+            DataTable dt = new DataTable();
+            mySqlAdapter.Fill(dt);
+            dgvClientes.DataSource = dt;
+            dt.DefaultView.Sort = "Contacto ASC";
+            dgvClientes.Columns["ID"].Visible = false;
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            pnlBuscador.Visible = false;
+            btnBuscarCliente.Visible = true;
+            btnCerrar.Visible = false;
+            txbBuscador.Clear();
+        }
+
+        private void Buscador()
+        {
+            try
+            {
+                string valorBusqueda = txbBuscador.Text;
+                string consulta = "SELECT Contacto, Empresa, Telefono, Correo FROM elastosystem_ventas_clientes WHERE Empresa LIKE @ValorBusqueda OR Contacto LIKE @ValorBusqueda";
+
+                MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
+
+                adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
+
+                DataSet datos = new DataSet();
+
+                adaptador.Fill(datos, "Resultados");
+
+                dgvClientes.DataSource = datos.Tables["Resultados"];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscar datos: " + ex.Message);
+            }
+        }
+
+        private void txbBuscador_TextChanged(object sender, EventArgs e)
+        {
+            Buscador();
+        }
+
+        private void dgvClientes_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            DataGridView dgv = (DataGridView)sender;
+
+            if (dgv.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgv.SelectedCells[0].RowIndex;
+
+                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                lblIDCliente.Text = id;
+
+                string contacto = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                txbContacto.Text = contacto;
+
+                string empresa = dgv.Rows[rowIndex].Cells[2].Value.ToString();
+                txbEmpresa.Text = empresa;
+
+                string telefono = dgv.Rows[rowIndex].Cells[3].Value.ToString();
+                txbTelefono.Text = telefono;
+
+                string correo = dgv.Rows[rowIndex].Cells[4].Value.ToString();
+                txbCorreo.Text = correo;
+            }
+            btnCerrar.PerformClick();
         }
     }
 }

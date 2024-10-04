@@ -30,22 +30,31 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             label1 = new Label();
             panel2 = new Panel();
+            lblIDCliente = new Label();
+            btnCerrar = new Button();
+            txbEmpresa = new TextBox();
+            txbContacto = new TextBox();
             txbCorreo = new TextBox();
+            btnBuscarCliente = new Button();
             txbTelefono = new TextBox();
-            cbEmpresa = new ComboBox();
-            cbContacto = new ComboBox();
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
-            panel1 = new Panel();
+            pnlBuscador = new Panel();
+            dgvClientes = new DataGridView();
+            label15 = new Label();
+            txbBuscador = new TextBox();
             btnAgregarCliente = new Button();
+            label6 = new Label();
             lblFecha = new Label();
             label7 = new Label();
-            txbFolio = new TextBox();
-            label6 = new Label();
             lblID = new Label();
             panel3 = new Panel();
             btnLimpiarCampos = new Button();
@@ -78,9 +87,10 @@
             lblExcepto = new Label();
             txbDescuento = new TextBox();
             chbDescuento = new CheckBox();
-            lblContactoOEmpresa = new Label();
+            lblFolio = new Label();
             panel2.SuspendLayout();
-            panel1.SuspendLayout();
+            pnlBuscador.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaProductos).BeginInit();
             SuspendLayout();
@@ -100,54 +110,103 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(3, 42, 76);
+            panel2.Controls.Add(lblIDCliente);
+            panel2.Controls.Add(btnCerrar);
+            panel2.Controls.Add(txbEmpresa);
+            panel2.Controls.Add(txbContacto);
             panel2.Controls.Add(txbCorreo);
+            panel2.Controls.Add(btnBuscarCliente);
             panel2.Controls.Add(txbTelefono);
-            panel2.Controls.Add(cbEmpresa);
-            panel2.Controls.Add(cbContacto);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(label5);
             panel2.Location = new Point(33, 102);
             panel2.Name = "panel2";
-            panel2.Size = new Size(868, 177);
+            panel2.Size = new Size(1266, 223);
             panel2.TabIndex = 23;
+            // 
+            // lblIDCliente
+            // 
+            lblIDCliente.AutoSize = true;
+            lblIDCliente.BackColor = Color.Transparent;
+            lblIDCliente.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblIDCliente.ForeColor = Color.White;
+            lblIDCliente.Location = new Point(145, 29);
+            lblIDCliente.Name = "lblIDCliente";
+            lblIDCliente.Size = new Size(27, 21);
+            lblIDCliente.TabIndex = 40;
+            lblIDCliente.Text = "ID";
+            lblIDCliente.Visible = false;
+            // 
+            // btnCerrar
+            // 
+            btnCerrar.BackColor = Color.FromArgb(255, 102, 0);
+            btnCerrar.Cursor = Cursors.Hand;
+            btnCerrar.FlatAppearance.BorderSize = 0;
+            btnCerrar.FlatStyle = FlatStyle.Flat;
+            btnCerrar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCerrar.ForeColor = Color.White;
+            btnCerrar.Location = new Point(1101, 19);
+            btnCerrar.Name = "btnCerrar";
+            btnCerrar.Size = new Size(99, 27);
+            btnCerrar.TabIndex = 38;
+            btnCerrar.Text = "CERRAR";
+            btnCerrar.UseVisualStyleBackColor = false;
+            btnCerrar.Visible = false;
+            btnCerrar.Click += btnCerrar_Click;
+            // 
+            // txbEmpresa
+            // 
+            txbEmpresa.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbEmpresa.Location = new Point(145, 104);
+            txbEmpresa.Name = "txbEmpresa";
+            txbEmpresa.Size = new Size(1076, 27);
+            txbEmpresa.TabIndex = 39;
+            txbEmpresa.TextAlign = HorizontalAlignment.Center;
+            // 
+            // txbContacto
+            // 
+            txbContacto.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbContacto.Location = new Point(145, 66);
+            txbContacto.Name = "txbContacto";
+            txbContacto.Size = new Size(1076, 27);
+            txbContacto.TabIndex = 38;
+            txbContacto.TextAlign = HorizontalAlignment.Center;
             // 
             // txbCorreo
             // 
             txbCorreo.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbCorreo.Location = new Point(153, 131);
+            txbCorreo.Location = new Point(145, 177);
             txbCorreo.Name = "txbCorreo";
-            txbCorreo.Size = new Size(673, 27);
+            txbCorreo.Size = new Size(1076, 27);
             txbCorreo.TabIndex = 32;
+            txbCorreo.TextAlign = HorizontalAlignment.Center;
+            // 
+            // btnBuscarCliente
+            // 
+            btnBuscarCliente.BackColor = Color.FromArgb(255, 102, 0);
+            btnBuscarCliente.Cursor = Cursors.Hand;
+            btnBuscarCliente.FlatAppearance.BorderSize = 0;
+            btnBuscarCliente.FlatStyle = FlatStyle.Flat;
+            btnBuscarCliente.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnBuscarCliente.ForeColor = Color.White;
+            btnBuscarCliente.Location = new Point(1015, 14);
+            btnBuscarCliente.Name = "btnBuscarCliente";
+            btnBuscarCliente.Size = new Size(206, 36);
+            btnBuscarCliente.TabIndex = 37;
+            btnBuscarCliente.Text = "BUSCAR CLIENTE";
+            btnBuscarCliente.UseVisualStyleBackColor = false;
+            btnBuscarCliente.Click += btnBuscarCliente_Click;
             // 
             // txbTelefono
             // 
             txbTelefono.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbTelefono.Location = new Point(153, 93);
+            txbTelefono.Location = new Point(145, 139);
             txbTelefono.Name = "txbTelefono";
-            txbTelefono.Size = new Size(673, 27);
+            txbTelefono.Size = new Size(1076, 27);
             txbTelefono.TabIndex = 31;
-            // 
-            // cbEmpresa
-            // 
-            cbEmpresa.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            cbEmpresa.FormattingEnabled = true;
-            cbEmpresa.Location = new Point(153, 51);
-            cbEmpresa.Name = "cbEmpresa";
-            cbEmpresa.Size = new Size(673, 30);
-            cbEmpresa.TabIndex = 30;
-            cbEmpresa.SelectedIndexChanged += cbEmpresa_SelectedIndexChanged;
-            // 
-            // cbContacto
-            // 
-            cbContacto.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            cbContacto.FormattingEnabled = true;
-            cbContacto.Location = new Point(153, 13);
-            cbContacto.Name = "cbContacto";
-            cbContacto.Size = new Size(673, 30);
-            cbContacto.TabIndex = 29;
-            cbContacto.SelectedIndexChanged += cbContacto_SelectedIndexChanged;
+            txbTelefono.TextAlign = HorizontalAlignment.Center;
             // 
             // label2
             // 
@@ -155,7 +214,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(23, 17);
+            label2.Location = new Point(15, 63);
             label2.Name = "label2";
             label2.Size = new Size(101, 21);
             label2.TabIndex = 2;
@@ -167,7 +226,7 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(23, 55);
+            label3.Location = new Point(15, 101);
             label3.Name = "label3";
             label3.Size = new Size(89, 21);
             label3.TabIndex = 3;
@@ -179,7 +238,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(23, 96);
+            label4.Location = new Point(15, 142);
             label4.Name = "label4";
             label4.Size = new Size(98, 21);
             label4.TabIndex = 8;
@@ -191,24 +250,93 @@
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(23, 134);
+            label5.Location = new Point(15, 180);
             label5.Name = "label5";
             label5.Size = new Size(82, 21);
             label5.TabIndex = 12;
             label5.Text = "CORREO:";
             // 
-            // panel1
+            // pnlBuscador
             // 
-            panel1.BackColor = Color.FromArgb(3, 42, 76);
-            panel1.Controls.Add(btnAgregarCliente);
-            panel1.Controls.Add(lblFecha);
-            panel1.Controls.Add(label7);
-            panel1.Controls.Add(txbFolio);
-            panel1.Controls.Add(label6);
-            panel1.Location = new Point(922, 102);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(378, 177);
-            panel1.TabIndex = 24;
+            pnlBuscador.BackColor = Color.FromArgb(3, 42, 76);
+            pnlBuscador.Controls.Add(dgvClientes);
+            pnlBuscador.Controls.Add(label15);
+            pnlBuscador.Controls.Add(txbBuscador);
+            pnlBuscador.Location = new Point(33, 325);
+            pnlBuscador.Name = "pnlBuscador";
+            pnlBuscador.Size = new Size(1267, 465);
+            pnlBuscador.TabIndex = 24;
+            pnlBuscador.Visible = false;
+            // 
+            // dgvClientes
+            // 
+            dgvClientes.AllowUserToAddRows = false;
+            dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvClientes.BackgroundColor = Color.FromArgb(205, 215, 224);
+            dgvClientes.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvClientes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvClientes.DefaultCellStyle = dataGridViewCellStyle2;
+            dgvClientes.GridColor = SystemColors.ActiveCaptionText;
+            dgvClientes.Location = new Point(16, 78);
+            dgvClientes.Name = "dgvClientes";
+            dgvClientes.ReadOnly = true;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(205, 215, 224);
+            dataGridViewCellStyle3.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvClientes.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dgvClientes.RowHeadersVisible = false;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvClientes.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dgvClientes.RowTemplate.Height = 25;
+            dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvClientes.Size = new Size(1235, 369);
+            dgvClientes.TabIndex = 27;
+            dgvClientes.MouseDoubleClick += dgvClientes_MouseDoubleClick;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.BackColor = Color.Transparent;
+            label15.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            label15.ForeColor = Color.White;
+            label15.Location = new Point(20, 28);
+            label15.Name = "label15";
+            label15.Size = new Size(101, 21);
+            label15.TabIndex = 26;
+            label15.Text = "BUSCADOR";
+            // 
+            // txbBuscador
+            // 
+            txbBuscador.Font = new Font("Montserrat", 13F, FontStyle.Regular, GraphicsUnit.Point);
+            txbBuscador.Location = new Point(127, 23);
+            txbBuscador.Name = "txbBuscador";
+            txbBuscador.Size = new Size(286, 29);
+            txbBuscador.TabIndex = 25;
+            txbBuscador.TextChanged += txbBuscador_TextChanged;
             // 
             // btnAgregarCliente
             // 
@@ -218,13 +346,26 @@
             btnAgregarCliente.FlatStyle = FlatStyle.Flat;
             btnAgregarCliente.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnAgregarCliente.ForeColor = Color.White;
-            btnAgregarCliente.Location = new Point(53, 119);
+            btnAgregarCliente.Location = new Point(1134, 8);
             btnAgregarCliente.Name = "btnAgregarCliente";
-            btnAgregarCliente.Size = new Size(286, 36);
+            btnAgregarCliente.Size = new Size(175, 36);
             btnAgregarCliente.TabIndex = 36;
             btnAgregarCliente.Text = "AGREGAR CLIENTE";
             btnAgregarCliente.UseVisualStyleBackColor = false;
+            btnAgregarCliente.Visible = false;
             btnAgregarCliente.Click += btnAgregarCliente_Click;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.BackColor = Color.Transparent;
+            label6.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(969, 63);
+            label6.Name = "label6";
+            label6.Size = new Size(62, 21);
+            label6.TabIndex = 33;
+            label6.Text = "FOLIO:";
             // 
             // lblFecha
             // 
@@ -232,7 +373,7 @@
             lblFecha.BackColor = Color.Transparent;
             lblFecha.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             lblFecha.ForeColor = Color.White;
-            lblFecha.Location = new Point(85, 33);
+            lblFecha.Location = new Point(1038, 34);
             lblFecha.Name = "lblFecha";
             lblFecha.Size = new Size(121, 21);
             lblFecha.TabIndex = 35;
@@ -244,33 +385,11 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(16, 33);
+            label7.Location = new Point(969, 34);
             label7.Name = "label7";
             label7.Size = new Size(66, 21);
             label7.TabIndex = 34;
             label7.Text = "FECHA:";
-            // 
-            // txbFolio
-            // 
-            txbFolio.Enabled = false;
-            txbFolio.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbFolio.Location = new Point(85, 71);
-            txbFolio.Name = "txbFolio";
-            txbFolio.ReadOnly = true;
-            txbFolio.Size = new Size(272, 27);
-            txbFolio.TabIndex = 34;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(20, 75);
-            label6.Name = "label6";
-            label6.Size = new Size(62, 21);
-            label6.TabIndex = 33;
-            label6.Text = "FOLIO:";
             // 
             // lblID
             // 
@@ -278,7 +397,7 @@
             lblID.BackColor = Color.Transparent;
             lblID.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             lblID.ForeColor = Color.White;
-            lblID.Location = new Point(1124, 35);
+            lblID.Location = new Point(358, 35);
             lblID.Name = "lblID";
             lblID.Size = new Size(176, 21);
             lblID.TabIndex = 36;
@@ -298,7 +417,7 @@
             panel3.Controls.Add(label9);
             panel3.Controls.Add(label10);
             panel3.Controls.Add(label11);
-            panel3.Location = new Point(33, 298);
+            panel3.Location = new Point(33, 331);
             panel3.Name = "panel3";
             panel3.Size = new Size(1267, 97);
             panel3.TabIndex = 25;
@@ -353,7 +472,6 @@
             // 
             // cbProductos
             // 
-            cbProductos.DropDownStyle = ComboBoxStyle.DropDownList;
             cbProductos.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             cbProductos.FormattingEnabled = true;
             cbProductos.Location = new Point(392, 13);
@@ -426,28 +544,28 @@
             dgvListaProductos.AllowUserToAddRows = false;
             dgvListaProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvListaProductos.BackgroundColor = Color.White;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvListaProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle5.BackColor = Color.White;
+            dataGridViewCellStyle5.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = Color.Black;
+            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvListaProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvListaProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvListaProductos.Columns.AddRange(new DataGridViewColumn[] { Clav, Producto, Precio, Cantidad, Importe });
             dgvListaProductos.Enabled = false;
-            dgvListaProductos.Location = new Point(33, 417);
+            dgvListaProductos.Location = new Point(33, 450);
             dgvListaProductos.Name = "dgvListaProductos";
             dgvListaProductos.ReadOnly = true;
             dgvListaProductos.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dgvListaProductos.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle6.SelectionForeColor = Color.White;
+            dgvListaProductos.RowsDefaultCellStyle = dataGridViewCellStyle6;
             dgvListaProductos.RowTemplate.Height = 25;
             dgvListaProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvListaProductos.Size = new Size(1267, 187);
@@ -494,7 +612,7 @@
             // 
             txbTotal.Enabled = false;
             txbTotal.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbTotal.Location = new Point(1150, 714);
+            txbTotal.Location = new Point(1150, 747);
             txbTotal.Multiline = true;
             txbTotal.Name = "txbTotal";
             txbTotal.Size = new Size(149, 30);
@@ -507,7 +625,7 @@
             label14.BackColor = Color.Transparent;
             label14.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label14.ForeColor = Color.White;
-            label14.Location = new Point(1018, 717);
+            label14.Location = new Point(1018, 750);
             label14.Name = "label14";
             label14.Size = new Size(97, 22);
             label14.TabIndex = 54;
@@ -517,7 +635,7 @@
             // 
             txbIVA.Enabled = false;
             txbIVA.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbIVA.Location = new Point(1150, 648);
+            txbIVA.Location = new Point(1150, 681);
             txbIVA.Multiline = true;
             txbIVA.Name = "txbIVA";
             txbIVA.Size = new Size(149, 30);
@@ -527,7 +645,7 @@
             // 
             txbSubtotal.Enabled = false;
             txbSubtotal.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbSubtotal.Location = new Point(1150, 615);
+            txbSubtotal.Location = new Point(1150, 648);
             txbSubtotal.Multiline = true;
             txbSubtotal.Name = "txbSubtotal";
             txbSubtotal.Size = new Size(149, 30);
@@ -539,7 +657,7 @@
             label12.BackColor = Color.Transparent;
             label12.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label12.ForeColor = Color.White;
-            label12.Location = new Point(1018, 617);
+            label12.Location = new Point(1018, 650);
             label12.Name = "label12";
             label12.Size = new Size(77, 22);
             label12.TabIndex = 51;
@@ -551,7 +669,7 @@
             label13.BackColor = Color.Transparent;
             label13.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label13.ForeColor = Color.White;
-            label13.Location = new Point(1018, 651);
+            label13.Location = new Point(1018, 684);
             label13.Name = "label13";
             label13.Size = new Size(69, 22);
             label13.TabIndex = 56;
@@ -565,7 +683,7 @@
             btnGenerarCot.FlatStyle = FlatStyle.Flat;
             btnGenerarCot.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnGenerarCot.ForeColor = Color.White;
-            btnGenerarCot.Location = new Point(681, 695);
+            btnGenerarCot.Location = new Point(681, 728);
             btnGenerarCot.Name = "btnGenerarCot";
             btnGenerarCot.Size = new Size(258, 44);
             btnGenerarCot.TabIndex = 57;
@@ -606,7 +724,7 @@
             chbSigla03.CheckState = CheckState.Checked;
             chbSigla03.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             chbSigla03.ForeColor = Color.White;
-            chbSigla03.Location = new Point(33, 615);
+            chbSigla03.Location = new Point(33, 648);
             chbSigla03.Name = "chbSigla03";
             chbSigla03.Size = new Size(569, 24);
             chbSigla03.TabIndex = 60;
@@ -617,7 +735,7 @@
             // txbPartidas
             // 
             txbPartidas.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            txbPartidas.Location = new Point(144, 642);
+            txbPartidas.Location = new Point(144, 675);
             txbPartidas.Name = "txbPartidas";
             txbPartidas.Size = new Size(458, 24);
             txbPartidas.TabIndex = 61;
@@ -629,7 +747,7 @@
             lblExcepto.BackColor = Color.Transparent;
             lblExcepto.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             lblExcepto.ForeColor = Color.White;
-            lblExcepto.Location = new Point(56, 642);
+            lblExcepto.Location = new Point(56, 675);
             lblExcepto.Name = "lblExcepto";
             lblExcepto.Size = new Size(87, 21);
             lblExcepto.TabIndex = 62;
@@ -640,7 +758,7 @@
             // 
             txbDescuento.Enabled = false;
             txbDescuento.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbDescuento.Location = new Point(1150, 681);
+            txbDescuento.Location = new Point(1150, 714);
             txbDescuento.Multiline = true;
             txbDescuento.Name = "txbDescuento";
             txbDescuento.Size = new Size(149, 30);
@@ -654,7 +772,7 @@
             chbDescuento.BackColor = Color.Transparent;
             chbDescuento.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             chbDescuento.ForeColor = Color.White;
-            chbDescuento.Location = new Point(1001, 683);
+            chbDescuento.Location = new Point(1001, 716);
             chbDescuento.Name = "chbDescuento";
             chbDescuento.Size = new Size(134, 26);
             chbDescuento.TabIndex = 64;
@@ -662,18 +780,17 @@
             chbDescuento.UseVisualStyleBackColor = false;
             chbDescuento.CheckedChanged += chbDescuento_CheckedChanged;
             // 
-            // lblContactoOEmpresa
+            // lblFolio
             // 
-            lblContactoOEmpresa.AutoSize = true;
-            lblContactoOEmpresa.BackColor = Color.Transparent;
-            lblContactoOEmpresa.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            lblContactoOEmpresa.ForeColor = Color.White;
-            lblContactoOEmpresa.Location = new Point(347, 78);
-            lblContactoOEmpresa.Name = "lblContactoOEmpresa";
-            lblContactoOEmpresa.Size = new Size(187, 21);
-            lblContactoOEmpresa.TabIndex = 65;
-            lblContactoOEmpresa.Text = "CONTACTO / EMPRESA";
-            lblContactoOEmpresa.Visible = false;
+            lblFolio.AutoSize = true;
+            lblFolio.BackColor = Color.Transparent;
+            lblFolio.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblFolio.ForeColor = Color.White;
+            lblFolio.Location = new Point(1038, 63);
+            lblFolio.Name = "lblFolio";
+            lblFolio.Size = new Size(119, 21);
+            lblFolio.TabIndex = 65;
+            lblFolio.Text = "ERROR FOLIO";
             // 
             // Ventas_Cotizacion
             // 
@@ -681,8 +798,13 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
-            Controls.Add(lblContactoOEmpresa);
+            Controls.Add(lblFolio);
+            Controls.Add(btnAgregarCliente);
+            Controls.Add(label6);
+            Controls.Add(lblFecha);
+            Controls.Add(label7);
             Controls.Add(lblID);
+            Controls.Add(pnlBuscador);
             Controls.Add(chbDescuento);
             Controls.Add(txbDescuento);
             Controls.Add(lblExcepto);
@@ -699,7 +821,6 @@
             Controls.Add(label12);
             Controls.Add(dgvListaProductos);
             Controls.Add(panel3);
-            Controls.Add(panel1);
             Controls.Add(panel2);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
@@ -708,8 +829,9 @@
             Load += Ventas_Cotizacion_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            pnlBuscador.ResumeLayout(false);
+            pnlBuscador.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaProductos).EndInit();
@@ -725,12 +847,9 @@
         private Label label3;
         private Label label4;
         private Label label5;
-        private ComboBox cbEmpresa;
-        private ComboBox cbContacto;
         private TextBox txbCorreo;
         private TextBox txbTelefono;
-        private Panel panel1;
-        private TextBox txbFolio;
+        private Panel pnlBuscador;
         private Label label6;
         private Label label7;
         private Label lblFecha;
@@ -767,6 +886,14 @@
         private Label lblExcepto;
         private TextBox txbDescuento;
         private CheckBox chbDescuento;
-        private Label lblContactoOEmpresa;
+        private TextBox txbEmpresa;
+        private TextBox txbContacto;
+        private Button btnBuscarCliente;
+        private Button btnCerrar;
+        private DataGridView dgvClientes;
+        private Label label15;
+        private TextBox txbBuscador;
+        private Label lblIDCliente;
+        private Label lblFolio;
     }
 }

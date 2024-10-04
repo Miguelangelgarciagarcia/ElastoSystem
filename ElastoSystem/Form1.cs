@@ -245,7 +245,7 @@ namespace ElastoSystem
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Maquinado_Historial temporal = new();
+            Ventas_Cotizacion temporal = new();
             temporal.Show();
             this.Hide();
         }
