@@ -590,14 +590,14 @@ namespace ElastoSystem
 
         private void btnReporte_Click(object sender, EventArgs e)
         {
-            openChildForm(new Produccion_Reporte());
-            HideSubMenu();
+            /*openChildForm(new Produccion_Reporte());
+            HideSubMenu();*/
         }
 
         private void btnAdmiReq_Click(object sender, EventArgs e)
         {
-            openChildForm(new Compras_Administrar_Requisiciones());
-            HideSubMenu();
+            /*openChildForm(new Compras_Administrar_Requisiciones());
+            HideSubMenu();*/
         }
 
         private void btnAdmiProveedores_Click(object sender, EventArgs e)
@@ -614,8 +614,8 @@ namespace ElastoSystem
 
         private void btnIndCompras_Click(object sender, EventArgs e)
         {
-            openChildForm(new IndicadorCompras());
-            HideSubMenu();
+            /*openChildForm(new IndicadorCompras());
+            HideSubMenu();*/
         }
 
         private void btnCatalogoClientes_Click(object sender, EventArgs e)

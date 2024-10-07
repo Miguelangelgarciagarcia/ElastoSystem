@@ -34,18 +34,19 @@
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             panel5 = new Panel();
-            lblFolio = new Label();
+            txbBuscador = new TextBox();
+            label13 = new Label();
             dgvRequisicions = new DataGridView();
-            cbUsuarios = new ComboBox();
-            label3 = new Label();
+            lblFolio = new Label();
             label2 = new Label();
             panel1 = new Panel();
             txbTipoUso = new TextBox();
-            label4 = new Label();
             txbNotas = new TextBox();
+            label4 = new Label();
             panel2 = new Panel();
             label5 = new Label();
             dgvPartidas = new DataGridView();
+            label3 = new Label();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvRequisicions).BeginInit();
             panel1.SuspendLayout();
@@ -68,27 +69,34 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(3, 42, 76);
-            panel5.Controls.Add(lblFolio);
+            panel5.Controls.Add(txbBuscador);
+            panel5.Controls.Add(label13);
             panel5.Controls.Add(dgvRequisicions);
-            panel5.Controls.Add(cbUsuarios);
-            panel5.Controls.Add(label3);
             panel5.Location = new Point(25, 104);
             panel5.Name = "panel5";
-            panel5.Size = new Size(834, 347);
+            panel5.Size = new Size(539, 700);
             panel5.TabIndex = 21;
             // 
-            // lblFolio
+            // txbBuscador
             // 
-            lblFolio.AutoSize = true;
-            lblFolio.BackColor = Color.Transparent;
-            lblFolio.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblFolio.ForeColor = Color.White;
-            lblFolio.Location = new Point(702, 28);
-            lblFolio.Name = "lblFolio";
-            lblFolio.Size = new Size(48, 22);
-            lblFolio.TabIndex = 22;
-            lblFolio.Text = "Folio";
-            lblFolio.Visible = false;
+            txbBuscador.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbBuscador.Location = new Point(140, 29);
+            txbBuscador.Name = "txbBuscador";
+            txbBuscador.Size = new Size(382, 27);
+            txbBuscador.TabIndex = 28;
+            txbBuscador.TextChanged += txbBuscador_TextChanged;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.BackColor = Color.Transparent;
+            label13.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            label13.ForeColor = Color.White;
+            label13.Location = new Point(22, 32);
+            label13.Name = "label13";
+            label13.Size = new Size(103, 21);
+            label13.TabIndex = 27;
+            label13.Text = "BUSCADOR:";
             // 
             // dgvRequisicions
             // 
@@ -104,8 +112,9 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvRequisicions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvRequisicions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRequisicions.Location = new Point(36, 74);
+            dgvRequisicions.Location = new Point(22, 74);
             dgvRequisicions.Name = "dgvRequisicions";
+            dgvRequisicions.ReadOnly = true;
             dgvRequisicions.RowHeadersVisible = false;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = Color.White;
@@ -116,35 +125,24 @@
             dgvRequisicions.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvRequisicions.RowTemplate.Height = 25;
             dgvRequisicions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvRequisicions.Size = new Size(765, 249);
+            dgvRequisicions.Size = new Size(500, 604);
             dgvRequisicions.TabIndex = 21;
             dgvRequisicions.SelectionChanged += dgvRequisicions_SelectionChanged;
             dgvRequisicions.Click += dgvRequisicions_Click;
             dgvRequisicions.DoubleClick += dgvRequisicions_DoubleClick;
             // 
-            // cbUsuarios
+            // lblFolio
             // 
-            cbUsuarios.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbUsuarios.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            cbUsuarios.FormattingEnabled = true;
-            cbUsuarios.Items.AddRange(new object[] { "TODOS" });
-            cbUsuarios.Location = new Point(182, 20);
-            cbUsuarios.Name = "cbUsuarios";
-            cbUsuarios.Size = new Size(326, 30);
-            cbUsuarios.TabIndex = 12;
-            cbUsuarios.SelectedIndexChanged += cbUsuarios_SelectedIndexChanged;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(36, 23);
-            label3.Name = "label3";
-            label3.Size = new Size(128, 22);
-            label3.TabIndex = 3;
-            label3.Text = "REQUISIONES";
+            lblFolio.AutoSize = true;
+            lblFolio.BackColor = Color.Transparent;
+            lblFolio.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblFolio.ForeColor = Color.White;
+            lblFolio.Location = new Point(1174, 65);
+            lblFolio.Name = "lblFolio";
+            lblFolio.Size = new Size(48, 22);
+            lblFolio.TabIndex = 22;
+            lblFolio.Text = "Folio";
+            lblFolio.Visible = false;
             // 
             // label2
             // 
@@ -152,7 +150,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(21, 28);
+            label2.Location = new Point(16, 108);
             label2.Name = "label2";
             label2.Size = new Size(256, 22);
             label2.TabIndex = 5;
@@ -162,23 +160,33 @@
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
             panel1.Controls.Add(txbTipoUso);
-            panel1.Controls.Add(label4);
             panel1.Controls.Add(txbNotas);
             panel1.Controls.Add(label2);
-            panel1.Location = new Point(891, 104);
+            panel1.Controls.Add(label4);
+            panel1.Location = new Point(579, 457);
             panel1.Name = "panel1";
-            panel1.Size = new Size(402, 347);
+            panel1.Size = new Size(735, 347);
             panel1.TabIndex = 22;
             // 
             // txbTipoUso
             // 
             txbTipoUso.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbTipoUso.Location = new Point(21, 244);
+            txbTipoUso.Location = new Point(16, 49);
             txbTipoUso.Multiline = true;
             txbTipoUso.Name = "txbTipoUso";
             txbTipoUso.ReadOnly = true;
             txbTipoUso.Size = new Size(353, 30);
             txbTipoUso.TabIndex = 15;
+            // 
+            // txbNotas
+            // 
+            txbNotas.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNotas.Location = new Point(16, 142);
+            txbNotas.Multiline = true;
+            txbNotas.Name = "txbNotas";
+            txbNotas.ReadOnly = true;
+            txbNotas.Size = new Size(700, 183);
+            txbNotas.TabIndex = 13;
             // 
             // label4
             // 
@@ -186,30 +194,20 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(21, 219);
+            label4.Location = new Point(16, 24);
             label4.Name = "label4";
             label4.Size = new Size(104, 22);
             label4.TabIndex = 14;
             label4.Text = "Tipo de Uso";
-            // 
-            // txbNotas
-            // 
-            txbNotas.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbNotas.Location = new Point(21, 62);
-            txbNotas.Multiline = true;
-            txbNotas.Name = "txbNotas";
-            txbNotas.ReadOnly = true;
-            txbNotas.Size = new Size(353, 131);
-            txbNotas.TabIndex = 13;
             // 
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(3, 42, 76);
             panel2.Controls.Add(label5);
             panel2.Controls.Add(dgvPartidas);
-            panel2.Location = new Point(25, 472);
+            panel2.Location = new Point(579, 104);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1268, 282);
+            panel2.Size = new Size(735, 347);
             panel2.TabIndex = 23;
             // 
             // label5
@@ -218,7 +216,7 @@
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(597, 22);
+            label5.Location = new Point(333, 32);
             label5.Name = "label5";
             label5.Size = new Size(74, 22);
             label5.TabIndex = 21;
@@ -238,9 +236,9 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
             dgvPartidas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvPartidas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvPartidas.Enabled = false;
-            dgvPartidas.Location = new Point(36, 56);
+            dgvPartidas.Location = new Point(16, 57);
             dgvPartidas.Name = "dgvPartidas";
+            dgvPartidas.ReadOnly = true;
             dgvPartidas.RowHeadersVisible = false;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle4.BackColor = Color.White;
@@ -251,9 +249,22 @@
             dgvPartidas.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvPartidas.RowTemplate.Height = 25;
             dgvPartidas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvPartidas.Size = new Size(1204, 197);
+            dgvPartidas.Size = new Size(705, 266);
             dgvPartidas.TabIndex = 20;
             dgvPartidas.Click += dgvPartidas_Click;
+            dgvPartidas.DoubleClick += dgvPartidas_DoubleClick;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(1101, 65);
+            label3.Name = "label3";
+            label3.Size = new Size(67, 22);
+            label3.TabIndex = 24;
+            label3.Text = "FOLIO:";
             // 
             // Compras_RequisicionesEnviadas
             // 
@@ -261,8 +272,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(label3);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            Controls.Add(lblFolio);
             Controls.Add(panel5);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
@@ -285,9 +298,7 @@
 
         private Label label1;
         private Panel panel5;
-        private Label label3;
         private Label label2;
-        private ComboBox cbUsuarios;
         private Panel panel1;
         private TextBox txbNotas;
         private Label label4;
@@ -297,5 +308,8 @@
         private DataGridView dgvRequisicions;
         private TextBox txbTipoUso;
         private Label lblFolio;
+        private TextBox txbBuscador;
+        private Label label13;
+        private Label label3;
     }
 }
