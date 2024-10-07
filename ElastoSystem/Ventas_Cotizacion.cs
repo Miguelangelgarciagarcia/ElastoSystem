@@ -73,7 +73,7 @@ namespace ElastoSystem
         }
         private void FolioConPalabra()
         {
-            lblFolioVisible.Text = "COT-"+lblFolio.Text;
+            lblFolioVisible.Text = "COT-" + lblFolio.Text;
         }
         /*
         private void AgregarCliente()
@@ -387,10 +387,10 @@ namespace ElastoSystem
             {
                 cmd.Connection = conn;
                 cmd.CommandText = "INSERT INTO elastosystem_ventas_cotizacion (ID, ID_ALT, Fecha, ID_Cliente, Contacto, Empresa, Descuento, Subtotal, IVA, Total, Sigla03, Excepto) VALUES (@ID, @IDALT, @FECHA, @IDCLIENTE, @CONTACTO, @EMPRESA, @DESCUENTO, @SUBTOTAL, @IVA, @TOTAL, @SIGLA03, @EXCEPTO);";
-                cmd.Parameters.AddWithValue("@ID",lblFolio.Text);
+                cmd.Parameters.AddWithValue("@ID", lblFolio.Text);
                 cmd.Parameters.AddWithValue("@IDALT", lblFolioVisible.Text);
-                cmd.Parameters.AddWithValue("@FECHA",fecha);
-                cmd.Parameters.AddWithValue("@IDCLIENTE",lblIDCliente.Text);
+                cmd.Parameters.AddWithValue("@FECHA", fecha);
+                cmd.Parameters.AddWithValue("@IDCLIENTE", lblIDCliente.Text);
                 cmd.Parameters.AddWithValue("@CONTACTO", txbContacto.Text);
                 cmd.Parameters.AddWithValue("@EMPRESA", txbEmpresa.Text);
                 cmd.Parameters.AddWithValue("@DESCUENTO", txbDescuento.Text);
@@ -711,7 +711,7 @@ namespace ElastoSystem
                         string iva = txbIVA.Text;
                         string total = txbTotal.Text;
                         string descuento = txbDescuento.Text + " %";
-                        cantidades = "\n $" + subtotal + "\n \n" +  descuento + "\n \n " + "$" + iva + "\n \n" + "$" + total;
+                        cantidades = "\n $" + subtotal + "\n \n" + descuento + "\n \n " + "$" + iva + "\n \n" + "$" + total;
                     }
                     else
                     {
@@ -800,7 +800,7 @@ namespace ElastoSystem
 
 
                     doc.Close();
-                    
+
 
 
                     MessageBox.Show("PDF guardado como '" + System.IO.Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -810,7 +810,7 @@ namespace ElastoSystem
                     if (System.IO.File.Exists(rutaArchivoPDF))
                     {
                         System.Diagnostics.Process.Start("explorer.exe", rutaArchivoPDF);
-                        
+
                     }
                     else
                     {
@@ -956,6 +956,18 @@ namespace ElastoSystem
             Buscador();
         }
 
+        private void VerificarTextos()
+        {
+            if (txbContacto.Text != txbContactoReal.Text || txbEmpresa.Text != txbEmpresaReal.Text || txbTelefono.Text != txbTelefonoReal.Text || txbCorreo.Text != txbCorreoReal.Text)
+            {
+                btnActualizarCliente.Visible = true;
+            }
+            else
+            {
+                btnActualizarCliente.Visible = false;
+            }
+        }
+
         private void dgvClientes_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             try
@@ -971,23 +983,89 @@ namespace ElastoSystem
 
                     string contacto = dgv.Rows[rowIndex].Cells[1].Value.ToString();
                     txbContacto.Text = contacto;
+                    txbContactoReal.Text = contacto;
 
                     string empresa = dgv.Rows[rowIndex].Cells[2].Value.ToString();
                     txbEmpresa.Text = empresa;
+                    txbEmpresaReal.Text = empresa;
 
                     string telefono = dgv.Rows[rowIndex].Cells[3].Value.ToString();
                     txbTelefono.Text = telefono;
+                    txbTelefonoReal.Text = telefono;
 
                     string correo = dgv.Rows[rowIndex].Cells[4].Value.ToString();
                     txbCorreo.Text = correo;
+                    txbCorreoReal.Text = correo;
                 }
                 btnCerrar.PerformClick();
+                VerificarTextos();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
+        }
+
+        private void txbContacto_TextChanged(object sender, EventArgs e)
+        {
+            VerificarTextos();
+        }
+
+        private void txbEmpresa_TextChanged(object sender, EventArgs e)
+        {
+            VerificarTextos();
+        }
+
+        private void txbTelefono_TextChanged(object sender, EventArgs e)
+        {
+            VerificarTextos();
+        }
+
+        private void txbCorreo_TextChanged(object sender, EventArgs e)
+        {
+            VerificarTextos();
+        }
+
+        private void btnActualizarCliente_Click(object sender, EventArgs e)
+        {
+            ActualizarCliente();
+        }
+
+        private void ActualizarCliente()
+        {
+            try
+            {
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                mySqlConnection.Open();
+                MySqlCommand comando = new MySqlCommand();
+                comando.Connection = mySqlConnection;
+                if (string.IsNullOrWhiteSpace(txbEmpresa.Text) || string.IsNullOrWhiteSpace(txbContacto.Text) || string.IsNullOrWhiteSpace(txbTelefono.Text) || string.IsNullOrEmpty(txbCorreo.Text))
+                {
+                    MessageBox.Show("Favor de Ingresar todos los datos");
+                }
+                else
+                {
+                    comando.CommandText = "UPDATE elastosystem_ventas_clientes SET Empresa = @EMPRESA, Telefono = @TELEFONO, Correo = @CORREO, Contacto = @CONTACTO WHERE ID = @ID";
+                    comando.Parameters.AddWithValue("@ID", lblIDCliente.Text);
+                    comando.Parameters.AddWithValue("@EMPRESA", txbEmpresa.Text);
+                    comando.Parameters.AddWithValue("@TELEFONO", txbTelefono.Text);
+                    comando.Parameters.AddWithValue("@CORREO", txbCorreo.Text);
+                    comando.Parameters.AddWithValue("@CONTACTO", txbContacto.Text);
+                    comando.ExecuteNonQuery();
+                    mySqlConnection.Close();
+                    MessageBox.Show("Cliente: " + txbContactoReal.Text + " actualizado");
+                    txbContactoReal.Text = txbContacto.Text;
+                    txbEmpresaReal.Text = txbEmpresa.Text;
+                    txbTelefonoReal.Text = txbTelefono.Text;
+                    txbCorreoReal.Text = txbCorreo.Text;
+                    VerificarTextos();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error al actualizar datos");
+            }
         }
     }
 }
