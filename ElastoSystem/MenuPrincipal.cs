@@ -596,8 +596,8 @@ namespace ElastoSystem
 
         private void btnAdmiReq_Click(object sender, EventArgs e)
         {
-            /*openChildForm(new Compras_Administrar_Requisiciones());
-            HideSubMenu();*/
+            openChildForm(new Compras_Administrar_Requisiciones());
+            HideSubMenu();
         }
 
         private void btnAdmiProveedores_Click(object sender, EventArgs e)

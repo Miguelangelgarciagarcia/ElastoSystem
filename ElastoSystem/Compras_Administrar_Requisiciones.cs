@@ -30,28 +30,12 @@ namespace ElastoSystem
         {
             try
             {
-                string tabla = "SELECT ID_REQ, SOLICITANTE, DIA, MES, ANO, NOTAS, USO FROM reqversion2";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionStringelastotec);
-                DataTable dt = new DataTable();
-                mySqlAdapter.Fill(dt);
-                dt.Columns["ID_REQ"].ColumnName = "Folio";
-                dgvRequisicions.DataSource = dt;
-                dt.DefaultView.Sort = "Folio DESC";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            /*
-            try
-            {
-                string tabla = "SELECT ID, Usuario, Fecha, Notas, TipoUso FROM elastosystem_compras_requisicion WHERE Estatus = 'PENDIENTE'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+                string tabla = "SELECT ID, Usuario, Fecha FROM elastosystem_compras_requisicion WHERE Estatus = 'ABIERTA'";
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dt.Columns["ID"].ColumnName = "Folio";
                 dt.Columns["Usuario"].ColumnName = "Solicitante";
-                dt.Columns["TipoUso"].ColumnName = "Tipo de Uso";
                 dgvRequisicions.DataSource = dt;
                 dt.DefaultView.Sort = "Folio DESC";
             }
@@ -59,70 +43,32 @@ namespace ElastoSystem
             {
                 MessageBox.Show(ex.Message);
             }
-            */
         }
         private void MandarALlamarPartidas()
         {
             try
             {
-                string tabla = "SELECT DESCRIPCION_P, CANTIDAD_P, UNIDAD_P, PRECIO_P, PROVEEDOR_P, STATUS_P FROM req_partidas WHERE IDFOLIO = '" + lblID.Text + "'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionStringelastotec);
+                string tabla = "SELECT ID_Producto, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios FROM elastosystem_compras_requisicion_desglosada WHERE ID = '" + txbFolio.Text + "'";
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgvPartidas.DataSource = dt;
+                dgvPartidas.Columns["ID_Producto"].Visible = false;
+                dgvPartidas.Columns["Cantidad"].Visible = false;
+                dgvPartidas.Columns["Unidad"].Visible = false;
+                dgvPartidas.Columns["Precio"].Visible = false;
+                dgvPartidas.Columns["Proveedor"].Visible = false;
+                dgvPartidas.Columns["TipoUso"].Visible = false;
+                dgvPartidas.Columns["Comentarios"].Visible = false;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            /*
-            try
-            {
-                string tabla = "SELECT Descripcion, Cantidad, Unidad, Precio, Proveedor, Estatus FROM elastosystem_compras_requisicion_desglosada WHERE ID = '" + lblID.Text + "'";
-                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
-                DataTable dt = new DataTable();
-                mySqlAdapter.Fill(dt);
-                dgvPartidas.DataSource = dt;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            */
         }
         private void MandarALlamarProveedores()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            string sql = "SELECT NOMBRE FROM proveedores";
-            try
-            {
-                HashSet<string> unicos = new HashSet<string>();
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        cbProveedores.Items.Add(reader["NOMBRE"].ToString());
-                    }
-                }
-                else
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-            cbProveedores.Sorted = true;
-            /*
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT Nombre FROM elastosystem_compras_proveedores";
@@ -151,16 +97,17 @@ namespace ElastoSystem
                 mySqlConnection.Close();
             }
             cbProveedores.Sorted = true;
-            */
         }
         private void AgregarADgv()
         {
             if (string.IsNullOrEmpty(txbDescripcion.Text) || string.IsNullOrEmpty(txbCantidad.Text) || string.IsNullOrEmpty(txbUnidad.Text) || string.IsNullOrEmpty(txbPrecio.Text))
             {
                 MessageBox.Show("DEBES DE LLENAR LOS CAMPOS OBLIGATORIOS");
+                PartidasPBVisibles();
             }
             else
             {
+                PartidasPBOculto();
                 double valor1;
                 double valor2;
                 string pre = txbPrecio.Text;
@@ -171,17 +118,18 @@ namespace ElastoSystem
                 {
                     double importe = valor1 * valor2;
                     importe = Math.Round(importe, 2);
+                    string id = lblIDProducto.Text;
                     string cantidad = txbCantidad.Text;
                     string unidad = txbUnidad.Text;
                     string descripcion = txbDescripcion.Text;
                     string precio = txbPrecio.Text;
 
-                    dgvListaMateriales.Rows.Add(cantidad, unidad, descripcion, precio, importe);
-
-                    txbDescripcion.Clear(); txbCantidad.Clear(); txbUnidad.Clear(); txbPrecio.Clear();
+                    dgvListaMateriales.Rows.Add(id, cantidad, unidad, descripcion, precio, importe);
+                    LimpiarAgregarPartidas();
                     dgvListaMateriales.Enabled = true;
 
                     Total();
+                    MessageBox.Show("PRODUCTO AGREGADO");
                 }
                 else
                 {
@@ -189,6 +137,39 @@ namespace ElastoSystem
                 }
             }
         }
+
+
+        private void LimpiarAgregarPartidas()
+        {
+            txbCantidad.Clear();
+            txbUnidad.Clear();
+            txbPrecio.Clear();
+            txbDescripcion.Clear();
+            txbProovedorRecomendado.Clear();
+            txbTipoUso.Clear();
+            txbNotas.Clear();
+        }
+
+        private void PartidasPBVisibles()
+        {
+            lblCamposPartidas.Visible = true;
+            pbCamposPartidas.Visible = true;
+            pbCantidad.Visible = true;
+            pbUnidad.Visible = true;
+            pbPrecio.Visible = true;
+            pbDescripcion.Visible = true;
+        }
+
+        private void PartidasPBOculto()
+        {
+            lblCamposPartidas.Visible = false;
+            pbCamposPartidas.Visible = false;
+            pbUnidad.Visible = false;
+            pbPrecio.Visible = false;
+            pbDescripcion.Visible = false;
+            pbCantidad.Visible = false;
+        }
+
         private void Total()
         {
             double suma = 0;
@@ -216,39 +197,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarDatosProveedor()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
-            mySqlConnection.Open();
-            String nombre = cbProveedores.Text;
-            MySqlDataReader reader = null;
-            string sql = "SELECT CONTACTO, TELEFONO, EMAIL FROM proveedores WHERE NOMBRE LIKE '" + nombre + "' ";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        txbAtencion.Text = reader.GetString("CONTACTO");
-                        txbTelefono.Text = reader.GetString("TELEFONO");
-                        txbCorreo.Text = reader.GetString("EMAIL");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("ERROR LLAMAR A SISTEMAS");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-            /*
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             String nombre = cbProveedores.Text;
             MySqlDataReader reader = null;
@@ -279,12 +228,10 @@ namespace ElastoSystem
             {
                 mySqlConnection.Close();
             }
-            */
         }
         private void Folio()
         {
-            /*
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT Folio FROM elastosystem_compras_oc";
@@ -324,7 +271,6 @@ namespace ElastoSystem
             {
                 mySqlConnection.Close();
             }
-            */
         }
         public class ConvertidorNumerosALetras
         {
@@ -438,7 +384,7 @@ namespace ElastoSystem
         }
         private void LimpiarCampos()
         {
-            
+
             txbNotas.Clear();
             txbTipoUso.Clear();
             txbDescripcion.Clear();
@@ -450,7 +396,6 @@ namespace ElastoSystem
             txbTelefono.Clear();
             txbCorreo.Clear();
             txbCotizacion.Clear();
-            txbOC.Clear();
             dgvListaMateriales.Rows.Clear();
             txbTotalLetra.Clear();
             txbSubtotal.Clear();
@@ -464,10 +409,10 @@ namespace ElastoSystem
             cbFormaPago.Text = null;
             chbCerSi.Checked = true;
             lblFolio.Text = "";
-            pnlInfo.Visible = false;
         }
         private void AlmacenarRequisicion()
         {
+            /*
             MySqlConnection conn = new MySqlConnection(connectionStringelastotec);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
@@ -490,9 +435,11 @@ namespace ElastoSystem
             {
                 conn.Close();
             }
+            */
         }
         private void EliminarPendientes()
         {
+            /*
             MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
             mySqlConnection.Open();
             MySqlCommand comando = new MySqlCommand();
@@ -501,10 +448,11 @@ namespace ElastoSystem
             comando.ExecuteNonQuery();
             mySqlConnection.Close();
             CargarRequisiciones();
-
+            */
         }
         private void MandarAIndicador()
         {
+            /*
             MySqlConnection conn = new MySqlConnection(connectionStringelastotec);
             MySqlCommand cmd = new MySqlCommand();
             try
@@ -554,7 +502,10 @@ namespace ElastoSystem
             {
                 conn.Close();
             }
-            /*
+
+
+
+
             DateTime fechainicio = DateTime.Now;
             string fechai = fechainicio.ToString("yyyy-MM-dd");
             int dia = fechainicio.Day;
@@ -582,9 +533,6 @@ namespace ElastoSystem
             */
         }
 
-        string connectionString = "server=10.120.1.3 ; username=root; password= ; database=elastosystem";
-        string connectionStringelastotec = "server=10.120.1.3 ; username=root; password= ; database=elastotec";
-
         private void Compras_Administrar_Requisiciones_Load(object sender, EventArgs e)
         {
             Folio();
@@ -595,58 +543,11 @@ namespace ElastoSystem
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-
-
-            /*
-            // Mostrar el cuadro de diálogo para seleccionar la ubicación y el nombre del archivo
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Archivos PDF (*.pdf)|*.pdf";
-            saveFileDialog.Title = "Guardar PDF";
-            saveFileDialog.FileName = txbFolio.Text + ".pdf"; // Utilizar el nombre del TextBox 'Folio'
-
-            // Si el usuario selecciona una ubicación y hace clic en "Guardar"
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                // Obtener la ruta completa del archivo seleccionado por el usuario
-                string rutaArchivoPDF = saveFileDialog.FileName;
-
-                // Crear un nuevo documento PDF
-                iTextSharp.text.Document doc = new iTextSharp.text.Document();
-                PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(rutaArchivoPDF, FileMode.Create));
-                doc.Open();
-
-                // Obtener la ruta de la imagen
-                string rutaImagen = "\\\\10.120.1.3\\Departments\\Sistemas\\ElastoSystem\\Recursos\\OC1.jpg"; // Reemplaza con la ruta de tu imagen
-
-                // Crear un objeto Image con la imagen
-                iTextSharp.text.Image imagen = iTextSharp.text.Image.GetInstance(rutaImagen);
-                imagen.ScaleToFit(1000,100);
-
-                // Definir las coordenadas de la imagen como encabezado
-                imagen.SetAbsolutePosition(0, doc.PageSize.Height - imagen.Height);
-
-                // Agregar la imagen al encabezado
-                PdfContentByte cb = writer.DirectContent;
-                cb.AddImage(imagen);
-
-                // Obtener el texto del TextBox
-                string textoTextBox = txbTexto.Text;
-
-                // Agregar el texto del TextBox al documento PDF
-                iTextSharp.text.Paragraph paragraph = new iTextSharp.text.Paragraph(textoTextBox);
-                doc.Add(paragraph);
-
-                // Cerrar el documento
-                doc.Close();
-
-                MessageBox.Show("PDF guardado como '" + Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            */
         }
 
         private void dgvRequisicions_DoubleClick(object sender, EventArgs e)
         {
+            PartidasPBOculto();
             btnAlmacenar.Visible = true;
             DataGridView dgv = (DataGridView)sender;
 
@@ -655,49 +556,48 @@ namespace ElastoSystem
                 int rowIndex = dgv.SelectedCells[0].RowIndex;
 
                 string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
-                lblID.Text = id;
-                lblFolio.Text = id;
+                txbFolio.Text = id;
 
                 string solicito = dgv.Rows[rowIndex].Cells[1].Value.ToString();
                 lblSolicito.Text = solicito;
 
-                string dia = dgv.Rows[rowIndex].Cells[2].Value.ToString();
-                lblDia.Text = dia;
-
-                string mes = dgv.Rows[rowIndex].Cells[3].Value.ToString();
-                lblMes.Text = mes;
-
-                string ano = dgv.Rows[rowIndex].Cells[4].Value.ToString();
-                lblAno.Text = ano;
-
-                string notas = dgv.Rows[rowIndex].Cells[5].Value.ToString();
-                txbNotas.Text = notas;
-
-                string uso = dgv.Rows[rowIndex].Cells[6].Value.ToString();
-                txbTipoUso.Text = uso;
             }
             MandarALlamarPartidas();
         }
 
         private void dgvPartidas_DoubleClick(object sender, EventArgs e)
         {
+            PartidasPBOculto();
+            LimpiarAgregarPartidas();
             DataGridView dgv = (DataGridView)sender;
 
             if (dgv.SelectedCells.Count > 0)
             {
                 int rowIndex = dgv.SelectedCells[0].RowIndex;
 
-                string descripcion = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                lblIDProducto.Text = id;
+
+                string descripcion = dgv.Rows[rowIndex].Cells[1].Value.ToString();
                 txbDescripcion.Text = descripcion;
 
-                string cantidad = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                string cantidad = dgv.Rows[rowIndex].Cells[2].Value.ToString();
                 txbCantidad.Text = cantidad;
 
-                string unidad = dgv.Rows[rowIndex].Cells[2].Value.ToString();
+                string unidad = dgv.Rows[rowIndex].Cells[3].Value.ToString();
                 txbUnidad.Text = unidad;
 
-                string precio = dgv.Rows[rowIndex].Cells[3].Value.ToString();
+                string precio = dgv.Rows[rowIndex].Cells[4].Value.ToString();
                 txbPrecio.Text = precio;
+
+                string proovedor = dgv.Rows[rowIndex].Cells[5].Value.ToString();
+                txbProovedorRecomendado.Text = proovedor;
+
+                string tipouso = dgv.Rows[rowIndex].Cells[6].Value.ToString();
+                txbTipoUso.Text = tipouso;
+
+                string comentarios = dgv.Rows[rowIndex].Cells[7].Value.ToString();
+                txbNotas.Text = comentarios;
             }
         }
 
@@ -718,10 +618,9 @@ namespace ElastoSystem
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (cbProveedores.SelectedIndex >= 0 && dgvListaMateriales.RowCount > 0 && txbCotizacion.Text.Length>0 && txbOC.Text.Length>0)
+            if (cbProveedores.SelectedIndex >= 0 && dgvListaMateriales.RowCount > 0 && txbCotizacion.Text.Length > 0)
             {
-                pnlInfo.Visible = true;
-                lblCampos.Visible = false; pbCampos.Visible = false; pbProveedor.Visible = false; pbCotizacion.Visible = false; pbOC.Visible = false;
+                lblCampos.Visible = false; pbCampos.Visible = false; pbProveedor.Visible = false; pbCotizacion.Visible = false;
             }
             else
             {
@@ -730,13 +629,11 @@ namespace ElastoSystem
                 pbCampos.Visible = true;
                 pbProveedor.Visible = true;
                 pbCotizacion.Visible = true;
-                pbOC.Visible = true;
             }
         }
 
         private void btnAgregarPartidas_Click(object sender, EventArgs e)
         {
-            pnlInfo.Visible = false;
         }
 
         private void dgvListaMateriales_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -764,7 +661,7 @@ namespace ElastoSystem
         {
             if (cbMoneda.SelectedIndex >= 0 && cbConfirmacionPedido.SelectedIndex >= 0 && cbCondicionPago.SelectedIndex >= 0 && txbTiempoEntrega.Text.Length > 0 && txbLugarEntrega.Text.Length > 0 && cbFormaPago.SelectedIndex >= 0 && cbRequisicion.SelectedIndex >= 0)
             {
-                lblCampos2.Visible= false; pbCampos2.Visible = false; pbMoneda.Visible = false; pbConfirmacion.Visible = false; pbCondicion.Visible = false; pbTiempo.Visible = false; pbLugar.Visible = false; pbForma.Visible = false; pbCalidad.Visible = false; pbRequi.Visible = false;
+                lblCampos2.Visible = false; pbCampos2.Visible = false; pbMoneda.Visible = false; pbConfirmacion.Visible = false; pbCondicion.Visible = false; pbTiempo.Visible = false; pbLugar.Visible = false; pbForma.Visible = false; pbCalidad.Visible = false; pbRequi.Visible = false;
                 string certificadodecalidad = " ";
                 if (chbCerSi.Checked)
                 {
@@ -826,8 +723,8 @@ namespace ElastoSystem
 
 
 
-                        
-                        string oc = txbOC.Text;
+
+                        string oc = lblFolio.Text;
                         string requisicion = lblFolio.Text;
                         string ocyrequi = "\n" + oc + "\n \n" + requisicion;
                         iTextSharp.text.Paragraph paragraph = new iTextSharp.text.Paragraph(ocyrequi, font);
@@ -1058,7 +955,7 @@ namespace ElastoSystem
                     }
                     else
                     {
-                        if(txbLugarEntrega.Text == "ELASTOTECNICA CARR. ANIMAS-COYOTEPEC KM. 4, COYOTEPEC, ESTADO DE MÉXICO")
+                        if (txbLugarEntrega.Text == "ELASTOTECNICA CARR. ANIMAS-COYOTEPEC KM. 4, COYOTEPEC, ESTADO DE MÉXICO")
                         {
                             txbLugarEntrega.Text = "CARR. ANIMAS-COYOTEPEC KM. 4, COYOTEPEC, ESTADO DE MÉXICO";
                         }
@@ -1102,8 +999,8 @@ namespace ElastoSystem
                         doc.Add(new iTextSharp.text.Paragraph("\n"));
 
 
-                        string oc = txbOC.Text;
-                        string ocyrequi = "\n \n" + "ORDEN DE COMPRA: " +oc ;
+                        string oc = lblFolio.Text;
+                        string ocyrequi = "\n \n" + "ORDEN DE COMPRA: " + oc;
                         iTextSharp.text.Paragraph paragraph = new iTextSharp.text.Paragraph(ocyrequi, fontand);
                         DateTime fech = DateTime.Now;
                         string fechaS = fech.ToString("yyyy-MM-dd");
@@ -1132,7 +1029,7 @@ namespace ElastoSystem
                         doc.Add(tableaa);
 
 
-                        string info = "Andrea Alitzel Vázquez Ramirez \n"+"RFC: VARA9408086L2 \n"+"DIRECCIÓN: RANCHO EL VERGEL #16 COLONIA: \n"+"SAN ANTONIO, CUAUTITLAN IZCALLI, ESTADO DE MÉXICO C.P: 54725";
+                        string info = "Andrea Alitzel Vázquez Ramirez \n" + "RFC: VARA9408086L2 \n" + "DIRECCIÓN: RANCHO EL VERGEL #16 COLONIA: \n" + "SAN ANTONIO, CUAUTITLAN IZCALLI, ESTADO DE MÉXICO C.P: 54725";
                         iTextSharp.text.Paragraph infand = new iTextSharp.text.Paragraph(info, fontand);
                         infand.Alignment = Element.ALIGN_CENTER;
                         doc.Add(infand);
@@ -1281,7 +1178,7 @@ namespace ElastoSystem
                         string tiempoentrega = txbTiempoEntrega.Text;
                         string lugarentrega = txbLugarEntrega.Text;
                         string formapago = cbFormaPago.Text;
-                        string condi = "______________________________CONDICIONES______________________________" + "\n" + "COTIZACIÓN: " + cotizacion + "\n" + "CONDICIÓN DE PAGO: " + condicionpago + "\n" + "TIEMPO DE ENTREGA: " + tiempoentrega + "\n" + "LUGAR DE ENTREGA: " + "\n" + lugarentrega + "\n" + "HORARIO DE RECEPCION DE MATERIALES 8:00 AM - 16:00 PM" + "\n" + "FORMA DE PAGO:" + formapago + "\n" + "METODO DE PAGO: PPD" + "\n" + "USO DE CFDI: ADQUISICION DE MERCANCIA"+ "\n" + "ENTREGAR MATERIALES CON COPIA DE SU ORDEN DE COMPRA" + "\n" + certificadodecalidad;
+                        string condi = "______________________________CONDICIONES______________________________" + "\n" + "COTIZACIÓN: " + cotizacion + "\n" + "CONDICIÓN DE PAGO: " + condicionpago + "\n" + "TIEMPO DE ENTREGA: " + tiempoentrega + "\n" + "LUGAR DE ENTREGA: " + "\n" + lugarentrega + "\n" + "HORARIO DE RECEPCION DE MATERIALES 8:00 AM - 16:00 PM" + "\n" + "FORMA DE PAGO:" + formapago + "\n" + "METODO DE PAGO: PPD" + "\n" + "USO DE CFDI: ADQUISICION DE MERCANCIA" + "\n" + "ENTREGAR MATERIALES CON COPIA DE SU ORDEN DE COMPRA" + "\n" + certificadodecalidad;
                         iTextSharp.text.Paragraph condiciones = new iTextSharp.text.Paragraph(condi, font);
 
                         string solicit = lblSolicito.Text;
@@ -1335,7 +1232,7 @@ namespace ElastoSystem
                         LimpiarCampos();
 
                     }
-                    
+
                 }
             }
             else
@@ -1377,7 +1274,7 @@ namespace ElastoSystem
 
         private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
         {
-            if(chbIVA.Checked)
+            if (chbIVA.Checked)
             {
                 double subt;
                 subt = double.Parse(txbTotal.Text);
@@ -1385,7 +1282,7 @@ namespace ElastoSystem
                 double totall = 0;
                 ivaa = subt * 0.16;
                 totall = subt + ivaa;
-                txbIVA.Text=ivaa.ToString();
+                txbIVA.Text = ivaa.ToString();
                 txbTotal.Text = totall.ToString();
 
             }
@@ -1395,6 +1292,44 @@ namespace ElastoSystem
                 txbIVA.Text = null;
                 txbTotal.Text = sub;
             }
+        }
+
+        private void dgvListaMateriales_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            DataGridView dgv = (DataGridView)sender;
+
+            if (dgv.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgv.SelectedCells[0].RowIndex;
+
+                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                lblIDProducto.Text = id;
+
+                string cantidad = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                txbCantidad.Text = cantidad;
+
+                string unidad = dgv.Rows[rowIndex].Cells[2].Value.ToString();
+                txbUnidad.Text = unidad;
+
+                string descripcion = dgv.Rows[rowIndex].Cells[3].Value.ToString();
+                txbDescripcion.Text = descripcion;
+
+                string precio = dgv.Rows[rowIndex].Cells[4].Value.ToString();
+                txbPrecio.Text = precio;
+
+                EliminarDeCantidades();
+
+            }
+        }
+
+        private void EliminarDeCantidades()
+        {
+            foreach (DataGridViewRow row in dgvListaMateriales.SelectedRows)
+            {
+                dgvListaMateriales.Rows.Remove(row);
+            }
+            Total();
+            tabControl1.SelectedIndex = 0;
         }
     }
 }
