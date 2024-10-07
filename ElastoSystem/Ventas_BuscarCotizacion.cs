@@ -869,7 +869,7 @@ namespace ElastoSystem
         {
             if (decimal.TryParse(txbTotal.Text, out decimal numero))
             {
-                string numeroEnLetras = ConvertidorNumerosALetras.ConvertirNumeroALetras(numero);
+                string numeroEnLetras = VariablesGlobales.ConvertidorNumerosALetrasUSD.ConvertirNumeroALetras(numero);
 
                 txbTotalLetras.Text = numeroEnLetras;
             }
