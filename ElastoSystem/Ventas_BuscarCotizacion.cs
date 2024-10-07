@@ -44,6 +44,7 @@ namespace ElastoSystem
             cbProductos.Text = null;
             txbCantidad.Text = null;
             txbPrecio.Text = null;
+            dgvListaProductos.DataSource = null;
             dgvListaProductos.Rows.Clear();
             txbPartidas.Text = null;
             chbSigla03.Checked = true;
@@ -312,6 +313,7 @@ namespace ElastoSystem
                 EliminarPedidos();
                 MandarAPedidos();
                 Limpiar();
+                btnBuscador.PerformClick();
 
             }
             catch (Exception ex)
@@ -754,7 +756,7 @@ namespace ElastoSystem
                         string iva = txbIVA.Text;
                         string total = txbTotal.Text;
                         string descuento = txbDescuento.Text + " %";
-                        cantidades = "\n $" + subtotal + "\n \n" + "$" + iva + "\n \n " + descuento + "\n \n" + "$" + total;
+                        cantidades = "\n $" + subtotal + "\n \n" + descuento + "\n \n " + "$" +iva + "\n \n" + "$" + total;
                     }
                     else
                     {
@@ -786,7 +788,7 @@ namespace ElastoSystem
                     if (chbDescuento.Checked)
                     {
                         // CANTIDAD CON DESCUENTO
-                        string rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\Elastosystem\\cotizacion_cantidadesdescuento.jpg";
+                        string rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\Elastosystem\\cotizacion_cantidadesdescuentoUSD.jpg";
                         iTextSharp.text.Image imagen4 = iTextSharp.text.Image.GetInstance(rutaImagen4);
                         imagen4.ScaleToFit(165f, 165f);
                         imagen4.SetAbsolutePosition(385, tableeY - 16);
@@ -795,7 +797,7 @@ namespace ElastoSystem
                     else
                     {
                         // CANTIDAD
-                        string rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\Elastosystem\\cotizacion_cantidades.jpg";
+                        string rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\Elastosystem\\cotizacion_cantidadesUSD.jpg";
                         iTextSharp.text.Image imagen4 = iTextSharp.text.Image.GetInstance(rutaImagen4);
                         imagen4.ScaleToFit(165f, 165f);
                         imagen4.SetAbsolutePosition(385, tableeY);
@@ -844,7 +846,7 @@ namespace ElastoSystem
 
                     doc.Close();
 
-
+                    
                     MessageBox.Show("PDF guardado como '" + System.IO.Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     MandarACotizacion();
 
