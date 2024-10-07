@@ -88,6 +88,7 @@
             txbDescuento = new TextBox();
             chbDescuento = new CheckBox();
             lblFolio = new Label();
+            lblFolioVisible = new Label();
             panel2.SuspendLayout();
             pnlBuscador.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
@@ -636,7 +637,7 @@
             // 
             txbIVA.Enabled = false;
             txbIVA.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbIVA.Location = new Point(1150, 681);
+            txbIVA.Location = new Point(1150, 714);
             txbIVA.Multiline = true;
             txbIVA.Name = "txbIVA";
             txbIVA.Size = new Size(149, 30);
@@ -670,7 +671,7 @@
             label13.BackColor = Color.Transparent;
             label13.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label13.ForeColor = Color.White;
-            label13.Location = new Point(1018, 684);
+            label13.Location = new Point(1018, 717);
             label13.Name = "label13";
             label13.Size = new Size(69, 22);
             label13.TabIndex = 56;
@@ -759,7 +760,7 @@
             // 
             txbDescuento.Enabled = false;
             txbDescuento.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbDescuento.Location = new Point(1150, 714);
+            txbDescuento.Location = new Point(1150, 681);
             txbDescuento.Multiline = true;
             txbDescuento.Name = "txbDescuento";
             txbDescuento.Size = new Size(149, 30);
@@ -773,7 +774,7 @@
             chbDescuento.BackColor = Color.Transparent;
             chbDescuento.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             chbDescuento.ForeColor = Color.White;
-            chbDescuento.Location = new Point(1001, 716);
+            chbDescuento.Location = new Point(1001, 683);
             chbDescuento.Name = "chbDescuento";
             chbDescuento.Size = new Size(134, 26);
             chbDescuento.TabIndex = 64;
@@ -787,11 +788,24 @@
             lblFolio.BackColor = Color.Transparent;
             lblFolio.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             lblFolio.ForeColor = Color.White;
-            lblFolio.Location = new Point(1038, 63);
+            lblFolio.Location = new Point(820, 63);
             lblFolio.Name = "lblFolio";
             lblFolio.Size = new Size(119, 21);
             lblFolio.TabIndex = 65;
             lblFolio.Text = "ERROR FOLIO";
+            lblFolio.Visible = false;
+            // 
+            // lblFolioVisible
+            // 
+            lblFolioVisible.AutoSize = true;
+            lblFolioVisible.BackColor = Color.Transparent;
+            lblFolioVisible.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblFolioVisible.ForeColor = Color.White;
+            lblFolioVisible.Location = new Point(1040, 63);
+            lblFolioVisible.Name = "lblFolioVisible";
+            lblFolioVisible.Size = new Size(119, 21);
+            lblFolioVisible.TabIndex = 66;
+            lblFolioVisible.Text = "ERROR FOLIO";
             // 
             // Ventas_Cotizacion
             // 
@@ -799,6 +813,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(lblFolioVisible);
             Controls.Add(lblFolio);
             Controls.Add(btnAgregarCliente);
             Controls.Add(label6);
@@ -896,5 +911,6 @@
         private TextBox txbBuscador;
         private Label lblIDCliente;
         private Label lblFolio;
+        private Label lblFolioVisible;
     }
 }

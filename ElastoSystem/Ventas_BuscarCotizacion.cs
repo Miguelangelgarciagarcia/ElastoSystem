@@ -329,6 +329,7 @@ namespace ElastoSystem
         {
             Fecha();
             txbFolio.Clear();
+            txbFolioVisible.Clear();
             txbContacto.Clear();
             txbEmpresa.Clear();
             txbTelefono.Clear();
@@ -423,6 +424,8 @@ namespace ElastoSystem
             mySqlAdapter.Fill(dt);
             dgvCotizaciones.DataSource = dt;
             dt.DefaultView.Sort = "ID DESC";
+            dgvCotizaciones.Columns["ID"].Visible = false;
+            dgvCotizaciones.Columns["ID_ALT"].HeaderText = "Folio";
             dgvCotizaciones.Columns["ID_Cliente"].Visible = false;
             dgvCotizaciones.Columns["Descuento"].Visible = false;
             dgvCotizaciones.Columns["Subtotal"].Visible = false;
@@ -436,7 +439,7 @@ namespace ElastoSystem
             try
             {
                 string valorBusqueda = txbBuscador.Text;
-                string consulta = "SELECT * FROM elastosystem_ventas_cotizacion WHERE ID LIKE @ValorBusqueda OR Contacto LIKE @ValorBusqueda OR Empresa LIKE @ValorBusqueda";
+                string consulta = "SELECT * FROM elastosystem_ventas_cotizacion WHERE ID_ALT LIKE @ValorBusqueda OR ID LIKE @ValorBusqueda OR Contacto LIKE @ValorBusqueda OR Empresa LIKE @ValorBusqueda";
 
                 MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
 
@@ -564,7 +567,7 @@ namespace ElastoSystem
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Archivos PDF (*.pdf)|*.pdf";
                 saveFileDialog.Title = "Guardar PDF";
-                saveFileDialog.FileName = txbFolio.Text + ".pdf";
+                saveFileDialog.FileName = txbFolioVisible.Text + ".pdf";
 
                 string contactocguion = txbContacto.Text;
                 string contactosguion;
@@ -640,7 +643,7 @@ namespace ElastoSystem
                     whiteFontb.Color = BaseColor.WHITE;
 
                     string fecha = lblFecha.Text;
-                    string cotizacion = txbFolio.Text;
+                    string cotizacion = txbFolioVisible.Text;
                     string ocyrequi = "FECHA DE COTIZACIÓN: \n  " + fecha + "\n" + "NO. COTIZACIÓN: \n   " + cotizacion;
 
                     string contacto = contactosguion;
@@ -897,35 +900,38 @@ namespace ElastoSystem
                 string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
                 txbFolio.Text = id;
 
-                DateTime fecha = Convert.ToDateTime(dgv.Rows[rowIndex].Cells[1].Value);
+                string id_alt = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                txbFolioVisible.Text = id_alt;
+
+                DateTime fecha = Convert.ToDateTime(dgv.Rows[rowIndex].Cells[2].Value);
                 lblFecha.Text = fecha.ToString("dd / MMMM / yyyy", new System.Globalization.CultureInfo("es-ES"));
 
-                string id_cliente = dgv.Rows[rowIndex].Cells[2].Value.ToString();
+                string id_cliente = dgv.Rows[rowIndex].Cells[3].Value.ToString();
                 lblIDCliente.Text = id_cliente;
 
-                string contacto = dgv.Rows[rowIndex].Cells[3].Value.ToString();
+                string contacto = dgv.Rows[rowIndex].Cells[4].Value.ToString();
                 txbContacto.Text = contacto;
 
-                string empresa = dgv.Rows[rowIndex].Cells[4].Value.ToString();
+                string empresa = dgv.Rows[rowIndex].Cells[5].Value.ToString();
                 txbEmpresa.Text = empresa;
 
-                string descuento = dgv.Rows[rowIndex].Cells[5].Value.ToString();
+                string descuento = dgv.Rows[rowIndex].Cells[6].Value.ToString();
                 txbDescuento.Text = descuento;
                 chbDescuento.Checked = !string.IsNullOrEmpty(descuento) && descuento !="0";
 
-                string subtotal = dgv.Rows[rowIndex].Cells[6].Value.ToString();
+                string subtotal = dgv.Rows[rowIndex].Cells[7].Value.ToString();
                 txbSubtotal.Text = subtotal;
 
-                string iva = dgv.Rows[rowIndex].Cells[7].Value.ToString();
+                string iva = dgv.Rows[rowIndex].Cells[8].Value.ToString();
                 txbIVA.Text = iva;
 
-                string total = dgv.Rows[rowIndex].Cells[8].Value.ToString();
+                string total = dgv.Rows[rowIndex].Cells[9].Value.ToString();
                 txbTotal.Text = total;
 
-                bool sigla03 = dgv.Rows[rowIndex].Cells[9].Value.ToString() == "1";
+                bool sigla03 = dgv.Rows[rowIndex].Cells[10].Value.ToString() == "1";
                 chbSigla03.Checked = sigla03;
 
-                string excepto = dgv.Rows[rowIndex].Cells[10].Value.ToString();
+                string excepto = dgv.Rows[rowIndex].Cells[11].Value.ToString();
                 txbPartidas.Text = excepto;
 
                 txbBuscador.Clear();

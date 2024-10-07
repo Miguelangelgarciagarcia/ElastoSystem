@@ -53,6 +53,7 @@ namespace ElastoSystem
                         idprod = Convert.ToInt32(reader["ID"]);
                         int idnuevo = idprod + 1;
                         lblFolio.Text = idnuevo.ToString();
+                        FolioConPalabra();
                     }
                 }
                 else
@@ -69,6 +70,10 @@ namespace ElastoSystem
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        private void FolioConPalabra()
+        {
+            lblFolioVisible.Text = "COT-"+lblFolio.Text;
         }
         /*
         private void AgregarCliente()
@@ -381,8 +386,9 @@ namespace ElastoSystem
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO elastosystem_ventas_cotizacion (ID, Fecha, ID_Cliente, Contacto, Empresa, Descuento, Subtotal, IVA, Total, Sigla03, Excepto) VALUES (@ID, @FECHA, @IDCLIENTE, @CONTACTO, @EMPRESA, @DESCUENTO, @SUBTOTAL, @IVA, @TOTAL, @SIGLA03, @EXCEPTO);";
+                cmd.CommandText = "INSERT INTO elastosystem_ventas_cotizacion (ID, ID_ALT, Fecha, ID_Cliente, Contacto, Empresa, Descuento, Subtotal, IVA, Total, Sigla03, Excepto) VALUES (@ID, @IDALT, @FECHA, @IDCLIENTE, @CONTACTO, @EMPRESA, @DESCUENTO, @SUBTOTAL, @IVA, @TOTAL, @SIGLA03, @EXCEPTO);";
                 cmd.Parameters.AddWithValue("@ID",lblFolio.Text);
+                cmd.Parameters.AddWithValue("@IDALT", lblFolioVisible.Text);
                 cmd.Parameters.AddWithValue("@FECHA",fecha);
                 cmd.Parameters.AddWithValue("@IDCLIENTE",lblIDCliente.Text);
                 cmd.Parameters.AddWithValue("@CONTACTO", txbContacto.Text);
@@ -524,7 +530,7 @@ namespace ElastoSystem
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Archivos PDF (*.pdf)|*.pdf";
                 saveFileDialog.Title = "Guardar PDF";
-                saveFileDialog.FileName = lblFolio.Text + ".pdf";
+                saveFileDialog.FileName = lblFolioVisible.Text + ".pdf";
                 string contactosguion = txbContacto.Text;
 
 
@@ -589,7 +595,7 @@ namespace ElastoSystem
                     whiteFontb.Color = BaseColor.WHITE;
 
                     string fecha = lblFecha.Text;
-                    string cotizacion = lblFolio.Text;
+                    string cotizacion = lblFolioVisible.Text;
                     string ocyrequi = "FECHA DE COTIZACIÓN: \n  " + fecha + "\n" + "NO. COTIZACIÓN: \n   " + cotizacion;
 
                     string contacto = contactosguion;

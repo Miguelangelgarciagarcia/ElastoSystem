@@ -36,6 +36,7 @@
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             label1 = new Label();
             panel1 = new Panel();
+            txbFolioVisible = new TextBox();
             txbFolio = new TextBox();
             btnBuscador = new Button();
             label6 = new Label();
@@ -104,6 +105,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
+            panel1.Controls.Add(txbFolioVisible);
             panel1.Controls.Add(txbFolio);
             panel1.Controls.Add(btnBuscador);
             panel1.Controls.Add(label6);
@@ -112,16 +114,28 @@
             panel1.Size = new Size(388, 177);
             panel1.TabIndex = 25;
             // 
+            // txbFolioVisible
+            // 
+            txbFolioVisible.Enabled = false;
+            txbFolioVisible.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbFolioVisible.Location = new Point(89, 80);
+            txbFolioVisible.Name = "txbFolioVisible";
+            txbFolioVisible.ReadOnly = true;
+            txbFolioVisible.Size = new Size(269, 27);
+            txbFolioVisible.TabIndex = 37;
+            txbFolioVisible.TextAlign = HorizontalAlignment.Center;
+            // 
             // txbFolio
             // 
             txbFolio.Enabled = false;
             txbFolio.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbFolio.Location = new Point(89, 80);
+            txbFolio.Location = new Point(89, 129);
             txbFolio.Name = "txbFolio";
             txbFolio.ReadOnly = true;
             txbFolio.Size = new Size(269, 27);
             txbFolio.TabIndex = 35;
             txbFolio.TextAlign = HorizontalAlignment.Center;
+            txbFolio.Visible = false;
             // 
             // btnBuscador
             // 
@@ -412,7 +426,7 @@
             chbDescuento.BackColor = Color.Transparent;
             chbDescuento.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             chbDescuento.ForeColor = Color.White;
-            chbDescuento.Location = new Point(998, 676);
+            chbDescuento.Location = new Point(998, 643);
             chbDescuento.Name = "chbDescuento";
             chbDescuento.Size = new Size(134, 26);
             chbDescuento.TabIndex = 77;
@@ -424,7 +438,7 @@
             // 
             txbDescuento.Enabled = false;
             txbDescuento.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbDescuento.Location = new Point(1147, 674);
+            txbDescuento.Location = new Point(1147, 641);
             txbDescuento.Multiline = true;
             txbDescuento.Name = "txbDescuento";
             txbDescuento.Size = new Size(149, 30);
@@ -492,7 +506,7 @@
             label13.BackColor = Color.Transparent;
             label13.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label13.ForeColor = Color.White;
-            label13.Location = new Point(1015, 644);
+            label13.Location = new Point(1015, 677);
             label13.Name = "label13";
             label13.Size = new Size(69, 22);
             label13.TabIndex = 71;
@@ -525,7 +539,7 @@
             // 
             txbIVA.Enabled = false;
             txbIVA.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbIVA.Location = new Point(1147, 641);
+            txbIVA.Location = new Point(1147, 674);
             txbIVA.Multiline = true;
             txbIVA.Name = "txbIVA";
             txbIVA.Size = new Size(149, 30);
@@ -795,5 +809,6 @@
         private TextBox txbFolio;
         private TextBox txbContacto;
         private TextBox txbEmpresa;
+        private TextBox txbFolioVisible;
     }
 }
