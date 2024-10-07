@@ -539,7 +539,7 @@ namespace ElastoSystem
 
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
 
-                    if(count > 0)
+                    if (count > 0)
                     {
                         Folio();
                         btnGenerarCot.PerformClick();
@@ -830,7 +830,7 @@ namespace ElastoSystem
                                 txbCorreoReal.Text = txbCorreo.Text;
                                 VerificarTextos();
                                 MessageBox.Show("PDF guardado como '" + System.IO.Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                
+
 
 
                                 if (System.IO.File.Exists(rutaArchivoPDF))
@@ -853,10 +853,10 @@ namespace ElastoSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ocurrio un error al buscar el id: "+ex.Message);
+                MessageBox.Show("Ocurrio un error al buscar el id: " + ex.Message);
             }
 
-            
+
 
         }
 
@@ -993,18 +993,37 @@ namespace ElastoSystem
 
         private void VerificarTextos()
         {
-            if (txbContacto.Text != txbContactoReal.Text || txbEmpresa.Text != txbEmpresaReal.Text || txbTelefono.Text != txbTelefonoReal.Text || txbCorreo.Text != txbCorreoReal.Text)
+            bool contactoDiferente = !string.IsNullOrEmpty(txbCorreoReal.Text) && txbContacto.Text != txbContactoReal.Text;
+            bool empresaDiferente = !string.IsNullOrEmpty(txbEmpresaReal.Text) && txbEmpresa.Text != txbEmpresaReal.Text;
+            bool telefonoDiferente = !string.IsNullOrEmpty(txbTelefonoReal.Text) && txbTelefono.Text != txbTelefonoReal.Text;
+            bool correoDiferente = !string.IsNullOrEmpty(txbCorreoReal.Text) && txbCorreo.Text != txbCorreoReal.Text;
+            if (contactoDiferente || empresaDiferente || telefonoDiferente || correoDiferente)
             {
+                btnNuevoCliente.Visible = true;
                 btnActualizarCliente.Visible = true;
             }
             else
             {
+                btnNuevoCliente.Visible = false;
                 btnActualizarCliente.Visible = false;
+            }
+
+            if ((string.IsNullOrEmpty(txbContactoReal.Text) && !string.IsNullOrEmpty(txbContacto.Text)) ||
+                (string.IsNullOrEmpty(txbEmpresaReal.Text) && !string.IsNullOrEmpty(txbEmpresa.Text)) ||
+                (string.IsNullOrEmpty(txbTelefonoReal.Text) && !string.IsNullOrEmpty(txbTelefono.Text)) ||
+                (string.IsNullOrEmpty(txbContactoReal.Text) && !string.IsNullOrEmpty(txbContacto.Text)))
+            {
+                btnAddCliente.Visible = true;
+            }
+            else
+            {
+                btnAddCliente.Visible = false;
             }
         }
 
         private void dgvClientes_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            btnNuevoCliente.Visible = true;
             try
             {
                 DataGridView dgv = (DataGridView)sender;
@@ -1101,6 +1120,95 @@ namespace ElastoSystem
             {
                 MessageBox.Show("Error al actualizar datos");
             }
+        }
+
+        private void btnAddCliente_Click(object sender, EventArgs e)
+        {
+            AgregarCliente();
+        }
+
+        private void AgregarCliente()
+        {
+            try
+            {
+                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                mySqlConnection.Open();
+                MySqlCommand comando = new MySqlCommand();
+                comando.Connection = mySqlConnection;
+                if (string.IsNullOrWhiteSpace(txbEmpresa.Text) || string.IsNullOrWhiteSpace(txbTelefono.Text) || string.IsNullOrWhiteSpace(txbCorreo.Text) || string.IsNullOrEmpty(txbContacto.Text))
+                {
+                    MessageBox.Show("Favor de Ingresar todos los datos obligatorios.");
+                    //VisiblesCampos();
+                }
+                else
+                {
+                    comando.CommandText = "INSERT INTO elastosystem_ventas_clientes (Empresa, Telefono, Correo, Contacto) VALUES(@EMPRESA, @TELEFONO, @CORREO, @CONTACTO);";
+                    comando.Parameters.AddWithValue("@EMPRESA", txbEmpresa.Text);
+                    comando.Parameters.AddWithValue("@TELEFONO", txbTelefono.Text);
+                    comando.Parameters.AddWithValue("@CORREO", txbCorreo.Text);
+                    comando.Parameters.AddWithValue("@CONTACTO", txbContacto.Text);
+                    comando.ExecuteNonQuery();
+                    mySqlConnection.Close();
+                    MessageBox.Show("Cliente: " + txbContacto.Text + " registrado");
+                    txbEmpresaReal.Text = txbEmpresa.Text;
+                    txbTelefonoReal.Text = txbTelefono.Text;
+                    txbCorreoReal.Text = txbCorreo.Text;
+                    txbContactoReal.Text = txbContacto.Text;
+                    VerificarTextos();
+                    MandarALlamarIDRecienAgregado();
+                    btnAddCliente.Visible = false;
+                    //LimpiarDatosCliente();
+                    //MandarALlamarBDClientes();
+                    //OcultarCampos();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error al registrar datos");
+            }
+        }
+
+        private void MandarALlamarIDRecienAgregado()
+        {
+            try
+            {
+                string consulta = "SELECT MAX(ID) FROM elastosystem_ventas_clientes";
+
+                using (MySqlConnection conexion = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conexion.Open();
+                    MySqlCommand comando = new MySqlCommand(consulta, conexion);
+
+                    object resultado = comando.ExecuteScalar();
+
+                    if (resultado != DBNull.Value)
+                    {
+                        lblIDCliente.Text = resultado.ToString();
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener el ultimo ID: " + ex.Message);
+            }
+        }
+
+        private void btnNuevoCliente_Click(object sender, EventArgs e)
+        {
+            txbContacto.Clear();
+            txbContactoReal.Clear();
+            txbEmpresa.Clear();
+            txbEmpresaReal.Clear();
+            txbTelefono.Clear();
+            txbTelefonoReal.Clear();
+            txbCorreo.Clear();
+            txbCorreoReal.Clear();
+            btnNuevoCliente.Visible = false;
+            btnActualizarCliente.Visible = false;
         }
     }
 }
