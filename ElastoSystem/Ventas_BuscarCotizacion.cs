@@ -257,7 +257,7 @@ namespace ElastoSystem
                 totaldes = Math.Round(totaldes, 2);
                 txbTotal.Text = totaldes.ToString();
 
-                iva = suma * 0.16;
+                iva = sumadescuento * 0.16;
                 iva = Math.Round(iva, 2);
                 total = suma + iva;
                 total = Math.Round(total, 2);
