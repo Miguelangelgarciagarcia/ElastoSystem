@@ -46,7 +46,6 @@ namespace ElastoSystem
 
         private void btnminimizar_MouseLeave(object sender, EventArgs e)
         {
-            pictureBox2.Visible = true;
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -56,12 +55,11 @@ namespace ElastoSystem
 
         private void pictureBox2_MouseMove(object sender, MouseEventArgs e)
         {
-            pictureBox2.Visible = false;
         }
 
         private void Info_Load(object sender, EventArgs e)
         {
-
+            lblConexion.Text = "Conectado a: " + VariablesGlobales.IPServidor;
         }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)

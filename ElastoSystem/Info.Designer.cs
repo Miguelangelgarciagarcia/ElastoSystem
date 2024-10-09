@@ -31,9 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Info));
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
-            pictureBox2 = new PictureBox();
             btncerrar = new PictureBox();
-            btnminimizar = new PictureBox();
             label1 = new Label();
             pictureBox3 = new PictureBox();
             label2 = new Label();
@@ -43,11 +41,10 @@
             label6 = new Label();
             label7 = new Label();
             label8 = new Label();
+            lblConexion = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btncerrar).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)btnminimizar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
@@ -55,9 +52,7 @@
             // 
             panel1.BackColor = Color.FromArgb(153, 255, 255, 255);
             panel1.Controls.Add(pictureBox1);
-            panel1.Controls.Add(pictureBox2);
             panel1.Controls.Add(btncerrar);
-            panel1.Controls.Add(btnminimizar);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
@@ -78,19 +73,6 @@
             pictureBox1.TabStop = false;
             pictureBox1.MouseMove += pictureBox1_MouseMove;
             // 
-            // pictureBox2
-            // 
-            pictureBox2.BackColor = Color.Transparent;
-            pictureBox2.Cursor = Cursors.Hand;
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(513, 3);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(24, 24);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 3;
-            pictureBox2.TabStop = false;
-            pictureBox2.MouseMove += pictureBox2_MouseMove;
-            // 
             // btncerrar
             // 
             btncerrar.BackColor = Color.Transparent;
@@ -105,29 +87,15 @@
             btncerrar.Click += btncerrar_Click;
             btncerrar.MouseLeave += btncerrar_MouseLeave;
             // 
-            // btnminimizar
-            // 
-            btnminimizar.BackColor = Color.Transparent;
-            btnminimizar.Cursor = Cursors.Hand;
-            btnminimizar.Image = Properties.Resources.circuloazulminimizar;
-            btnminimizar.Location = new Point(513, 3);
-            btnminimizar.Name = "btnminimizar";
-            btnminimizar.Size = new Size(24, 24);
-            btnminimizar.SizeMode = PictureBoxSizeMode.Zoom;
-            btnminimizar.TabIndex = 1;
-            btnminimizar.TabStop = false;
-            btnminimizar.Click += btnminimizar_Click;
-            btnminimizar.MouseLeave += btnminimizar_MouseLeave;
-            // 
             // label1
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("LEMON MILK", 27F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Montserrat", 27F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(12, 55);
+            label1.Location = new Point(12, 53);
             label1.Name = "label1";
-            label1.Size = new Size(327, 51);
+            label1.Size = new Size(329, 50);
             label1.TabIndex = 1;
             label1.Text = "ELASTO SYSTEM";
             // 
@@ -148,11 +116,11 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(24, 124);
+            label2.Location = new Point(24, 132);
             label2.Name = "label2";
-            label2.Size = new Size(163, 16);
+            label2.Size = new Size(160, 16);
             label2.TabIndex = 3;
-            label2.Text = "Elasto System Version 1.2.1";
+            label2.Text = "Elasto System Version 3.0";
             // 
             // label3
             // 
@@ -160,7 +128,7 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(24, 168);
+            label3.Location = new Point(24, 176);
             label3.Name = "label3";
             label3.Size = new Size(476, 16);
             label3.TabIndex = 4;
@@ -172,7 +140,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(24, 184);
+            label4.Location = new Point(24, 192);
             label4.Name = "label4";
             label4.Size = new Size(176, 16);
             label4.TabIndex = 5;
@@ -184,7 +152,7 @@
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(24, 200);
+            label5.Location = new Point(24, 208);
             label5.Name = "label5";
             label5.Size = new Size(85, 16);
             label5.TabIndex = 6;
@@ -196,7 +164,7 @@
             label6.BackColor = Color.Transparent;
             label6.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(24, 216);
+            label6.Location = new Point(24, 224);
             label6.Name = "label6";
             label6.Size = new Size(251, 16);
             label6.TabIndex = 7;
@@ -209,7 +177,7 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(24, 232);
+            label7.Location = new Point(24, 240);
             label7.Name = "label7";
             label7.Size = new Size(255, 16);
             label7.TabIndex = 8;
@@ -221,11 +189,23 @@
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label8.ForeColor = Color.White;
-            label8.Location = new Point(24, 140);
+            label8.Location = new Point(24, 148);
             label8.Name = "label8";
-            label8.Size = new Size(185, 16);
+            label8.Size = new Size(182, 16);
             label8.TabIndex = 9;
-            label8.Text = "Última actualización 09/05/24";
+            label8.Text = "Última actualización 09/10/24";
+            // 
+            // lblConexion
+            // 
+            lblConexion.AutoSize = true;
+            lblConexion.BackColor = Color.Transparent;
+            lblConexion.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            lblConexion.ForeColor = Color.White;
+            lblConexion.Location = new Point(24, 103);
+            lblConexion.Name = "lblConexion";
+            lblConexion.Size = new Size(135, 16);
+            lblConexion.TabIndex = 10;
+            lblConexion.Text = "Conectado a: ERROR";
             // 
             // Info
             // 
@@ -233,6 +213,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(580, 300);
+            Controls.Add(lblConexion);
             Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(label6);
@@ -251,9 +232,7 @@
             Load += Info_Load;
             panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)btncerrar).EndInit();
-            ((System.ComponentModel.ISupportInitialize)btnminimizar).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -263,7 +242,6 @@
 
         private Panel panel1;
         private PictureBox btncerrar;
-        private PictureBox btnminimizar;
         private Label label1;
         private PictureBox pictureBox3;
         private Label label2;
@@ -273,7 +251,7 @@
         private Label label6;
         private Label label7;
         private PictureBox pictureBox1;
-        private PictureBox pictureBox2;
         private Label label8;
+        private Label lblConexion;
     }
 }
