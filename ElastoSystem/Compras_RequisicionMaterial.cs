@@ -45,10 +45,16 @@ namespace ElastoSystem
                 }
                 else
                 {
+                    string precio;
+                    if(txbPrecio.Text == ".")
+                    {
+                        txbPrecio.Text = "0";
+                    }
+
                     string descripcion = txbDescripcion.Text;
                     string cantidad = txbCantidad.Text;
                     string unidad = cbUnidad.Text;
-                    string precio = txbPrecio.Text;
+                    precio = txbPrecio.Text;
                     string proveedor = cbProveedor.Text;
                     string tipouso = cbTipoUso.Text;
                     string comentarios = txbNotas.Text;
@@ -77,7 +83,7 @@ namespace ElastoSystem
             {
                 dgvListaMateriales.Rows.Remove(row);
             }
-            txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text=null; txbNotas.Clear();
+            txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear();
             btnEliminar.Enabled = false;
             btnModificar.Enabled = false;
             btnAgregar.Visible = true;
@@ -250,7 +256,7 @@ namespace ElastoSystem
                     cmd.Parameters.AddWithValue("@CANTIDAD", cantidad);
                     cmd.Parameters.AddWithValue("@UNIDAD", unidad);
                     cmd.Parameters.AddWithValue("@PRECIO", precio);
-                    cmd.Parameters.AddWithValue("@PROVEEDOR",proveedor);
+                    cmd.Parameters.AddWithValue("@PROVEEDOR", proveedor);
                     cmd.Parameters.AddWithValue("@TIPOUSO", tipouso);
                     cmd.Parameters.AddWithValue("@COMENTARIOS", comentarios);
                     cmd.Parameters.AddWithValue("@ESTATUS", estatus);
@@ -375,7 +381,22 @@ namespace ElastoSystem
 
         private void button1_Click_2(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void txbCantidad_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            VariablesGlobales.ValidarSoloNoyPunto(e, txbCantidad);
+        }
+
+        private void txbPrecio_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txbPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            VariablesGlobales.ValidarSoloNoyPunto(e, txbPrecio);
         }
     }
 }

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             lblFolio = new Label();
             label8 = new Label();
@@ -58,8 +58,6 @@
             panel1 = new Panel();
             label14 = new Label();
             dgvListaMateriales = new DataGridView();
-            panel4 = new Panel();
-            btnRequerimiento = new Button();
             Descripcion = new DataGridViewTextBoxColumn();
             Cantidad = new DataGridViewTextBoxColumn();
             Unidad = new DataGridViewTextBoxColumn();
@@ -67,6 +65,8 @@
             Proveedor = new DataGridViewTextBoxColumn();
             TipoUso = new DataGridViewTextBoxColumn();
             Comentarios = new DataGridViewTextBoxColumn();
+            panel4 = new Panel();
+            btnRequerimiento = new Button();
             panel5.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaMateriales).BeginInit();
@@ -313,6 +313,8 @@
             txbPrecio.Name = "txbPrecio";
             txbPrecio.Size = new Size(150, 27);
             txbPrecio.TabIndex = 10;
+            txbPrecio.TextChanged += txbPrecio_TextChanged;
+            txbPrecio.KeyPress += txbPrecio_KeyPress;
             // 
             // txbCantidad
             // 
@@ -321,6 +323,7 @@
             txbCantidad.Name = "txbCantidad";
             txbCantidad.Size = new Size(150, 27);
             txbCantidad.TabIndex = 9;
+            txbCantidad.KeyPress += txbCantidad_KeyPress;
             // 
             // label9
             // 
@@ -419,57 +422,32 @@
             dgvListaMateriales.AllowUserToAddRows = false;
             dgvListaMateriales.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvListaMateriales.BackgroundColor = Color.White;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvListaMateriales.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios });
             dgvListaMateriales.Enabled = false;
             dgvListaMateriales.Location = new Point(16, 36);
             dgvListaMateriales.Name = "dgvListaMateriales";
             dgvListaMateriales.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvListaMateriales.RowTemplate.Height = 25;
             dgvListaMateriales.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvListaMateriales.Size = new Size(688, 546);
             dgvListaMateriales.TabIndex = 19;
             dgvListaMateriales.DoubleClick += dgvListaMateriales_DoubleClick;
-            // 
-            // panel4
-            // 
-            panel4.BackColor = Color.FromArgb(3, 42, 76);
-            panel4.Controls.Add(btnRequerimiento);
-            panel4.Location = new Point(594, 707);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(718, 68);
-            panel4.TabIndex = 28;
-            // 
-            // btnRequerimiento
-            // 
-            btnRequerimiento.BackColor = Color.FromArgb(255, 102, 0);
-            btnRequerimiento.Cursor = Cursors.Hand;
-            btnRequerimiento.FlatAppearance.BorderSize = 0;
-            btnRequerimiento.FlatStyle = FlatStyle.Flat;
-            btnRequerimiento.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
-            btnRequerimiento.ForeColor = Color.White;
-            btnRequerimiento.Location = new Point(97, 15);
-            btnRequerimiento.Name = "btnRequerimiento";
-            btnRequerimiento.Size = new Size(542, 36);
-            btnRequerimiento.TabIndex = 13;
-            btnRequerimiento.Text = "Enviar Requerimiento";
-            btnRequerimiento.UseVisualStyleBackColor = false;
-            btnRequerimiento.Click += button1_Click_1;
             // 
             // Descripcion
             // 
@@ -505,6 +483,31 @@
             // 
             Comentarios.HeaderText = "Comentarios";
             Comentarios.Name = "Comentarios";
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.FromArgb(3, 42, 76);
+            panel4.Controls.Add(btnRequerimiento);
+            panel4.Location = new Point(594, 707);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(718, 68);
+            panel4.TabIndex = 28;
+            // 
+            // btnRequerimiento
+            // 
+            btnRequerimiento.BackColor = Color.FromArgb(255, 102, 0);
+            btnRequerimiento.Cursor = Cursors.Hand;
+            btnRequerimiento.FlatAppearance.BorderSize = 0;
+            btnRequerimiento.FlatStyle = FlatStyle.Flat;
+            btnRequerimiento.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnRequerimiento.ForeColor = Color.White;
+            btnRequerimiento.Location = new Point(97, 15);
+            btnRequerimiento.Name = "btnRequerimiento";
+            btnRequerimiento.Size = new Size(542, 36);
+            btnRequerimiento.TabIndex = 13;
+            btnRequerimiento.Text = "Enviar Requerimiento";
+            btnRequerimiento.UseVisualStyleBackColor = false;
+            btnRequerimiento.Click += button1_Click_1;
             // 
             // Compras_RequisicionMaterial
             // 

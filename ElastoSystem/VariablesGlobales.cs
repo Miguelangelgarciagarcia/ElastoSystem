@@ -17,6 +17,19 @@ namespace ElastoSystem
         public static string IPServidor = "10.120.1.104";
         public static string ConexionBDElastotecnica = $"server={IPServidor} ; username=root; password=; database=elastosystem";
 
+        public static void ValidarSoloNoyPunto(KeyPressEventArgs e, TextBox textBox)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
+
+            if(e.KeyChar == '.' && textBox.Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+        }
+
         public class ConvertidorNumerosALetrasPESOS
         {
             private static readonly string[] Unidades = { "", "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE" };
