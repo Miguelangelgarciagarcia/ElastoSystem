@@ -175,6 +175,7 @@ namespace ElastoSystem
                     }
                     ultimoFolio = ultimoFolio + 1;
                     lblFolio.Text = ultimoFolio.ToString();
+                    lblFolioREQ.Text = "REQ-" + ultimoFolio.ToString();
                 }
                 else
                 {
@@ -211,8 +212,9 @@ namespace ElastoSystem
                 }
                 else
                 {
-                    cmd.CommandText = "INSERT INTO elastosystem_compras_requisicion (ID, Usuario, Fecha, Estatus)" + "VALUES (@IDREQ, @SOLICITANTE, @FECHA, @ESTATUS)";
+                    cmd.CommandText = "INSERT INTO elastosystem_compras_requisicion (ID, ID_ALT, Usuario, Fecha, Estatus)" + "VALUES (@IDREQ, @IDALT, @SOLICITANTE, @FECHA, @ESTATUS)";
                     cmd.Parameters.AddWithValue("@IDREQ", lblFolio.Text);
+                    cmd.Parameters.AddWithValue("@IDALT", lblFolioREQ.Text);
                     cmd.Parameters.AddWithValue("@SOLICITANTE", VariablesGlobales.Usuario);
                     cmd.Parameters.AddWithValue("@FECHA", fecha);
                     cmd.Parameters.AddWithValue("@ESTATUS", estatus);
@@ -220,7 +222,7 @@ namespace ElastoSystem
                     cmd.ExecuteNonQuery();
                     EnviarRequisicionDesglosada();
                     txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; dgvListaMateriales.Rows.Clear(); txbNotas.Clear(); cbTipoUso.Text = null;
-                    MessageBox.Show("Orden: " + lblFolio.Text + " enviada con exito");
+                    MessageBox.Show("Orden: " + lblFolioREQ.Text + " enviada con exito");
                     Folio();
                 }
             }

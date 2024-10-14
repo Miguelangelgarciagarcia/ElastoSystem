@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             lblFolio = new Label();
             label8 = new Label();
@@ -67,6 +67,7 @@
             Comentarios = new DataGridViewTextBoxColumn();
             panel4 = new Panel();
             btnRequerimiento = new Button();
+            lblFolioREQ = new Label();
             panel5.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaMateriales).BeginInit();
@@ -91,11 +92,12 @@
             lblFolio.BackColor = Color.Transparent;
             lblFolio.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             lblFolio.ForeColor = Color.White;
-            lblFolio.Location = new Point(1132, 42);
+            lblFolio.Location = new Point(1132, 9);
             lblFolio.Name = "lblFolio";
             lblFolio.Size = new Size(101, 30);
             lblFolio.TabIndex = 19;
             lblFolio.Text = "240000";
+            lblFolio.Visible = false;
             // 
             // label8
             // 
@@ -422,27 +424,27 @@
             dgvListaMateriales.AllowUserToAddRows = false;
             dgvListaMateriales.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvListaMateriales.BackgroundColor = Color.White;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvListaMateriales.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios });
             dgvListaMateriales.Enabled = false;
             dgvListaMateriales.Location = new Point(16, 36);
             dgvListaMateriales.Name = "dgvListaMateriales";
             dgvListaMateriales.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvListaMateriales.RowTemplate.Height = 25;
             dgvListaMateriales.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvListaMateriales.Size = new Size(688, 546);
@@ -509,12 +511,25 @@
             btnRequerimiento.UseVisualStyleBackColor = false;
             btnRequerimiento.Click += button1_Click_1;
             // 
+            // lblFolioREQ
+            // 
+            lblFolioREQ.AutoSize = true;
+            lblFolioREQ.BackColor = Color.Transparent;
+            lblFolioREQ.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
+            lblFolioREQ.ForeColor = Color.White;
+            lblFolioREQ.Location = new Point(1132, 42);
+            lblFolioREQ.Name = "lblFolioREQ";
+            lblFolioREQ.Size = new Size(101, 30);
+            lblFolioREQ.TabIndex = 29;
+            lblFolioREQ.Text = "240000";
+            // 
             // Compras_RequisicionMaterial
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(lblFolioREQ);
             Controls.Add(panel4);
             Controls.Add(panel1);
             Controls.Add(panel5);
@@ -576,5 +591,6 @@
         private DataGridViewTextBoxColumn Proveedor;
         private DataGridViewTextBoxColumn TipoUso;
         private DataGridViewTextBoxColumn Comentarios;
+        private Label lblFolioREQ;
     }
 }
