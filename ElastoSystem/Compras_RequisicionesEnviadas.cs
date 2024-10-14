@@ -21,13 +21,14 @@ namespace ElastoSystem
         {
             try
             {
-                string tabla = $"SELECT ID, Usuario, Fecha, Estatus FROM elastosystem_compras_requisicion WHERE Usuario = '{VariablesGlobales.Usuario}'";
+                string tabla = $"SELECT ID, ID_ALT, Usuario, Fecha, Estatus FROM elastosystem_compras_requisicion WHERE Usuario = '{VariablesGlobales.Usuario}'";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
-                dt.Columns["ID"].ColumnName = "Folio";
+                dt.Columns["ID_ALT"].ColumnName = "Folio";
                 dt.Columns["Usuario"].ColumnName = "Solicitante";
                 dgvRequisicions.DataSource = dt;
+                dgvRequisicions.Columns["ID"].Visible = false;
                 dt.DefaultView.Sort = "Folio DESC";
             }
             catch (Exception ex)
@@ -65,6 +66,7 @@ namespace ElastoSystem
             txbTipoUso.Clear();
             txbNotas.Clear();
             lblFolio.Text = "";
+            lblFolioREQ.Text = "";
 
 
             DataGridView dgv = (DataGridView)sender;
@@ -75,7 +77,10 @@ namespace ElastoSystem
 
                 string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
                 lblFolio.Text = id;
-                lblFolio.Visible = true;
+
+                string folio = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                lblFolioREQ.Text = folio;
+                lblFolioREQ.Visible = true;
             }
             MandarALlamarPartidas();
         }
@@ -119,18 +124,36 @@ namespace ElastoSystem
             try
             {
 
-                string valorBusqueda = txbBuscador.Text;
-                string consulta = $"SELECT * FROM elastosystem_compras_requisicion WHERE ID LIKE @ValorBusqueda AND Usuario = '{VariablesGlobales.Usuario}'";
+                string valorBusqueda = txbBuscador.Text.Trim();
+                string consulta;
+
+                if (string.IsNullOrEmpty(valorBusqueda))
+                {
+                    consulta = $"SELECT ID, ID_ALT, Usuario, Fecha, Estatus FROM elastosystem_compras_requisicion WHERE Usuario = '{VariablesGlobales.Usuario}'";
+                }
+                else
+                {
+                    consulta = $"SELECT ID, ID_ALT, Usuario, Fecha, Estatus FROM elastosystem_compras_requisicion WHERE (ID LIKE @ValorBusqueda OR ID_ALT LIKE @ValorBusqueda) AND Usuario = '{VariablesGlobales.Usuario}'";
+                }
 
                 MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
 
-                adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
+                if (!string.IsNullOrEmpty(valorBusqueda))
+                {
+                    adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
+                }
 
-                DataSet datos = new DataSet();
+                DataTable dt = new DataTable();
+                adaptador.Fill(dt);
 
-                adaptador.Fill(datos, "Resultados");
+                dt.Columns["ID_ALT"].ColumnName = "Folio";
+                dt.Columns["Usuario"].ColumnName = "Solicitante";
 
-                dgvRequisicions.DataSource = datos.Tables["Resultados"];
+                dgvRequisicions.DataSource = dt;
+
+                dgvRequisicions.Columns["ID"].Visible = false;
+
+                dt.DefaultView.Sort = "Folio DESC";
             }
             catch (Exception ex)
             {
