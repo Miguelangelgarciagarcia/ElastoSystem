@@ -75,37 +75,6 @@ namespace ElastoSystem
         {
             lblFolioVisible.Text = "COT-" + lblFolio.Text;
         }
-        /*
-        private void AgregarCliente()
-        {
-            try
-            {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionStringelastotec);
-                mySqlConnection.Open();
-                MySqlCommand comando = new MySqlCommand();
-                comando.Connection = mySqlConnection;
-                if (string.IsNullOrWhiteSpace(cbContacto.Text) || string.IsNullOrWhiteSpace(cbEmpresa.Text) || string.IsNullOrWhiteSpace(txbTelefono.Text) || string.IsNullOrEmpty(txbCorreo.Text))
-                {
-                    MessageBox.Show("Favor de Ingresar todos los datos");
-                }
-                else
-                {
-                    comando.CommandText = "INSERT INTO clientes (ID, NOMBRE, CONTACTO, TELEFONO, EMAIL) VALUES('" + lblID.Text + "','" + cbEmpresa.Text + "','" + cbContacto.Text + "','" + txbTelefono.Text + "' , '" + txbCorreo.Text + "');";
-                    comando.ExecuteNonQuery();
-                    mySqlConnection.Close();
-                    MessageBox.Show("Cliente No. " + lblID.Text + " registrado");
-                    IDIncrementable();
-                    cbContacto.Items.Clear(); cbEmpresa.Items.Clear();
-                    MandarALlamarContactos();
-                    MandarALlamarEmpresas();
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error al registrar datos");
-            }
-        }
-        */
         private void Clave()
         {
             MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
@@ -1000,7 +969,7 @@ namespace ElastoSystem
 
         private void VerificarTextos()
         {
-            bool contactoDiferente = !string.IsNullOrEmpty(txbCorreoReal.Text) && txbContacto.Text != txbContactoReal.Text;
+            bool contactoDiferente = !string.IsNullOrEmpty(txbContactoReal.Text) && txbContacto.Text != txbContactoReal.Text;
             bool empresaDiferente = !string.IsNullOrEmpty(txbEmpresaReal.Text) && txbEmpresa.Text != txbEmpresaReal.Text;
             bool telefonoDiferente = !string.IsNullOrEmpty(txbTelefonoReal.Text) && txbTelefono.Text != txbTelefonoReal.Text;
             bool correoDiferente = !string.IsNullOrEmpty(txbCorreoReal.Text) && txbCorreo.Text != txbCorreoReal.Text;
