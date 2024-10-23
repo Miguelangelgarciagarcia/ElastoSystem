@@ -38,7 +38,7 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Almacen, Nuevo_Producto, Editar_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado FROM elastosystem_permisos_menu WHERE ID = @idmenu";
+                string query = "SELECT Almacen, Nuevo_Producto, Editar_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado FROM elastosystem_permisos_menu WHERE ID = @idmenu";
 
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@idmenu", idmenu);
@@ -231,6 +231,12 @@ namespace ElastoSystem
                         {
                             btnPendientesMaquinado.Enabled = true;
                             btnPendientesMaquinado.Visible = true;
+                        }
+                        string historial_maquinadoValue = reader["Historial_Maquinado"].ToString();
+                        if(historial_maquinadoValue == "True")
+                        {
+                            btnHistoricoMaquinado.Enabled = true;
+                            btnHistoricoMaquinado.Visible = true;
                         }
                     }
                 }
@@ -655,7 +661,8 @@ namespace ElastoSystem
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-
+            openChildForm(new Maquinado_Historial());
+            HideSubMenu();
         }
     }
 }

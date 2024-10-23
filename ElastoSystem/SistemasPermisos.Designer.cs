@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SistemasPermisos));
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             label2 = new Label();
             cbUsuarios = new ComboBox();
@@ -69,6 +69,7 @@
             chbReporteProduccion = new CheckBox();
             chbProduccion = new CheckBox();
             panel7 = new Panel();
+            chbHistorialMaquinado = new CheckBox();
             chbPendientesMaquinado = new CheckBox();
             chbSolicitudMaquinado = new CheckBox();
             chbMaquinado = new CheckBox();
@@ -589,6 +590,7 @@
             // panel7
             // 
             panel7.BackColor = Color.FromArgb(3, 42, 76);
+            panel7.Controls.Add(chbHistorialMaquinado);
             panel7.Controls.Add(chbPendientesMaquinado);
             panel7.Controls.Add(chbSolicitudMaquinado);
             panel7.Controls.Add(chbMaquinado);
@@ -596,6 +598,19 @@
             panel7.Name = "panel7";
             panel7.Size = new Size(240, 224);
             panel7.TabIndex = 11;
+            // 
+            // chbHistorialMaquinado
+            // 
+            chbHistorialMaquinado.AutoSize = true;
+            chbHistorialMaquinado.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbHistorialMaquinado.ForeColor = Color.White;
+            chbHistorialMaquinado.Location = new Point(15, 100);
+            chbHistorialMaquinado.Name = "chbHistorialMaquinado";
+            chbHistorialMaquinado.Size = new Size(147, 20);
+            chbHistorialMaquinado.TabIndex = 3;
+            chbHistorialMaquinado.Text = "Historial Maquinado";
+            chbHistorialMaquinado.UseVisualStyleBackColor = true;
+            chbHistorialMaquinado.CheckedChanged += chbHistorialMaquinado_CheckedChanged;
             // 
             // chbPendientesMaquinado
             // 
@@ -925,26 +940,26 @@
             dgvUsuarioyPassword.AllowUserToAddRows = false;
             dgvUsuarioyPassword.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvUsuarioyPassword.BackgroundColor = Color.White;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvUsuarioyPassword.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvUsuarioyPassword.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvUsuarioyPassword.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsuarioyPassword.Location = new Point(24, 78);
             dgvUsuarioyPassword.Name = "dgvUsuarioyPassword";
             dgvUsuarioyPassword.ReadOnly = true;
             dgvUsuarioyPassword.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dgvUsuarioyPassword.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dgvUsuarioyPassword.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvUsuarioyPassword.RowTemplate.Height = 25;
             dgvUsuarioyPassword.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvUsuarioyPassword.Size = new Size(592, 522);
@@ -1082,5 +1097,6 @@
         private PictureBox pbEstatus;
         private PictureBox pbPassword;
         private PictureBox pbUsuario;
+        private CheckBox chbHistorialMaquinado;
     }
 }
