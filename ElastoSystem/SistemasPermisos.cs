@@ -26,6 +26,7 @@ namespace ElastoSystem
 
         private void MandarALlamarUsuarios()
         {
+            cbUsuarios.Items.Clear();
             MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
@@ -817,6 +818,7 @@ namespace ElastoSystem
                         MandarALlamarInfoUsuarios();
                         txbBuscador.Clear();
                         btnNuevo.PerformClick();
+                        MandarALlamarUsuarios();
                     }
                 }
                 catch (Exception ex)
@@ -883,11 +885,13 @@ namespace ElastoSystem
 
                     if (rowsAffected > 0)
                     {
+                        AgregarRegistro(conn);
                         MessageBox.Show("Usuario agregado correctamente");
                         LimpiarCampos();
                         txbBuscador.Clear();
                         MandarALlamarInfoUsuarios();
                         btnNuevo.PerformClick();
+                        MandarALlamarUsuarios();
 
                     }
                     else
@@ -904,6 +908,37 @@ namespace ElastoSystem
                 {
                     conn.Close();
                 }
+            }
+        }
+
+        private void AgregarRegistro(MySqlConnection conn)
+        {
+            try
+            {
+                string query = "SELECT LAST_INSERT_ID()";
+                MySqlCommand command = new MySqlCommand(query, conn);
+
+                int lastInsertId = Convert.ToInt32(command.ExecuteScalar());
+
+                string insertPermisoQuery = "INSERT INTO elastosystem_permisos_menu(ID) VALUES(@ID)";
+                MySqlCommand insertPermisoCommand = new MySqlCommand(insertPermisoQuery, conn);
+                insertPermisoCommand.Parameters.AddWithValue("@ID", lastInsertId);
+
+                int rowsAffected = insertPermisoCommand.ExecuteNonQuery();
+
+                if(rowsAffected > 0)
+                {
+
+                }
+                else
+                {
+                    MessageBox.Show("Error al asignar los permisos");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al ingrear el ID a los permisos: "+ex.Message);
             }
         }
 
@@ -934,6 +969,7 @@ namespace ElastoSystem
                         txbBuscador.Clear();
                         MandarALlamarInfoUsuarios();
                         btnNuevo.PerformClick();
+                        MandarALlamarUsuarios();
                     }
                     else
                     {
