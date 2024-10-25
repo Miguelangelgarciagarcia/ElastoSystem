@@ -689,6 +689,11 @@ namespace ElastoSystem
                     string numeroEnLetras = VariablesGlobales.ConvertidorNumerosALetrasUSD.ConvertirNumeroALetras(numero);
                     txbTotalLetra.Text = numeroEnLetras;
                 }
+                else if (cbMoneda.Text == "EUROS")
+                {
+                    string numeroEnLetras = VariablesGlobales.ConvertidorNumerosALetrasEuro.ConvertirNumeroALetras(numero);
+                    txbTotalLetra.Text = numeroEnLetras;
+                }
                 else
                 {
                     string numeroEnLetras = VariablesGlobales.ConvertidorNumerosALetrasPESOS.ConvertirNumeroALetras(numero);
@@ -713,7 +718,7 @@ namespace ElastoSystem
                 }
                 else
                 {
-                    if (cbMoneda.SelectedIndex >= 0 && cbConfirmacionPedido.SelectedIndex >= 0 && cbCondicionPago.SelectedIndex >= 0 && txbTiempoEntrega.Text.Length > 0 && txbLugarEntrega.Text.Length > 0 && cbFormaPago.SelectedIndex >= 0 && cbRequisicion.SelectedIndex >= 0 && txbCotizacion.Text.Length > 0)
+                    if (cbMoneda.SelectedIndex >= 0 && cbConfirmacionPedido.SelectedIndex >= 0 && cbCondicionPago.Text.Length >= 0 && txbTiempoEntrega.Text.Length > 0 && txbLugarEntrega.Text.Length > 0 && cbFormaPago.SelectedIndex >= 0 && cbRequisicion.SelectedIndex >= 0 && txbCotizacion.Text.Length > 0)
                     {
                         lblCampos2.Visible = false; pbCampos2.Visible = false; pbMoneda.Visible = false; pbConfirmacion.Visible = false; pbCondicion.Visible = false; pbTiempo.Visible = false; pbLugar.Visible = false; pbForma.Visible = false; pbCalidad.Visible = false; pbRequi.Visible = false; pbCotizacion.Visible = false;
                         string certificadodecalidad = " ";
@@ -940,15 +945,28 @@ namespace ElastoSystem
                                 if (cbMoneda.Text == "DOLARES")
                                 {
                                     rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\cantidades_USD.jpg";
+                                    iTextSharp.text.Image imagen4 = iTextSharp.text.Image.GetInstance(rutaImagen4);
+                                    imagen4.ScaleToFit(170f, 170f);
+                                    imagen4.SetAbsolutePosition(410, tableeY);
+                                    doc.Add(imagen4);
+                                }
+                                else if(cbMoneda.Text == "EUROS")
+                                {
+                                    rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\cantidades_Euros.jpg";
+                                    iTextSharp.text.Image imagen4 = iTextSharp.text.Image.GetInstance(rutaImagen4);
+                                    imagen4.ScaleToFit(150f, 150f);
+                                    imagen4.SetAbsolutePosition(430, tableeY+5);
+                                    doc.Add(imagen4);
                                 }
                                 else
                                 {
                                     rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\cantidades.jpg";
+                                    iTextSharp.text.Image imagen4 = iTextSharp.text.Image.GetInstance(rutaImagen4);
+                                    imagen4.ScaleToFit(170f, 170f);
+                                    imagen4.SetAbsolutePosition(410, tableeY);
+                                    doc.Add(imagen4);
                                 }
-                                iTextSharp.text.Image imagen4 = iTextSharp.text.Image.GetInstance(rutaImagen4);
-                                imagen4.ScaleToFit(170f, 170f);
-                                imagen4.SetAbsolutePosition(410, tableeY);
-                                doc.Add(imagen4);
+                                
 
 
                                 string cotizacion = txbCotizacion.Text;
@@ -1247,6 +1265,10 @@ namespace ElastoSystem
                                 if (cbMoneda.Text == "DOLARES")
                                 {
                                     rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\Elastosystem\\cantidades_USD_andrea.jpg";
+                                }
+                                else if (cbMoneda.Text == "EUROS")
+                                {
+                                    rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\Elastosystem\\cantidades_Euros_andrea.jpg";
                                 }
                                 else
                                 {
@@ -1547,6 +1569,10 @@ namespace ElastoSystem
                                 if (cbMoneda.Text == "DOLARES")
                                 {
                                     rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\cantidades_USD_brosma.jpg";
+                                }
+                                else if(cbMoneda.Text == "EUROS")
+                                {
+                                    rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\cantidades_Euros_brosma.jpg";
                                 }
                                 else
                                 {

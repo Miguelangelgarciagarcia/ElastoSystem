@@ -302,7 +302,7 @@
             cbUnidad.DropDownStyle = ComboBoxStyle.DropDownList;
             cbUnidad.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             cbUnidad.FormattingEnabled = true;
-            cbUnidad.Items.AddRange(new object[] { "Atado", "Kilos", "Litros", "Metros", "Piezas" });
+            cbUnidad.Items.AddRange(new object[] { "Atado", "Kilos", "Litros", "Metros", "Piezas", "Servicio" });
             cbUnidad.Location = new Point(208, 229);
             cbUnidad.Name = "cbUnidad";
             cbUnidad.Size = new Size(150, 30);

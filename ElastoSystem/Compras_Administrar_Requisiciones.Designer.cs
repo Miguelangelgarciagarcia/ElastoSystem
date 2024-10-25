@@ -350,7 +350,6 @@
             txbTipoUso.Location = new Point(243, 237);
             txbTipoUso.Multiline = true;
             txbTipoUso.Name = "txbTipoUso";
-            txbTipoUso.ReadOnly = true;
             txbTipoUso.Size = new Size(764, 30);
             txbTipoUso.TabIndex = 19;
             txbTipoUso.TextAlign = HorizontalAlignment.Center;
@@ -373,7 +372,6 @@
             txbNotas.Location = new Point(17, 315);
             txbNotas.Multiline = true;
             txbNotas.Name = "txbNotas";
-            txbNotas.ReadOnly = true;
             txbNotas.Size = new Size(990, 91);
             txbNotas.TabIndex = 17;
             // 
@@ -587,7 +585,7 @@
             cbMoneda.DropDownStyle = ComboBoxStyle.DropDownList;
             cbMoneda.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             cbMoneda.FormattingEnabled = true;
-            cbMoneda.Items.AddRange(new object[] { "DOLARES", "PESOS MEXICANOS" });
+            cbMoneda.Items.AddRange(new object[] { "DOLARES", "EUROS", "PESOS MEXICANOS" });
             cbMoneda.Location = new Point(250, 71);
             cbMoneda.Name = "cbMoneda";
             cbMoneda.Size = new Size(336, 30);
