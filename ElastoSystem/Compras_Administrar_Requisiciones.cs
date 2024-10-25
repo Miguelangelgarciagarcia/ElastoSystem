@@ -1026,7 +1026,7 @@ namespace ElastoSystem
 
                             }
                             //////////////////////////////////////////////////////////////ANDREA/////////////////////////////////////////////////////////////////////////
-                            else
+                            else if(cbRequisicion.Text == "ANDREA")
                             {
                                 if (txbLugarEntrega.Text == "ELASTOTECNICA CARR. ANIMAS-COYOTEPEC KM. 4, COYOTEPEC, ESTADO DE MÉXICO")
                                 {
@@ -1332,6 +1332,304 @@ namespace ElastoSystem
                                 dgvPartidas.DataSource = null;
                                 dgvPartidas.Rows.Clear();
 
+                            }
+                            /////////////////////////////////////////////////////////BROSMA
+                            else
+                            {
+                                if (txbLugarEntrega.Text == "ELASTOTECNICA CARR. ANIMAS-COYOTEPEC KM. 4, COYOTEPEC, ESTADO DE MÉXICO")
+                                {
+                                    txbLugarEntrega.Text = "CARR. ANIMAS-COYOTEPEC KM. 4, COYOTEPEC, ESTADO DE MÉXICO";
+                                }
+                                else
+                                {
+
+                                }
+                                string rutaArchivoPDF = saveFileDialog.FileName;
+                                iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.LETTER, 36, 36, 20, 36);
+                                PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(rutaArchivoPDF, FileMode.Create));
+                                doc.Open();
+
+                                string rutaImagen = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\oc_encabezado_brosma.jpg";
+                                iTextSharp.text.Image imagen = iTextSharp.text.Image.GetInstance(rutaImagen);
+                                float anchoObjetivoencabezado = 540f;
+                                float altoObjetivoencabezado = 125f;
+                                imagen.ScaleToFit(anchoObjetivoencabezado, altoObjetivoencabezado);
+                                float posYImagen1 = doc.PageSize.Height - doc.TopMargin - imagen.ScaledHeight;
+                                imagen.SetAbsolutePosition(doc.Left, posYImagen1);
+                                doc.Add(imagen);
+
+                                string rutaimagenpie = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\pie_brosma.jpg";
+                                iTextSharp.text.Image imagepie = iTextSharp.text.Image.GetInstance(rutaimagenpie);
+                                float anchopie = 540f;
+                                float altopie = 125f;
+                                imagepie.ScaleToFit(anchopie, altopie);
+                                float posypie = 15f;
+                                imagepie.SetAbsolutePosition(doc.Left, posypie);
+                                doc.Add(imagepie);
+
+                                iTextSharp.text.Font font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 6);
+                                iTextSharp.text.Font fontCantidadLetras = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 7, iTextSharp.text.Font.BOLD);
+                                iTextSharp.text.Font fontfolios = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8);
+                                iTextSharp.text.Font fontceldas = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.UNDEFINED, 8);
+                                iTextSharp.text.Font fontgrandes = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9);
+                                iTextSharp.text.Font fontdatosencabezado = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8);
+
+                                iTextSharp.text.Font fontocyreq = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 7);
+                                fontocyreq.Color = BaseColor.WHITE;
+
+                                doc.Add(new iTextSharp.text.Paragraph("\n \n"));
+
+                                DateTime fechaActual = DateTime.Today;
+                                string fechahoy = fechaActual.ToString("yyyy-MM-dd");
+                                string oc = lblFolioOC.Text;
+                                string ocyrequi = "\n \n \n \n \n \n" + "  " + oc + "\n \n" + "  " + listaRequisiciones;
+                                iTextSharp.text.Paragraph paragraph = new iTextSharp.text.Paragraph(ocyrequi, font);
+                                string empresa = cbProveedores.Text;
+                                string atencion = txbAtencion.Text;
+                                string telefono = txbTelefono.Text;
+                                string correo = txbCorreo.Text;
+                                string datosdelproveedor = empresa + "\n " + atencion + "\n " + telefono + "\n " + correo;
+                                string datos = "Orden de compra:         "+ oc + "                                                                    FECHA: " + fechahoy +"\n" + "Numero de cotización:   " + listaRequisiciones + "\n \n" + "Datos del proveedor:" +"\n"+ empresa +"\n"+ atencion + "\n" + telefono + "\n" + correo;
+                                iTextSharp.text.Paragraph datospro = new iTextSharp.text.Paragraph(datosdelproveedor, font);
+
+                                // Crear una tabla con una fila y dos celdas
+                                PdfPTable tableaa = new PdfPTable(2);
+                                tableaa.WidthPercentage = 100;
+                                tableaa.SetWidths(new float[] { 25, 75 });
+
+
+                                PdfPCell cellVacia = new PdfPCell(new Phrase(" "));
+                                cellVacia.BorderWidth = 0;
+                                tableaa.AddCell(cellVacia);
+
+                                // Segunda celda: párrafo de firma
+                                PdfPCell cellProo = new PdfPCell(new Phrase(datos, fontdatosencabezado));
+                                cellProo.HorizontalAlignment = Element.ALIGN_LEFT;
+                                cellProo.BorderWidth = 0;
+                                tableaa.AddCell(cellProo);
+
+                                doc.Add(tableaa);
+
+
+
+                                doc.Add(new iTextSharp.text.Paragraph("\n"));
+
+                                iTextSharp.text.Font whiteFonta = new iTextSharp.text.Font(font);
+                                whiteFonta.Color = BaseColor.WHITE;
+                                string confirmaciondelpedido = cbConfirmacionPedido.Text;
+                                
+                                string barraconfirmacion = "CONFIRMACION DEL PEDIDO: " + confirmaciondelpedido;
+                                iTextSharp.text.Paragraph barraconfi = new iTextSharp.text.Paragraph(barraconfirmacion, font);
+                                PdfPTable tablef = new PdfPTable(1);
+                                tablef.WidthPercentage = 100;
+                                PdfPCell cellf = new PdfPCell(new Phrase(barraconfirmacion, whiteFonta));
+                                cellf.BorderWidth = 0;
+                                cellf.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                                cellf.BackgroundColor = new BaseColor(2, 39, 58);
+                                tablef.AddCell(cellf);
+                                doc.Add(tablef);
+
+
+                                PdfPTable table = new PdfPTable(6);
+                                table.WidthPercentage = 100;
+
+                                float[] columnWidths = new float[] { 7f, 7f, 7f, 59f, 10f, 10f };
+                                table.SetWidths(columnWidths);
+                                for (int i = 0; i < dgvListaMateriales.Columns.Count; i++)
+                                {
+                                    if (dgvListaMateriales.Columns[i].Visible)
+                                    {
+                                        iTextSharp.text.Font whiteFont = new iTextSharp.text.Font(font);
+                                        whiteFont.Color = BaseColor.WHITE;
+
+                                        PdfPCell cell = new PdfPCell(new Phrase(dgvListaMateriales.Columns[i].HeaderText, whiteFont));
+                                        cell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                                        cell.BackgroundColor = new BaseColor(2, 39, 58);
+                                        table.AddCell(cell);
+                                    }
+                                }
+                                doc.Add(table);
+
+                                int maxFilasPorPagina = 20;
+                                int numFilas = dgvListaMateriales.Rows.Count;
+                                int filaActual = 0;
+                                int limiteFilasPrimeraPagina = 20;
+                                while (filaActual < numFilas)
+                                {
+                                    if (filaActual % maxFilasPorPagina == 0 && filaActual != 0)
+                                    {
+                                        doc.NewPage();
+                                    }
+                                    int filasRestantes = numFilas - filaActual;
+                                    int filasEnEstaPagina = Math.Min(filasRestantes, maxFilasPorPagina);
+                                    PdfPTable tableParte1 = new PdfPTable(6);
+                                    tableParte1.WidthPercentage = 100;
+                                    float[] columnWidths1 = new float[] { 7f, 7f, 7f, 59f, 10f, 10f };
+                                    tableParte1.SetWidths(columnWidths1);
+
+                                    PdfPTable tableParte2 = new PdfPTable(6);
+                                    tableParte2.WidthPercentage = 100;
+                                    float[] columnWidths2 = new float[] { 7f, 7f, 7f, 59f, 10f, 10f };
+                                    tableParte2.SetWidths(columnWidths2);
+
+                                    for (int i = 0; i < filasEnEstaPagina; i++)
+                                    {
+                                        int indiceFila = filaActual + i;
+                                        PdfPTable tablaActual = indiceFila < limiteFilasPrimeraPagina ? tableParte1 : tableParte2;
+
+                                        for (int j = 0; j < dgvListaMateriales.Columns.Count; j++)
+                                        {
+                                            if (dgvListaMateriales.Columns[j].Visible)
+                                            {
+                                                string valorCelda = dgvListaMateriales.Rows[indiceFila].Cells[j].Value.ToString();
+                                                PdfPCell cell;
+
+                                                if (j == 5 || j == 6)
+                                                {
+                                                    valorCelda = "$ " + valorCelda;
+                                                    cell = new PdfPCell(new Phrase(valorCelda, fontceldas));
+                                                }
+                                                else
+                                                {
+                                                    cell = new PdfPCell(new Phrase(valorCelda, fontceldas));
+                                                }
+
+                                                cell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                                                tablaActual.AddCell(cell);
+                                            }
+                                        }
+                                    }
+
+                                    doc.Add(tableParte1);
+
+                                    doc.Add(tableParte2);
+
+                                    filaActual += filasEnEstaPagina;
+                                }
+
+
+                                doc.Add(new iTextSharp.text.Paragraph("\n"));
+
+
+                                iTextSharp.text.Font whiteFontb = new iTextSharp.text.Font(fontgrandes);
+                                whiteFontb.Color = BaseColor.WHITE;
+                                string cantidadletras = txbTotalLetra.Text;
+                                string cantidadeneletracompleta = "\n \n **" + cantidadletras + "**";
+                                iTextSharp.text.Paragraph letracuadro = new iTextSharp.text.Paragraph(cantidadeneletracompleta, fontCantidadLetras);
+                                string subtotal = txbSubtotal.Text;
+                                string iva = txbIVA.Text;
+                                string total = txbTotal.Text;
+                                string cantidades = " $" + subtotal + "\n \n" + "$" + iva + "\n \n " + "$" + total;
+                                iTextSharp.text.Paragraph cantidadescuadro = new iTextSharp.text.Paragraph(cantidades, font);
+
+                                PdfPTable tableTotales = new PdfPTable(2);
+                                tableTotales.WidthPercentage = 100;
+                                tableTotales.SetWidths(new float[] { 70, 30 });
+
+                                PdfPCell cellLet = new PdfPCell(new Phrase(cantidadeneletracompleta, fontCantidadLetras));
+                                cellLet.HorizontalAlignment = Element.ALIGN_CENTER;
+                                cellLet.BorderWidth = 0;
+                                tableTotales.AddCell(cellLet);
+
+
+                                PdfPCell cellTotales = new PdfPCell(new Phrase(cantidades, whiteFontb));
+                                cellTotales.HorizontalAlignment = Element.ALIGN_LEFT;
+                                cellTotales.PaddingLeft = 85;
+                                cellTotales.BorderWidth = 0;
+                                tableTotales.AddCell(cellTotales);
+                                float tableY = writer.GetVerticalPosition(false);
+                                float tableeY = tableY - 58;
+                                doc.Add(tableTotales);
+
+
+                                // CANTIDAD
+                                string rutaImagen4 = "";
+                                if (cbMoneda.Text == "DOLARES")
+                                {
+                                    rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\cantidades_USD_brosma.jpg";
+                                }
+                                else
+                                {
+                                    rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\cantidades_brosma.jpg";
+                                }
+                                iTextSharp.text.Image imagen4 = iTextSharp.text.Image.GetInstance(rutaImagen4);
+                                imagen4.ScaleToFit(138f, 138f);
+                                imagen4.SetAbsolutePosition(435, tableeY + 5);
+                                doc.Add(imagen4);
+
+
+                                string cotizacion = txbCotizacion.Text;
+                                string condicionpago = cbCondicionPago.Text;
+                                string tiempoentrega = txbTiempoEntrega.Text;
+                                string lugarentrega = txbLugarEntrega.Text;
+                                string formapago = cbFormaPago.Text;
+                                string condi = "--------------------------------------------------CONDICIONES--------------------------------------------------" + "\n" + "COTIZACIÓN: " + cotizacion + "\n" + "CONDICIÓN DE PAGO: " + condicionpago + "\n" + "TIEMPO DE ENTREGA: " + tiempoentrega + "\n" + "LUGAR DE ENTREGA: " + "\n" + lugarentrega + "\n" + "HORARIO DE RECEPCION DE MATERIALES 8:00 AM - 16:00 PM" + "\n" + "FAVOR DE ESPECIFICAR EN LA FACTURA LA FORMA DE PAGO:" + "\n" + formapago + "\n" + "ENTREGAR MATERIALES CON COPIA DE SU ORDEN DE COMPRA" + "\n" + certificadodecalidad;
+                                iTextSharp.text.Paragraph condiciones = new iTextSharp.text.Paragraph(condi, font);
+
+                                string solicit = lblSolicito.Text;
+                                string use = txbTipoUso.Text;
+                                string firma = "\n \n \n \n" + "FIRMA DE RECIBIDO: _______________________";
+                                //string firma = "\n \n \n \n \n \n \n" + "FIRMA DE RECIBIDO: _______________________" + "\n \n" + "SOLICITO: " + solicit + "\n" + "USO: " + use;
+                                iTextSharp.text.Paragraph firm = new iTextSharp.text.Paragraph(firma, font);
+
+                                // Crear una tabla con una fila y dos celdas
+                                PdfPTable tablea = new PdfPTable(3);
+                                tablea.WidthPercentage = 100;
+                                tablea.SetWidths(new float[] { 60, 40, 10 });
+
+                                // Primera celda: párrafo de condiciones
+                                PdfPCell cellCondiciones = new PdfPCell(new Phrase(condi, font));
+                                cellCondiciones.HorizontalAlignment = Element.ALIGN_LEFT;
+                                cellCondiciones.BorderWidth = 0;
+                                tablea.AddCell(cellCondiciones);
+
+                                // Segunda celda: párrafo de firma
+                                PdfPCell cellFirma = new PdfPCell(new Phrase(firma, font));
+                                cellFirma.HorizontalAlignment = Element.ALIGN_CENTER;
+                                cellFirma.BorderWidth = 0;
+                                tablea.AddCell(cellFirma);
+                                string f = " ";
+                                PdfPCell cellF = new PdfPCell(new Phrase(f, font));
+                                cellF.HorizontalAlignment = Element.ALIGN_CENTER;
+                                cellF.BorderWidth = 0;
+                                tablea.AddCell(cellF);
+                                float posXTabla = 36f;
+                                float posYTabla = 145f;
+                                float pie = 15f;
+                                tablea.TotalWidth = doc.PageSize.Width;
+                                tablea.WriteSelectedRows(0, -1, posXTabla, posYTabla, writer.DirectContent);
+
+
+                                //PIE DE PAGINA
+                                string rutaImagen3 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\pie_brosma.jpg";
+                                float anchoObjetiv = 540f;
+                                float altoObjetiv = 125f;
+                                iTextSharp.text.Image imagen3 = iTextSharp.text.Image.GetInstance(rutaImagen3);
+                                imagen3.ScaleToFit(anchoObjetiv, altoObjetiv);
+                                imagen3.SetAbsolutePosition(doc.Left, pie);
+                                doc.Add(imagen3);
+                                doc.Close();
+
+                                TomarFolio();
+
+                                MessageBox.Show("PDF guardado como '" + System.IO.Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (System.IO.File.Exists(rutaArchivoPDF))
+                                {
+                                    System.Diagnostics.Process.Start("explorer.exe", rutaArchivoPDF);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("El archivo no se puede encontrar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+
+                                EnviarFolioOCAProductos();
+                                LimpiarCampos();
+                                tabControl1.SelectedIndex = 0;
+                                Folio();
+                                CargarRequisiciones();
+                                MandarALlamarProveedores();
+                                dgvPartidas.DataSource = null;
+                                dgvPartidas.Rows.Clear();
                             }
 
                         }

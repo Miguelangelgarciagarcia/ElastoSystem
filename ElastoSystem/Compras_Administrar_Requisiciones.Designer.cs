@@ -416,7 +416,7 @@
             cbRequisicion.DropDownStyle = ComboBoxStyle.DropDownList;
             cbRequisicion.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             cbRequisicion.FormattingEnabled = true;
-            cbRequisicion.Items.AddRange(new object[] { "ELASTOTECNICA", "ANDREA" });
+            cbRequisicion.Items.AddRange(new object[] { "ELASTOTECNICA", "ANDREA", "BROSMA" });
             cbRequisicion.Location = new Point(359, 15);
             cbRequisicion.Name = "cbRequisicion";
             cbRequisicion.Size = new Size(336, 30);
