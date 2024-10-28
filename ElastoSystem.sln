@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElastoSystem", "ElastoSystem\ElastoSystem.csproj", "{354B0267-55F8-46E5-A0DA-FFC64AF5EC48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElastoSystem", "ElastoSystem\ElastoSystem.csproj", "{354B0267-55F8-46E5-A0DA-FFC64AF5EC48}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ElastoSystemSetup", "ElastoSystemSetup\ElastoSystemSetup.vdproj", "{2A00D364-FEE4-43FF-81AD-59FA1D1E9A08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{354B0267-55F8-46E5-A0DA-FFC64AF5EC48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{354B0267-55F8-46E5-A0DA-FFC64AF5EC48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{354B0267-55F8-46E5-A0DA-FFC64AF5EC48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A00D364-FEE4-43FF-81AD-59FA1D1E9A08}.Debug|Any CPU.ActiveCfg = Debug
+		{2A00D364-FEE4-43FF-81AD-59FA1D1E9A08}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -78,6 +78,7 @@
             panelPrincipal = new Panel();
             dgv = new DataGridView();
             labelid = new Label();
+            lblModoPruebaMenu = new Label();
             PBarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PBNaranja).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PBAzul).BeginInit();
@@ -101,6 +102,7 @@
             // PBarraTitulo
             // 
             PBarraTitulo.BackColor = Color.FromArgb(153, 255, 255, 255);
+            PBarraTitulo.Controls.Add(lblModoPruebaMenu);
             PBarraTitulo.Controls.Add(PBNaranja);
             PBarraTitulo.Controls.Add(PBAzul);
             PBarraTitulo.Controls.Add(PBICerrar);
@@ -907,6 +909,19 @@
             labelid.Visible = false;
             labelid.TextChanged += labelrol_TextChanged;
             // 
+            // lblModoPruebaMenu
+            // 
+            lblModoPruebaMenu.AutoSize = true;
+            lblModoPruebaMenu.BackColor = Color.Transparent;
+            lblModoPruebaMenu.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            lblModoPruebaMenu.ForeColor = SystemColors.ButtonHighlight;
+            lblModoPruebaMenu.Location = new Point(15, 5);
+            lblModoPruebaMenu.Name = "lblModoPruebaMenu";
+            lblModoPruebaMenu.Size = new Size(132, 21);
+            lblModoPruebaMenu.TabIndex = 2;
+            lblModoPruebaMenu.Text = "MODO PRUEBA";
+            lblModoPruebaMenu.Visible = false;
+            // 
             // MenuPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -923,6 +938,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuPrincipal";
             PBarraTitulo.ResumeLayout(false);
+            PBarraTitulo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PBNaranja).EndInit();
             ((System.ComponentModel.ISupportInitialize)PBAzul).EndInit();
             ((System.ComponentModel.ISupportInitialize)PBICerrar).EndInit();
@@ -997,5 +1013,6 @@
         private Button btnSolicitudMquinado;
         private Button btnMaquinado;
         private Button btnHistoricoMaquinado;
+        private Label lblModoPruebaMenu;
     }
 }

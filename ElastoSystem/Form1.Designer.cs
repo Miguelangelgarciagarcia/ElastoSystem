@@ -49,6 +49,7 @@
             pictureBox3 = new PictureBox();
             pictureBox5 = new PictureBox();
             lblIP = new Label();
+            lblModoPrueba = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -274,6 +275,7 @@
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(153, 255, 255, 255);
+            panel3.Controls.Add(lblModoPrueba);
             panel3.Controls.Add(pictureBox3);
             panel3.Controls.Add(btnminimizar);
             panel3.Controls.Add(pictureBox5);
@@ -325,6 +327,20 @@
             lblIP.TabIndex = 25;
             lblIP.Text = "ERROR IP";
             // 
+            // lblModoPrueba
+            // 
+            lblModoPrueba.AutoSize = true;
+            lblModoPrueba.BackColor = Color.Transparent;
+            lblModoPrueba.Cursor = Cursors.Hand;
+            lblModoPrueba.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            lblModoPrueba.ForeColor = SystemColors.ButtonHighlight;
+            lblModoPrueba.Location = new Point(12, 5);
+            lblModoPrueba.Name = "lblModoPrueba";
+            lblModoPrueba.Size = new Size(132, 21);
+            lblModoPrueba.TabIndex = 26;
+            lblModoPrueba.Text = "MODO PRUEBA";
+            lblModoPrueba.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
@@ -366,6 +382,7 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ResumeLayout(false);
@@ -393,5 +410,6 @@
         private PictureBox pictureBox3;
         private PictureBox pictureBox5;
         private Label lblIP;
+        private Label lblModoPrueba;
     }
 }

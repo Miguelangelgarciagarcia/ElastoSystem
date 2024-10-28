@@ -109,6 +109,15 @@ namespace ElastoSystem
         private void Form1_Load(object sender, EventArgs e)
         {
             MandarALlamarIP();
+            if (VariablesGlobales.IPServidor == "10.120.1.104")
+            {
+                panel3.BackColor = Color.Red;
+                lblModoPrueba.Visible = true;
+            }
+            else
+            {
+
+            }
 
         }
 

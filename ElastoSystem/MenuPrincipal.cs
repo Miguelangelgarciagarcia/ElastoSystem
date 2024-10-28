@@ -505,7 +505,20 @@ namespace ElastoSystem
             EliminarConsumiblesPorSurtir();
             PorSurtir();
             MandarCorreoCompras();
+            ModoPrueba();
+        }
 
+        private void ModoPrueba()
+        {
+            if (VariablesGlobales.IPServidor == "10.120.1.104")
+            {
+                PBarraTitulo.BackColor = System.Drawing.Color.Red;
+                lblModoPruebaMenu.Visible = true;
+            }
+            else
+            {
+
+            }
         }
 
         private void btninfo_Click(object sender, EventArgs e)
