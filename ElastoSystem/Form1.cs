@@ -254,7 +254,7 @@ namespace ElastoSystem
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Ventas_BuscarCotizacion temporal = new();
+            Compras_ConsultarOC temporal = new();
             temporal.Show();
             this.Hide();
         }

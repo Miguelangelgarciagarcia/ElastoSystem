@@ -46,10 +46,10 @@
             panel1 = new Panel();
             panel2 = new Panel();
             panel3 = new Panel();
+            lblModoPrueba = new Label();
             pictureBox3 = new PictureBox();
             pictureBox5 = new PictureBox();
             lblIP = new Label();
-            lblModoPrueba = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -249,7 +249,6 @@
             button1.TabIndex = 21;
             button1.Text = "pruebas";
             button1.UseVisualStyleBackColor = true;
-            button1.Visible = false;
             button1.Click += button1_Click_1;
             // 
             // panel1
@@ -287,6 +286,20 @@
             panel3.TabIndex = 24;
             panel3.Paint += panel3_Paint;
             panel3.MouseDown += panel3_MouseDown;
+            // 
+            // lblModoPrueba
+            // 
+            lblModoPrueba.AutoSize = true;
+            lblModoPrueba.BackColor = Color.Transparent;
+            lblModoPrueba.Cursor = Cursors.Hand;
+            lblModoPrueba.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            lblModoPrueba.ForeColor = SystemColors.ButtonHighlight;
+            lblModoPrueba.Location = new Point(12, 5);
+            lblModoPrueba.Name = "lblModoPrueba";
+            lblModoPrueba.Size = new Size(132, 21);
+            lblModoPrueba.TabIndex = 26;
+            lblModoPrueba.Text = "MODO PRUEBA";
+            lblModoPrueba.Visible = false;
             // 
             // pictureBox3
             // 
@@ -326,20 +339,6 @@
             lblIP.Size = new Size(68, 16);
             lblIP.TabIndex = 25;
             lblIP.Text = "ERROR IP";
-            // 
-            // lblModoPrueba
-            // 
-            lblModoPrueba.AutoSize = true;
-            lblModoPrueba.BackColor = Color.Transparent;
-            lblModoPrueba.Cursor = Cursors.Hand;
-            lblModoPrueba.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
-            lblModoPrueba.ForeColor = SystemColors.ButtonHighlight;
-            lblModoPrueba.Location = new Point(12, 5);
-            lblModoPrueba.Name = "lblModoPrueba";
-            lblModoPrueba.Size = new Size(132, 21);
-            lblModoPrueba.TabIndex = 26;
-            lblModoPrueba.Text = "MODO PRUEBA";
-            lblModoPrueba.Visible = false;
             // 
             // Form1
             // 

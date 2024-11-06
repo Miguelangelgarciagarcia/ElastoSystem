@@ -1411,7 +1411,7 @@ namespace ElastoSystem
                                 string telefono = txbTelefono.Text;
                                 string correo = txbCorreo.Text;
                                 string datosdelproveedor = empresa + "\n " + atencion + "\n " + telefono + "\n " + correo;
-                                string datos = "Orden de compra:         "+ oc + "                                                                    FECHA: " + fechahoy +"\n" + "Numero de cotización:   " + listaRequisiciones + "\n \n" + "Datos del proveedor:" +"\n"+ empresa +"\n"+ atencion + "\n" + telefono + "\n" + correo;
+                                string datos = "Orden de compra:         "+ oc + "                                                                    FECHA: " + fechahoy +"\n" + "Numero de cotización:   " + txbCotizacion.Text + "\n \n" + "Datos del proveedor:" +"\n"+ empresa +"\n"+ atencion + "\n" + telefono + "\n" + correo;
                                 iTextSharp.text.Paragraph datospro = new iTextSharp.text.Paragraph(datosdelproveedor, font);
 
                                 // Crear una tabla con una fila y dos celdas

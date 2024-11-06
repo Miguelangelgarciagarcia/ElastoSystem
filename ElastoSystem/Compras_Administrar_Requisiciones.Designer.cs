@@ -98,14 +98,6 @@
             txbSubtotal = new TextBox();
             label11 = new Label();
             dgvListaMateriales = new DataGridView();
-            Partida = new DataGridViewTextBoxColumn();
-            ID = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            Unidad = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
-            Precio = new DataGridViewTextBoxColumn();
-            Importe = new DataGridViewTextBoxColumn();
-            Requisicion = new DataGridViewTextBoxColumn();
             pbProveedor = new PictureBox();
             pbCampos = new PictureBox();
             lblCampos = new Label();
@@ -149,6 +141,14 @@
             label10 = new Label();
             lblFolioOC = new Label();
             txbReqFolio = new TextBox();
+            Partida = new DataGridViewTextBoxColumn();
+            ID = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            Unidad = new DataGridViewTextBoxColumn();
+            Descripcion = new DataGridViewTextBoxColumn();
+            Precio = new DataGridViewTextBoxColumn();
+            Importe = new DataGridViewTextBoxColumn();
+            Requisicion = new DataGridViewTextBoxColumn();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvRequisicions).BeginInit();
             panel2.SuspendLayout();
@@ -971,56 +971,6 @@
             dgvListaMateriales.CellContentClick += dgvListaMateriales_CellContentClick;
             dgvListaMateriales.MouseDoubleClick += dgvListaMateriales_MouseDoubleClick;
             // 
-            // Partida
-            // 
-            Partida.HeaderText = "PARTIDA";
-            Partida.Name = "Partida";
-            Partida.ReadOnly = true;
-            // 
-            // ID
-            // 
-            ID.HeaderText = "ID";
-            ID.Name = "ID";
-            ID.ReadOnly = true;
-            ID.Visible = false;
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "CANTIDAD";
-            Cantidad.Name = "Cantidad";
-            Cantidad.ReadOnly = true;
-            // 
-            // Unidad
-            // 
-            Unidad.HeaderText = "UNIDAD";
-            Unidad.Name = "Unidad";
-            Unidad.ReadOnly = true;
-            // 
-            // Descripcion
-            // 
-            Descripcion.HeaderText = "DESCRIPCION";
-            Descripcion.Name = "Descripcion";
-            Descripcion.ReadOnly = true;
-            // 
-            // Precio
-            // 
-            Precio.HeaderText = "PRECIO";
-            Precio.Name = "Precio";
-            Precio.ReadOnly = true;
-            // 
-            // Importe
-            // 
-            Importe.HeaderText = "IMPORTE";
-            Importe.Name = "Importe";
-            Importe.ReadOnly = true;
-            // 
-            // Requisicion
-            // 
-            Requisicion.HeaderText = "REQUISICION";
-            Requisicion.Name = "Requisicion";
-            Requisicion.ReadOnly = true;
-            Requisicion.Visible = false;
-            // 
             // pbProveedor
             // 
             pbProveedor.Image = (Image)resources.GetObject("pbProveedor.Image");
@@ -1597,6 +1547,56 @@
             txbReqFolio.TabIndex = 33;
             txbReqFolio.Visible = false;
             // 
+            // Partida
+            // 
+            Partida.HeaderText = "PARTIDA";
+            Partida.Name = "Partida";
+            Partida.ReadOnly = true;
+            // 
+            // ID
+            // 
+            ID.HeaderText = "ID";
+            ID.Name = "ID";
+            ID.ReadOnly = true;
+            ID.Visible = false;
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "CANTIDAD";
+            Cantidad.Name = "Cantidad";
+            Cantidad.ReadOnly = true;
+            // 
+            // Unidad
+            // 
+            Unidad.HeaderText = "UNIDAD";
+            Unidad.Name = "Unidad";
+            Unidad.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            Descripcion.HeaderText = "DESCRIPCION";
+            Descripcion.Name = "Descripcion";
+            Descripcion.ReadOnly = true;
+            // 
+            // Precio
+            // 
+            Precio.HeaderText = "PRECIO";
+            Precio.Name = "Precio";
+            Precio.ReadOnly = true;
+            // 
+            // Importe
+            // 
+            Importe.HeaderText = "IMPORTE";
+            Importe.Name = "Importe";
+            Importe.ReadOnly = true;
+            // 
+            // Requisicion
+            // 
+            Requisicion.HeaderText = "REQUISICION";
+            Requisicion.Name = "Requisicion";
+            Requisicion.ReadOnly = true;
+            Requisicion.Visible = false;
+            // 
             // Compras_Administrar_Requisiciones
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1765,6 +1765,7 @@
         private TextBox txbTelefonoC;
         private TextBox txbProveedorC;
         private Button btnNuevoProveedor;
+        private TextBox txbReqFolio;
         private DataGridViewTextBoxColumn Partida;
         private DataGridViewTextBoxColumn ID;
         private DataGridViewTextBoxColumn Cantidad;
@@ -1773,6 +1774,5 @@
         private DataGridViewTextBoxColumn Precio;
         private DataGridViewTextBoxColumn Importe;
         private DataGridViewTextBoxColumn Requisicion;
-        private TextBox txbReqFolio;
     }
 }
