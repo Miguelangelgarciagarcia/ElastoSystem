@@ -43,6 +43,7 @@
             chbAlmacen = new CheckBox();
             lblNumeroTemp = new Label();
             panel2 = new Panel();
+            chbConsultarOCs = new CheckBox();
             chbReqEnviadas = new CheckBox();
             chbAdmiProvee = new CheckBox();
             chbAdmiReq = new CheckBox();
@@ -159,7 +160,7 @@
             panel1.Controls.Add(chbAlmacen);
             panel1.Location = new Point(15, 95);
             panel1.Name = "panel1";
-            panel1.Size = new Size(240, 224);
+            panel1.Size = new Size(240, 240);
             panel1.TabIndex = 3;
             // 
             // chbConsultaSalidas
@@ -254,6 +255,7 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(3, 42, 76);
+            panel2.Controls.Add(chbConsultarOCs);
             panel2.Controls.Add(chbReqEnviadas);
             panel2.Controls.Add(chbAdmiProvee);
             panel2.Controls.Add(chbAdmiReq);
@@ -263,8 +265,21 @@
             panel2.Controls.Add(chbCompras);
             panel2.Location = new Point(265, 95);
             panel2.Name = "panel2";
-            panel2.Size = new Size(240, 224);
+            panel2.Size = new Size(240, 240);
             panel2.TabIndex = 5;
+            // 
+            // chbConsultarOCs
+            // 
+            chbConsultarOCs.AutoSize = true;
+            chbConsultarOCs.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbConsultarOCs.ForeColor = Color.White;
+            chbConsultarOCs.Location = new Point(15, 204);
+            chbConsultarOCs.Name = "chbConsultarOCs";
+            chbConsultarOCs.Size = new Size(115, 20);
+            chbConsultarOCs.TabIndex = 7;
+            chbConsultarOCs.Text = "Consultar OC's";
+            chbConsultarOCs.UseVisualStyleBackColor = true;
+            chbConsultarOCs.CheckedChanged += chbConsultarOCs_CheckedChanged;
             // 
             // chbReqEnviadas
             // 
@@ -365,7 +380,7 @@
             panel3.Controls.Add(chbRecursosHumanos);
             panel3.Location = new Point(1015, 95);
             panel3.Name = "panel3";
-            panel3.Size = new Size(240, 224);
+            panel3.Size = new Size(240, 240);
             panel3.TabIndex = 6;
             // 
             // chbGenerarCredencial
@@ -413,9 +428,9 @@
             panel4.Controls.Add(chbPermisos);
             panel4.Controls.Add(chbRequisicion);
             panel4.Controls.Add(chbSistemas);
-            panel4.Location = new Point(15, 325);
+            panel4.Location = new Point(15, 352);
             panel4.Name = "panel4";
-            panel4.Size = new Size(240, 224);
+            panel4.Size = new Size(240, 240);
             panel4.TabIndex = 7;
             // 
             // chbPermisos
@@ -465,7 +480,7 @@
             btnactualizar.FlatStyle = FlatStyle.Flat;
             btnactualizar.Font = new Font("Montserrat", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             btnactualizar.ForeColor = Color.White;
-            btnactualizar.Location = new Point(837, 356);
+            btnactualizar.Location = new Point(837, 383);
             btnactualizar.Name = "btnactualizar";
             btnactualizar.Size = new Size(318, 47);
             btnactualizar.TabIndex = 8;
@@ -481,9 +496,9 @@
             panel5.Controls.Add(chbNuevaCotizacion);
             panel5.Controls.Add(chbClientes);
             panel5.Controls.Add(chbVentas);
-            panel5.Location = new Point(265, 325);
+            panel5.Location = new Point(265, 352);
             panel5.Name = "panel5";
-            panel5.Size = new Size(240, 224);
+            panel5.Size = new Size(240, 240);
             panel5.TabIndex = 9;
             // 
             // chbBuscarCotizacion
@@ -558,7 +573,7 @@
             panel6.Controls.Add(chbProduccion);
             panel6.Location = new Point(769, 95);
             panel6.Name = "panel6";
-            panel6.Size = new Size(240, 224);
+            panel6.Size = new Size(240, 240);
             panel6.TabIndex = 10;
             // 
             // chbReporteProduccion
@@ -596,7 +611,7 @@
             panel7.Controls.Add(chbMaquinado);
             panel7.Location = new Point(519, 95);
             panel7.Name = "panel7";
-            panel7.Size = new Size(240, 224);
+            panel7.Size = new Size(240, 240);
             panel7.TabIndex = 11;
             // 
             // chbHistorialMaquinado
@@ -1098,5 +1113,6 @@
         private PictureBox pbPassword;
         private PictureBox pbUsuario;
         private CheckBox chbHistorialMaquinado;
+        private CheckBox chbConsultarOCs;
     }
 }

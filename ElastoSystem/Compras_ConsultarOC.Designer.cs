@@ -170,9 +170,9 @@
             pnlBuscador.Controls.Add(txbBuscador);
             pnlBuscador.Controls.Add(label3);
             pnlBuscador.Controls.Add(dgvOrdenesCompra);
-            pnlBuscador.Location = new Point(23, 59);
+            pnlBuscador.Location = new Point(23, 74);
             pnlBuscador.Name = "pnlBuscador";
-            pnlBuscador.Size = new Size(1275, 713);
+            pnlBuscador.Size = new Size(1275, 731);
             pnlBuscador.TabIndex = 23;
             // 
             // txbBuscador
@@ -223,7 +223,7 @@
             dgvOrdenesCompra.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvOrdenesCompra.RowTemplate.Height = 25;
             dgvOrdenesCompra.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvOrdenesCompra.Size = new Size(1232, 621);
+            dgvOrdenesCompra.Size = new Size(1232, 647);
             dgvOrdenesCompra.TabIndex = 21;
             dgvOrdenesCompra.DoubleClick += dgvOrdenesCompra_DoubleClick;
             // 
@@ -592,7 +592,7 @@
             panel5.Controls.Add(label17);
             panel5.Location = new Point(23, 337);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1275, 435);
+            panel5.Size = new Size(1275, 468);
             panel5.TabIndex = 109;
             // 
             // lblTotalLetra
@@ -601,7 +601,7 @@
             lblTotalLetra.BackColor = Color.Transparent;
             lblTotalLetra.Font = new Font("Montserrat", 7F, FontStyle.Regular, GraphicsUnit.Point);
             lblTotalLetra.ForeColor = Color.White;
-            lblTotalLetra.Location = new Point(40, 411);
+            lblTotalLetra.Location = new Point(1071, 395);
             lblTotalLetra.Name = "lblTotalLetra";
             lblTotalLetra.Size = new Size(115, 14);
             lblTotalLetra.TabIndex = 139;
@@ -948,7 +948,7 @@
             dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvListaMateriales.RowTemplate.Height = 25;
             dgvListaMateriales.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvListaMateriales.Size = new Size(951, 248);
+            dgvListaMateriales.Size = new Size(951, 287);
             dgvListaMateriales.TabIndex = 115;
             dgvListaMateriales.Click += dgvListaMateriales_Click;
             dgvListaMateriales.DoubleClick += dgvListaMateriales_DoubleClick;
@@ -1286,7 +1286,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
-            ClientSize = new Size(1322, 792);
+            ClientSize = new Size(1322, 831);
             Controls.Add(pnlBuscador);
             Controls.Add(pbFormaPago);
             Controls.Add(pbRequisicion);

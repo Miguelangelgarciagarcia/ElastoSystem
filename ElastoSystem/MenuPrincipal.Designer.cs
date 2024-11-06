@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuPrincipal));
             PBarraTitulo = new Panel();
+            lblModoPruebaMenu = new Label();
             PBNaranja = new PictureBox();
             PBAzul = new PictureBox();
             PBICerrar = new PictureBox();
@@ -78,7 +79,7 @@
             panelPrincipal = new Panel();
             dgv = new DataGridView();
             labelid = new Label();
-            lblModoPruebaMenu = new Label();
+            btnConsultarOC = new Button();
             PBarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PBNaranja).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PBAzul).BeginInit();
@@ -113,6 +114,19 @@
             PBarraTitulo.Size = new Size(1542, 30);
             PBarraTitulo.TabIndex = 0;
             PBarraTitulo.MouseDown += PBarraTitulo_MouseDown;
+            // 
+            // lblModoPruebaMenu
+            // 
+            lblModoPruebaMenu.AutoSize = true;
+            lblModoPruebaMenu.BackColor = Color.Transparent;
+            lblModoPruebaMenu.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            lblModoPruebaMenu.ForeColor = SystemColors.ButtonHighlight;
+            lblModoPruebaMenu.Location = new Point(15, 5);
+            lblModoPruebaMenu.Name = "lblModoPruebaMenu";
+            lblModoPruebaMenu.Size = new Size(132, 21);
+            lblModoPruebaMenu.TabIndex = 2;
+            lblModoPruebaMenu.Text = "MODO PRUEBA";
+            lblModoPruebaMenu.Visible = false;
             // 
             // PBNaranja
             // 
@@ -198,7 +212,7 @@
             sbmMaquinado.Controls.Add(btnPendientesMaquinado);
             sbmMaquinado.Controls.Add(btnSolicitudMquinado);
             sbmMaquinado.Dock = DockStyle.Top;
-            sbmMaquinado.Location = new Point(0, 1103);
+            sbmMaquinado.Location = new Point(0, 1136);
             sbmMaquinado.Name = "sbmMaquinado";
             sbmMaquinado.Size = new Size(187, 124);
             sbmMaquinado.TabIndex = 15;
@@ -268,7 +282,7 @@
             btnMaquinado.FlatStyle = FlatStyle.Flat;
             btnMaquinado.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btnMaquinado.ForeColor = Color.White;
-            btnMaquinado.Location = new Point(0, 1067);
+            btnMaquinado.Location = new Point(0, 1100);
             btnMaquinado.Name = "btnMaquinado";
             btnMaquinado.Padding = new Padding(10, 0, 0, 0);
             btnMaquinado.Size = new Size(187, 36);
@@ -284,7 +298,7 @@
             sbmProduccion.BackColor = Color.FromArgb(3, 52, 92);
             sbmProduccion.Controls.Add(btnReporte);
             sbmProduccion.Dock = DockStyle.Top;
-            sbmProduccion.Location = new Point(0, 1015);
+            sbmProduccion.Location = new Point(0, 1048);
             sbmProduccion.Name = "sbmProduccion";
             sbmProduccion.Size = new Size(187, 52);
             sbmProduccion.TabIndex = 13;
@@ -316,7 +330,7 @@
             btnProduccion.FlatStyle = FlatStyle.Flat;
             btnProduccion.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btnProduccion.ForeColor = Color.White;
-            btnProduccion.Location = new Point(0, 979);
+            btnProduccion.Location = new Point(0, 1012);
             btnProduccion.Name = "btnProduccion";
             btnProduccion.Padding = new Padding(10, 0, 0, 0);
             btnProduccion.Size = new Size(187, 36);
@@ -335,7 +349,7 @@
             sbmVentas.Controls.Add(btnCatalogoClientes);
             sbmVentas.Controls.Add(btnBuscarCotizacion);
             sbmVentas.Dock = DockStyle.Top;
-            sbmVentas.Location = new Point(0, 823);
+            sbmVentas.Location = new Point(0, 856);
             sbmVentas.Name = "sbmVentas";
             sbmVentas.Size = new Size(187, 156);
             sbmVentas.TabIndex = 11;
@@ -424,7 +438,7 @@
             btnVentas.FlatStyle = FlatStyle.Flat;
             btnVentas.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btnVentas.ForeColor = Color.White;
-            btnVentas.Location = new Point(0, 787);
+            btnVentas.Location = new Point(0, 820);
             btnVentas.Name = "btnVentas";
             btnVentas.Padding = new Padding(10, 0, 0, 0);
             btnVentas.Size = new Size(187, 36);
@@ -441,7 +455,7 @@
             panelSubMenu4.Controls.Add(btnPermisos);
             panelSubMenu4.Controls.Add(btnSistemasReq);
             panelSubMenu4.Dock = DockStyle.Top;
-            panelSubMenu4.Location = new Point(0, 703);
+            panelSubMenu4.Location = new Point(0, 736);
             panelSubMenu4.Name = "panelSubMenu4";
             panelSubMenu4.Size = new Size(187, 84);
             panelSubMenu4.TabIndex = 9;
@@ -492,7 +506,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(0, 667);
+            button1.Location = new Point(0, 700);
             button1.Name = "button1";
             button1.Padding = new Padding(10, 0, 0, 0);
             button1.Size = new Size(187, 36);
@@ -507,7 +521,7 @@
             // 
             panel1.Controls.Add(btninfo);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 1227);
+            panel1.Location = new Point(0, 1260);
             panel1.Name = "panel1";
             panel1.Size = new Size(187, 56);
             panel1.TabIndex = 0;
@@ -535,7 +549,7 @@
             panelSubMenu3.Controls.Add(btnCredencial);
             panelSubMenu3.Controls.Add(btnRegistroTrabajador);
             panelSubMenu3.Dock = DockStyle.Top;
-            panelSubMenu3.Location = new Point(0, 586);
+            panelSubMenu3.Location = new Point(0, 619);
             panelSubMenu3.Name = "panelSubMenu3";
             panelSubMenu3.Size = new Size(187, 81);
             panelSubMenu3.TabIndex = 7;
@@ -587,7 +601,7 @@
             button11.FlatStyle = FlatStyle.Flat;
             button11.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             button11.ForeColor = Color.White;
-            button11.Location = new Point(0, 550);
+            button11.Location = new Point(0, 583);
             button11.Name = "button11";
             button11.Padding = new Padding(10, 0, 0, 0);
             button11.Size = new Size(187, 36);
@@ -601,6 +615,7 @@
             // panelSubMenu2
             // 
             panelSubMenu2.BackColor = Color.FromArgb(3, 52, 92);
+            panelSubMenu2.Controls.Add(btnConsultarOC);
             panelSubMenu2.Controls.Add(btnIndCompras);
             panelSubMenu2.Controls.Add(btnReqEnv);
             panelSubMenu2.Controls.Add(btnAdmiProveedores);
@@ -610,7 +625,7 @@
             panelSubMenu2.Dock = DockStyle.Top;
             panelSubMenu2.Location = new Point(0, 323);
             panelSubMenu2.Name = "panelSubMenu2";
-            panelSubMenu2.Size = new Size(187, 227);
+            panelSubMenu2.Size = new Size(187, 260);
             panelSubMenu2.TabIndex = 5;
             // 
             // btnIndCompras
@@ -909,18 +924,24 @@
             labelid.Visible = false;
             labelid.TextChanged += labelrol_TextChanged;
             // 
-            // lblModoPruebaMenu
+            // btnConsultarOC
             // 
-            lblModoPruebaMenu.AutoSize = true;
-            lblModoPruebaMenu.BackColor = Color.Transparent;
-            lblModoPruebaMenu.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
-            lblModoPruebaMenu.ForeColor = SystemColors.ButtonHighlight;
-            lblModoPruebaMenu.Location = new Point(15, 5);
-            lblModoPruebaMenu.Name = "lblModoPruebaMenu";
-            lblModoPruebaMenu.Size = new Size(132, 21);
-            lblModoPruebaMenu.TabIndex = 2;
-            lblModoPruebaMenu.Text = "MODO PRUEBA";
-            lblModoPruebaMenu.Visible = false;
+            btnConsultarOC.Dock = DockStyle.Top;
+            btnConsultarOC.Enabled = false;
+            btnConsultarOC.FlatAppearance.BorderSize = 0;
+            btnConsultarOC.FlatStyle = FlatStyle.Flat;
+            btnConsultarOC.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnConsultarOC.ForeColor = Color.White;
+            btnConsultarOC.Location = new Point(0, 216);
+            btnConsultarOC.Name = "btnConsultarOC";
+            btnConsultarOC.Padding = new Padding(20, 0, 0, 0);
+            btnConsultarOC.Size = new Size(187, 36);
+            btnConsultarOC.TabIndex = 11;
+            btnConsultarOC.Text = "Consultar OC's";
+            btnConsultarOC.TextAlign = ContentAlignment.MiddleLeft;
+            btnConsultarOC.UseVisualStyleBackColor = true;
+            btnConsultarOC.Visible = false;
+            btnConsultarOC.Click += btnConsultarOC_Click;
             // 
             // MenuPrincipal
             // 
@@ -1014,5 +1035,6 @@
         private Button btnMaquinado;
         private Button btnHistoricoMaquinado;
         private Label lblModoPruebaMenu;
+        private Button btnConsultarOC;
     }
 }
