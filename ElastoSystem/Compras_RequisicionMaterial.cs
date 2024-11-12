@@ -38,9 +38,10 @@ namespace ElastoSystem
                     string proveedorsnt = cbProveedor.Text;
                     string tipouso = cbTipoUso.Text;
                     string comentarios = txbNotas.Text;
-                    dgvListaMateriales.Rows.Add(descripcionsnt, cantidadsnt, unidadsnt, preciosnt, proveedorsnt, tipouso, comentarios);
+                    bool chbOnline = chbCompraOnline.Checked;
+                    dgvListaMateriales.Rows.Add(descripcionsnt, cantidadsnt, unidadsnt, preciosnt, proveedorsnt, tipouso, comentarios, chbOnline);
 
-                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear();
+                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear(); chbCompraOnline.Checked = false;
                     dgvListaMateriales.Enabled = true;
                 }
                 else
@@ -58,9 +59,10 @@ namespace ElastoSystem
                     string proveedor = cbProveedor.Text;
                     string tipouso = cbTipoUso.Text;
                     string comentarios = txbNotas.Text;
-                    dgvListaMateriales.Rows.Add(descripcion, cantidad, unidad, precio, proveedor, tipouso, comentarios);
+                    bool chbOnline = chbCompraOnline.Checked;
+                    dgvListaMateriales.Rows.Add(descripcion, cantidad, unidad, precio, proveedor, tipouso, comentarios, chbOnline);
 
-                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear();
+                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear(); chbCompraOnline.Checked = false;
                     dgvListaMateriales.Enabled = true;
                 }
 
@@ -193,7 +195,7 @@ namespace ElastoSystem
         }
         private void EnviarRequerimiento()
         {
-            string fecha = DateTime.Now.ToString("yyyy/MM/dd");
+            string fecha = DateTime.Now.AddDays(1).ToString("yyyy/MM/dd");
             string estatus = "ABIERTA";
             MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
@@ -234,6 +236,7 @@ namespace ElastoSystem
         }
         private void EnviarRequisicionDesglosada()
         {
+            string fechainicio = DateTime.Now.AddDays(1).ToString("yyyy/MM/dd");
             int filas = dgvListaMateriales.Rows.Count;
             for (int i = 0; i < filas; i++)
             {
@@ -245,6 +248,8 @@ namespace ElastoSystem
                 string tipouso = dgvListaMateriales.Rows[i].Cells["TipoUso"].Value.ToString();
                 string comentarios = dgvListaMateriales.Rows[i].Cells["Comentarios"].Value.ToString();
                 string estatus = "ABIERTA";
+                bool online = Convert.ToBoolean(dgvListaMateriales.Rows[i].Cells["Onlinea"].Value);
+                int valorOnline = online ? 1 : 0;
 
                 MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 conn.Open();
@@ -252,7 +257,7 @@ namespace ElastoSystem
                 try
                 {
                     cmd.Connection = conn;
-                    cmd.CommandText = "INSERT INTO elastosystem_compras_requisicion_desglosada (ID, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Estatus) VALUES (@ID, @DESCRIPCION, @CANTIDAD, @UNIDAD, @PRECIO, @PROVEEDOR, @TIPOUSO, @COMENTARIOS, @ESTATUS);";
+                    cmd.CommandText = "INSERT INTO elastosystem_compras_requisicion_desglosada (ID, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Estatus, Compra_Online, FechaInicio) VALUES (@ID, @DESCRIPCION, @CANTIDAD, @UNIDAD, @PRECIO, @PROVEEDOR, @TIPOUSO, @COMENTARIOS, @ESTATUS, @ONLINE, @FECHAINICIO);";
                     cmd.Parameters.AddWithValue("@ID", lblFolio.Text);
                     cmd.Parameters.AddWithValue("@DESCRIPCION", descripcion);
                     cmd.Parameters.AddWithValue("@CANTIDAD", cantidad);
@@ -262,6 +267,8 @@ namespace ElastoSystem
                     cmd.Parameters.AddWithValue("@TIPOUSO", tipouso);
                     cmd.Parameters.AddWithValue("@COMENTARIOS", comentarios);
                     cmd.Parameters.AddWithValue("@ESTATUS", estatus);
+                    cmd.Parameters.AddWithValue("@ONLINE", valorOnline);
+                    cmd.Parameters.AddWithValue("@FECHAINICIO", fechainicio);
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -330,6 +337,9 @@ namespace ElastoSystem
 
                 string comentarios = dgv.Rows[rowIndex].Cells[6].Value.ToString();
                 txbNotas.Text = comentarios;
+
+                bool chbOnline = Convert.ToBoolean(dgv.Rows[rowIndex].Cells[7].Value);
+                chbCompraOnline.Checked = chbOnline;
             }
         }
 

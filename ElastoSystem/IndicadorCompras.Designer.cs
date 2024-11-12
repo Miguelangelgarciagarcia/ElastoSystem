@@ -31,7 +31,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            cbanio = new ComboBox();
+            cbAnios = new ComboBox();
             label1 = new Label();
             label2 = new Label();
             cbbimestre = new ComboBox();
@@ -39,19 +39,21 @@
             txbic = new TextBox();
             dgv = new DataGridView();
             lblOCTotal = new Label();
+            lblPromedioGlobal = new Label();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
-            // cbanio
+            // cbAnios
             // 
-            cbanio.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            cbanio.FormattingEnabled = true;
-            cbanio.Items.AddRange(new object[] { "2024", "2023", "2022", "2021", "2020", "2019", "2018" });
-            cbanio.Location = new Point(28, 147);
-            cbanio.Name = "cbanio";
-            cbanio.Size = new Size(270, 35);
-            cbanio.TabIndex = 0;
-            cbanio.SelectedIndexChanged += cbanio_SelectedIndexChanged;
+            cbAnios.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbAnios.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            cbAnios.FormattingEnabled = true;
+            cbAnios.Location = new Point(61, 138);
+            cbAnios.Name = "cbAnios";
+            cbAnios.Size = new Size(270, 35);
+            cbAnios.TabIndex = 0;
+            cbAnios.SelectedIndexChanged += cbanio_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -59,7 +61,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(28, 114);
+            label1.Location = new Point(61, 105);
             label1.Name = "label1";
             label1.Size = new Size(67, 30);
             label1.TabIndex = 1;
@@ -71,7 +73,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(28, 203);
+            label2.Location = new Point(359, 105);
             label2.Name = "label2";
             label2.Size = new Size(132, 30);
             label2.TabIndex = 3;
@@ -79,10 +81,11 @@
             // 
             // cbbimestre
             // 
+            cbbimestre.DropDownStyle = ComboBoxStyle.DropDownList;
             cbbimestre.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
             cbbimestre.FormattingEnabled = true;
-            cbbimestre.Items.AddRange(new object[] { "Enero-Febrero", "Marzo-Abril", "Mayo-Junio", "Julio-Agosto", "Septiembre-Octubre", "Noviembre-Diciembre" });
-            cbbimestre.Location = new Point(28, 236);
+            cbbimestre.Items.AddRange(new object[] { "Enero - Febrero", "Marzo - Abril", "Mayo - Junio", "Julio - Agosto", "Septiembre - Octubre", "Noviembre - Diciembre" });
+            cbbimestre.Location = new Point(359, 138);
             cbbimestre.Name = "cbbimestre";
             cbbimestre.Size = new Size(270, 35);
             cbbimestre.TabIndex = 2;
@@ -94,7 +97,7 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(28, 292);
+            label3.Location = new Point(669, 105);
             label3.Name = "label3";
             label3.Size = new Size(274, 30);
             label3.TabIndex = 4;
@@ -103,7 +106,7 @@
             // txbic
             // 
             txbic.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            txbic.Location = new Point(28, 325);
+            txbic.Location = new Point(669, 138);
             txbic.Multiline = true;
             txbic.Name = "txbic";
             txbic.ReadOnly = true;
@@ -125,7 +128,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv.Location = new Point(564, 71);
+            dgv.Location = new Point(22, 217);
             dgv.Name = "dgv";
             dgv.ReadOnly = true;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -146,7 +149,7 @@
             dgv.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dgv.RowTemplate.Height = 25;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv.Size = new Size(672, 635);
+            dgv.Size = new Size(1289, 556);
             dgv.TabIndex = 6;
             // 
             // lblOCTotal
@@ -155,11 +158,35 @@
             lblOCTotal.BackColor = Color.Transparent;
             lblOCTotal.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblOCTotal.ForeColor = Color.White;
-            lblOCTotal.Location = new Point(28, 367);
+            lblOCTotal.Location = new Point(963, 150);
             lblOCTotal.Name = "lblOCTotal";
-            lblOCTotal.Size = new Size(413, 16);
+            lblOCTotal.Size = new Size(0, 16);
             lblOCTotal.TabIndex = 7;
-            lblOCTotal.Text = "Las Ordenes de Compra correspondiente a este bimestre fueron: ";
+            // 
+            // lblPromedioGlobal
+            // 
+            lblPromedioGlobal.AutoSize = true;
+            lblPromedioGlobal.BackColor = Color.Transparent;
+            lblPromedioGlobal.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblPromedioGlobal.ForeColor = Color.White;
+            lblPromedioGlobal.Location = new Point(986, 776);
+            lblPromedioGlobal.Name = "lblPromedioGlobal";
+            lblPromedioGlobal.Size = new Size(183, 16);
+            lblPromedioGlobal.TabIndex = 8;
+            lblPromedioGlobal.Text = "ERROR PROMEDIO GLOBAL ";
+            lblPromedioGlobal.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Montserrat", 20F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(22, 28);
+            label4.Name = "label4";
+            label4.Size = new Size(388, 37);
+            label4.TabIndex = 9;
+            label4.Text = "INDICADOR DE COMPRAS";
             // 
             // IndicadorCompras
             // 
@@ -167,6 +194,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(label4);
+            Controls.Add(lblPromedioGlobal);
             Controls.Add(lblOCTotal);
             Controls.Add(dgv);
             Controls.Add(txbic);
@@ -174,7 +203,7 @@
             Controls.Add(label2);
             Controls.Add(cbbimestre);
             Controls.Add(label1);
-            Controls.Add(cbanio);
+            Controls.Add(cbAnios);
             FormBorderStyle = FormBorderStyle.None;
             Name = "IndicadorCompras";
             Text = "IndicadorCompras";
@@ -186,7 +215,7 @@
 
         #endregion
 
-        private ComboBox cbanio;
+        private ComboBox cbAnios;
         private Label label1;
         private Label label2;
         private ComboBox cbbimestre;
@@ -194,5 +223,7 @@
         private TextBox txbic;
         private DataGridView dgv;
         private Label lblOCTotal;
+        private Label lblPromedioGlobal;
+        private Label label4;
     }
 }

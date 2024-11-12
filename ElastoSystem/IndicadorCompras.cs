@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Wordprocessing;
 using MySql.Data.MySqlClient;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,250 +20,844 @@ namespace ElastoSystem
         {
             InitializeComponent();
         }
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastotec";
         private void IndicadorCompras_Load(object sender, EventArgs e)
         {
-            string tabla = "SELECT FOLIO_REQ, FECHA_REQ, FECHA_REF FROM indicador_compras";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+            string tabla = "SELECT ID, Descripcion, Estatus, OC, FechaInicio, FechaFinal FROM elastosystem_compras_requisicion_desglosada";
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
+
             mySqlAdapter.Fill(dt);
-            dgv.DataSource = dt;
-            
-            if (dgv.Columns.Contains("FECHA_REQ"))
+
+            dt.Columns.Add("IDFormateado", typeof(string));
+
+            foreach (DataRow row in dt.Rows)
             {
-                dgv.Columns["FECHA_REQ"].HeaderText = "Fecha de Requisición";
+                row["IDFormateado"] = "REQ-" + row["ID"].ToString();
             }
 
-            // Cambiar el encabezado de la columna FECHA_REF
-            if (dgv.Columns.Contains("FECHA_REF"))
-            {
-                dgv.Columns["FECHA_REF"].HeaderText = "Fecha de OC";
-            }
+            dt.DefaultView.Sort = "FechaInicio DESC";
 
-            if (dgv.Columns.Contains("FOLIO_REQ"))
-            {
-                dgv.Columns["FOLIO_REQ"].HeaderText = "Folio";
-            }
+            dgv.DataSource = dt.DefaultView.ToTable();
 
-            // Ordenar por la columna FECHA_REQ
-            if (dgv.Columns.Contains("FECHA_REQ"))
-            {
-                DataGridViewColumn columna = dgv.Columns["FECHA_REQ"];
+            dgv.Columns["IDFormateado"].DisplayIndex = 0;
+            dgv.Columns["ID"].Visible = false;
 
-                if (columna != null)
-                {
-                    dgv.Sort(columna, System.ComponentModel.ListSortDirection.Descending);
-                }
-            }
+            dgv.Columns["IDFormateado"].HeaderText = "Requisicion";
 
+            IndicadorGlobal();
+            DefinirAnios();
 
         }
-        private void indicecompra()
+
+        private void DefinirAnios()
         {
-            int anio = Convert.ToInt32(cbanio.SelectedItem);
-            double promedio = 0;
-            MySqlConnection conn = new MySqlConnection(connectionString);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = "DELETE FROM indicador_comprastemp";
-            cmd.ExecuteNonQuery();
-            string mes = cbbimestre.Text;
-            if (mes == "Enero-Febrero")
+            string queryanios = @"SELECT DISTINCT YEAR(FechaInicio) AS Anio
+                                  FROM elastosystem_compras_requisicion_desglosada
+                                  WHERE FechaInicio IS NOT NULL
+                                  ORDER BY Anio";
+
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
-                cmd.CommandText = $"INSERT INTO indicador_comprastemp (fecha_req, fecha_ref, diferencia_dias_sin_fin_de_semana) " +
-                              $"SELECT fecha_req, fecha_ref, " +
-                              $"DATEDIFF(fecha_ref, fecha_req) - (DATEDIFF(fecha_ref, fecha_req) DIV 7 * 2) - " +
-                              $"CASE " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 6 THEN 1 " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 0 THEN 2 " +
-                              $"WHEN WEEKDAY(fecha_req) = 6 AND WEEKDAY(fecha_ref) = 0 THEN 1 " +
-                              $"ELSE 0 " +
-                              $"END AS diferencia_dias_sin_fin_de_semana " +
-                              $"FROM indicador_compras " +
-                              $"WHERE YEAR(fecha_req) = {anio} AND YEAR(fecha_ref) = {anio} " +
-                              $"AND fecha_req BETWEEN '{anio}-01-01' AND '{anio}-02-31' " +
-                              $"AND fecha_ref BETWEEN '{anio}-01-01' AND '{anio}-02-31';";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "SELECT AVG(diferencia_dias_sin_fin_de_semana) AS promedio_diferencias FROM indicador_comprastemp;";
+                try
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(queryanios, conn);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        cbAnios.Items.Clear();
+
+                        while (reader.Read())
+                        {
+                            int anio = reader.GetInt32("Anio");
+                            cbAnios.Items.Add(anio);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR LOS AÑOS; " + ex.Message);
+                }
+            }
+        }
+
+        private void IndicadorGlobal()
+        {
+            string query = @"SELECT
+                                AVG(
+                                    CASE
+                                        WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                        ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                    END
+                                ) AS PromedioDiasTranscurridos,
+                                COUNT(*) AS RegistrosContados
+                            FROM
+                                elastosystem_compras_requisicion_desglosada
+                            WHERE
+                                FechaFinal IS NOT NULL";
+
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Convert.ToDouble(reader["PromedioDiasTranscurridos"]) : 0.0;
+                            int registrosContados = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+
+                            lblPromedioGlobal.Text = "El promedio global es: " + promedioDias + " dias, con " + registrosContados + " registros";
+                        }
+                        else
+                        {
+                            MessageBox.Show("ERROR GLOBAL");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR: "+ex.Message);
+                }
+            }
+        }
+
+        private void cbbimestre_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbAnios.SelectedIndex == -1)
+            {
                 
-                object resultado = cmd.ExecuteScalar();
-                if (resultado != null && resultado != DBNull.Value)
-                {
-                    promedio = Convert.ToDouble(resultado);
-                }
-                txbic.Text = promedio.ToString();
-                cmd.CommandText = "SELECT COUNT(*) FROM indicador_comprastemp";
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                lblOCTotal.Text = "Las Ordenes de Compra correspondiente a este bimestre fueron: " + count.ToString();
-                conn.Close();
-            }
-            else if (mes == "Marzo-Abril")
-            {
-                cmd.CommandText = $"INSERT INTO indicador_comprastemp (fecha_req, fecha_ref, diferencia_dias_sin_fin_de_semana) " +
-                              $"SELECT fecha_req, fecha_ref, " +
-                              $"DATEDIFF(fecha_ref, fecha_req) - (DATEDIFF(fecha_ref, fecha_req) DIV 7 * 2) - " +
-                              $"CASE " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 6 THEN 1 " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 0 THEN 2 " +
-                              $"WHEN WEEKDAY(fecha_req) = 6 AND WEEKDAY(fecha_ref) = 0 THEN 1 " +
-                              $"ELSE 0 " +
-                              $"END AS diferencia_dias_sin_fin_de_semana " +
-                              $"FROM indicador_compras " +
-                              $"WHERE YEAR(fecha_req) = {anio} AND YEAR(fecha_ref) = {anio} " +
-                              $"AND fecha_req BETWEEN '{anio}-03-01' AND '{anio}-04-31' " +
-                              $"AND fecha_ref BETWEEN '{anio}-03-01' AND '{anio}-04-31';";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "SELECT AVG(diferencia_dias_sin_fin_de_semana) AS promedio_diferencias FROM indicador_comprastemp;";
-                object resultado = cmd.ExecuteScalar();
-                if (resultado != null && resultado != DBNull.Value)
-                {
-                    promedio = Convert.ToDouble(resultado);
-                }
-                txbic.Text = promedio.ToString();
-                cmd.CommandText = "SELECT COUNT(*) FROM indicador_comprastemp";
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                lblOCTotal.Text = "Las Ordenes de Compra correspondiente a este bimestre fueron: " + count.ToString();
-                conn.Close();
-            }
-            else if (mes == "Mayo-Junio")
-            {
-                cmd.CommandText = $"INSERT INTO indicador_comprastemp (fecha_req, fecha_ref, diferencia_dias_sin_fin_de_semana) " +
-                              $"SELECT fecha_req, fecha_ref, " +
-                              $"DATEDIFF(fecha_ref, fecha_req) - (DATEDIFF(fecha_ref, fecha_req) DIV 7 * 2) - " +
-                              $"CASE " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 6 THEN 1 " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 0 THEN 2 " +
-                              $"WHEN WEEKDAY(fecha_req) = 6 AND WEEKDAY(fecha_ref) = 0 THEN 1 " +
-                              $"ELSE 0 " +
-                              $"END AS diferencia_dias_sin_fin_de_semana " +
-                              $"FROM indicador_compras " +
-                              $"WHERE YEAR(fecha_req) = {anio} AND YEAR(fecha_ref) = {anio} " +
-                              $"AND fecha_req BETWEEN '{anio}-05-01' AND '{anio}-06-31' " +
-                              $"AND fecha_ref BETWEEN '{anio}-05-01' AND '{anio}-06-31';";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "SELECT AVG(diferencia_dias_sin_fin_de_semana) AS promedio_diferencias FROM indicador_comprastemp;";
-                object resultado = cmd.ExecuteScalar();
-                if (resultado != null && resultado != DBNull.Value)
-                {
-                    promedio = Convert.ToDouble(resultado);
-                }
-                txbic.Text = promedio.ToString();
-                cmd.CommandText = "SELECT COUNT(*) FROM indicador_comprastemp";
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                lblOCTotal.Text = "Las Ordenes de Compra correspondiente a este bimestre fueron: " + count.ToString();
-                conn.Close();
-            }
-            else if (mes == "Julio-Agosto")
-            {
-                cmd.CommandText = $"INSERT INTO indicador_comprastemp (fecha_req, fecha_ref, diferencia_dias_sin_fin_de_semana) " +
-                              $"SELECT fecha_req, fecha_ref, " +
-                              $"DATEDIFF(fecha_ref, fecha_req) - (DATEDIFF(fecha_ref, fecha_req) DIV 7 * 2) - " +
-                              $"CASE " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 6 THEN 1 " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 0 THEN 2 " +
-                              $"WHEN WEEKDAY(fecha_req) = 6 AND WEEKDAY(fecha_ref) = 0 THEN 1 " +
-                              $"ELSE 0 " +
-                              $"END AS diferencia_dias_sin_fin_de_semana " +
-                              $"FROM indicador_compras " +
-                              $"WHERE YEAR(fecha_req) = {anio} AND YEAR(fecha_ref) = {anio} " +
-                              $"AND fecha_req BETWEEN '{anio}-07-01' AND '{anio}-08-31' " +
-                              $"AND fecha_ref BETWEEN '{anio}-07-01' AND '{anio}-08-31';";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "SELECT AVG(diferencia_dias_sin_fin_de_semana) AS promedio_diferencias FROM indicador_comprastemp;";
-                object resultado = cmd.ExecuteScalar();
-                if (resultado != null && resultado != DBNull.Value)
-                {
-                    promedio = Convert.ToDouble(resultado);
-                }
-                txbic.Text = promedio.ToString();
-                cmd.CommandText = "SELECT COUNT(*) FROM indicador_comprastemp";
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                lblOCTotal.Text = "Las Ordenes de Compra correspondiente a este bimestre fueron: " + count.ToString();
-                conn.Close();
-            }
-            else if (mes == "Septiembre-Octubre")
-            {
-                cmd.CommandText = $"INSERT INTO indicador_comprastemp (fecha_req, fecha_ref, diferencia_dias_sin_fin_de_semana) " +
-                              $"SELECT fecha_req, fecha_ref, " +
-                              $"DATEDIFF(fecha_ref, fecha_req) - (DATEDIFF(fecha_ref, fecha_req) DIV 7 * 2) - " +
-                              $"CASE " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 6 THEN 1 " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 0 THEN 2 " +
-                              $"WHEN WEEKDAY(fecha_req) = 6 AND WEEKDAY(fecha_ref) = 0 THEN 1 " +
-                              $"ELSE 0 " +
-                              $"END AS diferencia_dias_sin_fin_de_semana " +
-                              $"FROM indicador_compras " +
-                              $"WHERE YEAR(fecha_req) = {anio} AND YEAR(fecha_ref) = {anio} " +
-                              $"AND fecha_req BETWEEN '{anio}-09-01' AND '{anio}-10-31' " +
-                              $"AND fecha_ref BETWEEN '{anio}-09-01' AND '{anio}-10-31';";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "SELECT AVG(diferencia_dias_sin_fin_de_semana) AS promedio_diferencias FROM indicador_comprastemp;";
-                object resultado = cmd.ExecuteScalar();
-                if (resultado != null && resultado != DBNull.Value)
-                {
-                    promedio = Convert.ToDouble(resultado);
-                }
-                txbic.Text = promedio.ToString();
-                cmd.CommandText = "SELECT COUNT(*) FROM indicador_comprastemp";
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                lblOCTotal.Text = "Las Ordenes de Compra correspondiente a este bimestre fueron: " + count.ToString();
-                conn.Close();
             }
             else
             {
-                cmd.CommandText = $"INSERT INTO indicador_comprastemp (fecha_req, fecha_ref, diferencia_dias_sin_fin_de_semana) " +
-                              $"SELECT fecha_req, fecha_ref, " +
-                              $"DATEDIFF(fecha_ref, fecha_req) - (DATEDIFF(fecha_ref, fecha_req) DIV 7 * 2) - " +
-                              $"CASE " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 6 THEN 1 " +
-                              $"WHEN WEEKDAY(fecha_req) = 5 AND WEEKDAY(fecha_ref) = 0 THEN 2 " +
-                              $"WHEN WEEKDAY(fecha_req) = 6 AND WEEKDAY(fecha_ref) = 0 THEN 1 " +
-                              $"ELSE 0 " +
-                              $"END AS diferencia_dias_sin_fin_de_semana " +
-                              $"FROM indicador_compras " +
-                              $"WHERE YEAR(fecha_req) = {anio} AND YEAR(fecha_ref) = {anio} " +
-                              $"AND fecha_req BETWEEN '{anio}-11-01' AND '{anio}-12-31' " +
-                              $"AND fecha_ref BETWEEN '{anio}-11-01' AND '{anio}-12-31';";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "SELECT AVG(diferencia_dias_sin_fin_de_semana) AS promedio_diferencias FROM indicador_comprastemp;";
-                object resultado = cmd.ExecuteScalar();
-                if (resultado != null && resultado != DBNull.Value)
-                {
-                    promedio = Convert.ToDouble(resultado);
-                }
-                txbic.Text = promedio.ToString();
-                cmd.CommandText = "SELECT COUNT(*) FROM indicador_comprastemp";
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                lblOCTotal.Text = "Las Ordenes de Compra correspondiente a este bimestre fueron: " + count.ToString();
-                conn.Close();
-            }
-        }
-        private void cbbimestre_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            indicecompra();
+                string anioSeleccionado = cbAnios.SelectedItem.ToString();
 
+                if (cbbimestre.SelectedIndex == 0)
+                {
+                    string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (1,2);";
+
+                    MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                    try
+                    {
+                        conn.Open();
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                        MySqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            object promedio = reader["PromedioDiasTranscurridos"];
+                            string promedioFormateado = string.Format("{0:F2}", promedio);
+                            object registrosContados = reader["RegistrosContados"];
+
+                            if (Convert.ToInt32(registrosContados) == 0)
+                            {
+                                txbic.Text = string.Empty;
+                                lblOCTotal.Text = string.Empty;
+                                MessageBox.Show("No se encontraron registros.");
+                            }
+                            else
+                            {
+                                lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                txbic.Text = promedioFormateado;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+                else if (cbbimestre.SelectedIndex == 1)
+                {
+                    string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (3,4);";
+
+                    MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                    try
+                    {
+                        conn.Open();
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                        MySqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            object promedio = reader["PromedioDiasTranscurridos"];
+                            string promedioFormateado = string.Format("{0:F2}", promedio);
+                            object registrosContados = reader["RegistrosContados"];
+
+                            if (Convert.ToInt32(registrosContados) == 0)
+                            {
+                                txbic.Text = string.Empty;
+                                lblOCTotal.Text = string.Empty;
+                                MessageBox.Show("No se encontraron registros.");
+                            }
+                            else
+                            {
+                                lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                txbic.Text = promedioFormateado;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+                else if (cbbimestre.SelectedIndex == 2)
+                {
+                    string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (5,6);";
+
+                    MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                    try
+                    {
+                        conn.Open();
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                        MySqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            object promedio = reader["PromedioDiasTranscurridos"];
+                            string promedioFormateado = string.Format("{0:F2}", promedio);
+                            object registrosContados = reader["RegistrosContados"];
+
+                            if (Convert.ToInt32(registrosContados) == 0)
+                            {
+                                txbic.Text = string.Empty;
+                                lblOCTotal.Text = string.Empty;
+                                MessageBox.Show("No se encontraron registros.");
+                            }
+                            else
+                            {
+                                lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                txbic.Text = promedioFormateado;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+                else if (cbbimestre.SelectedIndex == 3)
+                {
+                    string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (7,8);";
+
+                    MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                    try
+                    {
+                        conn.Open();
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                        MySqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            object promedio = reader["PromedioDiasTranscurridos"];
+                            string promedioFormateado = string.Format("{0:F2}", promedio);
+                            object registrosContados = reader["RegistrosContados"];
+
+                            if (Convert.ToInt32(registrosContados) == 0)
+                            {
+                                txbic.Text = string.Empty;
+                                lblOCTotal.Text = string.Empty;
+                                MessageBox.Show("No se encontraron registros.");
+                            }
+                            else
+                            {
+                                lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                txbic.Text = promedioFormateado;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+                else if (cbbimestre.SelectedIndex == 4)
+                {
+                    string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (9,10);";
+
+                    MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                    try
+                    {
+                        conn.Open();
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                        MySqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            object promedio = reader["PromedioDiasTranscurridos"];
+                            string promedioFormateado = string.Format("{0:F2}", promedio);
+                            object registrosContados = reader["RegistrosContados"];
+
+                            if (Convert.ToInt32(registrosContados) == 0)
+                            {
+                                txbic.Text = string.Empty;
+                                lblOCTotal.Text = string.Empty;
+                                MessageBox.Show("No se encontraron registros.");
+                            }
+                            else
+                            {
+                                lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                txbic.Text = promedioFormateado;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+                else
+                {
+                    string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (11,12);";
+
+                    MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                    try
+                    {
+                        conn.Open();
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                        MySqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            object promedio = reader["PromedioDiasTranscurridos"];
+                            string promedioFormateado = string.Format("{0:F2}", promedio);
+                            object registrosContados = reader["RegistrosContados"];
+
+                            if (Convert.ToInt32(registrosContados) == 0)
+                            {
+                                txbic.Text = string.Empty;
+                                lblOCTotal.Text = string.Empty;
+                                MessageBox.Show("No se encontraron registros.");
+                            }
+                            else
+                            {
+                                lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                txbic.Text = promedioFormateado;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
         }
 
         private void cbanio_SelectedIndexChanged(object sender, EventArgs e)
         {
-            object selectedValue = cbbimestre.SelectedItem;
-            if (selectedValue == null)
+            if(cbAnios.SelectedIndex != -1)
             {
+                string anioSeleccionado = cbAnios.SelectedItem.ToString();
 
-            }
-            else
-            {
-                indicecompra();
-            }
+                if (string.IsNullOrWhiteSpace(cbbimestre.Text))
+                {
+                    string query = @"
+                                    SELECT 
+                                        AVG(
+                                            CASE
+                                                WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                            END
+                                        ) AS PromedioDiasTranscurridos,
+                                        COUNT(*) AS RegistrosContados
+                                        FROM 
+                                            elastosystem_compras_requisicion_desglosada
+                                        WHERE 
+                                            FechaFinal IS NOT NULL
+                                        AND YEAR(FechaInicio) = @ANIO;";
 
+                    MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                    try
+                    {
+                        conn.Open();
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                        MySqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            object promedio = reader["PromedioDiasTranscurridos"];
+                            string promedioFormateado = string.Format("{0:F2}", promedio);
+                            object registrosContados = reader["RegistrosContados"];
+
+                            if (Convert.ToInt32(registrosContados) == 0)
+                            {
+                                txbic.Text = string.Empty;
+                                lblOCTotal.Text = string.Empty;
+                                MessageBox.Show("No se encontraron registros.");
+                            }
+                            else
+                            {
+                                lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                txbic.Text = promedioFormateado;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+                else
+                {
+                    if(cbbimestre.SelectedIndex == 0)
+                    {
+                        string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (1,2);";
+
+                        MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                        try
+                        {
+                            conn.Open();
+                            MySqlCommand cmd = new MySqlCommand(query, conn);
+                            cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                            MySqlDataReader reader = cmd.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                object promedio = reader["PromedioDiasTranscurridos"];
+                                string promedioFormateado = string.Format("{0:F2}", promedio);
+                                object registrosContados = reader["RegistrosContados"];
+
+                                if (Convert.ToInt32(registrosContados) == 0)
+                                {
+                                    txbic.Text = string.Empty;
+                                    lblOCTotal.Text = string.Empty;
+                                    MessageBox.Show("No se encontraron registros.");
+                                }
+                                else
+                                {
+                                    lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                    txbic.Text = promedioFormateado;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                    else if (cbbimestre.SelectedIndex == 1)
+                    {
+                        string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (3,4);";
+
+                        MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                        try
+                        {
+                            conn.Open();
+                            MySqlCommand cmd = new MySqlCommand(query, conn);
+                            cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                            MySqlDataReader reader = cmd.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                object promedio = reader["PromedioDiasTranscurridos"];
+                                string promedioFormateado = string.Format("{0:F2}", promedio);
+                                object registrosContados = reader["RegistrosContados"];
+
+                                if (Convert.ToInt32(registrosContados) == 0)
+                                {
+                                    txbic.Text = string.Empty;
+                                    lblOCTotal.Text = string.Empty;
+                                    MessageBox.Show("No se encontraron registros.");
+                                }
+                                else
+                                {
+                                    lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                    txbic.Text = promedioFormateado;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                    else if (cbbimestre.SelectedIndex == 2)
+                    {
+                        string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (5,6);";
+
+                        MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                        try
+                        {
+                            conn.Open();
+                            MySqlCommand cmd = new MySqlCommand(query, conn);
+                            cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                            MySqlDataReader reader = cmd.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                object promedio = reader["PromedioDiasTranscurridos"];
+                                string promedioFormateado = string.Format("{0:F2}", promedio);
+                                object registrosContados = reader["RegistrosContados"];
+
+                                if (Convert.ToInt32(registrosContados) == 0)
+                                {
+                                    txbic.Text = string.Empty;
+                                    lblOCTotal.Text = string.Empty;
+                                    MessageBox.Show("No se encontraron registros.");
+                                }
+                                else
+                                {
+                                    lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                    txbic.Text = promedioFormateado;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                    else if(cbbimestre.SelectedIndex == 3)
+                    {
+                        string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (7,8);";
+
+                        MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                        try
+                        {
+                            conn.Open();
+                            MySqlCommand cmd = new MySqlCommand(query, conn);
+                            cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                            MySqlDataReader reader = cmd.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                object promedio = reader["PromedioDiasTranscurridos"];
+                                string promedioFormateado = string.Format("{0:F2}", promedio);
+                                object registrosContados = reader["RegistrosContados"];
+
+                                if (Convert.ToInt32(registrosContados) == 0)
+                                {
+                                    txbic.Text = string.Empty;
+                                    lblOCTotal.Text = string.Empty;
+                                    MessageBox.Show("No se encontraron registros.");
+                                }
+                                else
+                                {
+                                    lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                    txbic.Text = promedioFormateado;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                    else if(cbbimestre.SelectedIndex == 4)
+                    {
+                        string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (9,10);";
+
+                        MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                        try
+                        {
+                            conn.Open();
+                            MySqlCommand cmd = new MySqlCommand(query, conn);
+                            cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                            MySqlDataReader reader = cmd.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                object promedio = reader["PromedioDiasTranscurridos"];
+                                string promedioFormateado = string.Format("{0:F2}", promedio);
+                                object registrosContados = reader["RegistrosContados"];
+
+                                if (Convert.ToInt32(registrosContados) == 0)
+                                {
+                                    txbic.Text = string.Empty;
+                                    lblOCTotal.Text = string.Empty;
+                                    MessageBox.Show("No se encontraron registros.");
+                                }
+                                else
+                                {
+                                    lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                    txbic.Text = promedioFormateado;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                    else
+                    {
+                        string query = @"
+                                        SELECT 
+                                            AVG(
+                                                CASE
+                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
+                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                END
+                                            ) AS PromedioDiasTranscurridos,
+                                            COUNT(*) AS RegistrosContados
+                                            FROM 
+                                                elastosystem_compras_requisicion_desglosada
+                                            WHERE 
+                                                FechaFinal IS NOT NULL
+                                            AND YEAR(FechaInicio) = @ANIO
+                                            AND MONTH(FechaInicio) IN (11,12);";
+
+                        MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                        try
+                        {
+                            conn.Open();
+                            MySqlCommand cmd = new MySqlCommand(query, conn);
+                            cmd.Parameters.AddWithValue("@ANIO", anioSeleccionado);
+
+                            MySqlDataReader reader = cmd.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                object promedio = reader["PromedioDiasTranscurridos"];
+                                string promedioFormateado = string.Format("{0:F2}", promedio);
+                                object registrosContados = reader["RegistrosContados"];
+
+
+                                if (Convert.ToInt32(registrosContados) == 0)
+                                {
+                                    txbic.Text = string.Empty;
+                                    lblOCTotal.Text = string.Empty;
+                                    MessageBox.Show("No se encontraron registros.");
+                                }
+                                else
+                                {
+                                    lblOCTotal.Text = "El promedio es: " + promedioFormateado + " dias, con " + registrosContados + " registros";
+                                    txbic.Text = promedioFormateado;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
         }
 
         private void txbic_TextChanged(object sender, EventArgs e)
         {
             if (double.TryParse(txbic.Text, out double valor))
             {
-                if (valor <= 3)
+                if (valor >=0 && valor <= 3)
                 {
                     txbic.BackColor = System.Drawing.Color.Green;
                     txbic.ForeColor = System.Drawing.Color.White;
@@ -271,6 +866,14 @@ namespace ElastoSystem
                 {
                     txbic.BackColor = System.Drawing.Color.Red;
                     txbic.ForeColor = System.Drawing.Color.White;
+                }
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(txbic.Text))
+                {
+                    txbic.BackColor = System.Drawing.Color.White;
+                    txbic.ForeColor = System.Drawing.Color.Black;
                 }
             }
         }

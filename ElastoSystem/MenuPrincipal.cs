@@ -640,8 +640,8 @@ namespace ElastoSystem
 
         private void btnIndCompras_Click(object sender, EventArgs e)
         {
-            /*openChildForm(new IndicadorCompras());
-            HideSubMenu();*/
+            openChildForm(new IndicadorCompras());
+            HideSubMenu();
         }
 
         private void btnCatalogoClientes_Click(object sender, EventArgs e)

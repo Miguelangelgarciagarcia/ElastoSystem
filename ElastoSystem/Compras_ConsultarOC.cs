@@ -98,6 +98,9 @@ namespace ElastoSystem
 
         private void MandarALlamarOcs()
         {
+            dgvOrdenesCompra.DataSource = null;
+            dgvOrdenesCompra.Rows.Clear();
+
             string tabla = "SELECT * FROM elastosystem_compras_oc";
             MySqlDataAdapter mysqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
@@ -181,30 +184,38 @@ namespace ElastoSystem
 
                 string requisicion = dgv.Rows[rowIndex].Cells[10].Value.ToString();
                 cbRequisicion.Text = requisicion;
+                cbRequisicion2.Text = requisicion;
 
                 DateTime fecha = Convert.ToDateTime(dgv.Rows[rowIndex].Cells[2].Value);
                 lblFecha.Text = fecha.ToString("dd / MMMM / yyyy", new System.Globalization.CultureInfo("es-ES"));
 
                 string proveedor = dgv.Rows[rowIndex].Cells[3].Value.ToString();
                 cbProveedores.Text = proveedor;
+                cbProveedores2.Text = proveedor;
 
                 string contacto = dgv.Rows[rowIndex].Cells[4].Value.ToString();
                 txbContacto.Text = contacto;
+                txbContacto2.Text = contacto;
 
                 string telefono = dgv.Rows[rowIndex].Cells[5].Value.ToString();
                 txbTelefono.Text = telefono;
+                txbTelefono2.Text = telefono;
 
                 string correo = dgv.Rows[rowIndex].Cells[6].Value.ToString();
                 txbCorreo.Text = correo;
+                txbCorreo2.Text = correo;
 
                 string moneda = dgv.Rows[rowIndex].Cells[11].Value.ToString();
                 cbMoneda.Text = moneda;
+                cbMoneda2.Text = moneda;
 
                 string confirmacionpedido = dgv.Rows[rowIndex].Cells[12].Value.ToString();
                 cbConfirmacionPedido.Text = confirmacionpedido;
+                cbConfirmacionPedido2.Text = confirmacionpedido;
 
                 string condicionpago = dgv.Rows[rowIndex].Cells[13].Value.ToString();
                 cbCondicionPago.Text = condicionpago;
+                cbCondicionPago2.Text = condicionpago;
 
                 bool cercalidad = Convert.ToBoolean(dgv.Rows[rowIndex].Cells[18].Value);
                 if (cercalidad == true)
@@ -218,15 +229,19 @@ namespace ElastoSystem
 
                 string tiempoentrega = dgv.Rows[rowIndex].Cells[14].Value.ToString();
                 txbTiempoEntrega.Text = tiempoentrega;
+                txbTiempoEntrega2.Text = tiempoentrega;
 
                 string lugarentrega = dgv.Rows[rowIndex].Cells[15].Value.ToString();
                 txbLugarEntrega.Text = lugarentrega;
+                txbLugarEntrega2.Text = lugarentrega;
 
                 string cotizacion = dgv.Rows[rowIndex].Cells[16].Value.ToString();
                 txbCotizacion.Text = cotizacion;
+                txbCotizacion2.Text = cotizacion;
 
                 string formapago = dgv.Rows[rowIndex].Cells[17].Value.ToString();
                 cbFormaPago.Text = formapago;
+                cbFormaPago2.Text = formapago;
 
                 MandarALlamarPartidas();
 
@@ -340,17 +355,29 @@ namespace ElastoSystem
         {
             lblFolio.Text = "ERROR";
             cbRequisicion.SelectedIndex = -1;
+            cbRequisicion2.SelectedIndex = -1;
             cbProveedores.Text = string.Empty;
+            cbProveedores2.Text = string.Empty;
             txbContacto.Clear();
+            txbContacto2.Clear();
             txbTelefono.Clear();
+            txbTelefono2.Clear();
             txbCorreo.Clear();
+            txbCorreo2.Clear();
             cbMoneda.SelectedIndex = -1;
+            cbMoneda2.SelectedIndex = -1;
             cbConfirmacionPedido.SelectedIndex = -1;
+            cbConfirmacionPedido2.SelectedIndex = -1;
             cbCondicionPago.SelectedIndex = -1;
+            cbCondicionPago2.SelectedIndex = -1;
             txbTiempoEntrega.Clear();
+            txbTiempoEntrega2.Clear();
             txbLugarEntrega.Clear();
+            txbLugarEntrega2.Clear();
             txbCotizacion.Clear();
+            txbCotizacion2.Clear();
             cbFormaPago.SelectedIndex = -1;
+            cbFormaPago2.SelectedIndex = -1;
         }
 
         private void chbCerNo_CheckedChanged(object sender, EventArgs e)
@@ -409,6 +436,9 @@ namespace ElastoSystem
             pbLugarEntrega.Visible = false;
             pbCotizacion.Visible = false;
             pbFormaPago.Visible = false;
+
+            MandarALlamarOcs();
+            MandarALlamarProveedores();
 
         }
 
@@ -686,7 +716,82 @@ namespace ElastoSystem
         {
             listReqs = listReqs.Distinct().ToList();
             listarequisiciones = string.Join(", ", listReqs);
-            listReqs.Clear();
+        }
+
+        string RespuestaGuardado = "IGUAL";
+
+        private void RevisarCambios()
+        {
+            if(cbRequisicion.Text != cbRequisicion2.Text ||
+               cbProveedores.Text != cbProveedores2.Text ||
+               txbContacto.Text != txbContacto2.Text ||
+               txbTelefono.Text != txbTelefono2.Text ||
+               txbCorreo.Text != txbCorreo2.Text ||
+               cbMoneda.Text != cbMoneda2.Text ||
+               cbConfirmacionPedido.Text != cbConfirmacionPedido2.Text ||
+               cbCondicionPago.Text != cbCondicionPago2.Text ||
+               txbTiempoEntrega.Text != txbTiempoEntrega2.Text ||
+               txbLugarEntrega.Text != txbLugarEntrega2.Text ||
+               txbCotizacion.Text != txbCotizacion2.Text ||
+               cbFormaPago.Text != cbFormaPago2.Text)
+            {
+                
+
+                using (Compras_CambiosOC dialogo = new Compras_CambiosOC())
+                {
+                    if(dialogo.ShowDialog() == DialogResult.OK)
+                    {
+                        RespuestaGuardado = dialogo.OCSave;
+                        if(RespuestaGuardado == "Sobreescribir")
+                        {
+                            ActualizarOC();   
+                        }
+                        else if(RespuestaGuardado == "NuevaOC")
+                        {
+                            MessageBox.Show("NuevaOC");
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ActualizarOC()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "UPDATE elastosystem_compras_oc SET Proveedor = @PROVEEDOR, Contacto = @CONTACTO, Telefono = @TELEFONO, Correo = @CORREO, RequisicionCompra = @REQUISICIONCOMPRA, Moneda = @MONEDA, ConfirmacionPedido = @CONFIRMACIONPEDIDO, CondicionPago = @CONDICIONPAGO, TiempoEntrega = @TIEMPOENTREGA, LugarEntrega = @LUGARENTREGA, Cotizacion = @COTIZACION, FormaPago = @FORMAPAGO, Requisiciones = @REQUISICIONES WHERE Folio_ALT = @FOLIOALT";
+                cmd.Parameters.AddWithValue("@FOLIOALT", lblFolio.Text);
+                cmd.Parameters.AddWithValue("@PROVEEDOR", cbProveedores.Text);
+                cmd.Parameters.AddWithValue("@CONTACTO", txbContacto.Text);
+                cmd.Parameters.AddWithValue("@TELEFONO", txbTelefono.Text);
+                cmd.Parameters.AddWithValue("@CORREO", txbCorreo.Text);
+                cmd.Parameters.AddWithValue("@REQUISICIONCOMPRA", cbRequisicion.Text);
+                cmd.Parameters.AddWithValue("@MONEDA", cbMoneda.Text);
+                cmd.Parameters.AddWithValue("@CONFIRMACIONPEDIDO", cbConfirmacionPedido.Text);
+                cmd.Parameters.AddWithValue("@CONDICIONPAGO", cbCondicionPago.Text);
+                cmd.Parameters.AddWithValue("@TIEMPOENTREGA", txbTiempoEntrega.Text);
+                cmd.Parameters.AddWithValue("@LUGARENTREGA", txbLugarEntrega.Text);
+                cmd.Parameters.AddWithValue("@COTIZACION", txbCotizacion.Text);
+                cmd.Parameters.AddWithValue("@FORMAPAGO", cbFormaPago.Text);
+                cmd.Parameters.AddWithValue("@REQUISICIONES", listarequisiciones);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar oc en la base de datos" + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private void btnGenerarOC_Click(object sender, EventArgs e)
@@ -725,6 +830,18 @@ namespace ElastoSystem
                     pbLugarEntrega.Visible = false;
                     pbCotizacion.Visible = false;
                     pbFormaPago.Visible = false;
+                    ListaRequisiciones();
+
+                    RespuestaGuardado = "IGUAL";
+                    RevisarCambios();
+                    if(RespuestaGuardado == "Sobreescribir" || RespuestaGuardado == "NuevaOC" || RespuestaGuardado == "IGUAL")
+                    {
+
+                    }
+                    else
+                    {
+                        return;
+                    }
 
                     string certificadodecalidad = " ";
                     if (chbCerSi.Checked)
@@ -736,7 +853,7 @@ namespace ElastoSystem
                     saveFileDialog.Title = "Guardar PDF";
                     saveFileDialog.FileName = lblFolio.Text;
 
-                    ListaRequisiciones();
+                    
 
                     if(saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
@@ -820,6 +937,11 @@ namespace ElastoSystem
                             whiteFonta.Color = BaseColor.WHITE;
                             string confirmaciondelpedido = cbConfirmacionPedido.Text;
                             string fechaoc = lblFecha.Text;
+                            DateTime fechaConvertida;
+                            if(DateTime.TryParse(fechaoc, out fechaConvertida))
+                            {
+                                fechaoc = fechaConvertida.ToString("yyyy-MM-dd");
+                            }
                             string barraconfirmacion = "CONFIRMACION DEL PEDIDO: " + confirmaciondelpedido + "               FECHA: " + fechaoc;
                             iTextSharp.text.Paragraph barraconfi = new iTextSharp.text.Paragraph(barraconfirmacion, font);
                             PdfPTable tablef = new PdfPTable(1);
@@ -1025,6 +1147,11 @@ namespace ElastoSystem
                             doc.Add(imagen3);
                             doc.Close();
 
+                            if (RespuestaGuardado == "Sobreescribir")
+                            {
+                                MessageBox.Show("DATOS ACTUALIZADOS");
+                            }
+
                             MessageBox.Show("PDF guardado como '" + System.IO.Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             if (System.IO.File.Exists(rutaArchivoPDF))
                             {
@@ -1089,6 +1216,11 @@ namespace ElastoSystem
                             string ocyrequi = "\n \n";
                             iTextSharp.text.Paragraph paragraph = new iTextSharp.text.Paragraph(ocyrequi, fontand);
                             string fechaoc = lblFecha.Text;
+                            DateTime fechaConvertida;
+                            if(DateTime.TryParse(fechaoc, out fechaConvertida))
+                            {
+                                fechaoc = fechaConvertida.ToString("yyyy-MM-dd");
+                            }
                             string datosdelproveedor = "\n" + "ORDEN DE COMPRA: " + oc + "               FECHA: " + fechaoc;
                             iTextSharp.text.Paragraph datospro = new iTextSharp.text.Paragraph(datosdelproveedor, fontand);
 
@@ -1125,9 +1257,7 @@ namespace ElastoSystem
                             iTextSharp.text.Font whiteFonta = new iTextSharp.text.Font(font);
                             whiteFonta.Color = BaseColor.WHITE;
                             string confirmaciondelpedido = cbConfirmacionPedido.Text;
-                            DateTime fechaActual = DateTime.Today;
-                            string fechahoy = fechaActual.ToString("yyyy-MM-dd");
-                            string barraconfirmacion = "CONFIRMACION DEL PEDIDO: " + confirmaciondelpedido + "               FECHA: " + fechahoy;
+                            string barraconfirmacion = "CONFIRMACION DEL PEDIDO: " + confirmaciondelpedido + "               FECHA: " + fechaoc;
                             iTextSharp.text.Paragraph barraconfi = new iTextSharp.text.Paragraph(barraconfirmacion, font);
                             PdfPTable tablef = new PdfPTable(1);
                             tablef.WidthPercentage = 100;
@@ -1329,6 +1459,11 @@ namespace ElastoSystem
                             doc.Add(imagen3);
                             doc.Close();
 
+                            if (RespuestaGuardado == "Sobreescribir")
+                            {
+                                MessageBox.Show("DATOS ACTUALIZADOS");
+                            }
+
                             MessageBox.Show("PDF guardado como '" + System.IO.Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             if (System.IO.File.Exists(rutaArchivoPDF))
                             {
@@ -1390,8 +1525,12 @@ namespace ElastoSystem
 
                             doc.Add(new iTextSharp.text.Paragraph("\n \n"));
 
-                            DateTime fechaActual = DateTime.Today;
-                            string fechahoy = fechaActual.ToString("yyyy-MM-dd");
+                            string fechaoc = lblFecha.Text;
+                            DateTime fechaConvertida;
+                            if(DateTime.TryParse(fechaoc, out fechaConvertida))
+                            {
+                                fechaoc = fechaConvertida.ToString("yyyy-MM-dd");
+                            }
                             string oc = lblFolio.Text;
                             string ocyrequi = "\n \n \n \n \n \n" + "  " + oc + "\n \n" + "  " + listarequisiciones;
                             iTextSharp.text.Paragraph paragraph = new iTextSharp.text.Paragraph(ocyrequi, font);
@@ -1400,7 +1539,7 @@ namespace ElastoSystem
                             string telefono = txbTelefono.Text;
                             string correo = txbCorreo.Text;
                             string datosdelproveedor = empresa + "\n " + atencion + "\n " + telefono + "\n " + correo;
-                            string datos = "Orden de compra:         " + oc + "                                                                    FECHA: " + fechahoy + "\n" + "Numero de cotización:   " + txbCotizacion.Text + "\n \n" + "Datos del proveedor:" + "\n" + empresa + "\n" + atencion + "\n" + telefono + "\n" + correo;
+                            string datos = "Orden de compra:         " + oc + "                                                                    FECHA: " + fechaoc + "\n" + "Numero de cotización:   " + txbCotizacion.Text + "\n \n" + "Datos del proveedor:" + "\n" + empresa + "\n" + atencion + "\n" + telefono + "\n" + correo;
                             iTextSharp.text.Paragraph datospro = new iTextSharp.text.Paragraph(datosdelproveedor, font);
 
                             // Crear una tabla con una fila y dos celdas
@@ -1624,6 +1763,11 @@ namespace ElastoSystem
                             imagen3.SetAbsolutePosition(doc.Left, pie);
                             doc.Add(imagen3);
                             doc.Close();
+
+                            if (RespuestaGuardado == "Sobreescribir")
+                            {
+                                MessageBox.Show("DATOS ACTUALIZADOS");
+                            }
 
                             MessageBox.Show("PDF guardado como '" + System.IO.Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             if (System.IO.File.Exists(rutaArchivoPDF))

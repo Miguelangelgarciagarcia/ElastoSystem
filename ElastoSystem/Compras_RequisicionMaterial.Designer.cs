@@ -36,6 +36,7 @@
             lblfecha = new Label();
             label5 = new Label();
             panel5 = new Panel();
+            chbCompraOnline = new CheckBox();
             cbTipoUso = new ComboBox();
             btnModificar = new Button();
             btnEliminar = new Button();
@@ -65,6 +66,7 @@
             Proveedor = new DataGridViewTextBoxColumn();
             TipoUso = new DataGridViewTextBoxColumn();
             Comentarios = new DataGridViewTextBoxColumn();
+            Onlinea = new DataGridViewTextBoxColumn();
             panel4 = new Panel();
             btnRequerimiento = new Button();
             lblFolioREQ = new Label();
@@ -138,6 +140,7 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(3, 42, 76);
+            panel5.Controls.Add(chbCompraOnline);
             panel5.Controls.Add(cbTipoUso);
             panel5.Controls.Add(btnModificar);
             panel5.Controls.Add(btnEliminar);
@@ -163,13 +166,25 @@
             panel5.TabIndex = 20;
             panel5.Paint += panel5_Paint;
             // 
+            // chbCompraOnline
+            // 
+            chbCompraOnline.AutoSize = true;
+            chbCompraOnline.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            chbCompraOnline.ForeColor = Color.White;
+            chbCompraOnline.Location = new Point(390, 386);
+            chbCompraOnline.Name = "chbCompraOnline";
+            chbCompraOnline.Size = new Size(150, 26);
+            chbCompraOnline.TabIndex = 28;
+            chbCompraOnline.Text = "Compra Online";
+            chbCompraOnline.UseVisualStyleBackColor = true;
+            // 
             // cbTipoUso
             // 
             cbTipoUso.DropDownStyle = ComboBoxStyle.DropDownList;
             cbTipoUso.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             cbTipoUso.FormattingEnabled = true;
             cbTipoUso.Items.AddRange(new object[] { "ACTIVO FIJO", "ENERGIA ELECTRICA", "GASTOS ADMINISTRATIVOS", "HERRAMIENTAS", "INTERNET Y TELEFONO", "LIMPIEZA", "MANTENIMIENTO", "MATERIA PRIMA", "PAPELERIA", "REFACCIONES", "UNIFORMES", "VIGILANCIA", "OTROS" });
-            cbTipoUso.Location = new Point(147, 371);
+            cbTipoUso.Location = new Point(147, 339);
             cbTipoUso.Name = "cbTipoUso";
             cbTipoUso.Size = new Size(393, 30);
             cbTipoUso.TabIndex = 15;
@@ -231,7 +246,7 @@
             label13.BackColor = Color.Transparent;
             label13.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label13.ForeColor = Color.White;
-            label13.Location = new Point(26, 374);
+            label13.Location = new Point(26, 342);
             label13.Name = "label13";
             label13.Size = new Size(104, 22);
             label13.TabIndex = 14;
@@ -271,7 +286,7 @@
             txbNotas.Location = new Point(25, 448);
             txbNotas.Multiline = true;
             txbNotas.Name = "txbNotas";
-            txbNotas.Size = new Size(515, 158);
+            txbNotas.Size = new Size(515, 148);
             txbNotas.TabIndex = 14;
             // 
             // cbProveedor
@@ -279,7 +294,7 @@
             cbProveedor.DropDownStyle = ComboBoxStyle.DropDownList;
             cbProveedor.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             cbProveedor.FormattingEnabled = true;
-            cbProveedor.Location = new Point(25, 317);
+            cbProveedor.Location = new Point(25, 297);
             cbProveedor.Name = "cbProveedor";
             cbProveedor.Size = new Size(515, 30);
             cbProveedor.TabIndex = 13;
@@ -290,7 +305,7 @@
             label10.BackColor = Color.Transparent;
             label10.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label10.ForeColor = Color.White;
-            label10.Location = new Point(233, 292);
+            label10.Location = new Point(233, 272);
             label10.Name = "label10";
             label10.Size = new Size(93, 22);
             label10.TabIndex = 12;
@@ -433,10 +448,11 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvListaMateriales.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios });
+            dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Onlinea });
             dgvListaMateriales.Enabled = false;
             dgvListaMateriales.Location = new Point(16, 36);
             dgvListaMateriales.Name = "dgvListaMateriales";
+            dgvListaMateriales.ReadOnly = true;
             dgvListaMateriales.RowHeadersVisible = false;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = Color.White;
@@ -455,36 +471,50 @@
             // 
             Descripcion.HeaderText = "Descripción";
             Descripcion.Name = "Descripcion";
+            Descripcion.ReadOnly = true;
             // 
             // Cantidad
             // 
             Cantidad.HeaderText = "Cantidad";
             Cantidad.Name = "Cantidad";
+            Cantidad.ReadOnly = true;
             // 
             // Unidad
             // 
             Unidad.HeaderText = "Unidad";
             Unidad.Name = "Unidad";
+            Unidad.ReadOnly = true;
             // 
             // Precio
             // 
             Precio.HeaderText = "Precio";
             Precio.Name = "Precio";
+            Precio.ReadOnly = true;
             // 
             // Proveedor
             // 
             Proveedor.HeaderText = "Proveedor";
             Proveedor.Name = "Proveedor";
+            Proveedor.ReadOnly = true;
             // 
             // TipoUso
             // 
             TipoUso.HeaderText = "TipoUso";
             TipoUso.Name = "TipoUso";
+            TipoUso.ReadOnly = true;
             // 
             // Comentarios
             // 
             Comentarios.HeaderText = "Comentarios";
             Comentarios.Name = "Comentarios";
+            Comentarios.ReadOnly = true;
+            // 
+            // Onlinea
+            // 
+            Onlinea.HeaderText = "Online";
+            Onlinea.Name = "Onlinea";
+            Onlinea.ReadOnly = true;
+            Onlinea.Visible = false;
             // 
             // panel4
             // 
@@ -584,6 +614,8 @@
         private TextBox txbNotas;
         private Panel panel4;
         private Button btnRequerimiento;
+        private Label lblFolioREQ;
+        private CheckBox chbCompraOnline;
         private DataGridViewTextBoxColumn Descripcion;
         private DataGridViewTextBoxColumn Cantidad;
         private DataGridViewTextBoxColumn Unidad;
@@ -591,6 +623,6 @@
         private DataGridViewTextBoxColumn Proveedor;
         private DataGridViewTextBoxColumn TipoUso;
         private DataGridViewTextBoxColumn Comentarios;
-        private Label lblFolioREQ;
+        private DataGridViewTextBoxColumn Onlinea;
     }
 }

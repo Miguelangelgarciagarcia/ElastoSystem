@@ -20,6 +20,7 @@ using DocumentFormat.OpenXml.Drawing;
 using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using DocumentFormat.OpenXml.Vml;
+using System.Diagnostics.Eventing.Reader;
 
 namespace ElastoSystem
 {
@@ -52,7 +53,7 @@ namespace ElastoSystem
         {
             try
             {
-                string tabla = "SELECT ID_Producto, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios FROM elastosystem_compras_requisicion_desglosada WHERE ID = '" + txbFolio.Text + "' AND Estatus = 'ABIERTA'";
+                string tabla = "SELECT ID_Producto, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Compra_Online FROM elastosystem_compras_requisicion_desglosada WHERE ID = '" + txbFolio.Text + "' AND Estatus = 'ABIERTA'";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
@@ -71,6 +72,7 @@ namespace ElastoSystem
                     dgvPartidas.Columns["Proveedor"].Visible = false;
                     dgvPartidas.Columns["TipoUso"].Visible = false;
                     dgvPartidas.Columns["Comentarios"].Visible = false;
+                    dgvPartidas.Columns["Compra_Online"].Visible = false;
                 }
 
 
@@ -433,6 +435,8 @@ namespace ElastoSystem
             txbProovedorRecomendado.Clear();
             txbTipoUso.Clear();
             txbNotas.Clear();
+            btnAlmacenar.Visible = false;
+            chbCompraOnline.Checked = false;
 
             cbProveedores.SelectedIndex = -1;
             txbAtencion.Clear();
@@ -525,6 +529,11 @@ namespace ElastoSystem
 
                 string comentarios = dgv.Rows[rowIndex].Cells[7].Value.ToString();
                 txbNotas.Text = comentarios;
+
+                bool compraonl = Convert.ToBoolean(dgv.Rows[rowIndex].Cells[8].Value);
+                chbCompraOnline.Checked = compraonl;
+
+                btnAlmacenar.Visible = compraonl;
             }
         }
 
@@ -594,14 +603,16 @@ namespace ElastoSystem
         {
             try
             {
+                string fecha = DateTime.Now.ToString("yyyy/MM/dd");
                 string estatus = "CERRADA";
                 MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
                 conn.Open();
                 MySqlCommand comando = new MySqlCommand();
                 comando.Connection = conn;
-                comando.CommandText = "UPDATE elastosystem_compras_requisicion_desglosada SET Estatus = @ESTATUS, OC = @OC WHERE ID_Producto = @ID";
+                comando.CommandText = "UPDATE elastosystem_compras_requisicion_desglosada SET Estatus = @ESTATUS, OC = @OC, FechaFinal = @FECHAFINAL WHERE ID_Producto = @ID";
                 comando.Parameters.AddWithValue("@ESTATUS", estatus);
                 comando.Parameters.AddWithValue("@OC", lblFolioOC.Text);
+                comando.Parameters.AddWithValue("@FECHAFINAL", fecha);
                 comando.Parameters.Add("@ID", MySqlDbType.VarChar);
 
                 foreach (string idProducto in listFolios)
@@ -620,6 +631,45 @@ namespace ElastoSystem
             catch (Exception ex)
             {
                 MessageBox.Show("ERROR AL DARLE FOLIO A LA LISTA: " + ex.Message);
+            }
+        }
+
+        private void AlmacenarProducto()
+        {
+            try
+            {
+                string estatus = "CERRADA";
+                string oc = "COMPRA ONLINE";
+                string fecha = DateTime.Now.ToString("yyyy/MM/dd");
+                MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                conn.Open();
+                MySqlCommand comando = new MySqlCommand();
+                comando.Connection = conn;
+                comando.CommandText = "UPDATE elastosystem_compras_requisicion_desglosada SET FechaFinal = @FECHAFINAL, Estatus = @ESTATUS, OC = @OC WHERE ID_Producto = @ID";
+                comando.Parameters.AddWithValue("@FECHAFINAL", fecha);
+                comando.Parameters.AddWithValue("@ESTATUS", estatus);
+                comando.Parameters.AddWithValue("@OC", oc);
+                comando.Parameters.AddWithValue("@ID", lblIDProducto.Text);
+                comando.ExecuteNonQuery();
+                MessageBox.Show("PRODUCTO ALMACENADO CORRECTAMENTE");
+                conn.Close();
+                btnAlmacenar.Visible = false;
+                chbCompraOnline.Checked = false;
+                txbCantidad.Clear();
+                txbUnidad.Clear();
+                txbPrecio.Clear();
+                txbDescripcion.Clear();
+                txbProovedorRecomendado.Clear();
+                txbTipoUso.Clear();
+                txbNotas.Clear();
+                lblIDProducto.Text = string.Empty;
+                dgvPartidas.DataSource = null;
+                dgvPartidas.Rows.Clear();
+                CargarRequisiciones();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL ALMACENAR: " + ex.Message);
             }
         }
 
@@ -663,7 +713,7 @@ namespace ElastoSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ERROR AL GUARDAR FACTURA EN LA BASE DE DATOS: "+ex.Message);
+                MessageBox.Show("ERROR AL GUARDAR FACTURA EN LA BASE DE DATOS: " + ex.Message);
             }
             finally
             {
@@ -950,12 +1000,12 @@ namespace ElastoSystem
                                     imagen4.SetAbsolutePosition(410, tableeY);
                                     doc.Add(imagen4);
                                 }
-                                else if(cbMoneda.Text == "EUROS")
+                                else if (cbMoneda.Text == "EUROS")
                                 {
                                     rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\cantidades_Euros.jpg";
                                     iTextSharp.text.Image imagen4 = iTextSharp.text.Image.GetInstance(rutaImagen4);
                                     imagen4.ScaleToFit(150f, 150f);
-                                    imagen4.SetAbsolutePosition(430, tableeY+5);
+                                    imagen4.SetAbsolutePosition(430, tableeY + 5);
                                     doc.Add(imagen4);
                                 }
                                 else
@@ -966,7 +1016,7 @@ namespace ElastoSystem
                                     imagen4.SetAbsolutePosition(410, tableeY);
                                     doc.Add(imagen4);
                                 }
-                                
+
 
 
                                 string cotizacion = txbCotizacion.Text;
@@ -1044,7 +1094,7 @@ namespace ElastoSystem
 
                             }
                             //////////////////////////////////////////////////////////////ANDREA/////////////////////////////////////////////////////////////////////////
-                            else if(cbRequisicion.Text == "ANDREA")
+                            else if (cbRequisicion.Text == "ANDREA")
                             {
                                 if (txbLugarEntrega.Text == "ELASTOTECNICA CARR. ANIMAS-COYOTEPEC KM. 4, COYOTEPEC, ESTADO DE MÉXICO")
                                 {
@@ -1411,7 +1461,7 @@ namespace ElastoSystem
                                 string telefono = txbTelefono.Text;
                                 string correo = txbCorreo.Text;
                                 string datosdelproveedor = empresa + "\n " + atencion + "\n " + telefono + "\n " + correo;
-                                string datos = "Orden de compra:         "+ oc + "                                                                    FECHA: " + fechahoy +"\n" + "Numero de cotización:   " + txbCotizacion.Text + "\n \n" + "Datos del proveedor:" +"\n"+ empresa +"\n"+ atencion + "\n" + telefono + "\n" + correo;
+                                string datos = "Orden de compra:         " + oc + "                                                                    FECHA: " + fechahoy + "\n" + "Numero de cotización:   " + txbCotizacion.Text + "\n \n" + "Datos del proveedor:" + "\n" + empresa + "\n" + atencion + "\n" + telefono + "\n" + correo;
                                 iTextSharp.text.Paragraph datospro = new iTextSharp.text.Paragraph(datosdelproveedor, font);
 
                                 // Crear una tabla con una fila y dos celdas
@@ -1439,7 +1489,7 @@ namespace ElastoSystem
                                 iTextSharp.text.Font whiteFonta = new iTextSharp.text.Font(font);
                                 whiteFonta.Color = BaseColor.WHITE;
                                 string confirmaciondelpedido = cbConfirmacionPedido.Text;
-                                
+
                                 string barraconfirmacion = "CONFIRMACION DEL PEDIDO: " + confirmaciondelpedido;
                                 iTextSharp.text.Paragraph barraconfi = new iTextSharp.text.Paragraph(barraconfirmacion, font);
                                 PdfPTable tablef = new PdfPTable(1);
@@ -1570,7 +1620,7 @@ namespace ElastoSystem
                                 {
                                     rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\cantidades_USD_brosma.jpg";
                                 }
-                                else if(cbMoneda.Text == "EUROS")
+                                else if (cbMoneda.Text == "EUROS")
                                 {
                                     rutaImagen4 = "\\\\10.120.1.3\\Departments$\\Sistemas\\Recursos_Sistemas\\ElastoSystem\\cantidades_Euros_brosma.jpg";
                                 }
@@ -1913,6 +1963,11 @@ namespace ElastoSystem
         private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
         {
 
+        }
+
+        private void btnAlmacenar_Click(object sender, EventArgs e)
+        {
+            AlmacenarProducto();
         }
     }
 }

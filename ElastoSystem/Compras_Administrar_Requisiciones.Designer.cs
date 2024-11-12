@@ -98,6 +98,14 @@
             txbSubtotal = new TextBox();
             label11 = new Label();
             dgvListaMateriales = new DataGridView();
+            Partida = new DataGridViewTextBoxColumn();
+            ID = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            Unidad = new DataGridViewTextBoxColumn();
+            Descripcion = new DataGridViewTextBoxColumn();
+            Precio = new DataGridViewTextBoxColumn();
+            Importe = new DataGridViewTextBoxColumn();
+            Requisicion = new DataGridViewTextBoxColumn();
             pbProveedor = new PictureBox();
             pbCampos = new PictureBox();
             lblCampos = new Label();
@@ -110,6 +118,8 @@
             label22 = new Label();
             tabControl1 = new TabControl();
             tabAgregarPartidas = new TabPage();
+            btnAlmacenar = new Button();
+            chbCompraOnline = new CheckBox();
             pbCantidad = new PictureBox();
             pbDescripcion = new PictureBox();
             pbUnidad = new PictureBox();
@@ -141,14 +151,6 @@
             label10 = new Label();
             lblFolioOC = new Label();
             txbReqFolio = new TextBox();
-            Partida = new DataGridViewTextBoxColumn();
-            ID = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            Unidad = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
-            Precio = new DataGridViewTextBoxColumn();
-            Importe = new DataGridViewTextBoxColumn();
-            Requisicion = new DataGridViewTextBoxColumn();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvRequisicions).BeginInit();
             panel2.SuspendLayout();
@@ -971,6 +973,56 @@
             dgvListaMateriales.CellContentClick += dgvListaMateriales_CellContentClick;
             dgvListaMateriales.MouseDoubleClick += dgvListaMateriales_MouseDoubleClick;
             // 
+            // Partida
+            // 
+            Partida.HeaderText = "PARTIDA";
+            Partida.Name = "Partida";
+            Partida.ReadOnly = true;
+            // 
+            // ID
+            // 
+            ID.HeaderText = "ID";
+            ID.Name = "ID";
+            ID.ReadOnly = true;
+            ID.Visible = false;
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "CANTIDAD";
+            Cantidad.Name = "Cantidad";
+            Cantidad.ReadOnly = true;
+            // 
+            // Unidad
+            // 
+            Unidad.HeaderText = "UNIDAD";
+            Unidad.Name = "Unidad";
+            Unidad.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            Descripcion.HeaderText = "DESCRIPCION";
+            Descripcion.Name = "Descripcion";
+            Descripcion.ReadOnly = true;
+            // 
+            // Precio
+            // 
+            Precio.HeaderText = "PRECIO";
+            Precio.Name = "Precio";
+            Precio.ReadOnly = true;
+            // 
+            // Importe
+            // 
+            Importe.HeaderText = "IMPORTE";
+            Importe.Name = "Importe";
+            Importe.ReadOnly = true;
+            // 
+            // Requisicion
+            // 
+            Requisicion.HeaderText = "REQUISICION";
+            Requisicion.Name = "Requisicion";
+            Requisicion.ReadOnly = true;
+            Requisicion.Visible = false;
+            // 
             // pbProveedor
             // 
             pbProveedor.Image = (Image)resources.GetObject("pbProveedor.Image");
@@ -1100,6 +1152,8 @@
             // tabAgregarPartidas
             // 
             tabAgregarPartidas.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabAgregarPartidas.Controls.Add(btnAlmacenar);
+            tabAgregarPartidas.Controls.Add(chbCompraOnline);
             tabAgregarPartidas.Controls.Add(pbCantidad);
             tabAgregarPartidas.Controls.Add(pbDescripcion);
             tabAgregarPartidas.Controls.Add(pbUnidad);
@@ -1131,6 +1185,35 @@
             tabAgregarPartidas.TabIndex = 0;
             tabAgregarPartidas.Text = "Agregar Partidas";
             tabAgregarPartidas.UseVisualStyleBackColor = true;
+            // 
+            // btnAlmacenar
+            // 
+            btnAlmacenar.BackColor = Color.FromArgb(255, 102, 0);
+            btnAlmacenar.Cursor = Cursors.Hand;
+            btnAlmacenar.FlatAppearance.BorderSize = 0;
+            btnAlmacenar.FlatStyle = FlatStyle.Flat;
+            btnAlmacenar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnAlmacenar.ForeColor = Color.White;
+            btnAlmacenar.Location = new Point(1089, 20);
+            btnAlmacenar.Name = "btnAlmacenar";
+            btnAlmacenar.Size = new Size(154, 29);
+            btnAlmacenar.TabIndex = 60;
+            btnAlmacenar.Text = "ALMACENAR";
+            btnAlmacenar.UseVisualStyleBackColor = false;
+            btnAlmacenar.Visible = false;
+            btnAlmacenar.Click += btnAlmacenar_Click;
+            // 
+            // chbCompraOnline
+            // 
+            chbCompraOnline.AutoSize = true;
+            chbCompraOnline.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            chbCompraOnline.ForeColor = Color.White;
+            chbCompraOnline.Location = new Point(864, 51);
+            chbCompraOnline.Name = "chbCompraOnline";
+            chbCompraOnline.Size = new Size(150, 26);
+            chbCompraOnline.TabIndex = 59;
+            chbCompraOnline.Text = "Compra Online";
+            chbCompraOnline.UseVisualStyleBackColor = true;
             // 
             // pbCantidad
             // 
@@ -1179,7 +1262,7 @@
             // pbCamposPartidas
             // 
             pbCamposPartidas.Image = (Image)resources.GetObject("pbCamposPartidas.Image");
-            pbCamposPartidas.Location = new Point(1006, 29);
+            pbCamposPartidas.Location = new Point(606, 20);
             pbCamposPartidas.Name = "pbCamposPartidas";
             pbCamposPartidas.Size = new Size(10, 20);
             pbCamposPartidas.SizeMode = PictureBoxSizeMode.Zoom;
@@ -1193,7 +1276,7 @@
             lblCamposPartidas.BackColor = Color.Transparent;
             lblCamposPartidas.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             lblCamposPartidas.ForeColor = Color.White;
-            lblCamposPartidas.Location = new Point(1017, 26);
+            lblCamposPartidas.Location = new Point(617, 17);
             lblCamposPartidas.Name = "lblCamposPartidas";
             lblCamposPartidas.Size = new Size(177, 22);
             lblCamposPartidas.TabIndex = 53;
@@ -1547,56 +1630,6 @@
             txbReqFolio.TabIndex = 33;
             txbReqFolio.Visible = false;
             // 
-            // Partida
-            // 
-            Partida.HeaderText = "PARTIDA";
-            Partida.Name = "Partida";
-            Partida.ReadOnly = true;
-            // 
-            // ID
-            // 
-            ID.HeaderText = "ID";
-            ID.Name = "ID";
-            ID.ReadOnly = true;
-            ID.Visible = false;
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "CANTIDAD";
-            Cantidad.Name = "Cantidad";
-            Cantidad.ReadOnly = true;
-            // 
-            // Unidad
-            // 
-            Unidad.HeaderText = "UNIDAD";
-            Unidad.Name = "Unidad";
-            Unidad.ReadOnly = true;
-            // 
-            // Descripcion
-            // 
-            Descripcion.HeaderText = "DESCRIPCION";
-            Descripcion.Name = "Descripcion";
-            Descripcion.ReadOnly = true;
-            // 
-            // Precio
-            // 
-            Precio.HeaderText = "PRECIO";
-            Precio.Name = "Precio";
-            Precio.ReadOnly = true;
-            // 
-            // Importe
-            // 
-            Importe.HeaderText = "IMPORTE";
-            Importe.Name = "Importe";
-            Importe.ReadOnly = true;
-            // 
-            // Requisicion
-            // 
-            Requisicion.HeaderText = "REQUISICION";
-            Requisicion.Name = "Requisicion";
-            Requisicion.ReadOnly = true;
-            Requisicion.Visible = false;
-            // 
             // Compras_Administrar_Requisiciones
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1774,5 +1807,7 @@
         private DataGridViewTextBoxColumn Precio;
         private DataGridViewTextBoxColumn Importe;
         private DataGridViewTextBoxColumn Requisicion;
+        private CheckBox chbCompraOnline;
+        private Button btnAlmacenar;
     }
 }
