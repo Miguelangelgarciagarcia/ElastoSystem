@@ -120,7 +120,7 @@
             label2.Name = "label2";
             label2.Size = new Size(159, 16);
             label2.TabIndex = 3;
-            label2.Text = "Elasto System Version 3.5";
+            label2.Text = "Elasto System Version 3.6";
             // 
             // label3
             // 
@@ -191,9 +191,9 @@
             label8.ForeColor = Color.White;
             label8.Location = new Point(24, 148);
             label8.Name = "label8";
-            label8.Size = new Size(181, 16);
+            label8.Size = new Size(175, 16);
             label8.TabIndex = 9;
-            label8.Text = "Última actualización 29/10/24";
+            label8.Text = "Última actualización 14/11/24";
             // 
             // lblConexion
             // 

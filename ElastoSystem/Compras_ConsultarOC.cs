@@ -245,22 +245,27 @@ namespace ElastoSystem
 
                 MandarALlamarPartidas();
 
-                /*string subtotal = dgv.Rows[rowIndex].Cells[7].Value.ToString();
-                txbSubtotal.Text = subtotal;*/
+                string subtotal = dgv.Rows[rowIndex].Cells[7].Value.ToString();
+                txbSubtotal2.Text = subtotal;
+
+                string total = dgv.Rows[rowIndex].Cells[9].Value.ToString();
+                txbTotal2.Text = total;
 
                 string iva = dgv.Rows[rowIndex].Cells[8].Value.ToString();
+                txbIVA2.Text = iva;
                 if (iva == "0")
                 {
                     chbIVA.Checked = false;
+                    Total();
                 }
                 else
                 {
                     chbIVA.Checked = true;
+                    TotalIVA();
                 }
                 txbIVA.Text = iva;
 
-                /*string total = dgv.Rows[rowIndex].Cells[9].Value.ToString();
-                txbTotal.Text = total;*/
+                
 
                 txbBuscador.Clear();
                 pnlBuscador.Visible = false;
@@ -274,7 +279,7 @@ namespace ElastoSystem
         {
             try
             {
-                string consulta = @"SELECT d.Cantidad, d.Unidad, d.ID_Producto, d.ID, d.Descripcion, d.TipoUso, d.Comentarios, d.Precio, r.Usuario 
+                string consulta = @"SELECT d.Cantidad, d.Unidad, d.ID_Producto, d.ID, d.Descripcion, d.TipoUso, d.Comentarios, d.Precio, r.Usuario, d.Proveedor, d.FechaInicio 
                                     FROM elastosystem_compras_requisicion_desglosada d
                                     JOIN elastosystem_compras_requisicion r ON d.ID = r.ID
                                     WHERE d.OC = @OC";
@@ -313,6 +318,21 @@ namespace ElastoSystem
                         string req = $"REQ-{row["ID"]}";
                         dgvListaMateriales.Rows[rowIndex].Cells["Requisicion"].Value = req;
 
+                        dgvListaMateriales.Rows[rowIndex].Cells["Proveedorr"].Value = row["Proveedor"];
+                        if (row["FechaInicio"] != DBNull.Value)
+                        {
+                            DateTime fechaInicio = Convert.ToDateTime(row["FechaInicio"]);
+                            dgvListaMateriales.Rows[rowIndex].Cells["FechaInicioo"].Value = fechaInicio.ToString("yyyy-MM-dd");
+                        }
+                        else
+                        {
+                            dgvListaMateriales.Rows[rowIndex].Cells["FechaInicioo"].Value = "";
+                        }
+                        dgvListaMateriales.Rows[rowIndex].Cells["DescripcionOriginal"].Value = row["Descripcion"];
+                        dgvListaMateriales.Rows[rowIndex].Cells["TipoUso"].Value = row["TipoUso"];
+                        dgvListaMateriales.Rows[rowIndex].Cells["Comentarios"].Value = row["Comentarios"];
+                        
+
                         partidaCounter++;
                     }
                 }
@@ -325,6 +345,7 @@ namespace ElastoSystem
         }
 
         List<string> listFolios = new List<string>();
+        List<string> listFoliosOriginales = new List<string>();
         List<string> listReqs = new List<string>();
 
         private void AgregarAListasMasivo()
@@ -337,6 +358,7 @@ namespace ElastoSystem
                     if (!string.IsNullOrEmpty(id))
                     {
                         listFolios.Add(id);
+                        listFoliosOriginales.Add(id);
                     }
 
                     string requisicion = row.Cells["Requisicion"].Value?.ToString();
@@ -348,6 +370,7 @@ namespace ElastoSystem
             }
 
             lblFolios.Text = $"Folios: {string.Join(", ", listFolios)}";
+            lblFoliosOriginales.Text = $"Folios: {string.Join(", ", listFoliosOriginales)}";
             lblReqs.Text = $"Requisiciones: {string.Join(", ", listReqs)}";
         }
 
@@ -437,13 +460,38 @@ namespace ElastoSystem
             pbCotizacion.Visible = false;
             pbFormaPago.Visible = false;
 
+            listFolios.Clear();
+            listFoliosOriginales.Clear();
+            listReqs.Clear();
+
+            txbSubtotal.Clear();
+            txbSubtotal2.Clear();
+            txbIVA.Clear();
+            txbIVA2.Clear();
+            txbTotal.Clear();
+            txbTotal2.Clear();
+
+            lblFolios.Text = string.Empty;
+            lblReqs.Text = string.Empty;
+            lblFoliosOriginales.Text = string.Empty;
+            lblTotalLetra.Text = string.Empty;
+            lblProveedor.Text = string.Empty;
+            lblFechaInicio.Text = string.Empty;
+            lblDescripcion.Text = string.Empty;
+            lblTipoUso.Text = string.Empty;
+            lblComentarios.Text = string.Empty;
+            lblFecha.Text = string.Empty;
+
             MandarALlamarOcs();
             MandarALlamarProveedores();
 
+            tabControl1.SelectedIndex = 0;
+            cambios = "FALSO";
         }
 
         private void dgvListaMateriales_DoubleClick(object sender, EventArgs e)
         {
+            /*
             txbDescripcion.ReadOnly = false;
             txbCantidad.ReadOnly = false;
             txbPrecio.ReadOnly = false;
@@ -479,7 +527,11 @@ namespace ElastoSystem
 
                 EliminarDeCantidades();
 
+                btnEliminar.Visible = true;
+                btnModificar.Visible = true;
+
             }
+            */
         }
 
         private void LimpiarCajasProducto()
@@ -511,6 +563,7 @@ namespace ElastoSystem
             }
 
             txbDescripcion.Text = antesDeRequisicion;
+            txbDescripcion2.Text = antesDeRequisicion;
 
             var regexSolicito = new Regex(@"Solicito:\s*(.*?)\s*Uso:", RegexOptions.IgnoreCase);
             var matchSolicito = regexSolicito.Match(descripcionlarga);
@@ -529,6 +582,7 @@ namespace ElastoSystem
             }
 
             cbTipoUso.Text = uso;
+            cbTipoUso2.Text = uso;
 
             var regexComentarios = new Regex(@"Comentarios:\s*(.*)", RegexOptions.IgnoreCase);
             var matchComentarios = regexComentarios.Match(descripcionlarga);
@@ -538,6 +592,7 @@ namespace ElastoSystem
             }
 
             txbComentarios.Text = comentarios;
+            txbComentarios2.Text = comentarios;
         }
 
         private void dgvListaMateriales_Click(object sender, EventArgs e)
@@ -545,8 +600,64 @@ namespace ElastoSystem
             LimpiarCajasProducto();
         }
 
+        private void ActivarPartida()
+        {
+            string oc = "";
+            string estatus = "ABIERTA";
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "UPDATE elastosystem_compras_requisicion_desglosada SET Estatus = @ESTATUS, OC = @OC, FechaFinal = @FECHAFINAL WHERE ID_Producto = @IDPRODUCTO";
+                cmd.Parameters.AddWithValue("@IDPRODUCTO", lblIDProducto.Text);
+                cmd.Parameters.AddWithValue("@ESTATUS", estatus);
+                cmd.Parameters.AddWithValue("@OC", oc);
+                cmd.Parameters.AddWithValue("@FECHAFINAL", MySqlDbType.Date).Value = DBNull.Value;
+
+                cmd.ExecuteNonQuery();
+
+                ActivarREQ();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar la partida en la base de datos " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void ActivarREQ()
+        {
+            string estatus = "ABIERTA";
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "UPDATE elastosystem_compras_requisicion SET Estatus = @ESTATUS WHERE ID_ALT = @ID_ALT";
+                cmd.Parameters.AddWithValue("@ID_ALT", lblRequisicion.Text);
+                cmd.Parameters.AddWithValue("@ESTATUS", estatus);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar al activar la requisicion " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
         private void EliminarDeCantidades()
         {
+            ActivarPartida();
             foreach (DataGridViewRow row in dgvListaMateriales.SelectedRows)
             {
                 dgvListaMateriales.Rows.Remove(row);
@@ -562,6 +673,24 @@ namespace ElastoSystem
                 Total();
             }
             EliminarDeListas();
+
+            txbDescripcion.Clear();
+            txbDescripcion2.Clear();
+            txbCantidad.Clear();
+            txbCantidad2.Clear();
+            cbUnidad.SelectedIndex = -1;
+            cbUnidad2.SelectedIndex = -1;
+            txbPrecio.Clear();
+            txbPrecio2.Clear();
+            cbTipoUso.SelectedIndex = -1;
+            cbTipoUso2.SelectedIndex = -1;
+            txbComentarios.Clear();
+            txbComentarios2.Clear();
+            btnEliminar.Visible = false;
+            btnModificar.Visible = false;
+            //btnAgregar.Visible = true;
+            lblIDProducto.Text = string.Empty;
+            lblRequisicion.Text = string.Empty;
         }
 
         private void EliminarDeListas()
@@ -636,8 +765,10 @@ namespace ElastoSystem
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            AgregarADGV();
+            //AgregarADGV();
         }
+
+        string cambios = "FALSO";
 
         private void AgregarADGV()
         {
@@ -651,9 +782,22 @@ namespace ElastoSystem
                 pbUnidad.Visible = true;
                 pbPrecio.Visible = true;
                 pbTipoUso.Visible = true;
+
+                return;
             }
             else
             {
+                if(txbDescripcion.Text != txbDescripcion2.Text || txbCantidad.Text != txbCantidad2.Text || cbUnidad.Text != cbUnidad2.Text || txbPrecio.Text != txbPrecio2.Text || cbTipoUso.Text != cbTipoUso2.Text || txbComentarios.Text != txbComentarios2.Text)
+                {
+                    cambios = "VERDADERO";
+                }
+
+                foreach (DataGridViewRow row in dgvListaMateriales.SelectedRows)
+                {
+                    dgvListaMateriales.Rows.Remove(row);
+                }
+                RenumerarPartidas();
+
                 pbCamposPartidas.Visible = false;
                 lblCamposPartidas.Visible = false;
                 pbDescripcion.Visible = false;
@@ -678,10 +822,15 @@ namespace ElastoSystem
                     string descripcion = txbDescripcion.Text + "\n" + "Requisicion: " + lblRequisicion.Text + ",    " + "Solicito: " + lblSolicito.Text + ",    " + "Uso: " + cbTipoUso.Text + "\n" + "Comentarios: " + txbComentarios.Text;
                     string precio = txbPrecio.Text;
                     string req = lblRequisicion.Text;
+                    string lbproveedor = lblProveedor.Text;
+                    string lbfechainicio = lblFechaInicio.Text;
+                    string lbdescripcionoriginal = txbDescripcion.Text;
+                    string lbTipoUso = cbTipoUso.Text;
+                    string lbcomentarios = txbComentarios.Text;
 
                     int partida = dgvListaMateriales.Rows.Count + 1;
 
-                    dgvListaMateriales.Rows.Add(partida, folio, cantidad, unidad, descripcion, precio, importe, req);
+                    dgvListaMateriales.Rows.Add(partida, folio, cantidad, unidad, descripcion, precio, importe, req, lbproveedor, lbfechainicio, lbdescripcionoriginal, lbTipoUso, lbcomentarios);
 
                     if (chbIVA.Checked)
                     {
@@ -691,9 +840,11 @@ namespace ElastoSystem
                     {
                         Total();
                     }
-                    AgregarAListas();
-                    MessageBox.Show("PRODUCTO AGREGADO");
+                    MessageBox.Show("PRODUCTO MODIFICADO");
                     LimpiarCajasProducto();
+                    btnEliminar.Visible = false;
+                    btnModificar.Visible = false;
+                    //btnAgregar.Visible = true;
                 }
                 else
                 {
@@ -722,31 +873,35 @@ namespace ElastoSystem
 
         private void RevisarCambios()
         {
-            if(cbRequisicion.Text != cbRequisicion2.Text ||
+            if (cbRequisicion.Text != cbRequisicion2.Text ||
                cbProveedores.Text != cbProveedores2.Text ||
                txbContacto.Text != txbContacto2.Text ||
                txbTelefono.Text != txbTelefono2.Text ||
                txbCorreo.Text != txbCorreo2.Text ||
+               txbSubtotal.Text != txbSubtotal2.Text ||
+               txbIVA.Text != txbIVA2.Text ||
+               txbTotal.Text != txbTotal2.Text ||
                cbMoneda.Text != cbMoneda2.Text ||
                cbConfirmacionPedido.Text != cbConfirmacionPedido2.Text ||
                cbCondicionPago.Text != cbCondicionPago2.Text ||
                txbTiempoEntrega.Text != txbTiempoEntrega2.Text ||
                txbLugarEntrega.Text != txbLugarEntrega2.Text ||
                txbCotizacion.Text != txbCotizacion2.Text ||
-               cbFormaPago.Text != cbFormaPago2.Text)
+               cbFormaPago.Text != cbFormaPago2.Text || cambios == "VERDADERO")
             {
-                
+
 
                 using (Compras_CambiosOC dialogo = new Compras_CambiosOC())
                 {
-                    if(dialogo.ShowDialog() == DialogResult.OK)
+                    if (dialogo.ShowDialog() == DialogResult.OK)
                     {
                         RespuestaGuardado = dialogo.OCSave;
-                        if(RespuestaGuardado == "Sobreescribir")
+                        if (RespuestaGuardado == "Sobreescribir")
                         {
-                            ActualizarOC();   
+                            ActualizarOC();
+
                         }
-                        else if(RespuestaGuardado == "NuevaOC")
+                        else if (RespuestaGuardado == "NuevaOC")
                         {
                             MessageBox.Show("NuevaOC");
                         }
@@ -759,6 +914,88 @@ namespace ElastoSystem
             }
         }
 
+        private void ActualizarPartidas()
+        {
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                conn.Open();
+                MySqlCommand comando = new MySqlCommand();
+                comando.Connection = conn;
+                comando.CommandText = "DELETE FROM elastosystem_compras_requisicion_desglosada WHERE ID_Producto = @ID";
+                comando.Parameters.Add("@ID", MySqlDbType.VarChar);
+
+                foreach (string idProducto in listFolios)
+                {
+                    comando.Parameters["@ID"].Value = idProducto;
+
+                    comando.ExecuteNonQuery();
+                }
+
+                conn.Close();
+
+                AgregarPartidasDeNuevo();
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL ELIMNAR OC A FOLIOS DE LA LISTA: " + ex.Message);
+            }
+        }
+
+        private void AgregarPartidasDeNuevo()
+        {
+            string estatus = "CERRADA";
+            string fechafinal = DateTime.Now.ToString("yyyy/MM/dd");
+            int filas = dgvListaMateriales.Rows.Count;
+            for (int i = 0; i < filas; i++)
+            {
+                string id_producto = dgvListaMateriales.Rows[i].Cells["ID"].Value.ToString();
+                float cantidad = Convert.ToSingle(dgvListaMateriales.Rows[i].Cells["Cantidad"].Value);
+                string unidad = dgvListaMateriales.Rows[i].Cells["Unidad"].Value.ToString();
+                float precio = Convert.ToSingle(dgvListaMateriales.Rows[i].Cells["Precio"].Value);
+                string requisicion = dgvListaMateriales.Rows[i].Cells["Requisicion"].Value.ToString();
+                requisicion = requisicion.Substring(4);
+                string proveedor = dgvListaMateriales.Rows[i].Cells["Proveedorr"].Value.ToString();
+                string fechainicio = dgvListaMateriales.Rows[i].Cells["FechaInicioo"].Value.ToString();
+                string descripcion = dgvListaMateriales.Rows[i].Cells["DescripcionOriginal"].Value.ToString();
+                string tipouso = dgvListaMateriales.Rows[i].Cells["TipoUso"].Value.ToString();
+                string comentarios = dgvListaMateriales.Rows[i].Cells["Comentarios"].Value.ToString();
+
+                MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand();
+                try
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "INSERT INTO elastosystem_compras_requisicion_desglosada (ID_Producto, Cantidad, Unidad, Precio, ID, Proveedor, FechaInicio, Descripcion, TipoUso, Comentarios, Estatus, OC, FechaFinal) VALUES (@ID_PRODUCTO, @CANTIDAD, @UNIDAD, @PRECIO, @ID, @PROVEEDOR, @FECHAINICIO, @DESCRIPCION, @TIPOUSO, @COMENTARIOS, @ESTATUS, @OC, @FECHAFINAL);";
+                    cmd.Parameters.AddWithValue("@ID_PRODUCTO", id_producto);
+                    cmd.Parameters.AddWithValue("@CANTIDAD", cantidad);
+                    cmd.Parameters.AddWithValue("@UNIDAD", unidad);
+                    cmd.Parameters.AddWithValue("@PRECIO", precio);
+                    cmd.Parameters.AddWithValue("@ID", requisicion);
+                    cmd.Parameters.AddWithValue("@PROVEEDOR", proveedor);
+                    cmd.Parameters.AddWithValue("@FECHAINICIO", fechainicio);
+                    cmd.Parameters.AddWithValue("@DESCRIPCION", descripcion);
+                    cmd.Parameters.AddWithValue("@TIPOUSO", tipouso);
+                    cmd.Parameters.AddWithValue("@COMENTARIOS", comentarios);
+                    cmd.Parameters.AddWithValue("@ESTATUS", estatus);
+                    cmd.Parameters.AddWithValue("@OC", lblFolio.Text);
+                    cmd.Parameters.AddWithValue("@FECHAFINAL", fechafinal);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
         private void ActualizarOC()
         {
             MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
@@ -767,12 +1004,15 @@ namespace ElastoSystem
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "UPDATE elastosystem_compras_oc SET Proveedor = @PROVEEDOR, Contacto = @CONTACTO, Telefono = @TELEFONO, Correo = @CORREO, RequisicionCompra = @REQUISICIONCOMPRA, Moneda = @MONEDA, ConfirmacionPedido = @CONFIRMACIONPEDIDO, CondicionPago = @CONDICIONPAGO, TiempoEntrega = @TIEMPOENTREGA, LugarEntrega = @LUGARENTREGA, Cotizacion = @COTIZACION, FormaPago = @FORMAPAGO, Requisiciones = @REQUISICIONES WHERE Folio_ALT = @FOLIOALT";
+                cmd.CommandText = "UPDATE elastosystem_compras_oc SET Proveedor = @PROVEEDOR, Contacto = @CONTACTO, Telefono = @TELEFONO, Correo = @CORREO, Subtotal = @SUBTOTAL, IVA = @IVA, Total = @TOTAL, RequisicionCompra = @REQUISICIONCOMPRA, Moneda = @MONEDA, ConfirmacionPedido = @CONFIRMACIONPEDIDO, CondicionPago = @CONDICIONPAGO, TiempoEntrega = @TIEMPOENTREGA, LugarEntrega = @LUGARENTREGA, Cotizacion = @COTIZACION, FormaPago = @FORMAPAGO, Requisiciones = @REQUISICIONES WHERE Folio_ALT = @FOLIOALT";
                 cmd.Parameters.AddWithValue("@FOLIOALT", lblFolio.Text);
                 cmd.Parameters.AddWithValue("@PROVEEDOR", cbProveedores.Text);
                 cmd.Parameters.AddWithValue("@CONTACTO", txbContacto.Text);
                 cmd.Parameters.AddWithValue("@TELEFONO", txbTelefono.Text);
                 cmd.Parameters.AddWithValue("@CORREO", txbCorreo.Text);
+                cmd.Parameters.AddWithValue("@SUBTOTAL", txbSubtotal.Text);
+                cmd.Parameters.AddWithValue("@IVA", txbIVA.Text);
+                cmd.Parameters.AddWithValue("@TOTAL", txbTotal.Text);
                 cmd.Parameters.AddWithValue("@REQUISICIONCOMPRA", cbRequisicion.Text);
                 cmd.Parameters.AddWithValue("@MONEDA", cbMoneda.Text);
                 cmd.Parameters.AddWithValue("@CONFIRMACIONPEDIDO", cbConfirmacionPedido.Text);
@@ -783,6 +1023,8 @@ namespace ElastoSystem
                 cmd.Parameters.AddWithValue("@FORMAPAGO", cbFormaPago.Text);
                 cmd.Parameters.AddWithValue("@REQUISICIONES", listarequisiciones);
                 cmd.ExecuteNonQuery();
+
+                ActualizarPartidas();
             }
             catch (Exception ex)
             {
@@ -796,7 +1038,91 @@ namespace ElastoSystem
 
         private void btnGenerarOC_Click(object sender, EventArgs e)
         {
-            if(decimal.TryParse(txbTotal.Text, out decimal numero))
+
+        }
+
+        private void dgvListaMateriales_DoubleClick_1(object sender, EventArgs e)
+        {
+            txbDescripcion.ReadOnly = false;
+            txbCantidad.ReadOnly = false;
+            txbPrecio.ReadOnly = false;
+            txbComentarios.ReadOnly = false;
+            cbUnidad.Enabled = true;
+            cbTipoUso.Enabled = true;
+
+            LimpiarCajasProducto();
+
+            DataGridView dgv = (DataGridView)sender;
+
+            if (dgv.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgv.SelectedCells[0].RowIndex;
+
+                string id = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                lblIDProducto.Text = id;
+
+                string cantidad = dgv.Rows[rowIndex].Cells[2].Value.ToString();
+                txbCantidad.Text = cantidad;
+                txbCantidad2.Text = cantidad;
+
+                string unidad = dgv.Rows[rowIndex].Cells[3].Value.ToString();
+                cbUnidad.Text = unidad;
+                cbUnidad2.Text = unidad;
+
+                string descripcion = dgv.Rows[rowIndex].Cells[4].Value.ToString();
+                ExtraerValoresDescripcion(descripcion);
+
+                string precio = dgv.Rows[rowIndex].Cells[5].Value.ToString();
+                txbPrecio.Text = precio;
+                txbPrecio2.Text = precio;
+
+                string requisicion = dgv.Rows[rowIndex].Cells[7].Value.ToString();
+                lblRequisicion.Text = requisicion;
+
+                string proveedor = dgv.Rows[rowIndex].Cells[8].Value.ToString();
+                lblProveedor.Text = proveedor;
+
+                string fechainicio = dgv.Rows[rowIndex].Cells[9].Value.ToString();
+                lblFechaInicio.Text = fechainicio;
+
+                string descripcionoriginal = dgv.Rows[rowIndex].Cells[10].Value.ToString();
+                lblDescripcion.Text = descripcionoriginal;
+
+                string tipouso = dgv.Rows[rowIndex].Cells[11].Value.ToString();
+                lblTipoUso.Text = tipouso;
+
+                string comentarios = dgv.Rows[rowIndex].Cells[12].Value.ToString();
+                lblComentarios.Text = comentarios;
+
+                //EliminarDeCantidades();
+
+                btnEliminar.Visible = true;
+                btnModificar.Visible = true;
+                //btnAgregar.Visible = false;
+
+            }
+        }
+
+        private void chbIVA_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (chbIVA.Checked)
+            {
+                TotalIVA();
+            }
+            else
+            {
+                Total();
+            }
+        }
+
+        private void dgvListaMateriales_Click_1(object sender, EventArgs e)
+        {
+            LimpiarCajasProducto();
+        }
+
+        private void btnGenerarOC_Click_1(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(txbTotal.Text, out decimal numero))
             {
                 if (cbMoneda.Text == "DOLARES")
                 {
@@ -834,7 +1160,7 @@ namespace ElastoSystem
 
                     RespuestaGuardado = "IGUAL";
                     RevisarCambios();
-                    if(RespuestaGuardado == "Sobreescribir" || RespuestaGuardado == "NuevaOC" || RespuestaGuardado == "IGUAL")
+                    if (RespuestaGuardado == "Sobreescribir" || RespuestaGuardado == "NuevaOC" || RespuestaGuardado == "IGUAL")
                     {
 
                     }
@@ -853,11 +1179,11 @@ namespace ElastoSystem
                     saveFileDialog.Title = "Guardar PDF";
                     saveFileDialog.FileName = lblFolio.Text;
 
-                    
 
-                    if(saveFileDialog.ShowDialog() == DialogResult.OK)
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        if(cbRequisicion.Text == "ELASTOTECNICA")
+                        if (cbRequisicion.Text == "ELASTOTECNICA")
                         {
                             ///////////////////////////////////////////////////////////////
                             string rutaArchivoPDF = saveFileDialog.FileName;
@@ -938,7 +1264,7 @@ namespace ElastoSystem
                             string confirmaciondelpedido = cbConfirmacionPedido.Text;
                             string fechaoc = lblFecha.Text;
                             DateTime fechaConvertida;
-                            if(DateTime.TryParse(fechaoc, out fechaConvertida))
+                            if (DateTime.TryParse(fechaoc, out fechaConvertida))
                             {
                                 fechaoc = fechaConvertida.ToString("yyyy-MM-dd");
                             }
@@ -1149,7 +1475,7 @@ namespace ElastoSystem
 
                             if (RespuestaGuardado == "Sobreescribir")
                             {
-                                MessageBox.Show("DATOS ACTUALIZADOS");
+
                             }
 
                             MessageBox.Show("PDF guardado como '" + System.IO.Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1162,7 +1488,7 @@ namespace ElastoSystem
                                 MessageBox.Show("El archivo no se puede encontrar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
 
-                            
+
                             dgvListaMateriales.DataSource = null;
                             dgvListaMateriales.Rows.Clear();
                             btnAbrirOCs.PerformClick();
@@ -1217,7 +1543,7 @@ namespace ElastoSystem
                             iTextSharp.text.Paragraph paragraph = new iTextSharp.text.Paragraph(ocyrequi, fontand);
                             string fechaoc = lblFecha.Text;
                             DateTime fechaConvertida;
-                            if(DateTime.TryParse(fechaoc, out fechaConvertida))
+                            if (DateTime.TryParse(fechaoc, out fechaConvertida))
                             {
                                 fechaoc = fechaConvertida.ToString("yyyy-MM-dd");
                             }
@@ -1461,7 +1787,7 @@ namespace ElastoSystem
 
                             if (RespuestaGuardado == "Sobreescribir")
                             {
-                                MessageBox.Show("DATOS ACTUALIZADOS");
+
                             }
 
                             MessageBox.Show("PDF guardado como '" + System.IO.Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1527,7 +1853,7 @@ namespace ElastoSystem
 
                             string fechaoc = lblFecha.Text;
                             DateTime fechaConvertida;
-                            if(DateTime.TryParse(fechaoc, out fechaConvertida))
+                            if (DateTime.TryParse(fechaoc, out fechaConvertida))
                             {
                                 fechaoc = fechaConvertida.ToString("yyyy-MM-dd");
                             }
@@ -1766,7 +2092,7 @@ namespace ElastoSystem
 
                             if (RespuestaGuardado == "Sobreescribir")
                             {
-                                MessageBox.Show("DATOS ACTUALIZADOS");
+
                             }
 
                             MessageBox.Show("PDF guardado como '" + System.IO.Path.GetFileName(rutaArchivoPDF) + "'", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1804,6 +2130,32 @@ namespace ElastoSystem
                     pbFormaPago.Visible = true;
                 }
             }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            using (Compras_EliminarPartidaDeOC resulel = new Compras_EliminarPartidaDeOC())
+            {
+                if(resulel.ShowDialog() == DialogResult.OK)
+                {
+                    EliminarDeCantidades();
+                }
+                else
+                {
+
+                }
+            }
+            
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            ModificarPartida();
+        }
+
+        private void ModificarPartida()
+        {
+            AgregarADGV();
         }
     }
 }

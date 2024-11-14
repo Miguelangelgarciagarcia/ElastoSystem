@@ -249,6 +249,7 @@
             button1.TabIndex = 21;
             button1.Text = "pruebas";
             button1.UseVisualStyleBackColor = true;
+            button1.Visible = false;
             button1.Click += button1_Click_1;
             // 
             // panel1

@@ -1206,6 +1206,7 @@
             // chbCompraOnline
             // 
             chbCompraOnline.AutoSize = true;
+            chbCompraOnline.Enabled = false;
             chbCompraOnline.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             chbCompraOnline.ForeColor = Color.White;
             chbCompraOnline.Location = new Point(864, 51);

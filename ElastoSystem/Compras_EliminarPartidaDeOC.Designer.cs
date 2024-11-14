@@ -1,6 +1,6 @@
 ﻿namespace ElastoSystem
 {
-    partial class Compras_CambiosOC
+    partial class Compras_EliminarPartidaDeOC
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Compras_CambiosOC));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Compras_EliminarPartidaDeOC));
             panel3 = new Panel();
             pictureBox4 = new PictureBox();
             pictureBox6 = new PictureBox();
@@ -38,9 +38,8 @@
             btncerrar = new PictureBox();
             label2 = new Label();
             label1 = new Label();
-            btnSobreescribir = new Button();
-            btnNuevaOC = new Button();
-            txbRespuesta = new TextBox();
+            label3 = new Label();
+            btnEliminar = new Button();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -146,11 +145,11 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Montserrat", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(67, 47);
+            label2.Location = new Point(20, 52);
             label2.Name = "label2";
-            label2.Size = new Size(234, 21);
+            label2.Size = new Size(330, 21);
             label2.TabIndex = 51;
-            label2.Text = "EXISTEN CAMBIOS EN LA OC";
+            label2.Text = "¿Deseas ELIMINAR esta partida de la OC?";
             // 
             // label1
             // 
@@ -158,70 +157,55 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(77, 78);
+            label1.Location = new Point(68, 74);
             label1.Name = "label1";
-            label1.Size = new Size(202, 16);
+            label1.Size = new Size(234, 16);
             label1.TabIndex = 52;
-            label1.Text = "¿Deseas sobreescribir los datos?";
+            label1.Text = "Estos cambios no se podran deshacer";
             // 
-            // btnSobreescribir
+            // label3
             // 
-            btnSobreescribir.BackColor = Color.FromArgb(255, 102, 0);
-            btnSobreescribir.Cursor = Cursors.Hand;
-            btnSobreescribir.FlatAppearance.BorderSize = 0;
-            btnSobreescribir.FlatStyle = FlatStyle.Flat;
-            btnSobreescribir.Font = new Font("Montserrat", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            btnSobreescribir.ForeColor = Color.White;
-            btnSobreescribir.Location = new Point(120, 105);
-            btnSobreescribir.Name = "btnSobreescribir";
-            btnSobreescribir.Size = new Size(125, 31);
-            btnSobreescribir.TabIndex = 53;
-            btnSobreescribir.Text = "SOBREESCRIBIR";
-            btnSobreescribir.UseVisualStyleBackColor = false;
-            btnSobreescribir.Click += btnAceptar_Click;
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(104, 88);
+            label3.Name = "label3";
+            label3.Size = new Size(145, 16);
+            label3.TabIndex = 52;
+            label3.Text = "y volvera a estar activa.";
             // 
-            // btnNuevaOC
+            // btnEliminar
             // 
-            btnNuevaOC.BackColor = Color.FromArgb(255, 102, 0);
-            btnNuevaOC.Cursor = Cursors.Hand;
-            btnNuevaOC.FlatAppearance.BorderSize = 0;
-            btnNuevaOC.FlatStyle = FlatStyle.Flat;
-            btnNuevaOC.Font = new Font("Montserrat", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            btnNuevaOC.ForeColor = Color.White;
-            btnNuevaOC.Location = new Point(355, 44);
-            btnNuevaOC.Name = "btnNuevaOC";
-            btnNuevaOC.Size = new Size(10, 31);
-            btnNuevaOC.TabIndex = 54;
-            btnNuevaOC.Text = "NUEVA OC";
-            btnNuevaOC.UseVisualStyleBackColor = false;
-            btnNuevaOC.Visible = false;
-            btnNuevaOC.Click += btnNuevaOC_Click;
+            btnEliminar.BackColor = Color.FromArgb(255, 102, 0);
+            btnEliminar.Cursor = Cursors.Hand;
+            btnEliminar.FlatAppearance.BorderSize = 0;
+            btnEliminar.FlatStyle = FlatStyle.Flat;
+            btnEliminar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEliminar.ForeColor = Color.White;
+            btnEliminar.Location = new Point(100, 117);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(151, 27);
+            btnEliminar.TabIndex = 53;
+            btnEliminar.Text = "ELIMINAR";
+            btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Click += btnEliminar_Click;
             // 
-            // txbRespuesta
-            // 
-            txbRespuesta.Font = new Font("Segoe UI", 5F, FontStyle.Regular, GraphicsUnit.Point);
-            txbRespuesta.Location = new Point(131, 149);
-            txbRespuesta.Name = "txbRespuesta";
-            txbRespuesta.Size = new Size(114, 16);
-            txbRespuesta.TabIndex = 55;
-            txbRespuesta.Visible = false;
-            // 
-            // Compras_CambiosOC
+            // Compras_EliminarPartidaDeOC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(373, 171);
-            Controls.Add(txbRespuesta);
-            Controls.Add(btnNuevaOC);
-            Controls.Add(btnSobreescribir);
+            Controls.Add(btnEliminar);
+            Controls.Add(label3);
             Controls.Add(label1);
             Controls.Add(label2);
             Controls.Add(panel3);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "Compras_CambiosOC";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Compras_CambiosOC";
+            Name = "Compras_EliminarPartidaDeOC";
+            Text = "Compras_EliminarPartidaDeOC";
+            Load += Compras_EliminarPartidaDeOC_Load;
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
@@ -244,8 +228,7 @@
         private PictureBox btncerrar;
         private Label label2;
         private Label label1;
-        private Button btnSobreescribir;
-        private Button btnNuevaOC;
-        private TextBox txbRespuesta;
+        private Label label3;
+        private Button btnEliminar;
     }
 }
