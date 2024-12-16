@@ -86,15 +86,17 @@ namespace ElastoSystem
             string query = @"SELECT
                                 AVG(
                                     CASE
-                                        WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                        ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                        WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0
+                                        THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                        ELSE 0
                                     END
                                 ) AS PromedioDiasTranscurridos,
-                                COUNT(*) AS RegistrosContados
+                                COUNT(*) AS RegistrosContados,
+                                SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                             FROM
                                 elastosystem_compras_requisicion_desglosada
                             WHERE
-                                FechaFinal IS NOT NULL";
+                                FechaInicio IS NOT NULL";
 
             using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
@@ -108,10 +110,20 @@ namespace ElastoSystem
                     {
                         if (reader.Read())
                         {
-                            double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Convert.ToDouble(reader["PromedioDiasTranscurridos"]) : 0.0;
+                            double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2): 0.0;
                             int registrosContados = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                            int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
 
-                            lblPromedioGlobal.Text = "El promedio global es: " + promedioDias + " dias, con " + registrosContados + " registros";
+                            double porcentaje = registrosContados > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContados, 2):0.0;
+                            int atendidos = registrosContados - registrosIncompletos;
+                            
+
+                            lblGDias.Text = promedioDias.ToString();
+                            lblGPartidas.Text = registrosContados.ToString();
+                            lblGNAtendidos.Text = registrosIncompletos.ToString();
+                            lblGAtendidos.Text = atendidos.ToString();
+                            lblGPorcentaje.Text = porcentaje.ToString()+"%";
+
                         }
                         else
                         {
@@ -142,15 +154,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (1,2);";
 
@@ -167,6 +181,20 @@ namespace ElastoSystem
                             object promedio = reader["PromedioDiasTranscurridos"];
                             string promedioFormateado = string.Format("{0:F2}", promedio);
                             object registrosContados = reader["RegistrosContados"];
+
+                            double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                            int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                            int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                            int atendidos = registrosContadoss - registrosIncompletos;
+
+                            double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                            lblDias.Text = promedioFormateado;
+                            lblPartidas.Text = registrosContadoss.ToString();
+                            lblAtendidos.Text = atendidos.ToString();
+                            lblNAtendidos.Text = registrosIncompletos.ToString();
+                            lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                             if (Convert.ToInt32(registrosContados) == 0)
                             {
@@ -196,15 +224,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (3,4);";
 
@@ -221,6 +251,20 @@ namespace ElastoSystem
                             object promedio = reader["PromedioDiasTranscurridos"];
                             string promedioFormateado = string.Format("{0:F2}", promedio);
                             object registrosContados = reader["RegistrosContados"];
+
+                            double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                            int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                            int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                            int atendidos = registrosContadoss - registrosIncompletos;
+
+                            double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                            lblDias.Text = promedioFormateado;
+                            lblPartidas.Text = registrosContadoss.ToString();
+                            lblAtendidos.Text = atendidos.ToString();
+                            lblNAtendidos.Text = registrosIncompletos.ToString();
+                            lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                             if (Convert.ToInt32(registrosContados) == 0)
                             {
@@ -250,15 +294,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (5,6);";
 
@@ -275,6 +321,20 @@ namespace ElastoSystem
                             object promedio = reader["PromedioDiasTranscurridos"];
                             string promedioFormateado = string.Format("{0:F2}", promedio);
                             object registrosContados = reader["RegistrosContados"];
+
+                            double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                            int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                            int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                            int atendidos = registrosContadoss - registrosIncompletos;
+
+                            double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                            lblDias.Text = promedioFormateado;
+                            lblPartidas.Text = registrosContadoss.ToString();
+                            lblAtendidos.Text = atendidos.ToString();
+                            lblNAtendidos.Text = registrosIncompletos.ToString();
+                            lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                             if (Convert.ToInt32(registrosContados) == 0)
                             {
@@ -304,15 +364,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (7,8);";
 
@@ -329,6 +391,20 @@ namespace ElastoSystem
                             object promedio = reader["PromedioDiasTranscurridos"];
                             string promedioFormateado = string.Format("{0:F2}", promedio);
                             object registrosContados = reader["RegistrosContados"];
+
+                            double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                            int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                            int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                            int atendidos = registrosContadoss - registrosIncompletos;
+
+                            double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                            lblDias.Text = promedioFormateado;
+                            lblPartidas.Text = registrosContadoss.ToString();
+                            lblAtendidos.Text = atendidos.ToString();
+                            lblNAtendidos.Text = registrosIncompletos.ToString();
+                            lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                             if (Convert.ToInt32(registrosContados) == 0)
                             {
@@ -358,15 +434,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (9,10);";
 
@@ -383,6 +461,20 @@ namespace ElastoSystem
                             object promedio = reader["PromedioDiasTranscurridos"];
                             string promedioFormateado = string.Format("{0:F2}", promedio);
                             object registrosContados = reader["RegistrosContados"];
+
+                            double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                            int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                            int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                            int atendidos = registrosContadoss - registrosIncompletos;
+
+                            double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                            lblDias.Text = promedioFormateado;
+                            lblPartidas.Text = registrosContadoss.ToString();
+                            lblAtendidos.Text = atendidos.ToString();
+                            lblNAtendidos.Text = registrosIncompletos.ToString();
+                            lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                             if (Convert.ToInt32(registrosContados) == 0)
                             {
@@ -412,15 +504,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (11,12);";
 
@@ -437,6 +531,20 @@ namespace ElastoSystem
                             object promedio = reader["PromedioDiasTranscurridos"];
                             string promedioFormateado = string.Format("{0:F2}", promedio);
                             object registrosContados = reader["RegistrosContados"];
+
+                            double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                            int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                            int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                            int atendidos = registrosContadoss - registrosIncompletos;
+
+                            double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                            lblDias.Text = promedioFormateado;
+                            lblPartidas.Text = registrosContadoss.ToString();
+                            lblAtendidos.Text = atendidos.ToString();
+                            lblNAtendidos.Text = registrosIncompletos.ToString();
+                            lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                             if (Convert.ToInt32(registrosContados) == 0)
                             {
@@ -475,15 +583,17 @@ namespace ElastoSystem
                                     SELECT 
                                         AVG(
                                             CASE
-                                                WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                ELSE 0
                                             END
                                         ) AS PromedioDiasTranscurridos,
-                                        COUNT(*) AS RegistrosContados
+                                        COUNT(*) AS RegistrosContados,
+                                        SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                         FROM 
                                             elastosystem_compras_requisicion_desglosada
                                         WHERE 
-                                            FechaFinal IS NOT NULL
+                                            FechaInicio IS NOT NULL
                                         AND YEAR(FechaInicio) = @ANIO;";
 
                     MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
@@ -499,6 +609,20 @@ namespace ElastoSystem
                             object promedio = reader["PromedioDiasTranscurridos"];
                             string promedioFormateado = string.Format("{0:F2}", promedio);
                             object registrosContados = reader["RegistrosContados"];
+
+                            double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                            int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                            int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                            int atendidos = registrosContadoss - registrosIncompletos;
+
+                            double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                            lblDias.Text = promedioFormateado;
+                            lblPartidas.Text = registrosContadoss.ToString();
+                            lblAtendidos.Text = atendidos.ToString();
+                            lblNAtendidos.Text = registrosIncompletos.ToString();
+                            lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                             if (Convert.ToInt32(registrosContados) == 0)
                             {
@@ -530,15 +654,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (1,2);";
 
@@ -555,6 +681,20 @@ namespace ElastoSystem
                                 object promedio = reader["PromedioDiasTranscurridos"];
                                 string promedioFormateado = string.Format("{0:F2}", promedio);
                                 object registrosContados = reader["RegistrosContados"];
+
+                                double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                                int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                                int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                                int atendidos = registrosContadoss - registrosIncompletos;
+
+                                double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                                lblDias.Text = promedioFormateado;
+                                lblPartidas.Text = registrosContadoss.ToString();
+                                lblAtendidos.Text = atendidos.ToString();
+                                lblNAtendidos.Text = registrosIncompletos.ToString();
+                                lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                                 if (Convert.ToInt32(registrosContados) == 0)
                                 {
@@ -584,15 +724,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (3,4);";
 
@@ -609,6 +751,20 @@ namespace ElastoSystem
                                 object promedio = reader["PromedioDiasTranscurridos"];
                                 string promedioFormateado = string.Format("{0:F2}", promedio);
                                 object registrosContados = reader["RegistrosContados"];
+
+                                double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                                int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                                int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                                int atendidos = registrosContadoss - registrosIncompletos;
+
+                                double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                                lblDias.Text = promedioFormateado;
+                                lblPartidas.Text = registrosContadoss.ToString();
+                                lblAtendidos.Text = atendidos.ToString();
+                                lblNAtendidos.Text = registrosIncompletos.ToString();
+                                lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                                 if (Convert.ToInt32(registrosContados) == 0)
                                 {
@@ -638,15 +794,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (5,6);";
 
@@ -663,6 +821,20 @@ namespace ElastoSystem
                                 object promedio = reader["PromedioDiasTranscurridos"];
                                 string promedioFormateado = string.Format("{0:F2}", promedio);
                                 object registrosContados = reader["RegistrosContados"];
+
+                                double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                                int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                                int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                                int atendidos = registrosContadoss - registrosIncompletos;
+
+                                double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                                lblDias.Text = promedioFormateado;
+                                lblPartidas.Text = registrosContadoss.ToString();
+                                lblAtendidos.Text = atendidos.ToString();
+                                lblNAtendidos.Text = registrosIncompletos.ToString();
+                                lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                                 if (Convert.ToInt32(registrosContados) == 0)
                                 {
@@ -692,15 +864,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (7,8);";
 
@@ -717,6 +891,20 @@ namespace ElastoSystem
                                 object promedio = reader["PromedioDiasTranscurridos"];
                                 string promedioFormateado = string.Format("{0:F2}", promedio);
                                 object registrosContados = reader["RegistrosContados"];
+
+                                double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                                int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                                int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                                int atendidos = registrosContadoss - registrosIncompletos;
+
+                                double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                                lblDias.Text = promedioFormateado;
+                                lblPartidas.Text = registrosContadoss.ToString();
+                                lblAtendidos.Text = atendidos.ToString();
+                                lblNAtendidos.Text = registrosIncompletos.ToString();
+                                lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                                 if (Convert.ToInt32(registrosContados) == 0)
                                 {
@@ -746,15 +934,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (9,10);";
 
@@ -771,6 +961,20 @@ namespace ElastoSystem
                                 object promedio = reader["PromedioDiasTranscurridos"];
                                 string promedioFormateado = string.Format("{0:F2}", promedio);
                                 object registrosContados = reader["RegistrosContados"];
+
+                                double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                                int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                                int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                                int atendidos = registrosContadoss - registrosIncompletos;
+
+                                double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                                lblDias.Text = promedioFormateado;
+                                lblPartidas.Text = registrosContadoss.ToString();
+                                lblAtendidos.Text = atendidos.ToString();
+                                lblNAtendidos.Text = registrosIncompletos.ToString();
+                                lblPorcentaje.Text = porcentaje.ToString() + "%";
 
                                 if (Convert.ToInt32(registrosContados) == 0)
                                 {
@@ -800,15 +1004,17 @@ namespace ElastoSystem
                                         SELECT 
                                             AVG(
                                                 CASE
-                                                    WHEN DATEDIFF(FechaFinal, FechaInicio) < 0 THEN 0
-                                                    ELSE DATEDIFF(FechaFinal, FechaInicio)
+                                                    WHEN FechaInicio IS NOT NULL AND DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio) >= 0 
+                                                    THEN DATEDIFF(IFNULL(FechaFinal, CURDATE()), FechaInicio)
+                                                    ELSE 0
                                                 END
                                             ) AS PromedioDiasTranscurridos,
-                                            COUNT(*) AS RegistrosContados
+                                            COUNT(*) AS RegistrosContados,
+                                            SUM(CASE WHEN FechaFinal IS NULL THEN 1 ELSE 0 END) AS RegistrosIncompletos
                                             FROM 
                                                 elastosystem_compras_requisicion_desglosada
                                             WHERE 
-                                                FechaFinal IS NOT NULL
+                                                FechaInicio IS NOT NULL
                                             AND YEAR(FechaInicio) = @ANIO
                                             AND MONTH(FechaInicio) IN (11,12);";
 
@@ -825,6 +1031,20 @@ namespace ElastoSystem
                                 object promedio = reader["PromedioDiasTranscurridos"];
                                 string promedioFormateado = string.Format("{0:F2}", promedio);
                                 object registrosContados = reader["RegistrosContados"];
+
+                                double promedioDias = reader["PromedioDiasTranscurridos"] != DBNull.Value ? Math.Round(Convert.ToDouble(reader["PromedioDiasTranscurridos"]), 2) : 0.0;
+                                int registrosContadoss = reader["RegistrosContados"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosContados"]) : 0;
+                                int registrosIncompletos = reader["RegistrosIncompletos"] != DBNull.Value ? Convert.ToInt32(reader["RegistrosIncompletos"]) : 0;
+                                int atendidos = registrosContadoss - registrosIncompletos;
+
+                                double porcentaje = registrosContadoss > 0 ? Math.Round((registrosIncompletos * 100.0) / registrosContadoss, 2) : 0.0;
+
+
+                                lblDias.Text = promedioFormateado;
+                                lblPartidas.Text = registrosContadoss.ToString();
+                                lblAtendidos.Text = atendidos.ToString();
+                                lblNAtendidos.Text = registrosIncompletos.ToString();
+                                lblPorcentaje.Text = porcentaje.ToString() + "%";
 
 
                                 if (Convert.ToInt32(registrosContados) == 0)
