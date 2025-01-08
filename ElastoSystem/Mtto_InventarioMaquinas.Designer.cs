@@ -28,19 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             panel5 = new Panel();
+            lblID = new Label();
+            btnCargarImagen = new Button();
+            chbIndicador = new CheckBox();
+            pbImagen = new PictureBox();
             cbEstatus = new ComboBox();
+            label2 = new Label();
+            chbMantenimiento = new CheckBox();
             label9 = new Label();
+            chbOrdenTrabajo = new CheckBox();
             btnModificar = new Button();
+            label8 = new Label();
             btnEliminar = new Button();
             btnNueva = new Button();
             cbUbicacion = new ComboBox();
@@ -53,24 +57,10 @@
             label4 = new Label();
             btnAgregar = new Button();
             txbModelo = new TextBox();
-            panel1 = new Panel();
-            btnCargarImagen = new Button();
-            pbImagen = new PictureBox();
-            label2 = new Label();
-            panel2 = new Panel();
-            chbIndicador = new CheckBox();
-            chbMantenimiento = new CheckBox();
-            chbOrdenTrabajo = new CheckBox();
-            label8 = new Label();
-            btnActualizarPermisos = new Button();
             dgvBD = new DataGridView();
-            dgvPermisos = new DataGridView();
             panel5.SuspendLayout();
-            panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbImagen).BeginInit();
-            panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvBD).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgvPermisos).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -88,9 +78,17 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(3, 42, 76);
+            panel5.Controls.Add(lblID);
+            panel5.Controls.Add(btnCargarImagen);
+            panel5.Controls.Add(chbIndicador);
+            panel5.Controls.Add(pbImagen);
             panel5.Controls.Add(cbEstatus);
+            panel5.Controls.Add(label2);
+            panel5.Controls.Add(chbMantenimiento);
             panel5.Controls.Add(label9);
+            panel5.Controls.Add(chbOrdenTrabajo);
             panel5.Controls.Add(btnModificar);
+            panel5.Controls.Add(label8);
             panel5.Controls.Add(btnEliminar);
             panel5.Controls.Add(btnNueva);
             panel5.Controls.Add(cbUbicacion);
@@ -103,33 +101,120 @@
             panel5.Controls.Add(label4);
             panel5.Controls.Add(btnAgregar);
             panel5.Controls.Add(txbModelo);
-            panel5.Location = new Point(54, 406);
+            panel5.Location = new Point(37, 88);
             panel5.Name = "panel5";
-            panel5.Size = new Size(612, 341);
+            panel5.Size = new Size(612, 677);
             panel5.TabIndex = 17;
+            // 
+            // lblID
+            // 
+            lblID.AutoSize = true;
+            lblID.BackColor = Color.Transparent;
+            lblID.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            lblID.ForeColor = Color.White;
+            lblID.Location = new Point(220, 16);
+            lblID.Name = "lblID";
+            lblID.Size = new Size(27, 21);
+            lblID.TabIndex = 25;
+            lblID.Text = "ID";
+            lblID.Visible = false;
+            // 
+            // btnCargarImagen
+            // 
+            btnCargarImagen.BackColor = Color.FromArgb(255, 102, 0);
+            btnCargarImagen.Cursor = Cursors.Hand;
+            btnCargarImagen.FlatAppearance.BorderSize = 0;
+            btnCargarImagen.FlatStyle = FlatStyle.Flat;
+            btnCargarImagen.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCargarImagen.ForeColor = Color.White;
+            btnCargarImagen.Location = new Point(358, 436);
+            btnCargarImagen.Name = "btnCargarImagen";
+            btnCargarImagen.Size = new Size(195, 38);
+            btnCargarImagen.TabIndex = 14;
+            btnCargarImagen.Text = "CARGAR IMAGEN";
+            btnCargarImagen.UseVisualStyleBackColor = false;
+            btnCargarImagen.Click += button1_Click;
+            // 
+            // chbIndicador
+            // 
+            chbIndicador.AutoSize = true;
+            chbIndicador.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            chbIndicador.ForeColor = Color.White;
+            chbIndicador.Location = new Point(448, 269);
+            chbIndicador.Name = "chbIndicador";
+            chbIndicador.Size = new Size(105, 26);
+            chbIndicador.TabIndex = 24;
+            chbIndicador.Text = "Indicador";
+            chbIndicador.UseVisualStyleBackColor = true;
+            // 
+            // pbImagen
+            // 
+            pbImagen.BackColor = Color.White;
+            pbImagen.Location = new Point(24, 356);
+            pbImagen.Name = "pbImagen";
+            pbImagen.Size = new Size(300, 225);
+            pbImagen.SizeMode = PictureBoxSizeMode.Zoom;
+            pbImagen.TabIndex = 4;
+            pbImagen.TabStop = false;
             // 
             // cbEstatus
             // 
             cbEstatus.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbEstatus.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            cbEstatus.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
             cbEstatus.FormattingEnabled = true;
             cbEstatus.Items.AddRange(new object[] { "ACTIVA", "INACTIVA" });
-            cbEstatus.Location = new Point(185, 230);
+            cbEstatus.Location = new Point(185, 183);
             cbEstatus.Name = "cbEstatus";
-            cbEstatus.Size = new Size(389, 30);
+            cbEstatus.Size = new Size(389, 29);
             cbEstatus.TabIndex = 23;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(24, 318);
+            label2.Name = "label2";
+            label2.Size = new Size(78, 22);
+            label2.TabIndex = 3;
+            label2.Text = "IMAGEN";
+            // 
+            // chbMantenimiento
+            // 
+            chbMantenimiento.AutoSize = true;
+            chbMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            chbMantenimiento.ForeColor = Color.White;
+            chbMantenimiento.Location = new Point(244, 269);
+            chbMantenimiento.Name = "chbMantenimiento";
+            chbMantenimiento.Size = new Size(153, 26);
+            chbMantenimiento.TabIndex = 23;
+            chbMantenimiento.Text = "Mantenimiento";
+            chbMantenimiento.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.BackColor = Color.Transparent;
-            label9.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label9.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             label9.ForeColor = Color.White;
-            label9.Location = new Point(24, 233);
+            label9.Location = new Point(26, 186);
             label9.Name = "label9";
-            label9.Size = new Size(76, 22);
+            label9.Size = new Size(73, 21);
             label9.TabIndex = 22;
             label9.Text = "Estatus:";
+            // 
+            // chbOrdenTrabajo
+            // 
+            chbOrdenTrabajo.AutoSize = true;
+            chbOrdenTrabajo.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            chbOrdenTrabajo.ForeColor = Color.White;
+            chbOrdenTrabajo.Location = new Point(26, 269);
+            chbOrdenTrabajo.Name = "chbOrdenTrabajo";
+            chbOrdenTrabajo.Size = new Size(166, 26);
+            chbOrdenTrabajo.TabIndex = 22;
+            chbOrdenTrabajo.Text = "Orden de Trabajo";
+            chbOrdenTrabajo.UseVisualStyleBackColor = true;
             // 
             // btnModificar
             // 
@@ -139,7 +224,7 @@
             btnModificar.FlatStyle = FlatStyle.Flat;
             btnModificar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             btnModificar.ForeColor = Color.White;
-            btnModificar.Location = new Point(318, 282);
+            btnModificar.Location = new Point(209, 606);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(131, 35);
             btnModificar.TabIndex = 21;
@@ -147,6 +232,18 @@
             btnModificar.UseVisualStyleBackColor = false;
             btnModificar.Visible = false;
             btnModificar.Click += btnModificar_Click;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.BackColor = Color.Transparent;
+            label8.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.ForeColor = Color.White;
+            label8.Location = new Point(24, 229);
+            label8.Name = "label8";
+            label8.Size = new Size(117, 26);
+            label8.TabIndex = 21;
+            label8.Text = "PERMISOS";
             // 
             // btnEliminar
             // 
@@ -156,7 +253,7 @@
             btnEliminar.FlatStyle = FlatStyle.Flat;
             btnEliminar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             btnEliminar.ForeColor = Color.White;
-            btnEliminar.Location = new Point(142, 282);
+            btnEliminar.Location = new Point(33, 606);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(131, 35);
             btnEliminar.TabIndex = 20;
@@ -185,31 +282,31 @@
             // cbUbicacion
             // 
             cbUbicacion.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbUbicacion.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            cbUbicacion.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
             cbUbicacion.FormattingEnabled = true;
             cbUbicacion.Items.AddRange(new object[] { "NAVE 1", "NAVE 2" });
-            cbUbicacion.Location = new Point(185, 190);
+            cbUbicacion.Location = new Point(185, 148);
             cbUbicacion.Name = "cbUbicacion";
-            cbUbicacion.Size = new Size(389, 30);
+            cbUbicacion.Size = new Size(389, 29);
             cbUbicacion.TabIndex = 18;
             // 
             // txbNumeroSerie
             // 
-            txbNumeroSerie.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbNumeroSerie.Location = new Point(185, 150);
+            txbNumeroSerie.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNumeroSerie.Location = new Point(185, 117);
             txbNumeroSerie.Name = "txbNumeroSerie";
-            txbNumeroSerie.Size = new Size(389, 27);
+            txbNumeroSerie.Size = new Size(389, 25);
             txbNumeroSerie.TabIndex = 17;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.BackColor = Color.Transparent;
-            label7.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(24, 153);
+            label7.Location = new Point(24, 120);
             label7.Name = "label7";
-            label7.Size = new Size(155, 22);
+            label7.Size = new Size(143, 21);
             label7.TabIndex = 16;
             label7.Text = "Número de Serie:";
             // 
@@ -217,11 +314,11 @@
             // 
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(24, 113);
+            label6.Location = new Point(26, 89);
             label6.Name = "label6";
-            label6.Size = new Size(75, 22);
+            label6.Size = new Size(72, 21);
             label6.TabIndex = 15;
             label6.Text = "Modelo:";
             // 
@@ -241,31 +338,31 @@
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(24, 73);
+            label3.Location = new Point(26, 58);
             label3.Name = "label3";
-            label3.Size = new Size(82, 22);
+            label3.Size = new Size(77, 21);
             label3.TabIndex = 3;
             label3.Text = "Nombre:";
             // 
             // txbNombre
             // 
-            txbNombre.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbNombre.Location = new Point(185, 70);
+            txbNombre.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNombre.Location = new Point(185, 55);
             txbNombre.Name = "txbNombre";
-            txbNombre.Size = new Size(389, 27);
+            txbNombre.Size = new Size(389, 25);
             txbNombre.TabIndex = 4;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(24, 193);
+            label4.Location = new Point(26, 151);
             label4.Name = "label4";
-            label4.Size = new Size(97, 22);
+            label4.Size = new Size(93, 21);
             label4.TabIndex = 5;
             label4.Text = "Ubicacion:";
             // 
@@ -277,7 +374,7 @@
             btnAgregar.FlatStyle = FlatStyle.Flat;
             btnAgregar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             btnAgregar.ForeColor = Color.White;
-            btnAgregar.Location = new Point(433, 282);
+            btnAgregar.Location = new Point(422, 606);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Size = new Size(131, 35);
             btnAgregar.TabIndex = 13;
@@ -287,234 +384,60 @@
             // 
             // txbModelo
             // 
-            txbModelo.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbModelo.Location = new Point(185, 110);
+            txbModelo.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            txbModelo.Location = new Point(185, 86);
             txbModelo.Name = "txbModelo";
-            txbModelo.Size = new Size(389, 27);
+            txbModelo.Size = new Size(389, 25);
             txbModelo.TabIndex = 6;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.FromArgb(3, 42, 76);
-            panel1.Controls.Add(btnCargarImagen);
-            panel1.Controls.Add(pbImagen);
-            panel1.Controls.Add(label2);
-            panel1.Location = new Point(682, 406);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(612, 341);
-            panel1.TabIndex = 18;
-            // 
-            // btnCargarImagen
-            // 
-            btnCargarImagen.BackColor = Color.FromArgb(255, 102, 0);
-            btnCargarImagen.Cursor = Cursors.Hand;
-            btnCargarImagen.FlatAppearance.BorderSize = 0;
-            btnCargarImagen.FlatStyle = FlatStyle.Flat;
-            btnCargarImagen.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
-            btnCargarImagen.ForeColor = Color.White;
-            btnCargarImagen.Location = new Point(378, 154);
-            btnCargarImagen.Name = "btnCargarImagen";
-            btnCargarImagen.Size = new Size(195, 38);
-            btnCargarImagen.TabIndex = 14;
-            btnCargarImagen.Text = "CARGAR IMAGEN";
-            btnCargarImagen.UseVisualStyleBackColor = false;
-            btnCargarImagen.Click += button1_Click;
-            // 
-            // pbImagen
-            // 
-            pbImagen.BackColor = Color.White;
-            pbImagen.Location = new Point(45, 56);
-            pbImagen.Name = "pbImagen";
-            pbImagen.Size = new Size(300, 225);
-            pbImagen.SizeMode = PictureBoxSizeMode.Zoom;
-            pbImagen.TabIndex = 4;
-            pbImagen.TabStop = false;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(45, 23);
-            label2.Name = "label2";
-            label2.Size = new Size(78, 22);
-            label2.TabIndex = 3;
-            label2.Text = "IMAGEN";
-            // 
-            // panel2
-            // 
-            panel2.BackColor = Color.FromArgb(3, 42, 76);
-            panel2.Controls.Add(chbIndicador);
-            panel2.Controls.Add(chbMantenimiento);
-            panel2.Controls.Add(chbOrdenTrabajo);
-            panel2.Controls.Add(label8);
-            panel2.Controls.Add(btnActualizarPermisos);
-            panel2.Location = new Point(869, 104);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(425, 279);
-            panel2.TabIndex = 19;
-            // 
-            // chbIndicador
-            // 
-            chbIndicador.AutoSize = true;
-            chbIndicador.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            chbIndicador.ForeColor = Color.White;
-            chbIndicador.Location = new Point(55, 142);
-            chbIndicador.Name = "chbIndicador";
-            chbIndicador.Size = new Size(105, 26);
-            chbIndicador.TabIndex = 24;
-            chbIndicador.Text = "Indicador";
-            chbIndicador.UseVisualStyleBackColor = true;
-            // 
-            // chbMantenimiento
-            // 
-            chbMantenimiento.AutoSize = true;
-            chbMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            chbMantenimiento.ForeColor = Color.White;
-            chbMantenimiento.Location = new Point(55, 110);
-            chbMantenimiento.Name = "chbMantenimiento";
-            chbMantenimiento.Size = new Size(153, 26);
-            chbMantenimiento.TabIndex = 23;
-            chbMantenimiento.Text = "Mantenimiento";
-            chbMantenimiento.UseVisualStyleBackColor = true;
-            // 
-            // chbOrdenTrabajo
-            // 
-            chbOrdenTrabajo.AutoSize = true;
-            chbOrdenTrabajo.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            chbOrdenTrabajo.ForeColor = Color.White;
-            chbOrdenTrabajo.Location = new Point(55, 78);
-            chbOrdenTrabajo.Name = "chbOrdenTrabajo";
-            chbOrdenTrabajo.Size = new Size(166, 26);
-            chbOrdenTrabajo.TabIndex = 22;
-            chbOrdenTrabajo.Text = "Orden de Trabajo";
-            chbOrdenTrabajo.UseVisualStyleBackColor = true;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.BackColor = Color.Transparent;
-            label8.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
-            label8.ForeColor = Color.White;
-            label8.Location = new Point(153, 24);
-            label8.Name = "label8";
-            label8.Size = new Size(117, 26);
-            label8.TabIndex = 21;
-            label8.Text = "PERMISOS";
-            // 
-            // btnActualizarPermisos
-            // 
-            btnActualizarPermisos.BackColor = Color.FromArgb(255, 102, 0);
-            btnActualizarPermisos.Cursor = Cursors.Hand;
-            btnActualizarPermisos.FlatAppearance.BorderSize = 0;
-            btnActualizarPermisos.FlatStyle = FlatStyle.Flat;
-            btnActualizarPermisos.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
-            btnActualizarPermisos.ForeColor = Color.White;
-            btnActualizarPermisos.Location = new Point(85, 210);
-            btnActualizarPermisos.Name = "btnActualizarPermisos";
-            btnActualizarPermisos.Size = new Size(254, 35);
-            btnActualizarPermisos.TabIndex = 20;
-            btnActualizarPermisos.Text = "ACTUALIZAR PERMISOS";
-            btnActualizarPermisos.UseVisualStyleBackColor = false;
-            btnActualizarPermisos.Visible = false;
-            btnActualizarPermisos.Click += btnActualizarPermisos_Click;
             // 
             // dgvBD
             // 
+            dgvBD.AllowUserToAddRows = false;
             dgvBD.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvBD.BackgroundColor = Color.FromArgb(205, 215, 224);
             dgvBD.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = Color.White;
-            dataGridViewCellStyle9.Font = new Font("Montserrat ExtraBold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle9.ForeColor = Color.Black;
-            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle9.SelectionForeColor = Color.White;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            dgvBD.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat ExtraBold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvBD.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvBD.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle10.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle10.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.False;
-            dgvBD.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvBD.DefaultCellStyle = dataGridViewCellStyle2;
             dgvBD.GridColor = SystemColors.ActiveCaptionText;
-            dgvBD.Location = new Point(54, 104);
+            dgvBD.Location = new Point(667, 88);
             dgvBD.Name = "dgvBD";
             dgvBD.ReadOnly = true;
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle11.Font = new Font("Montserrat", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle11.SelectionForeColor = Color.White;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dgvBD.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(205, 215, 224);
+            dataGridViewCellStyle3.Font = new Font("Montserrat", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvBD.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvBD.RowHeadersVisible = false;
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.BackColor = Color.White;
-            dataGridViewCellStyle12.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle12.ForeColor = Color.Black;
-            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle12.SelectionForeColor = Color.White;
-            dgvBD.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvBD.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvBD.RowTemplate.Height = 25;
             dgvBD.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvBD.Size = new Size(780, 279);
+            dgvBD.Size = new Size(643, 677);
             dgvBD.TabIndex = 41;
             dgvBD.DoubleClick += dgvBD_DoubleClick;
-            // 
-            // dgvPermisos
-            // 
-            dgvPermisos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvPermisos.BackgroundColor = Color.FromArgb(205, 215, 224);
-            dgvPermisos.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.BackColor = Color.White;
-            dataGridViewCellStyle13.Font = new Font("Montserrat ExtraBold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle13.ForeColor = Color.Black;
-            dataGridViewCellStyle13.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle13.SelectionForeColor = Color.White;
-            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
-            dgvPermisos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
-            dgvPermisos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle14.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle14.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle14.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.False;
-            dgvPermisos.DefaultCellStyle = dataGridViewCellStyle14;
-            dgvPermisos.GridColor = SystemColors.ActiveCaptionText;
-            dgvPermisos.Location = new Point(1272, 42);
-            dgvPermisos.Name = "dgvPermisos";
-            dgvPermisos.ReadOnly = true;
-            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle15.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle15.Font = new Font("Montserrat", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle15.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle15.SelectionForeColor = Color.White;
-            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
-            dgvPermisos.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
-            dgvPermisos.RowHeadersVisible = false;
-            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.BackColor = Color.White;
-            dataGridViewCellStyle16.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle16.ForeColor = Color.Black;
-            dataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle16.SelectionForeColor = Color.White;
-            dgvPermisos.RowsDefaultCellStyle = dataGridViewCellStyle16;
-            dgvPermisos.RowTemplate.Height = 25;
-            dgvPermisos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvPermisos.Size = new Size(22, 24);
-            dgvPermisos.TabIndex = 42;
-            dgvPermisos.Visible = false;
             // 
             // Mtto_InventarioMaquinas
             // 
@@ -522,10 +445,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1322, 792);
-            Controls.Add(dgvPermisos);
             Controls.Add(dgvBD);
-            Controls.Add(panel2);
-            Controls.Add(panel1);
             Controls.Add(panel5);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
@@ -534,13 +454,8 @@
             Load += Mtto_InventarioMaquinas_Load;
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbImagen).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvBD).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgvPermisos).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -554,7 +469,6 @@
         private Label label4;
         private Button btnAgregar;
         private TextBox txbModelo;
-        private Panel panel1;
         private PictureBox pbImagen;
         private Label label2;
         private Button btnCargarImagen;
@@ -566,15 +480,13 @@
         private Button btnModificar;
         private Button btnEliminar;
         private Button btnNueva;
-        private Panel panel2;
         private Label label8;
-        private Button btnActualizarPermisos;
         private CheckBox chbIndicador;
         private CheckBox chbMantenimiento;
         private CheckBox chbOrdenTrabajo;
         private DataGridView dgvBD;
         private ComboBox cbEstatus;
         private Label label9;
-        private DataGridView dgvPermisos;
+        private Label lblID;
     }
 }

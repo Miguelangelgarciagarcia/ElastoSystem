@@ -118,6 +118,8 @@
             label22 = new Label();
             tabControl1 = new TabControl();
             tabAgregarPartidas = new TabPage();
+            lblNo = new Label();
+            btnCompraAutorizada = new Button();
             btnAlmacenar = new Button();
             chbCompraOnline = new CheckBox();
             pbCantidad = new PictureBox();
@@ -151,6 +153,16 @@
             label10 = new Label();
             lblFolioOC = new Label();
             txbReqFolio = new TextBox();
+            pnlComprobante = new Panel();
+            txbMotivo = new TextBox();
+            label28 = new Label();
+            btnFinalizarReq = new Button();
+            lblRutaArchivo = new Label();
+            txbNombreArchivo = new TextBox();
+            btnCargarDoc = new Button();
+            pbComprobante = new PictureBox();
+            label27 = new Label();
+            btnCerrar = new Button();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvRequisicions).BeginInit();
             panel2.SuspendLayout();
@@ -182,6 +194,8 @@
             ((System.ComponentModel.ISupportInitialize)pbCorreo).BeginInit();
             tabFinalizar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbCotizacion).BeginInit();
+            pnlComprobante.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbComprobante).BeginInit();
             SuspendLayout();
             // 
             // txbTexto
@@ -1152,6 +1166,8 @@
             // tabAgregarPartidas
             // 
             tabAgregarPartidas.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabAgregarPartidas.Controls.Add(lblNo);
+            tabAgregarPartidas.Controls.Add(btnCompraAutorizada);
             tabAgregarPartidas.Controls.Add(btnAlmacenar);
             tabAgregarPartidas.Controls.Add(chbCompraOnline);
             tabAgregarPartidas.Controls.Add(pbCantidad);
@@ -1186,6 +1202,36 @@
             tabAgregarPartidas.Text = "Agregar Partidas";
             tabAgregarPartidas.UseVisualStyleBackColor = true;
             // 
+            // lblNo
+            // 
+            lblNo.AutoSize = true;
+            lblNo.BackColor = Color.Transparent;
+            lblNo.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblNo.ForeColor = Color.White;
+            lblNo.Location = new Point(1049, 177);
+            lblNo.Name = "lblNo";
+            lblNo.Size = new Size(33, 22);
+            lblNo.TabIndex = 62;
+            lblNo.Text = "No";
+            lblNo.Visible = false;
+            // 
+            // btnCompraAutorizada
+            // 
+            btnCompraAutorizada.BackColor = Color.FromArgb(255, 102, 0);
+            btnCompraAutorizada.Cursor = Cursors.Hand;
+            btnCompraAutorizada.FlatAppearance.BorderSize = 0;
+            btnCompraAutorizada.FlatStyle = FlatStyle.Flat;
+            btnCompraAutorizada.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCompraAutorizada.ForeColor = Color.White;
+            btnCompraAutorizada.Location = new Point(1049, 124);
+            btnCompraAutorizada.Name = "btnCompraAutorizada";
+            btnCompraAutorizada.Size = new Size(170, 50);
+            btnCompraAutorizada.TabIndex = 61;
+            btnCompraAutorizada.Text = "COMPRA FINALIZADA";
+            btnCompraAutorizada.UseVisualStyleBackColor = false;
+            btnCompraAutorizada.Visible = false;
+            btnCompraAutorizada.Click += btnCompraAutorizada_Click;
+            // 
             // btnAlmacenar
             // 
             btnAlmacenar.BackColor = Color.FromArgb(255, 102, 0);
@@ -1194,11 +1240,11 @@
             btnAlmacenar.FlatStyle = FlatStyle.Flat;
             btnAlmacenar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnAlmacenar.ForeColor = Color.White;
-            btnAlmacenar.Location = new Point(1089, 20);
+            btnAlmacenar.Location = new Point(1015, 48);
             btnAlmacenar.Name = "btnAlmacenar";
-            btnAlmacenar.Size = new Size(154, 29);
+            btnAlmacenar.Size = new Size(228, 29);
             btnAlmacenar.TabIndex = 60;
-            btnAlmacenar.Text = "ALMACENAR";
+            btnAlmacenar.Text = "ALMACENAR ONLINE";
             btnAlmacenar.UseVisualStyleBackColor = false;
             btnAlmacenar.Visible = false;
             btnAlmacenar.Click += btnAlmacenar_Click;
@@ -1631,12 +1677,144 @@
             txbReqFolio.TabIndex = 33;
             txbReqFolio.Visible = false;
             // 
+            // pnlComprobante
+            // 
+            pnlComprobante.BackColor = Color.FromArgb(3, 42, 76);
+            pnlComprobante.Controls.Add(txbMotivo);
+            pnlComprobante.Controls.Add(label28);
+            pnlComprobante.Controls.Add(btnFinalizarReq);
+            pnlComprobante.Controls.Add(lblRutaArchivo);
+            pnlComprobante.Controls.Add(txbNombreArchivo);
+            pnlComprobante.Controls.Add(btnCargarDoc);
+            pnlComprobante.Controls.Add(pbComprobante);
+            pnlComprobante.Controls.Add(label27);
+            pnlComprobante.Controls.Add(btnCerrar);
+            pnlComprobante.Location = new Point(28, 308);
+            pnlComprobante.Name = "pnlComprobante";
+            pnlComprobante.Size = new Size(1267, 457);
+            pnlComprobante.TabIndex = 34;
+            pnlComprobante.Visible = false;
+            // 
+            // txbMotivo
+            // 
+            txbMotivo.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbMotivo.Location = new Point(627, 148);
+            txbMotivo.Multiline = true;
+            txbMotivo.Name = "txbMotivo";
+            txbMotivo.Size = new Size(551, 135);
+            txbMotivo.TabIndex = 55;
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.BackColor = Color.Transparent;
+            label28.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label28.ForeColor = Color.White;
+            label28.Location = new Point(622, 122);
+            label28.Name = "label28";
+            label28.Size = new Size(283, 22);
+            label28.TabIndex = 54;
+            label28.Text = "Motivo por el que no se realizo OC:";
+            // 
+            // btnFinalizarReq
+            // 
+            btnFinalizarReq.BackColor = Color.FromArgb(255, 102, 0);
+            btnFinalizarReq.Cursor = Cursors.Hand;
+            btnFinalizarReq.FlatAppearance.BorderSize = 0;
+            btnFinalizarReq.FlatStyle = FlatStyle.Flat;
+            btnFinalizarReq.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnFinalizarReq.ForeColor = Color.White;
+            btnFinalizarReq.Location = new Point(642, 359);
+            btnFinalizarReq.Name = "btnFinalizarReq";
+            btnFinalizarReq.Size = new Size(397, 38);
+            btnFinalizarReq.TabIndex = 53;
+            btnFinalizarReq.Text = "Finalizar Requerimiento";
+            btnFinalizarReq.UseVisualStyleBackColor = false;
+            btnFinalizarReq.Click += btnFinalizarReq_Click;
+            // 
+            // lblRutaArchivo
+            // 
+            lblRutaArchivo.AutoSize = true;
+            lblRutaArchivo.BackColor = Color.Transparent;
+            lblRutaArchivo.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            lblRutaArchivo.ForeColor = Color.White;
+            lblRutaArchivo.Location = new Point(40, 339);
+            lblRutaArchivo.Name = "lblRutaArchivo";
+            lblRutaArchivo.Size = new Size(44, 20);
+            lblRutaArchivo.TabIndex = 52;
+            lblRutaArchivo.Text = "Ruta";
+            lblRutaArchivo.Visible = false;
+            // 
+            // txbNombreArchivo
+            // 
+            txbNombreArchivo.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNombreArchivo.Location = new Point(36, 306);
+            txbNombreArchivo.Name = "txbNombreArchivo";
+            txbNombreArchivo.ReadOnly = true;
+            txbNombreArchivo.Size = new Size(304, 24);
+            txbNombreArchivo.TabIndex = 51;
+            // 
+            // btnCargarDoc
+            // 
+            btnCargarDoc.BackColor = Color.FromArgb(255, 102, 0);
+            btnCargarDoc.Cursor = Cursors.Hand;
+            btnCargarDoc.FlatAppearance.BorderSize = 0;
+            btnCargarDoc.FlatStyle = FlatStyle.Flat;
+            btnCargarDoc.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCargarDoc.ForeColor = Color.White;
+            btnCargarDoc.Location = new Point(368, 245);
+            btnCargarDoc.Name = "btnCargarDoc";
+            btnCargarDoc.Size = new Size(223, 38);
+            btnCargarDoc.TabIndex = 50;
+            btnCargarDoc.Text = "Cargar Documento";
+            btnCargarDoc.UseVisualStyleBackColor = false;
+            btnCargarDoc.Click += btnCargarDoc_Click;
+            // 
+            // pbComprobante
+            // 
+            pbComprobante.BackColor = Color.White;
+            pbComprobante.Location = new Point(40, 66);
+            pbComprobante.Name = "pbComprobante";
+            pbComprobante.Size = new Size(300, 225);
+            pbComprobante.SizeMode = PictureBoxSizeMode.Zoom;
+            pbComprobante.TabIndex = 49;
+            pbComprobante.TabStop = false;
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.BackColor = Color.Transparent;
+            label27.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            label27.ForeColor = Color.White;
+            label27.Location = new Point(36, 29);
+            label27.Name = "label27";
+            label27.Size = new Size(266, 26);
+            label27.TabIndex = 48;
+            label27.Text = "CARGAR COMPROBANTE";
+            // 
+            // btnCerrar
+            // 
+            btnCerrar.BackColor = Color.FromArgb(255, 102, 0);
+            btnCerrar.Cursor = Cursors.Hand;
+            btnCerrar.FlatAppearance.BorderSize = 0;
+            btnCerrar.FlatStyle = FlatStyle.Flat;
+            btnCerrar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCerrar.ForeColor = Color.White;
+            btnCerrar.Location = new Point(1095, 24);
+            btnCerrar.Name = "btnCerrar";
+            btnCerrar.Size = new Size(153, 38);
+            btnCerrar.TabIndex = 47;
+            btnCerrar.Text = "Cerrar";
+            btnCerrar.UseVisualStyleBackColor = false;
+            btnCerrar.Click += btnCerrar_Click;
+            // 
             // Compras_Administrar_Requisiciones
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1322, 792);
+            Controls.Add(pnlComprobante);
             Controls.Add(txbReqFolio);
             Controls.Add(lblFolioOC);
             Controls.Add(tabControl1);
@@ -1688,6 +1866,9 @@
             tabFinalizar.ResumeLayout(false);
             tabFinalizar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbCotizacion).EndInit();
+            pnlComprobante.ResumeLayout(false);
+            pnlComprobante.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbComprobante).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1810,5 +1991,17 @@
         private DataGridViewTextBoxColumn Requisicion;
         private CheckBox chbCompraOnline;
         private Button btnAlmacenar;
+        private Button btnCompraAutorizada;
+        private Label lblNo;
+        private Panel pnlComprobante;
+        private Button btnCerrar;
+        private Label label27;
+        private PictureBox pbComprobante;
+        private Button btnCargarDoc;
+        private Label lblRutaArchivo;
+        private TextBox txbNombreArchivo;
+        private Button btnFinalizarReq;
+        private TextBox txbMotivo;
+        private Label label28;
     }
 }

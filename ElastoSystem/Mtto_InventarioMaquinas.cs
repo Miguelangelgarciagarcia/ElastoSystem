@@ -16,132 +16,190 @@ namespace ElastoSystem
 {
     public partial class Mtto_InventarioMaquinas : Form
     {
-        int opc = 0; //VERIFICAR SI SE HA SUBIDO UNA NUEVA FOTO
         public Mtto_InventarioMaquinas()
         {
             InitializeComponent();
         }
+
         private void MandarALlamarBDInventarioMaquinas()
         {
-            string tabla = "SELECT Nombre, Modelo, No_Serie, Ubicacion, Estatus, Orden_Trabajo, Mantenimiento, Indicador FROM elastosystem_mtto_inventariomaquinas";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, connectionString);
+            string tabla = "SELECT * FROM elastosystem_mtto_inventariomaquinas";
+            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
-            dt.Columns.Remove("Orden_Trabajo");
-            dt.Columns.Remove("Mantenimiento");
-            dt.Columns.Remove("Indicador");
             dgvBD.DataSource = dt;
-
-            //Mandamos a llamar esta segunda tabla donde estaran los permisos de manera oculta
-            DataTable dt2 = new DataTable();
-            mySqlAdapter.Fill(dt2);
-            dgvPermisos.DataSource = dt2;
+            dgvBD.Columns["ID"].Visible = false;
+            dgvBD.Columns["Imagen"].Visible = false;
+            dgvBD.Columns["Orden_Trabajo"].Visible = false;
+            dgvBD.Columns["Mantenimiento"].Visible = false;
+            dgvBD.Columns["Indicador"].Visible = false;
         }
         private void EliminarRegistro()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
-            mySqlConnection.Open();
-            MySqlCommand comando = new MySqlCommand();
-            comando.Connection = mySqlConnection;
-            comando.CommandText = "DELETE FROM elastosystem_mtto_inventariomaquinas WHERE No_Serie = '" + txbNumeroSerie.Text + "' ";
-            comando.ExecuteNonQuery();
-            mySqlConnection.Close();
-            MessageBox.Show("Maquina " + txbNombre.Text + " eliminada");
-            MandarALlamarBDInventarioMaquinas();
-            LimpiarCajas();
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = "DELETE FROM elastosystem_mtto_inventariomaquinas WHERE ID = @ID";
+                    using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", lblID.Text);
+                        int filasAfectadas = cmd.ExecuteNonQuery();
+
+                        if(filasAfectadas > 0)
+                        {
+                            MessageBox.Show("Maquina " + txbNombre.Text + " eliminada");
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se encontro la maquina con el ID especificado");
+                        }
+                    }
+                    MandarALlamarBDInventarioMaquinas();
+                    Limpiar();
+                    btnNueva.PerformClick();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ELIMINAR EL REGISTRO: "+ex.Message);
+                }
+            }
         }
         private void AgregarRegistro()
         {
             bool booordentrabajo = chbOrdenTrabajo.Checked;
             bool boomantenimiento = chbMantenimiento.Checked;
             bool booindicador = chbIndicador.Checked;
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
-            mySqlConnection.Open();
-            MySqlCommand comando = new MySqlCommand();
-            try
+
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
-                if (opc == 1)
+                conn.Open();
+                string query;
+
+                if(pbImagen.Image != null)
                 {
-                    byte[] bytesFoto;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        pbImagen.Image.Save(ms, ImageFormat.Jpeg);
-                        bytesFoto = ms.ToArray();
-                    }
-                    comando.Connection = mySqlConnection;
-                    comando.CommandText = "INSERT INTO elastosystem_mtto_inventariomaquinas (Nombre, Modelo, No_Serie, Ubicacion, Imagen, Estatus, Orden_Trabajo, Mantenimiento, Indicador) VALUES('" + txbNombre.Text + "','" + txbModelo.Text + "','" + txbNumeroSerie.Text + "','" + cbUbicacion.Text + "', @Foto, '" + cbEstatus.Text + "', " + booordentrabajo + ", " + boomantenimiento + ", " + booindicador + ");";
-                    comando.Parameters.AddWithValue("@Foto", bytesFoto);
-                    comando.ExecuteNonQuery();
-                    MessageBox.Show("Maquina " + txbNombre.Text + " agregada con exito");
+                    query = "INSERT INTO elastosystem_mtto_inventariomaquinas " +
+                        "(Nombre, Modelo, No_Serie, Ubicacion, Imagen, Estatus, Orden_Trabajo, Mantenimiento, Indicador) " +
+                        "VALUES (@NOMBRE, @MODELO, @NOSERIE, @UBICACION, @IMAGEN, @ESTATUS, @ORDENTRABAJO, @MANTENIMIENTO, @INDICADOR)";
                 }
                 else
                 {
-                    comando.Connection = mySqlConnection;
-                    comando.CommandText = "INSERT INTO elastosystem_mtto_inventariomaquinas (Nombre, Modelo, No_Serie, Ubicacion, Estatus, Orden_Trabajo, Mantenimiento, Indicador) VALUES('" + txbNombre.Text + "','" + txbModelo.Text + "','" + txbNumeroSerie.Text + "','" + cbUbicacion.Text + "' , '" + cbEstatus.Text + "', " + booordentrabajo + ", " + boomantenimiento + ", " + booindicador + ");";
-                    comando.ExecuteNonQuery();
+                    query = "INSERT INTO elastosystem_mtto_inventariomaquinas " +
+                        "(Nombre, Modelo, No_Serie, Ubicacion, Estatus, Orden_Trabajo, Mantenimiento, Indicador) " +
+                        "VALUES (@NOMBRE, @MODELO, @NOSERIE, @UBICACION, @ESTATUS, @ORDENTRABAJO, @MANTENIMIENTO, @INDICADOR)";
+                }
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@NOMBRE", txbNombre.Text);
+                    cmd.Parameters.AddWithValue("@MODELO", txbModelo.Text);
+                    cmd.Parameters.AddWithValue("@NOSERIE", txbNumeroSerie.Text);
+                    cmd.Parameters.AddWithValue("@UBICACION", cbUbicacion.Text);
+                    cmd.Parameters.AddWithValue("@ESTATUS", cbEstatus.Text);
+                    cmd.Parameters.AddWithValue("@ORDENTRABAJO", booordentrabajo);
+                    cmd.Parameters.AddWithValue("@MANTENIMIENTO", boomantenimiento);
+                    cmd.Parameters.AddWithValue("@INDICADOR", booindicador);
+
+                    if(pbImagen.Image != null)
+                    {
+                        byte[] bytesFoto;
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            pbImagen.Image.Save(ms, ImageFormat.Jpeg);
+                            bytesFoto = ms.ToArray();
+                        }
+                        cmd.Parameters.AddWithValue("@IMAGEN", bytesFoto);
+                    }
+
+                    cmd.ExecuteNonQuery();
                     MessageBox.Show("Maquina " + txbNombre.Text + " agregada con exito");
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("ERROR AL REGISTRAR LA MAQUINA " + ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
+
             MandarALlamarBDInventarioMaquinas();
-            LimpiarCajas();
-            opc = 0;
+            Limpiar();
+            btnNueva.PerformClick();
         }
         private void EditarRegistro()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
-            mySqlConnection.Open();
-            MySqlCommand comando = new MySqlCommand();
-            try
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
-                if (opc == 1)
+                try
                 {
-                    byte[] bytesFoto;
-                    using (MemoryStream ms = new MemoryStream())
+                    conn.Open();
+                    string query;
+                    MySqlCommand cmd = new MySqlCommand();
+                    bool boolordentrabajo = chbOrdenTrabajo.Checked;
+                    bool boolmantenimiento = chbMantenimiento.Checked;
+                    bool boolindicador = chbIndicador.Checked;
+
+                    if(pbImagen.Image != null && imagencargada == 0)
                     {
-                        pbImagen.Image.Save(ms, ImageFormat.Jpeg);
-                        bytesFoto = ms.ToArray();
+                        byte[] bytesFoto;
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            pbImagen.Image.Save(ms, ImageFormat.Jpeg);
+                            bytesFoto = ms.ToArray();
+                        }
+
+                        query = "UPDATE elastosystem_mtto_inventariomaquinas " +
+                            "SET Nombre = @NOMBRE, Modelo = @MODELO, No_Serie = @NOSERIE, Ubicacion = @UBICACION, Imagen = @IMAGEN, Estatus = @ESTATUS, Orden_Trabajo = @ORDENTRABAJO, Mantenimiento = @MANTENIMIENTO, Indicador = @INDICADOR " +
+                            "WHERE ID = @ID";
+
+                        cmd.Parameters.AddWithValue("@IMAGEN", bytesFoto);
                     }
-                    comando.Connection = mySqlConnection;
-                    comando.CommandText = "UPDATE elastosystem_mtto_inventariomaquinas SET Nombre = '" + txbNombre.Text + "' , Modelo = '" + txbModelo.Text + "' , No_Serie = '" + txbNumeroSerie.Text + "' , Ubicacion = '" + cbUbicacion.Text + "', Imagen = @Foto, Estatus = '" + cbEstatus.Text + "' WHERE No_Serie = '" + txbNumeroSerie.Text + "'";
-                    comando.Parameters.AddWithValue("@Foto", bytesFoto);
-                    comando.ExecuteNonQuery();
-                    MessageBox.Show("Maquina " + txbNombre.Text + " modificada con exito");
+                    else
+                    {
+                        query = "UPDATE elastosystem_mtto_inventariomaquinas " +
+                            "SET Nombre = @NOMBRE, Modelo = @MODELO, No_Serie = @NOSERIE, Ubicacion = @UBICACION, Estatus = @ESTATUS, Orden_Trabajo = @ORDENTRABAJO, Mantenimiento = @MANTENIMIENTO, Indicador = @INDICADOR " +
+                            "WHERE ID = @ID";
+                    }
+
+                    cmd.Parameters.AddWithValue("@ID", lblID.Text);
+                    cmd.Parameters.AddWithValue("@NOMBRE", txbNombre.Text);
+                    cmd.Parameters.AddWithValue("@MODELO", txbModelo.Text);
+                    cmd.Parameters.AddWithValue("@NOSERIE", txbNumeroSerie.Text);
+                    cmd.Parameters.AddWithValue("@UBICACION", cbUbicacion.Text);
+                    cmd.Parameters.AddWithValue("@ESTATUS", cbEstatus.Text);
+                    cmd.Parameters.AddWithValue("@ORDENTRABAJO", boolordentrabajo);
+                    cmd.Parameters.AddWithValue("@MANTENIMIENTO", boolmantenimiento);
+                    cmd.Parameters.AddWithValue("@INDICADOR", boolindicador);
+
+                    cmd.Connection = conn;
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Maquina " + txbNombre.Text + " modificada con exito.");
                 }
-                else
+                catch(Exception ex)
                 {
-                    comando.Connection = mySqlConnection;
-                    comando.CommandText = "UPDATE elastosystem_mtto_inventariomaquinas SET Nombre = '" + txbNombre.Text + "' , Modelo = '" + txbModelo.Text + "' , No_Serie = '" + txbNumeroSerie.Text + "' , Ubicacion = '" + cbUbicacion.Text + "', Estatus = '" + cbEstatus.Text + "' WHERE No_Serie = '" + txbNumeroSerie.Text + "'";
-                    comando.ExecuteNonQuery();
-                    MessageBox.Show("Maquina " + txbNombre.Text + " modificada con exito");
+                    MessageBox.Show("ERROR AL MODIFICAR LA MAQUINA: " +ex.Message);
                 }
+                finally
+                {
+                    conn.Close();
+                }
+                MandarALlamarBDInventarioMaquinas();
+                Limpiar();
+                btnNueva.PerformClick();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("ERROR AL MODIFICAR LA MAQUINA " + ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-            MandarALlamarBDInventarioMaquinas();
-            LimpiarCajas();
-            opc = 0;
         }
-        private void LimpiarCajas()
+        private void Limpiar()
         {
-            txbNombre.Clear(); txbModelo.Clear(); txbNumeroSerie.Clear(); cbUbicacion.SelectedIndex = -1; cbEstatus.SelectedIndex = -1; chbOrdenTrabajo.Checked = false; chbMantenimiento.Checked = false; chbIndicador.Checked = false; pbImagen.Image = null;
+            txbNombre.Clear(); 
+            txbModelo.Clear(); 
+            txbNumeroSerie.Clear(); 
+            cbUbicacion.SelectedIndex = -1; 
+            cbEstatus.SelectedIndex = -1; 
+            chbOrdenTrabajo.Checked = false; 
+            chbMantenimiento.Checked = false; 
+            chbIndicador.Checked = false; 
+            pbImagen.Image = null;
+            lblID.Text = string.Empty;
         }
         private void CargarImagen()
         {
-            opc = 1;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Archivos de imagen|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Todos los archivos|*.*";
 
@@ -152,6 +210,7 @@ namespace ElastoSystem
                 try
                 {
                     pbImagen.Image = Image.FromFile(rutaImagen);
+                    imagencargada = 0;
                 }
                 catch (Exception ex)
                 {
@@ -159,74 +218,7 @@ namespace ElastoSystem
                 }
             }
         }
-        private void ActualizarPermisos()
-        {
-            bool boolordencompra = chbOrdenTrabajo.Checked;
-            bool boolmantenimiento = chbMantenimiento.Checked;
-            bool boolindicador = chbIndicador.Checked;
-
-            MySqlConnection conn = new MySqlConnection(connectionString);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand();
-            try
-            {
-                cmd.Connection = conn;
-                cmd.CommandText = "UPDATE elastosystem_mtto_inventariomaquinas SET Orden_Trabajo = " + boolordencompra + ", Mantenimiento = " + boolmantenimiento + ", Indicador = " + boolindicador + " WHERE No_Serie = '" + txbNumeroSerie.Text + "'";
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Permisos de "+txbNombre.Text+" actualizados con exito");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-
-        }
-        private void MandarALlamarImagen()
-        {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            string sql = "SELECT Imagen FROM elastosystem_mtto_inventariomaquinas WHERE No_Serie LIKE '" + txbNumeroSerie.Text + "' ";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        try
-                        {
-                            byte[] imageData = (byte[])reader["Imagen"];
-                            using (MemoryStream ms = new MemoryStream(imageData))
-                            {
-                                pbImagen.Image = Image.FromStream(ms);
-                            }
-                        }
-                        catch
-                        {
-                            pbImagen.Image = null;
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("ERROR LLAMAR A SISTEMAS");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-        }
+        
         private void Tabuladores()
         {
             txbNombre.TabIndex = 0;
@@ -234,19 +226,11 @@ namespace ElastoSystem
             txbNumeroSerie.TabIndex = 2;
             cbUbicacion.TabIndex = 3;
             cbEstatus.TabIndex = 4;
-            btnAgregar.TabIndex = 5;
+            chbOrdenTrabajo.TabIndex = 5;
+            chbMantenimiento.TabIndex = 6;
+            chbIndicador.TabIndex = 7;
+            btnAgregar.TabIndex = 8;
         }
-        private void TabuladoresSelect()
-        {
-            txbNombre.TabIndex = 0;
-            txbModelo.TabIndex = 1;
-            txbNumeroSerie.TabIndex = 2;
-            cbUbicacion.TabIndex = 3;
-            cbEstatus.TabIndex = 4;
-            btnModificar.TabIndex = 5;
-        }
-
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -257,65 +241,91 @@ namespace ElastoSystem
             MandarALlamarBDInventarioMaquinas();
             Tabuladores();
         }
+
+        int imagencargada = 0;
+
         private void dgvBD_DoubleClick(object sender, EventArgs e)
         {
-            TabuladoresSelect();
-            LimpiarCajas();
+            imagencargada = 0;
+            Tabuladores();
+            Limpiar();
             DataGridView dgvBD = (DataGridView)sender;
-            DataGridView dgvPerm = (DataGridView)dgvPermisos;
 
             if (dgvBD.SelectedCells.Count > 0)
             {
                 int rowIndex = dgvBD.SelectedCells[0].RowIndex;
 
-                string nombre = dgvBD.Rows[rowIndex].Cells[0].Value.ToString();
+                string id = dgvBD.Rows[rowIndex].Cells[0].Value.ToString();
+                lblID.Text = id;
+
+                string nombre = dgvBD.Rows[rowIndex].Cells[1].Value.ToString();
                 txbNombre.Text = nombre;
 
-                string modelo = dgvBD.Rows[rowIndex].Cells[1].Value.ToString();
+                string modelo = dgvBD.Rows[rowIndex].Cells[2].Value.ToString();
                 txbModelo.Text = modelo;
 
-                string no_serie = dgvBD.Rows[rowIndex].Cells[2].Value.ToString();
+                string no_serie = dgvBD.Rows[rowIndex].Cells[3].Value.ToString();
                 txbNumeroSerie.Text = no_serie;
 
-                string ubicacion = dgvBD.Rows[rowIndex].Cells[3].Value.ToString();
+                string ubicacion = dgvBD.Rows[rowIndex].Cells[4].Value.ToString();
                 cbUbicacion.Text = ubicacion;
 
-                string estatus = dgvBD.Rows[rowIndex].Cells[4].Value.ToString();
+                object imagen = dgvBD.Rows[rowIndex].Cells[5].Value;
+                if(imagen != DBNull.Value && imagen != null)
+                {
+                    try
+                    {
+                        byte[] imageData = (byte[])imagen;
+
+                        using (MemoryStream ms = new MemoryStream(imageData))
+                        {
+                            pbImagen.Image = Image.FromStream(ms);
+                            imagencargada = 1;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        pbImagen.Image = null;
+                    }
+                }
+                else
+                {
+                    pbImagen.Image = null;
+                }
+
+                string estatus = dgvBD.Rows[rowIndex].Cells[6].Value.ToString();
                 cbEstatus.Text = estatus;
 
-                string orden_trabajo = dgvPerm.Rows[rowIndex].Cells[5].Value.ToString();
+                string orden_trabajo = dgvBD.Rows[rowIndex].Cells[7].Value.ToString();
                 if (orden_trabajo == "True")
                 {
                     chbOrdenTrabajo.Checked = true;
                 }
 
-                string mantenimiento = dgvPerm.Rows[rowIndex].Cells[6].Value.ToString();
+                string mantenimiento = dgvBD.Rows[rowIndex].Cells[8].Value.ToString();
                 if (mantenimiento == "True")
                 {
                     chbMantenimiento.Checked = true;
                 }
 
-                string indicador = dgvPerm.Rows[rowIndex].Cells[7].Value.ToString();
+                string indicador = dgvBD.Rows[rowIndex].Cells[9].Value.ToString();
                 if (indicador == "True")
                 {
                     chbIndicador.Checked = true;
                 }
-                MandarALlamarImagen();
                 btnAgregar.Visible = false;
                 btnNueva.Visible = true;
                 btnEliminar.Visible = true;
                 btnModificar.Visible = true;
-                btnActualizarPermisos.Visible = true;
             }
         }
         private void btnNueva_Click(object sender, EventArgs e)
         {
-            LimpiarCajas();
+            Limpiar();
             btnNueva.Visible = false;
             btnAgregar.Visible = true;
             btnEliminar.Visible = false;
             btnModificar.Visible = false;
-            btnActualizarPermisos.Visible = false;
         }
         private void btnAgregar_Click(object sender, EventArgs e)
         {
@@ -331,8 +341,7 @@ namespace ElastoSystem
         }
         private void btnActualizarPermisos_Click(object sender, EventArgs e)
         {
-            ActualizarPermisos();
-            MandarALlamarBDInventarioMaquinas();
+
         }
     }
 }

@@ -38,7 +38,7 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Almacen, Nuevo_Producto, Editar_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado FROM elastosystem_permisos_menu WHERE ID = @idmenu";
+                string query = "SELECT Almacen, Nuevo_Producto, Editar_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @idmenu";
 
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@idmenu", idmenu);
@@ -135,7 +135,7 @@ namespace ElastoSystem
                         }
 
                         string consultarocValue = reader["Compras_ConsultarOCs"].ToString();
-                        if(consultarocValue == "True")
+                        if (consultarocValue == "True")
                         {
                             btnConsultarOC.Enabled = true;
                             btnConsultarOC.Visible = true;
@@ -244,6 +244,36 @@ namespace ElastoSystem
                         {
                             btnHistoricoMaquinado.Enabled = true;
                             btnHistoricoMaquinado.Visible = true;
+                        }
+                    }
+                    string mantenimientoValue = reader["Mantenimiento"].ToString();
+                    if (mantenimientoValue == "True")
+                    {
+                        btnMantenimiento.Enabled = true;
+                        btnMantenimiento.Visible = true;
+                        string solicitudmttoValue = reader["SolicitudMtto"].ToString();
+                        if (solicitudmttoValue == "True")
+                        {
+                            btnSolicitudMantenimiento.Enabled = true;
+                            btnSolicitudMantenimiento.Visible = true;
+                        }
+                        string pendientesmttoValue = reader["PendientesMtto"].ToString();
+                        if (pendientesmttoValue == "True")
+                        {
+                            btnPendientesMtto.Enabled = true;
+                            btnPendientesMtto.Visible = true;
+                        }
+                        string historicomttoValue = reader["HistoricoMtto"].ToString();
+                        if (historicomttoValue == "True")
+                        {
+                            btnHistoricoMtto.Enabled = true;
+                            btnHistoricoMtto.Visible = true;
+                        }
+                        string inventariomaquinasValue = reader["InventarioMaquinas"].ToString();
+                        if (inventariomaquinasValue == "True")
+                        {
+                            btnInventarioMaquinas.Enabled = true;
+                            btnInventarioMaquinas.Visible = true;
                         }
                     }
                 }
@@ -370,6 +400,7 @@ namespace ElastoSystem
             sbmVentas.Visible = false;
             sbmProduccion.Visible = false;
             sbmMaquinado.Visible = false;
+            sbmMantenimiento.Visible = false;
         }
         private void HideSubMenu()
         {
@@ -387,6 +418,8 @@ namespace ElastoSystem
                 sbmProduccion.Visible = false;
             if (sbmMaquinado.Visible == true)
                 sbmMaquinado.Visible = false;
+            if (sbmMantenimiento.Visible == true)
+                sbmMantenimiento.Visible = false;
         }
         private void showSubMenu(Panel subMenu)
         {
@@ -688,6 +721,35 @@ namespace ElastoSystem
         private void btnConsultarOC_Click(object sender, EventArgs e)
         {
             openChildForm(new Compras_ConsultarOC());
+            HideSubMenu();
+        }
+
+        private void btnMantenimiento_Click(object sender, EventArgs e)
+        {
+            showSubMenu(sbmMantenimiento);
+        }
+
+        private void btnSolicitudMantenimiento_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Mtto_Solicitud());
+            HideSubMenu();
+        }
+
+        private void btnInventarioMaquinas_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Mtto_InventarioMaquinas());
+            HideSubMenu();
+        }
+
+        private void btnPendientesMtto_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Mantenimiento_Pendientes());
+            HideSubMenu();
+        }
+
+        private void btnHistoricoMtto_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Mantenimiento_Historico());
             HideSubMenu();
         }
     }

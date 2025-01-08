@@ -28,49 +28,7 @@ namespace ElastoSystem
         }
         private void Folio()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionStringtec);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            string sql = "SELECT IDFOLIO FROM folio";
-
-            try
-            {
-                int ultimoFolio = 0;
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        string folioString = reader["IDFOLIO"].ToString();
-                        if (int.TryParse(folioString, out int folio))
-                        {
-                            ultimoFolio = folio;
-                        }
-                        else
-                        {
-
-                        }
-                    }
-                    ultimoFolio = ultimoFolio + 1;
-                    lblFolio.Text = ultimoFolio.ToString();
-                }
-                else
-                {
-
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-
-            /*
-             MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT Folio FROM elastosystem_mtto_req";
@@ -95,7 +53,8 @@ namespace ElastoSystem
                         }
                     }
                     ultimoFolio = ultimoFolio + 1;
-                    lblFolio.Text = ultimoFolio.ToString();
+                    lblFolio.Text = "MTO-"+ultimoFolio.ToString();
+                    lblFolioOriginal.Text = ultimoFolio.ToString();
                 }
                 else
                 {
@@ -110,11 +69,10 @@ namespace ElastoSystem
             {
                 mySqlConnection.Close();
             }
-             */
         }
         private void MandarALlamarMaquinas()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT Nombre FROM elastosystem_mtto_inventariomaquinas WHERE Estatus = 'ACTIVA'";
@@ -156,7 +114,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarUbicacion()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT Ubicacion FROM elastosystem_mtto_inventariomaquinas WHERE Nombre LIKE '" + cbMaquinas.Text + "' ";
@@ -189,7 +147,7 @@ namespace ElastoSystem
         }
         private void MandarALlamarImagen()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
             string sql = "SELECT Imagen FROM elastosystem_mtto_inventariomaquinas WHERE Nombre LIKE '" + cbMaquinas.Text + "' ";
@@ -233,64 +191,87 @@ namespace ElastoSystem
         {
             cbMaquinas.Items.Clear();
             string ofi = cbUbicacion.Text;
+            cbMaquinas.SelectedIndex = -1;
+
             if (ofi == "OFICINAS")
             {
                 cbMaquinas.Items.Add("AGREGAR DESCRIPCION");
             }
             else
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
-                mySqlConnection.Open();
-                MySqlDataReader reader = null;
-                string sql = "SELECT Nombre FROM elastosystem_mtto_inventariomaquinas WHERE Ubicacion LIKE '" + cbUbicacion.Text + "' AND Estatus = 'ACTIVA' ";
-                try
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                 {
-                    HashSet<string> unicos = new HashSet<string>();
-                    MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                    reader = comando.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            cbMaquinas.Items.Add(reader["Nombre"].ToString());
-                        }
-                        cbMaquinas.Sorted = true;
-                    }
-                    else
-                    {
-                    }
-                }
-                catch
-                {
-                }
-                mySqlConnection.Close();
-            }
+                    conn.Open();
+                    string sql = "SELECT Nombre FROM elastosystem_mtto_inventariomaquinas WHERE Ubicacion LIKE @UBICACION AND ESTATUS = 'ACTIVA'";
 
+                    using(MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UBICACION", cbUbicacion.Text);
+
+                        try
+                        {
+                            using (MySqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.HasRows)
+                                {
+                                    while (reader.Read())
+                                    {
+                                        cbMaquinas.Items.Add(reader["Nombre"].ToString());
+                                    }
+                                    cbMaquinas.Sorted = true;
+                                }
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            MessageBox.Show("ERROR AL CARGAR LAS MAQUINAS: " + ex.Message);
+                        }
+                    }
+                    conn.Close();
+                }
+            }
         }
         private void EnviarRequerimiento()
         {
-            string query = "SELECT * FROM elastosystem_login WHERE Usuario='" + txbUsuario.Text + "' AND Password='" + txbPassword.Text + "'";
-            MySqlConnection databaseConnection = new MySqlConnection(connectionString);
-            MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
-            commandDatabase.CommandTimeout = 60;
-            MySqlDataReader reader;
-            int verificacion = 0;
+            string estatus = "ACTIVA";
+            DateTime fechainicio = DateTime.Now;
+            string fechai = fechainicio.ToString("yyyy-MM-dd");
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
             try
             {
-                databaseConnection.Open();
-                reader = commandDatabase.ExecuteReader();
+                cmd.Connection = conn;
 
-                if (reader.HasRows)
+                cmd.CommandText = "SELECT COUNT(*) FROM elastosystem_mtto_req WHERE Folio = @FOLIOORI";
+                cmd.Parameters.AddWithValue("@FOLIOORI", lblFolioOriginal.Text);
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                if (count > 0)
                 {
-                    while (reader.Read())
-                    {
-                        verificacion = 1;
-                    }
+                    Folio();
+                    EnviarRequerimiento();
+                    return;
                 }
-                else
-                {
-                    MessageBox.Show("ERROR en Usuario o Contraseña, vuelve a intentarlo");
-                }
+
+                cmd.CommandText = "INSERT INTO elastosystem_mtto_req (Folio, Folio_ALT, Fecha, Solicitante, Prioridad, Tipo_Falla, Mantenimiento, Ubicacion, Maquina, Descripcion, Recomendaciones_Sugerencias, Refacciones, Estatus) " + 
+                                  "VALUES (@FOLIO, @FOLIOALT, @FECHA, @SOLICITANTE, @PRIORIDAD, @TIPOFALLA, @MANTENIMIENTO, @UBICACION, @MAQUINA, @DESCRIPCION, @RECOMENDACIONES, @REFACCIONES, @ESTATUS);";
+                cmd.Parameters.AddWithValue("@FOLIO", lblFolioOriginal.Text);
+                cmd.Parameters.AddWithValue("@FOLIOALT", lblFolio.Text);
+                cmd.Parameters.AddWithValue("@FECHA", fechai);
+                cmd.Parameters.AddWithValue("@SOLICITANTE", VariablesGlobales.Usuario);
+                cmd.Parameters.AddWithValue("@PRIORIDAD", cbPrioridad.Text);
+                cmd.Parameters.AddWithValue("@TIPOFALLA", cbTipoFalla.Text);
+                cmd.Parameters.AddWithValue("@MANTENIMIENTO", cbTipoReq.Text);
+                cmd.Parameters.AddWithValue("@UBICACION", cbUbicacion.Text);
+                cmd.Parameters.AddWithValue("@MAQUINA", cbMaquinas.Text);
+                cmd.Parameters.AddWithValue("@DESCRIPCION", txbDescripcion.Text);
+                cmd.Parameters.AddWithValue("@RECOMENDACIONES", txbRecSug.Text);
+                cmd.Parameters.AddWithValue("@REFACCIONES", txbRefacciones.Text);
+                cmd.Parameters.AddWithValue("@ESTATUS", estatus);
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Orden: " + lblFolio.Text + " enviada con exito");
+                Limpiar();
+                Folio();
             }
             catch (Exception ex)
             {
@@ -298,43 +279,22 @@ namespace ElastoSystem
             }
             finally
             {
-                databaseConnection.Close();
-            }
-
-            if (verificacion == 0)
-            {
-
-            }
-            else
-            {
-                string estats = "ACTIVA";
-                DateTime fechainicio = DateTime.Now;
-                string fechai = fechainicio.ToString("yyyy-MM-dd");
-                MySqlConnection conn = new MySqlConnection(connectionString);
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand();
-                try
-                {
-                    cmd.Connection = conn;
-                    cmd.CommandText = "INSERT INTO elastosystem_mtto_req (Folio, Fecha, Solicitante, Prioridad, Tipo_Falla, Mantenimiento, Ubicacion, Maquina, Descripcion, Recomendaciones_Sugerencias, Refacciones, Estatus) VALUES ('" + lblFolio.Text + "', '" + fechai + "', '" + txbUsuario.Text + "', '" + cbPrioridad.Text + "', '" + cbTipoFalla.Text + "', '" + cbTipoReq.Text + "', '" + cbUbicacion.Text + "', '" + cbMaquinas.Text + "', '" + txbDescripcion.Text + "', '" + txbRecSug.Text + "', '" + txbRefacciones.Text + "', '" + estats + "');";
-                    cmd.ExecuteNonQuery();
-                    txbUsuario.Clear(); txbPassword.Clear(); cbPrioridad.Text = String.Empty; cbTipoFalla.Text = String.Empty; cbTipoReq.Text = String.Empty; cbUbicacion.Text = String.Empty; cbMaquinas.Text = String.Empty; txbDescripcion.Clear(); txbRecSug.Clear(); txbRefacciones.Clear();
-                    MessageBox.Show("Orden: " + lblFolio.Text + " enviada con exito");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    conn.Close();
-                }
-                Folio();
+                conn.Close();
             }
         }
 
-        string connectionString = "server=10.120.1.3 ; username=root; password=; database=elastosystem";
-        string connectionStringtec = "server=10.120.1.3 ; username=root; password=; database=elastotec";
+        private void Limpiar()
+        {
+            cbTipoReq.SelectedIndex = -1;
+            cbUbicacion.SelectedIndex = -1;
+            cbMaquinas.Items.Clear();
+            pbImagen.Image = null;
+            cbPrioridad.SelectedIndex = -1;
+            cbTipoFalla.SelectedIndex = -1;
+            txbDescripcion.Clear();
+            txbRecSug.Clear();
+            txbRefacciones.Clear();
+        }
 
         private void Mtto_Solicitud_Load(object sender, EventArgs e)
         {
@@ -361,6 +321,7 @@ namespace ElastoSystem
         private void cbTipoReq_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbMaquinas.Items.Clear();
+            cbUbicacion.SelectedIndex = -1;
 
             if(cbTipoReq.SelectedIndex == 2)
             {

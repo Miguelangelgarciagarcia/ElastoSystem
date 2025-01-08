@@ -50,6 +50,14 @@ namespace ElastoSystem
                 dgvPartidas.Columns["Tipo Uso"].Visible = false;
                 dgvPartidas.Columns["Comentarios"].Visible = false;
                 dgvPartidas.Columns["ID_Producto"].Visible = false;
+                dgvPartidas.Columns["OC"].Visible = false;
+                dgvPartidas.Columns["FechaInicio"].Visible = false;
+                dgvPartidas.Columns["FechaFinal"].Visible = false;
+                dgvPartidas.Columns["Compra_Online"].Visible = false;
+                dgvPartidas.Columns["Ruta_Comprobante"].Visible = false;
+                dgvPartidas.Columns["Comprobante"].Visible = false;
+                dgvPartidas.Columns["Autorizo"].Visible = false;
+                dgvPartidas.Columns["Motivo"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -67,6 +75,14 @@ namespace ElastoSystem
             txbNotas.Clear();
             lblFolio.Text = "";
             lblFolioREQ.Text = "";
+            lblFechaInicio.Text = "-------------";
+            lblFechaFinal.Text = "-------------";
+            lblEstatus.Text = "-------------";
+            lblOC.Visible = false;
+            lblOCResultado.Text = "-------------";
+            txbComprobante.Clear();
+            lblOCResultado.Visible = false;
+            btnDescargarComprobante.Visible = false;
 
 
             DataGridView dgv = (DataGridView)sender;
@@ -87,11 +103,94 @@ namespace ElastoSystem
 
         private void dgvPartidas_Click(object sender, EventArgs e)
         {
+            lblEstatus.Text = "-------------";
+            lblFechaInicio.Text = "-------------";
+            lblFechaFinal.Text = "-------------";
+            lblOC.Visible = false;
+            lblOCResultado.Visible = false;
+            lblOCResultado.Text = "-------------";
+            txbComprobante.Clear();
+            btnDescargarComprobante.Visible = false;
+            txbTipoUso.Clear();
+            txbNotas.Clear();
 
+            DataGridView dgv = (DataGridView)sender;
+
+            if (dgv.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgv.SelectedCells[0].RowIndex;
+
+                string idproducto = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                lblIDProducto.Text = idproducto;
+
+                string tipouso = dgv.Rows[rowIndex].Cells[7].Value.ToString();
+                txbTipoUso.Text = tipouso;
+
+                string comentarios = dgv.Rows[rowIndex].Cells[8].Value.ToString();
+                txbNotas.Text = comentarios;
+
+                string estatus = dgv.Rows[rowIndex].Cells[9].Value.ToString();
+                lblEstatus.Text = estatus;
+
+                string fechainicio = Convert.ToDateTime(dgv.Rows[rowIndex].Cells[12].Value).ToString("yyyy-MM-dd");
+                lblFechaInicio.Text = fechainicio;
+
+                if (estatus == "CERRADA")
+                {
+                    lblOC.Visible = true;
+                    lblOCResultado.Visible = true;
+                    string oc = dgv.Rows[rowIndex].Cells[10].Value.ToString();
+                    lblOCResultado.Text = oc;
+
+                    string fechafinal = Convert.ToDateTime(dgv.Rows[rowIndex].Cells[13].Value).ToString("yyyy-MM-dd");
+                    lblFechaFinal.Text = fechafinal;
+
+                    string comprobante = dgv.Rows[rowIndex].Cells[14].Value.ToString();
+                    txbComprobante.Text = comprobante;
+
+                    if (string.IsNullOrEmpty(txbComprobante.Text))
+                    {
+
+                    }
+                    else
+                    {
+                        btnDescargarComprobante.Visible = true;
+                        MandarALlamarComprobante();
+                    }
+                }
+            }
         }
 
         private void dgvRequisicions_Click(object sender, EventArgs e)
         {
+            txbTipoUso.Clear();
+            txbNotas.Clear();
+            lblFolio.Text = "";
+            lblFolioREQ.Text = "";
+            lblFechaInicio.Text = "-------------";
+            lblFechaFinal.Text = "-------------";
+            lblEstatus.Text = "-------------";
+            lblOC.Visible = false;
+            lblOCResultado.Text = "-------------";
+            txbComprobante.Clear();
+            lblOCResultado.Visible = false;
+            btnDescargarComprobante.Visible = false;
+
+
+            DataGridView dgv = (DataGridView)sender;
+
+            if (dgv.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgv.SelectedCells[0].RowIndex;
+
+                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                lblFolio.Text = id;
+
+                string folio = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                lblFolioREQ.Text = folio;
+                lblFolioREQ.Visible = true;
+            }
+            MandarALlamarPartidas();
         }
 
         private void dgvRequisicions_SelectionChanged(object sender, EventArgs e)
@@ -105,17 +204,102 @@ namespace ElastoSystem
 
         private void dgvPartidas_DoubleClick(object sender, EventArgs e)
         {
+            lblEstatus.Text = "-------------";
+            lblFechaInicio.Text = "-------------";
+            lblFechaFinal.Text = "-------------";
+            lblOC.Visible = false;
+            lblOCResultado.Visible = false;
+            lblOCResultado.Text = "-------------";
+            txbComprobante.Clear();
+            btnDescargarComprobante.Visible = false;
+            txbTipoUso.Clear();
+            txbNotas.Clear();
+
             DataGridView dgv = (DataGridView)sender;
 
             if (dgv.SelectedCells.Count > 0)
             {
                 int rowIndex = dgv.SelectedCells[0].RowIndex;
 
+                string idproducto = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                lblIDProducto.Text = idproducto;
+
                 string tipouso = dgv.Rows[rowIndex].Cells[7].Value.ToString();
                 txbTipoUso.Text = tipouso;
 
                 string comentarios = dgv.Rows[rowIndex].Cells[8].Value.ToString();
                 txbNotas.Text = comentarios;
+
+                string estatus = dgv.Rows[rowIndex].Cells[9].Value.ToString();
+                lblEstatus.Text = estatus;
+
+                string fechainicio = Convert.ToDateTime(dgv.Rows[rowIndex].Cells[12].Value).ToString("yyyy-MM-dd");
+                lblFechaInicio.Text = fechainicio;
+
+                if (estatus == "CERRADA")
+                {
+                    lblOC.Visible = true;
+                    lblOCResultado.Visible = true;
+                    string oc = dgv.Rows[rowIndex].Cells[10].Value.ToString();
+                    lblOCResultado.Text = oc;
+
+                    string fechafinal = Convert.ToDateTime(dgv.Rows[rowIndex].Cells[13].Value).ToString("yyyy-MM-dd");
+                    lblFechaFinal.Text = fechafinal;
+
+                    string comprobante = dgv.Rows[rowIndex].Cells[14].Value.ToString();
+                    txbComprobante.Text = comprobante;
+
+                    if (string.IsNullOrEmpty(txbComprobante.Text))
+                    {
+
+                    }
+                    else
+                    {
+                        btnDescargarComprobante.Visible = true;
+                        MandarALlamarComprobante();
+                    }
+                }
+            }
+        }
+
+        byte[] comprobanteBytes;
+        private void MandarALlamarComprobante()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlDataReader reader = null;
+            string sql = "SELECT Comprobante, Ruta_Comprobante FROM elastosystem_compras_requisicion_desglosada WHERE ID_PRODUCTO LIKE '" + lblIDProducto.Text + "'";
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            comprobanteBytes = (byte[])reader["Comprobante"];
+                            txbNombreArchivo.Text = reader.GetString("Ruta_Comprobante");
+                            string rutacompleta = txbNombreArchivo.Text;
+                            txbRuta.Text = rutacompleta;
+                            string nombrearchivo = Path.GetFileName(rutacompleta);
+                            txbNombreArchivo.Text = nombrearchivo;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("ERROR AL ASIGNAR NOMBRE Y RUTA: " + ex.Message);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL LLAMAR COMPROBANTE: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
             }
         }
 
@@ -164,6 +348,39 @@ namespace ElastoSystem
         private void txbBuscador_TextChanged(object sender, EventArgs e)
         {
             Buscador();
+        }
+
+        private void btnDescargarComprobante_Click(object sender, EventArgs e)
+        {
+            DescargarComprobante();
+        }
+
+        private void DescargarComprobante()
+        {
+            string extensionArchivo = Path.GetExtension(txbRuta.Text);
+            string nombreArchivo = txbNombreArchivo.Text;
+
+            SaveFileDialog save = new SaveFileDialog
+            {
+                FileName = nombreArchivo,
+                Filter = "Todos los archivos (*.*)|*.*",
+                DefaultExt = extensionArchivo
+            };
+
+            if(save.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    File.WriteAllBytes(save.FileName, comprobanteBytes);
+                    MessageBox.Show("Archivo guardado correctamente.");
+                    string argument = "/select, \"" + save.FileName + "\"";
+                    System.Diagnostics.Process.Start("explorer.exe", argument);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL GUARDAR EL ARCHIVO: " + ex.Message);
+                }
+            }
         }
     }
 }

@@ -36,6 +36,12 @@
             PBICerrar = new PictureBox();
             PBIconoMin = new PictureBox();
             panelSideMenu = new Panel();
+            sbmMantenimiento = new Panel();
+            btnInventarioMaquinas = new Button();
+            btnHistoricoMtto = new Button();
+            btnPendientesMtto = new Button();
+            btnSolicitudMantenimiento = new Button();
+            btnMantenimiento = new Button();
             sbmMaquinado = new Panel();
             btnHistoricoMaquinado = new Button();
             btnPendientesMaquinado = new Button();
@@ -61,6 +67,7 @@
             btnRegistroTrabajador = new Button();
             button11 = new Button();
             panelSubMenu2 = new Panel();
+            btnConsultarOC = new Button();
             btnIndCompras = new Button();
             btnReqEnv = new Button();
             btnAdmiProveedores = new Button();
@@ -79,13 +86,13 @@
             panelPrincipal = new Panel();
             dgv = new DataGridView();
             labelid = new Label();
-            btnConsultarOC = new Button();
             PBarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PBNaranja).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PBAzul).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PBICerrar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PBIconoMin).BeginInit();
             panelSideMenu.SuspendLayout();
+            sbmMantenimiento.SuspendLayout();
             sbmMaquinado.SuspendLayout();
             sbmProduccion.SuspendLayout();
             sbmVentas.SuspendLayout();
@@ -182,6 +189,8 @@
             // 
             panelSideMenu.AutoScroll = true;
             panelSideMenu.BackColor = Color.FromArgb(0, 33, 64);
+            panelSideMenu.Controls.Add(sbmMantenimiento);
+            panelSideMenu.Controls.Add(btnMantenimiento);
             panelSideMenu.Controls.Add(sbmMaquinado);
             panelSideMenu.Controls.Add(btnMaquinado);
             panelSideMenu.Controls.Add(sbmProduccion);
@@ -204,6 +213,114 @@
             panelSideMenu.Size = new Size(204, 831);
             panelSideMenu.TabIndex = 1;
             panelSideMenu.Paint += panelSideMenu_Paint;
+            // 
+            // sbmMantenimiento
+            // 
+            sbmMantenimiento.BackColor = Color.FromArgb(3, 52, 92);
+            sbmMantenimiento.Controls.Add(btnInventarioMaquinas);
+            sbmMantenimiento.Controls.Add(btnHistoricoMtto);
+            sbmMantenimiento.Controls.Add(btnPendientesMtto);
+            sbmMantenimiento.Controls.Add(btnSolicitudMantenimiento);
+            sbmMantenimiento.Dock = DockStyle.Top;
+            sbmMantenimiento.Location = new Point(0, 1296);
+            sbmMantenimiento.Name = "sbmMantenimiento";
+            sbmMantenimiento.Size = new Size(187, 153);
+            sbmMantenimiento.TabIndex = 17;
+            // 
+            // btnInventarioMaquinas
+            // 
+            btnInventarioMaquinas.Dock = DockStyle.Top;
+            btnInventarioMaquinas.Enabled = false;
+            btnInventarioMaquinas.FlatAppearance.BorderSize = 0;
+            btnInventarioMaquinas.FlatStyle = FlatStyle.Flat;
+            btnInventarioMaquinas.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnInventarioMaquinas.ForeColor = Color.White;
+            btnInventarioMaquinas.Location = new Point(0, 108);
+            btnInventarioMaquinas.Name = "btnInventarioMaquinas";
+            btnInventarioMaquinas.Padding = new Padding(20, 0, 0, 0);
+            btnInventarioMaquinas.Size = new Size(187, 36);
+            btnInventarioMaquinas.TabIndex = 6;
+            btnInventarioMaquinas.Text = "Inventario Maquinas";
+            btnInventarioMaquinas.TextAlign = ContentAlignment.MiddleLeft;
+            btnInventarioMaquinas.UseVisualStyleBackColor = true;
+            btnInventarioMaquinas.Visible = false;
+            btnInventarioMaquinas.Click += btnInventarioMaquinas_Click;
+            // 
+            // btnHistoricoMtto
+            // 
+            btnHistoricoMtto.Dock = DockStyle.Top;
+            btnHistoricoMtto.Enabled = false;
+            btnHistoricoMtto.FlatAppearance.BorderSize = 0;
+            btnHistoricoMtto.FlatStyle = FlatStyle.Flat;
+            btnHistoricoMtto.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnHistoricoMtto.ForeColor = Color.White;
+            btnHistoricoMtto.Location = new Point(0, 72);
+            btnHistoricoMtto.Name = "btnHistoricoMtto";
+            btnHistoricoMtto.Padding = new Padding(20, 0, 0, 0);
+            btnHistoricoMtto.Size = new Size(187, 36);
+            btnHistoricoMtto.TabIndex = 5;
+            btnHistoricoMtto.Text = "Historico Mantto";
+            btnHistoricoMtto.TextAlign = ContentAlignment.MiddleLeft;
+            btnHistoricoMtto.UseVisualStyleBackColor = true;
+            btnHistoricoMtto.Visible = false;
+            btnHistoricoMtto.Click += btnHistoricoMtto_Click;
+            // 
+            // btnPendientesMtto
+            // 
+            btnPendientesMtto.Dock = DockStyle.Top;
+            btnPendientesMtto.Enabled = false;
+            btnPendientesMtto.FlatAppearance.BorderSize = 0;
+            btnPendientesMtto.FlatStyle = FlatStyle.Flat;
+            btnPendientesMtto.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnPendientesMtto.ForeColor = Color.White;
+            btnPendientesMtto.Location = new Point(0, 36);
+            btnPendientesMtto.Name = "btnPendientesMtto";
+            btnPendientesMtto.Padding = new Padding(20, 0, 0, 0);
+            btnPendientesMtto.Size = new Size(187, 36);
+            btnPendientesMtto.TabIndex = 4;
+            btnPendientesMtto.Text = "Pendientes Mantto";
+            btnPendientesMtto.TextAlign = ContentAlignment.MiddleLeft;
+            btnPendientesMtto.UseVisualStyleBackColor = true;
+            btnPendientesMtto.Visible = false;
+            btnPendientesMtto.Click += btnPendientesMtto_Click;
+            // 
+            // btnSolicitudMantenimiento
+            // 
+            btnSolicitudMantenimiento.Dock = DockStyle.Top;
+            btnSolicitudMantenimiento.Enabled = false;
+            btnSolicitudMantenimiento.FlatAppearance.BorderSize = 0;
+            btnSolicitudMantenimiento.FlatStyle = FlatStyle.Flat;
+            btnSolicitudMantenimiento.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSolicitudMantenimiento.ForeColor = Color.White;
+            btnSolicitudMantenimiento.Location = new Point(0, 0);
+            btnSolicitudMantenimiento.Name = "btnSolicitudMantenimiento";
+            btnSolicitudMantenimiento.Padding = new Padding(20, 0, 0, 0);
+            btnSolicitudMantenimiento.Size = new Size(187, 36);
+            btnSolicitudMantenimiento.TabIndex = 3;
+            btnSolicitudMantenimiento.Text = "Solicitud Mantto";
+            btnSolicitudMantenimiento.TextAlign = ContentAlignment.MiddleLeft;
+            btnSolicitudMantenimiento.UseVisualStyleBackColor = true;
+            btnSolicitudMantenimiento.Visible = false;
+            btnSolicitudMantenimiento.Click += btnSolicitudMantenimiento_Click;
+            // 
+            // btnMantenimiento
+            // 
+            btnMantenimiento.Dock = DockStyle.Top;
+            btnMantenimiento.Enabled = false;
+            btnMantenimiento.FlatAppearance.BorderSize = 0;
+            btnMantenimiento.FlatStyle = FlatStyle.Flat;
+            btnMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnMantenimiento.ForeColor = Color.White;
+            btnMantenimiento.Location = new Point(0, 1260);
+            btnMantenimiento.Name = "btnMantenimiento";
+            btnMantenimiento.Padding = new Padding(10, 0, 0, 0);
+            btnMantenimiento.Size = new Size(187, 36);
+            btnMantenimiento.TabIndex = 16;
+            btnMantenimiento.Text = "Mantenimiento";
+            btnMantenimiento.TextAlign = ContentAlignment.MiddleLeft;
+            btnMantenimiento.UseVisualStyleBackColor = true;
+            btnMantenimiento.Visible = false;
+            btnMantenimiento.Click += btnMantenimiento_Click;
             // 
             // sbmMaquinado
             // 
@@ -521,7 +638,7 @@
             // 
             panel1.Controls.Add(btninfo);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 1260);
+            panel1.Location = new Point(0, 1449);
             panel1.Name = "panel1";
             panel1.Size = new Size(187, 56);
             panel1.TabIndex = 0;
@@ -627,6 +744,25 @@
             panelSubMenu2.Name = "panelSubMenu2";
             panelSubMenu2.Size = new Size(187, 260);
             panelSubMenu2.TabIndex = 5;
+            // 
+            // btnConsultarOC
+            // 
+            btnConsultarOC.Dock = DockStyle.Top;
+            btnConsultarOC.Enabled = false;
+            btnConsultarOC.FlatAppearance.BorderSize = 0;
+            btnConsultarOC.FlatStyle = FlatStyle.Flat;
+            btnConsultarOC.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnConsultarOC.ForeColor = Color.White;
+            btnConsultarOC.Location = new Point(0, 216);
+            btnConsultarOC.Name = "btnConsultarOC";
+            btnConsultarOC.Padding = new Padding(20, 0, 0, 0);
+            btnConsultarOC.Size = new Size(187, 36);
+            btnConsultarOC.TabIndex = 11;
+            btnConsultarOC.Text = "Consultar OC's";
+            btnConsultarOC.TextAlign = ContentAlignment.MiddleLeft;
+            btnConsultarOC.UseVisualStyleBackColor = true;
+            btnConsultarOC.Visible = false;
+            btnConsultarOC.Click += btnConsultarOC_Click;
             // 
             // btnIndCompras
             // 
@@ -924,25 +1060,6 @@
             labelid.Visible = false;
             labelid.TextChanged += labelrol_TextChanged;
             // 
-            // btnConsultarOC
-            // 
-            btnConsultarOC.Dock = DockStyle.Top;
-            btnConsultarOC.Enabled = false;
-            btnConsultarOC.FlatAppearance.BorderSize = 0;
-            btnConsultarOC.FlatStyle = FlatStyle.Flat;
-            btnConsultarOC.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            btnConsultarOC.ForeColor = Color.White;
-            btnConsultarOC.Location = new Point(0, 216);
-            btnConsultarOC.Name = "btnConsultarOC";
-            btnConsultarOC.Padding = new Padding(20, 0, 0, 0);
-            btnConsultarOC.Size = new Size(187, 36);
-            btnConsultarOC.TabIndex = 11;
-            btnConsultarOC.Text = "Consultar OC's";
-            btnConsultarOC.TextAlign = ContentAlignment.MiddleLeft;
-            btnConsultarOC.UseVisualStyleBackColor = true;
-            btnConsultarOC.Visible = false;
-            btnConsultarOC.Click += btnConsultarOC_Click;
-            // 
             // MenuPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -965,6 +1082,7 @@
             ((System.ComponentModel.ISupportInitialize)PBICerrar).EndInit();
             ((System.ComponentModel.ISupportInitialize)PBIconoMin).EndInit();
             panelSideMenu.ResumeLayout(false);
+            sbmMantenimiento.ResumeLayout(false);
             sbmMaquinado.ResumeLayout(false);
             sbmProduccion.ResumeLayout(false);
             sbmVentas.ResumeLayout(false);
@@ -1036,5 +1154,11 @@
         private Button btnHistoricoMaquinado;
         private Label lblModoPruebaMenu;
         private Button btnConsultarOC;
+        private Panel sbmMantenimiento;
+        private Button btnHistoricoMtto;
+        private Button btnPendientesMtto;
+        private Button btnSolicitudMantenimiento;
+        private Button btnMantenimiento;
+        private Button btnInventarioMaquinas;
     }
 }

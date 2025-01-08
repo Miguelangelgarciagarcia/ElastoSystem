@@ -98,6 +98,20 @@
             label3 = new Label();
             dgvUsuarioyPassword = new DataGridView();
             tabPermisosUsuarios = new TabPage();
+            panel8 = new Panel();
+            chbInventarioMaquinas = new CheckBox();
+            chbHistorialMtto = new CheckBox();
+            chbPendientesMtto = new CheckBox();
+            chbSolicitudMtto = new CheckBox();
+            chbMantenimiento = new CheckBox();
+            tabPage1 = new TabPage();
+            lblNumeroEspecial = new Label();
+            btnActualizarPermisosEspeciales = new Button();
+            panel9 = new Panel();
+            label9 = new Label();
+            chbComprasAlmacenar = new CheckBox();
+            cbUsuariosEspeciales = new ComboBox();
+            label8 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -113,6 +127,9 @@
             ((System.ComponentModel.ISupportInitialize)pbCampos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarioyPassword).BeginInit();
             tabPermisosUsuarios.SuspendLayout();
+            panel8.SuspendLayout();
+            tabPage1.SuspendLayout();
+            panel9.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -141,6 +158,7 @@
             // 
             // cbUsuarios
             // 
+            cbUsuarios.DropDownStyle = ComboBoxStyle.DropDownList;
             cbUsuarios.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
             cbUsuarios.FormattingEnabled = true;
             cbUsuarios.Location = new Point(140, 30);
@@ -378,7 +396,7 @@
             panel3.Controls.Add(chbGenerarCredencial);
             panel3.Controls.Add(chbRegistroTrabajador);
             panel3.Controls.Add(chbRecursosHumanos);
-            panel3.Location = new Point(1015, 95);
+            panel3.Location = new Point(15, 352);
             panel3.Name = "panel3";
             panel3.Size = new Size(240, 240);
             panel3.TabIndex = 6;
@@ -428,7 +446,7 @@
             panel4.Controls.Add(chbPermisos);
             panel4.Controls.Add(chbRequisicion);
             panel4.Controls.Add(chbSistemas);
-            panel4.Location = new Point(15, 352);
+            panel4.Location = new Point(265, 352);
             panel4.Name = "panel4";
             panel4.Size = new Size(240, 240);
             panel4.TabIndex = 7;
@@ -496,7 +514,7 @@
             panel5.Controls.Add(chbNuevaCotizacion);
             panel5.Controls.Add(chbClientes);
             panel5.Controls.Add(chbVentas);
-            panel5.Location = new Point(265, 352);
+            panel5.Location = new Point(519, 352);
             panel5.Name = "panel5";
             panel5.Size = new Size(240, 240);
             panel5.TabIndex = 9;
@@ -571,7 +589,7 @@
             panel6.BackColor = Color.FromArgb(3, 42, 76);
             panel6.Controls.Add(chbReporteProduccion);
             panel6.Controls.Add(chbProduccion);
-            panel6.Location = new Point(769, 95);
+            panel6.Location = new Point(1011, 95);
             panel6.Name = "panel6";
             panel6.Size = new Size(240, 240);
             panel6.TabIndex = 10;
@@ -609,7 +627,7 @@
             panel7.Controls.Add(chbPendientesMaquinado);
             panel7.Controls.Add(chbSolicitudMaquinado);
             panel7.Controls.Add(chbMaquinado);
-            panel7.Location = new Point(519, 95);
+            panel7.Location = new Point(765, 95);
             panel7.Name = "panel7";
             panel7.Size = new Size(240, 240);
             panel7.TabIndex = 11;
@@ -670,11 +688,13 @@
             // 
             tabControl1.Controls.Add(tabGestionUsuarios);
             tabControl1.Controls.Add(tabPermisosUsuarios);
+            tabControl1.Controls.Add(tabPage1);
             tabControl1.Location = new Point(29, 88);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(1281, 665);
             tabControl1.TabIndex = 12;
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // tabGestionUsuarios
             // 
@@ -984,6 +1004,7 @@
             // tabPermisosUsuarios
             // 
             tabPermisosUsuarios.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabPermisosUsuarios.Controls.Add(panel8);
             tabPermisosUsuarios.Controls.Add(lblNumeroTemp);
             tabPermisosUsuarios.Controls.Add(cbUsuarios);
             tabPermisosUsuarios.Controls.Add(label2);
@@ -1003,6 +1024,184 @@
             tabPermisosUsuarios.TabIndex = 1;
             tabPermisosUsuarios.Text = "Permisos de Usuarios";
             tabPermisosUsuarios.UseVisualStyleBackColor = true;
+            // 
+            // panel8
+            // 
+            panel8.BackColor = Color.FromArgb(3, 42, 76);
+            panel8.Controls.Add(chbInventarioMaquinas);
+            panel8.Controls.Add(chbHistorialMtto);
+            panel8.Controls.Add(chbPendientesMtto);
+            panel8.Controls.Add(chbSolicitudMtto);
+            panel8.Controls.Add(chbMantenimiento);
+            panel8.Location = new Point(519, 95);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(240, 240);
+            panel8.TabIndex = 12;
+            // 
+            // chbInventarioMaquinas
+            // 
+            chbInventarioMaquinas.AutoSize = true;
+            chbInventarioMaquinas.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbInventarioMaquinas.ForeColor = Color.White;
+            chbInventarioMaquinas.Location = new Point(15, 126);
+            chbInventarioMaquinas.Name = "chbInventarioMaquinas";
+            chbInventarioMaquinas.Size = new Size(149, 20);
+            chbInventarioMaquinas.TabIndex = 4;
+            chbInventarioMaquinas.Text = "Inventario Maquinas";
+            chbInventarioMaquinas.UseVisualStyleBackColor = true;
+            chbInventarioMaquinas.CheckedChanged += chbInventarioMaquinas_CheckedChanged;
+            // 
+            // chbHistorialMtto
+            // 
+            chbHistorialMtto.AutoSize = true;
+            chbHistorialMtto.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbHistorialMtto.ForeColor = Color.White;
+            chbHistorialMtto.Location = new Point(15, 100);
+            chbHistorialMtto.Name = "chbHistorialMtto";
+            chbHistorialMtto.Size = new Size(172, 20);
+            chbHistorialMtto.TabIndex = 3;
+            chbHistorialMtto.Text = "Historial Mantenimiento";
+            chbHistorialMtto.UseVisualStyleBackColor = true;
+            chbHistorialMtto.CheckedChanged += chbHistorialMtto_CheckedChanged;
+            // 
+            // chbPendientesMtto
+            // 
+            chbPendientesMtto.AutoSize = true;
+            chbPendientesMtto.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbPendientesMtto.ForeColor = Color.White;
+            chbPendientesMtto.Location = new Point(15, 74);
+            chbPendientesMtto.Name = "chbPendientesMtto";
+            chbPendientesMtto.Size = new Size(190, 20);
+            chbPendientesMtto.TabIndex = 2;
+            chbPendientesMtto.Text = "Pendientes Mantenimiento";
+            chbPendientesMtto.UseVisualStyleBackColor = true;
+            chbPendientesMtto.CheckedChanged += chbPendientesMtto_CheckedChanged;
+            // 
+            // chbSolicitudMtto
+            // 
+            chbSolicitudMtto.AutoSize = true;
+            chbSolicitudMtto.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbSolicitudMtto.ForeColor = Color.White;
+            chbSolicitudMtto.Location = new Point(15, 48);
+            chbSolicitudMtto.Name = "chbSolicitudMtto";
+            chbSolicitudMtto.Size = new Size(174, 20);
+            chbSolicitudMtto.TabIndex = 1;
+            chbSolicitudMtto.Text = "Solicitud Mantenimiento";
+            chbSolicitudMtto.UseVisualStyleBackColor = true;
+            chbSolicitudMtto.CheckedChanged += chbSolicitudMtto_CheckedChanged;
+            // 
+            // chbMantenimiento
+            // 
+            chbMantenimiento.AutoSize = true;
+            chbMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            chbMantenimiento.ForeColor = Color.White;
+            chbMantenimiento.Location = new Point(15, 13);
+            chbMantenimiento.Name = "chbMantenimiento";
+            chbMantenimiento.Size = new Size(176, 26);
+            chbMantenimiento.TabIndex = 0;
+            chbMantenimiento.Text = "MANTENIMIENTO";
+            chbMantenimiento.UseVisualStyleBackColor = true;
+            chbMantenimiento.CheckedChanged += chbMantenimiento_CheckedChanged;
+            // 
+            // tabPage1
+            // 
+            tabPage1.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabPage1.Controls.Add(lblNumeroEspecial);
+            tabPage1.Controls.Add(btnActualizarPermisosEspeciales);
+            tabPage1.Controls.Add(panel9);
+            tabPage1.Controls.Add(cbUsuariosEspeciales);
+            tabPage1.Controls.Add(label8);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Size = new Size(1273, 637);
+            tabPage1.TabIndex = 2;
+            tabPage1.Text = "Permisos Especiales";
+            tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // lblNumeroEspecial
+            // 
+            lblNumeroEspecial.AutoSize = true;
+            lblNumeroEspecial.BackColor = Color.Transparent;
+            lblNumeroEspecial.Location = new Point(434, 54);
+            lblNumeroEspecial.Name = "lblNumeroEspecial";
+            lblNumeroEspecial.Size = new Size(80, 15);
+            lblNumeroEspecial.TabIndex = 11;
+            lblNumeroEspecial.Text = "NumeroTemp";
+            lblNumeroEspecial.Visible = false;
+            // 
+            // btnActualizarPermisosEspeciales
+            // 
+            btnActualizarPermisosEspeciales.BackColor = Color.FromArgb(255, 102, 0);
+            btnActualizarPermisosEspeciales.Cursor = Cursors.Hand;
+            btnActualizarPermisosEspeciales.FlatAppearance.BorderSize = 0;
+            btnActualizarPermisosEspeciales.FlatStyle = FlatStyle.Flat;
+            btnActualizarPermisosEspeciales.Font = new Font("Montserrat", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnActualizarPermisosEspeciales.ForeColor = Color.White;
+            btnActualizarPermisosEspeciales.Location = new Point(26, 394);
+            btnActualizarPermisosEspeciales.Name = "btnActualizarPermisosEspeciales";
+            btnActualizarPermisosEspeciales.Size = new Size(318, 47);
+            btnActualizarPermisosEspeciales.TabIndex = 10;
+            btnActualizarPermisosEspeciales.Text = "ACTUALIZAR PERMISOS";
+            btnActualizarPermisosEspeciales.UseVisualStyleBackColor = false;
+            btnActualizarPermisosEspeciales.Click += btnActualizarPermisosEspeciales_Click;
+            // 
+            // panel9
+            // 
+            panel9.BackColor = Color.FromArgb(3, 42, 76);
+            panel9.Controls.Add(label9);
+            panel9.Controls.Add(chbComprasAlmacenar);
+            panel9.Location = new Point(26, 93);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(240, 240);
+            panel9.TabIndex = 9;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.BackColor = Color.Transparent;
+            label9.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label9.ForeColor = Color.White;
+            label9.Location = new Point(15, 13);
+            label9.Name = "label9";
+            label9.Size = new Size(97, 22);
+            label9.TabIndex = 8;
+            label9.Text = "COMPRAS";
+            // 
+            // chbComprasAlmacenar
+            // 
+            chbComprasAlmacenar.AutoSize = true;
+            chbComprasAlmacenar.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbComprasAlmacenar.ForeColor = Color.White;
+            chbComprasAlmacenar.Location = new Point(15, 48);
+            chbComprasAlmacenar.Name = "chbComprasAlmacenar";
+            chbComprasAlmacenar.Size = new Size(192, 20);
+            chbComprasAlmacenar.TabIndex = 2;
+            chbComprasAlmacenar.Text = "Almacenar Requerimientos";
+            chbComprasAlmacenar.UseVisualStyleBackColor = true;
+            // 
+            // cbUsuariosEspeciales
+            // 
+            cbUsuariosEspeciales.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbUsuariosEspeciales.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            cbUsuariosEspeciales.FormattingEnabled = true;
+            cbUsuariosEspeciales.Location = new Point(140, 34);
+            cbUsuariosEspeciales.Name = "cbUsuariosEspeciales";
+            cbUsuariosEspeciales.Size = new Size(288, 35);
+            cbUsuariosEspeciales.TabIndex = 4;
+            cbUsuariosEspeciales.SelectedIndexChanged += cbUsuariosEspeciales_SelectedIndexChanged;
+            cbUsuariosEspeciales.SelectionChangeCommitted += cbUsuariosEspeciales_SelectionChangeCommitted;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.BackColor = Color.Transparent;
+            label8.Font = new Font("Montserrat", 15F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.ForeColor = Color.White;
+            label8.Location = new Point(26, 37);
+            label8.Name = "label8";
+            label8.Size = new Size(98, 27);
+            label8.TabIndex = 3;
+            label8.Text = "Usuario:";
             // 
             // SistemasPermisos
             // 
@@ -1041,6 +1240,12 @@
             ((System.ComponentModel.ISupportInitialize)dgvUsuarioyPassword).EndInit();
             tabPermisosUsuarios.ResumeLayout(false);
             tabPermisosUsuarios.PerformLayout();
+            panel8.ResumeLayout(false);
+            panel8.PerformLayout();
+            tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
+            panel9.ResumeLayout(false);
+            panel9.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1114,5 +1319,19 @@
         private PictureBox pbUsuario;
         private CheckBox chbHistorialMaquinado;
         private CheckBox chbConsultarOCs;
+        private Panel panel8;
+        private CheckBox chbHistorialMtto;
+        private CheckBox chbPendientesMtto;
+        private CheckBox chbSolicitudMtto;
+        private CheckBox chbMantenimiento;
+        private CheckBox chbInventarioMaquinas;
+        private TabPage tabPage1;
+        private Button btnActualizarPermisosEspeciales;
+        private Panel panel9;
+        private Label label9;
+        private CheckBox chbComprasAlmacenar;
+        private ComboBox cbUsuariosEspeciales;
+        private Label label8;
+        private Label lblNumeroEspecial;
     }
 }

@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             label1 = new Label();
             panel2 = new Panel();
+            pbImagen = new PictureBox();
             cbMaquinas = new ComboBox();
             cbUbicacion = new ComboBox();
             cbTipoReq = new ComboBox();
@@ -44,33 +45,23 @@
             label5 = new Label();
             fecha = new System.Windows.Forms.Timer(components);
             panel1 = new Panel();
+            txbRefacciones = new TextBox();
             txbDescripcion = new TextBox();
+            label15 = new Label();
+            txbRecSug = new TextBox();
             label7 = new Label();
             cbTipoFalla = new ComboBox();
+            label16 = new Label();
             cbPrioridad = new ComboBox();
+            label17 = new Label();
             label9 = new Label();
             label10 = new Label();
             label11 = new Label();
-            panel3 = new Panel();
-            pbImagen = new PictureBox();
-            panel5 = new Panel();
-            label12 = new Label();
-            txbUsuario = new TextBox();
-            label13 = new Label();
             btnEnviarReq = new Button();
-            txbPassword = new TextBox();
-            panel4 = new Panel();
-            txbRefacciones = new TextBox();
-            txbRecSug = new TextBox();
-            label15 = new Label();
-            label16 = new Label();
-            label17 = new Label();
+            lblFolioOriginal = new Label();
             panel2.SuspendLayout();
-            panel1.SuspendLayout();
-            panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbImagen).BeginInit();
-            panel5.SuspendLayout();
-            panel4.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -88,6 +79,7 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(3, 42, 76);
+            panel2.Controls.Add(pbImagen);
             panel2.Controls.Add(cbMaquinas);
             panel2.Controls.Add(cbUbicacion);
             panel2.Controls.Add(cbTipoReq);
@@ -97,8 +89,18 @@
             panel2.Controls.Add(label8);
             panel2.Location = new Point(22, 141);
             panel2.Name = "panel2";
-            panel2.Size = new Size(494, 193);
+            panel2.Size = new Size(494, 440);
             panel2.TabIndex = 20;
+            // 
+            // pbImagen
+            // 
+            pbImagen.BackColor = Color.White;
+            pbImagen.Location = new Point(85, 195);
+            pbImagen.Name = "pbImagen";
+            pbImagen.Size = new Size(300, 225);
+            pbImagen.SizeMode = PictureBoxSizeMode.Zoom;
+            pbImagen.TabIndex = 5;
+            pbImagen.TabStop = false;
             // 
             // cbMaquinas
             // 
@@ -189,7 +191,7 @@
             lblFolio.BackColor = Color.Transparent;
             lblFolio.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             lblFolio.ForeColor = Color.White;
-            lblFolio.Location = new Point(1125, 57);
+            lblFolio.Location = new Point(1095, 57);
             lblFolio.Name = "lblFolio";
             lblFolio.Size = new Size(101, 30);
             lblFolio.TabIndex = 22;
@@ -201,7 +203,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(1053, 56);
+            label2.Location = new Point(1023, 56);
             label2.Name = "label2";
             label2.Size = new Size(75, 30);
             label2.TabIndex = 21;
@@ -213,7 +215,7 @@
             lblfecha.BackColor = Color.Transparent;
             lblfecha.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             lblfecha.ForeColor = Color.White;
-            lblfecha.Location = new Point(1054, 87);
+            lblfecha.Location = new Point(1039, 87);
             lblfecha.Name = "lblfecha";
             lblfecha.Size = new Size(100, 20);
             lblfecha.TabIndex = 24;
@@ -225,7 +227,7 @@
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(998, 87);
+            label5.Location = new Point(983, 87);
             label5.Name = "label5";
             label5.Size = new Size(58, 20);
             label5.TabIndex = 23;
@@ -234,17 +236,31 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
+            panel1.Controls.Add(txbRefacciones);
             panel1.Controls.Add(txbDescripcion);
+            panel1.Controls.Add(label15);
+            panel1.Controls.Add(txbRecSug);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(cbTipoFalla);
+            panel1.Controls.Add(label16);
             panel1.Controls.Add(cbPrioridad);
+            panel1.Controls.Add(label17);
             panel1.Controls.Add(label9);
             panel1.Controls.Add(label10);
             panel1.Controls.Add(label11);
-            panel1.Location = new Point(22, 365);
+            panel1.Location = new Point(546, 141);
             panel1.Name = "panel1";
-            panel1.Size = new Size(494, 383);
+            panel1.Size = new Size(748, 529);
             panel1.TabIndex = 25;
+            // 
+            // txbRefacciones
+            // 
+            txbRefacciones.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbRefacciones.Location = new Point(21, 450);
+            txbRefacciones.Multiline = true;
+            txbRefacciones.Name = "txbRefacciones";
+            txbRefacciones.Size = new Size(708, 54);
+            txbRefacciones.TabIndex = 30;
             // 
             // txbDescripcion
             // 
@@ -252,8 +268,29 @@
             txbDescripcion.Location = new Point(21, 170);
             txbDescripcion.Multiline = true;
             txbDescripcion.Name = "txbDescripcion";
-            txbDescripcion.Size = new Size(452, 193);
+            txbDescripcion.Size = new Size(708, 109);
             txbDescripcion.TabIndex = 28;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.BackColor = Color.Transparent;
+            label15.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label15.ForeColor = Color.White;
+            label15.Location = new Point(21, 425);
+            label15.Name = "label15";
+            label15.Size = new Size(195, 22);
+            label15.TabIndex = 23;
+            label15.Text = "Refacciones a Utilizar:";
+            // 
+            // txbRecSug
+            // 
+            txbRecSug.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbRecSug.Location = new Point(21, 363);
+            txbRecSug.Multiline = true;
+            txbRecSug.Name = "txbRecSug";
+            txbRecSug.Size = new Size(708, 45);
+            txbRecSug.TabIndex = 29;
             // 
             // label7
             // 
@@ -278,6 +315,18 @@
             cbTipoFalla.Size = new Size(282, 26);
             cbTipoFalla.TabIndex = 26;
             // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.BackColor = Color.Transparent;
+            label16.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label16.ForeColor = Color.White;
+            label16.Location = new Point(21, 338);
+            label16.Name = "label16";
+            label16.Size = new Size(285, 22);
+            label16.TabIndex = 22;
+            label16.Text = "Recomendaciones / Sugerencias:";
+            // 
             // cbPrioridad
             // 
             cbPrioridad.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -288,6 +337,18 @@
             cbPrioridad.Name = "cbPrioridad";
             cbPrioridad.Size = new Size(282, 26);
             cbPrioridad.TabIndex = 25;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.BackColor = Color.Transparent;
+            label17.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            label17.ForeColor = Color.White;
+            label17.Location = new Point(21, 306);
+            label17.Name = "label17";
+            label17.Size = new Size(239, 26);
+            label17.TabIndex = 21;
+            label17.Text = "APOYO Y ACCESORIOS";
             // 
             // label9
             // 
@@ -325,70 +386,6 @@
             label11.TabIndex = 21;
             label11.Text = "DETALLES DE LA FALLA";
             // 
-            // panel3
-            // 
-            panel3.BackColor = Color.FromArgb(3, 42, 76);
-            panel3.Controls.Add(pbImagen);
-            panel3.Location = new Point(546, 141);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(362, 266);
-            panel3.TabIndex = 26;
-            // 
-            // pbImagen
-            // 
-            pbImagen.BackColor = Color.White;
-            pbImagen.Location = new Point(31, 16);
-            pbImagen.Name = "pbImagen";
-            pbImagen.Size = new Size(300, 225);
-            pbImagen.SizeMode = PictureBoxSizeMode.Zoom;
-            pbImagen.TabIndex = 5;
-            pbImagen.TabStop = false;
-            // 
-            // panel5
-            // 
-            panel5.BackColor = Color.FromArgb(3, 42, 76);
-            panel5.Controls.Add(label12);
-            panel5.Controls.Add(txbUsuario);
-            panel5.Controls.Add(label13);
-            panel5.Controls.Add(btnEnviarReq);
-            panel5.Controls.Add(txbPassword);
-            panel5.Location = new Point(938, 157);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(356, 223);
-            panel5.TabIndex = 27;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.BackColor = Color.Transparent;
-            label12.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label12.ForeColor = Color.White;
-            label12.Location = new Point(139, 20);
-            label12.Name = "label12";
-            label12.Size = new Size(78, 22);
-            label12.TabIndex = 3;
-            label12.Text = "Usuario:";
-            // 
-            // txbUsuario
-            // 
-            txbUsuario.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbUsuario.Location = new Point(28, 46);
-            txbUsuario.Name = "txbUsuario";
-            txbUsuario.Size = new Size(310, 27);
-            txbUsuario.TabIndex = 4;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.BackColor = Color.Transparent;
-            label13.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label13.ForeColor = Color.White;
-            label13.Location = new Point(123, 90);
-            label13.Name = "label13";
-            label13.Size = new Size(109, 22);
-            label13.TabIndex = 5;
-            label13.Text = "Contraseña:";
-            // 
             // btnEnviarReq
             // 
             btnEnviarReq.BackColor = Color.FromArgb(255, 102, 0);
@@ -397,99 +394,35 @@
             btnEnviarReq.FlatStyle = FlatStyle.Flat;
             btnEnviarReq.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             btnEnviarReq.ForeColor = Color.White;
-            btnEnviarReq.Location = new Point(85, 164);
+            btnEnviarReq.Location = new Point(724, 719);
             btnEnviarReq.Name = "btnEnviarReq";
-            btnEnviarReq.Size = new Size(204, 38);
+            btnEnviarReq.Size = new Size(397, 38);
             btnEnviarReq.TabIndex = 13;
             btnEnviarReq.Text = "Enviar Requerimiento";
             btnEnviarReq.UseVisualStyleBackColor = false;
             btnEnviarReq.Click += btnEnviarReq_Click;
             // 
-            // txbPassword
+            // lblFolioOriginal
             // 
-            txbPassword.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbPassword.Location = new Point(28, 115);
-            txbPassword.Name = "txbPassword";
-            txbPassword.Size = new Size(310, 27);
-            txbPassword.TabIndex = 6;
-            txbPassword.UseSystemPasswordChar = true;
-            // 
-            // panel4
-            // 
-            panel4.BackColor = Color.FromArgb(3, 42, 76);
-            panel4.Controls.Add(txbRefacciones);
-            panel4.Controls.Add(txbRecSug);
-            panel4.Controls.Add(label15);
-            panel4.Controls.Add(label16);
-            panel4.Controls.Add(label17);
-            panel4.Location = new Point(546, 436);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(748, 312);
-            panel4.TabIndex = 28;
-            // 
-            // txbRefacciones
-            // 
-            txbRefacciones.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            txbRefacciones.Location = new Point(28, 199);
-            txbRefacciones.Multiline = true;
-            txbRefacciones.Name = "txbRefacciones";
-            txbRefacciones.Size = new Size(694, 68);
-            txbRefacciones.TabIndex = 30;
-            // 
-            // txbRecSug
-            // 
-            txbRecSug.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            txbRecSug.Location = new Point(28, 90);
-            txbRecSug.Multiline = true;
-            txbRecSug.Name = "txbRecSug";
-            txbRecSug.Size = new Size(694, 68);
-            txbRecSug.TabIndex = 29;
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.BackColor = Color.Transparent;
-            label15.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label15.ForeColor = Color.White;
-            label15.Location = new Point(28, 174);
-            label15.Name = "label15";
-            label15.Size = new Size(195, 22);
-            label15.TabIndex = 23;
-            label15.Text = "Refacciones a Utilizar:";
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.BackColor = Color.Transparent;
-            label16.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label16.ForeColor = Color.White;
-            label16.Location = new Point(28, 65);
-            label16.Name = "label16";
-            label16.Size = new Size(285, 22);
-            label16.TabIndex = 22;
-            label16.Text = "Recomendaciones / Sugerencias:";
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.BackColor = Color.Transparent;
-            label17.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
-            label17.ForeColor = Color.White;
-            label17.Location = new Point(28, 23);
-            label17.Name = "label17";
-            label17.Size = new Size(239, 26);
-            label17.TabIndex = 21;
-            label17.Text = "APOYO Y ACCESORIOS";
+            lblFolioOriginal.AutoSize = true;
+            lblFolioOriginal.BackColor = Color.Transparent;
+            lblFolioOriginal.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
+            lblFolioOriginal.ForeColor = Color.White;
+            lblFolioOriginal.Location = new Point(1095, 26);
+            lblFolioOriginal.Name = "lblFolioOriginal";
+            lblFolioOriginal.Size = new Size(101, 30);
+            lblFolioOriginal.TabIndex = 26;
+            lblFolioOriginal.Text = "240000";
+            lblFolioOriginal.Visible = false;
             // 
             // Mtto_Solicitud
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
-            ClientSize = new Size(1322, 792);
-            Controls.Add(panel4);
-            Controls.Add(panel5);
-            Controls.Add(panel3);
+            ClientSize = new Size(1338, 831);
+            Controls.Add(lblFolioOriginal);
+            Controls.Add(btnEnviarReq);
             Controls.Add(panel1);
             Controls.Add(lblfecha);
             Controls.Add(label5);
@@ -503,14 +436,9 @@
             Load += Mtto_Solicitud_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbImagen).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pbImagen).EndInit();
-            panel5.ResumeLayout(false);
-            panel5.PerformLayout();
-            panel4.ResumeLayout(false);
-            panel4.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -539,19 +467,13 @@
         private Label label11;
         private TextBox txbDescripcion;
         private Label label7;
-        private Panel panel3;
         private PictureBox pbImagen;
-        private Panel panel5;
-        private Label label12;
-        private TextBox txbUsuario;
-        private Label label13;
-        private TextBox txbPassword;
         private Button btnEnviarReq;
-        private Panel panel4;
         private TextBox txbRecSug;
         private Label label15;
         private Label label16;
         private Label label17;
         private TextBox txbRefacciones;
+        private Label lblFolioOriginal;
     }
 }

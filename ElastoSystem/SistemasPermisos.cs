@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using Isopoh.Cryptography.Argon2;
+using System.Xml.Linq;
 
 namespace ElastoSystem
 {
@@ -100,7 +101,7 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Almacen, Nuevo_Producto, Editar_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Compras, ComprasReq, Indicador_Compras, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Consumibles_Almacen, Consumibles_Almacen, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado FROM elastosystem_permisos_menu WHERE ID = @id";
+                string query = "SELECT Almacen, Nuevo_Producto, Editar_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Compras, ComprasReq, Indicador_Compras, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Consumibles_Almacen, Consumibles_Almacen, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @id";
 
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@id", id);
@@ -294,6 +295,36 @@ namespace ElastoSystem
 
                     }
 
+                    string mantenimientoValue = reader["Mantenimiento"].ToString();
+                    if (mantenimientoValue == "True")
+                    {
+                        chbMantenimiento.Checked = true;
+
+                        string solicitudmttoValue = reader["SolicitudMtto"].ToString();
+                        if (solicitudmttoValue == "True")
+                        {
+                            chbSolicitudMtto.Checked = true;
+                        }
+
+                        string pendientesmttoValue = reader["PendientesMtto"].ToString();
+                        if (pendientesmttoValue == "True")
+                        {
+                            chbPendientesMtto.Checked = true;
+                        }
+
+                        string historicomttoValue = reader["HistoricoMtto"].ToString();
+                        if (historicomttoValue == "True")
+                        {
+                            chbHistorialMtto.Checked = true;
+                        }
+
+                        string inventariomaquinasValue = reader["InventarioMaquinas"].ToString();
+                        if (inventariomaquinasValue == "True")
+                        {
+                            chbInventarioMaquinas.Checked = true;
+                        }
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -340,6 +371,11 @@ namespace ElastoSystem
             chbSolicitudMaquinado.Checked = false;
             chbPendientesMaquinado.Checked = false;
             chbHistorialMaquinado.Checked = false;
+            chbMantenimiento.Checked = false;
+            chbSolicitudMtto.Checked = false;
+            chbPendientesMtto.Checked = false;
+            chbHistorialMtto.Checked = false;
+            chbInventarioMaquinas.Checked = false;
         }
 
         private void ActualizarPermisos()
@@ -382,13 +418,19 @@ namespace ElastoSystem
             bool boolPendientes_Maquinado = chbPendientesMaquinado.Checked;
             bool boolHistorial_Maquinado = chbHistorialMaquinado.Checked;
 
+            bool boolMantenimiento = chbMantenimiento.Checked;
+            bool boolSolicitudMtto = chbSolicitudMtto.Checked;
+            bool boolPendientesMtto = chbPendientesMtto.Checked;
+            bool boolHistorialMtto = chbHistorialMtto.Checked;
+            bool boolInventarioMaquinas = chbInventarioMaquinas.Checked;
+
             MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Almacen = " + boolAlmacen + ", Nuevo_Producto = " + boolNuevoProducto + ", Editar_Producto = " + boolEditarProducto + ", Registrar_Existencias = " + boolRegistrarExistencias + ", Control_Almacen = " + boolControlAlmacen + ", Consulta_Salidas = " + boolConsultaSalidas + ", Compras = " + boolCompras + ", ComprasReq = " + boolRequerimientosCompras + ", Indicador_Compras = " + boolIndicadorCompras + ", ComprasAdmiReq = " + boolAdministrarReq + ", ComprasAdmiPro = " + boolAdmiProvee + ", ComprasReqEnviadas = " + boolReqEnviadas + ", Consumibles_Almacen = " + boolConsumiblesAlmacen + ", Compras_ConsultarOCs = " + boolConsultarOCs + ", Recursos_Humanos = " + boolRecursosHumanos + ", Registro_Trabajador = " + boolRegistroTrabajador + ", Generar_Credencial = " + boolGenerarCredencial + ", Sistemas = " + boolSistemas + ", Requisicion = " + boolRequisicion + ", Permisos = " + boolPermisos + ", Ventas = " + boolVentas + ", BuscarCotizacion = " + boolBuscarCotizacion + ", Clientes = " + boolClientes + ", CatalogoProductos = " + boolCatalogoProductos + ", NuevaCotizacion = " + boolNuevaCotizacion + ", Produccion = " + boolProduccion + ", Reporte = " + boolReporte + ", Maquinado = " + boolMaquinado + ", Solicitud_Maquinado = " + boolSolicitud_Maquinado + ", Pendientes_Maquinado = " + boolPendientes_Maquinado + ", Historial_Maquinado = " + boolHistorial_Maquinado + "   WHERE ID = '" + lblNumeroTemp.Text + "'";
+                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Almacen = " + boolAlmacen + ", Nuevo_Producto = " + boolNuevoProducto + ", Editar_Producto = " + boolEditarProducto + ", Registrar_Existencias = " + boolRegistrarExistencias + ", Control_Almacen = " + boolControlAlmacen + ", Consulta_Salidas = " + boolConsultaSalidas + ", Compras = " + boolCompras + ", ComprasReq = " + boolRequerimientosCompras + ", Indicador_Compras = " + boolIndicadorCompras + ", ComprasAdmiReq = " + boolAdministrarReq + ", ComprasAdmiPro = " + boolAdmiProvee + ", ComprasReqEnviadas = " + boolReqEnviadas + ", Consumibles_Almacen = " + boolConsumiblesAlmacen + ", Compras_ConsultarOCs = " + boolConsultarOCs + ", Recursos_Humanos = " + boolRecursosHumanos + ", Registro_Trabajador = " + boolRegistroTrabajador + ", Generar_Credencial = " + boolGenerarCredencial + ", Sistemas = " + boolSistemas + ", Requisicion = " + boolRequisicion + ", Permisos = " + boolPermisos + ", Ventas = " + boolVentas + ", BuscarCotizacion = " + boolBuscarCotizacion + ", Clientes = " + boolClientes + ", CatalogoProductos = " + boolCatalogoProductos + ", NuevaCotizacion = " + boolNuevaCotizacion + ", Produccion = " + boolProduccion + ", Reporte = " + boolReporte + ", Maquinado = " + boolMaquinado + ", Solicitud_Maquinado = " + boolSolicitud_Maquinado + ", Pendientes_Maquinado = " + boolPendientes_Maquinado + ", Historial_Maquinado = " + boolHistorial_Maquinado + ", Mantenimiento = " + boolMantenimiento + ", SolicitudMtto = " + boolSolicitudMtto + ", PendientesMtto = " + boolPendientesMtto + ", HistoricoMtto = " + boolHistorialMtto + ", InventarioMaquinas = " + boolInventarioMaquinas + "   WHERE ID = '" + lblNumeroTemp.Text + "'";
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("DATOS ACTUALIZADOS CON EXITO");
                 LimpiarCheckBox();
@@ -463,7 +505,42 @@ namespace ElastoSystem
         private void SistemasPermisos_Load(object sender, EventArgs e)
         {
             MandarALlamarUsuarios();
+            MandarALlamarUsuariosEspeciales();
             MandarALlamarInfoUsuarios();
+        }
+
+        private void MandarALlamarUsuariosEspeciales()
+        {
+            cbUsuariosEspeciales.Items.Clear();
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlDataReader reader = null;
+            string sql = "SELECT Usuario FROM elastosystem_login";
+            try
+            {
+                HashSet<string> list = new HashSet<string>();
+                MySqlCommand comando = new MySqlCommand(sql, conn);
+                reader = comando.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        cbUsuariosEspeciales.Items.Add(reader["Usuario"].ToString());
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL MANDAR A LLAMAR USUARIOS AL COMBOBOX DE PERMISOS ESPECIALES" + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private void cbUsuarios_SelectedIndexChanged(object sender, EventArgs e)
@@ -1010,6 +1087,172 @@ namespace ElastoSystem
             {
                 chbCompras.Checked = true;
             }
+        }
+
+        private void chbMantenimiento_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chbMantenimiento.Checked == false)
+            {
+                chbSolicitudMtto.Checked = false;
+                chbPendientesMtto.Checked = false;
+                chbHistorialMtto.Checked = false;
+                chbInventarioMaquinas.Checked = false;
+            }
+        }
+
+        private void chbSolicitudMtto_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chbSolicitudMtto.Checked == true)
+            {
+                chbMantenimiento.Checked = true;
+            }
+        }
+
+        private void chbPendientesMtto_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chbPendientesMtto.Checked == true)
+            {
+                chbMantenimiento.Checked = true;
+            }
+        }
+
+        private void chbHistorialMtto_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chbHistorialMtto.Checked == true)
+            {
+                chbMantenimiento.Checked = true;
+            }
+        }
+
+        private void chbInventarioMaquinas_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chbInventarioMaquinas.Checked == true)
+            {
+                chbMantenimiento.Checked = true;
+            }
+        }
+
+        private void cbUsuariosEspeciales_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LimpiarCHBEscpeciales();
+            MandarALlamarNoEspecial();
+        }
+
+        private void LimpiarCHBEscpeciales()
+        {
+            chbComprasAlmacenar.Checked = false;
+        }
+
+        private void MandarALlamarNoEspecial()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            string usuario = cbUsuariosEspeciales.Text;
+            MySqlDataReader reader = null;
+            string sql = "SELECT ID FROM elastosystem_login WHERE Usuario = '" + usuario + "'";
+            try
+            {
+                HashSet<string> unicos = new HashSet<string>();
+                MySqlCommand comando = new MySqlCommand(sql, conn);
+                reader = comando.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        lblNumeroEspecial.Text = reader.GetString(0);
+                    }
+
+                    MandarALlamarPermisosEspeciales();
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL OBTENER EL NUMERO DE USUARIO" + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void MandarALlamarPermisosEspeciales()
+        {
+            string id = lblNumeroEspecial.Text;
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            try
+            {
+                string query = "SELECT Compras_AlmacenarREQ FROM elastosystem_permisos_menu WHERE ID = @ID";
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@ID", id);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    string almacenarREQValue = reader["Compras_AlmacenarREQ"].ToString();
+                    if (almacenarREQValue == "True")
+                    {
+                        chbComprasAlmacenar.Checked = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL LLAMAR PERMISOS " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void btnActualizarPermisosEspeciales_Click(object sender, EventArgs e)
+        {
+            ActualizarPermisosEspeciales();
+        }
+
+        private void ActualizarPermisosEspeciales()
+        {
+            bool boolAlmacenarReq = chbComprasAlmacenar.Checked;
+
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Compras_AlmacenarREQ = " + boolAlmacenarReq + " WHERE ID = '" + lblNumeroEspecial.Text + "'";
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Permisos Especiales Actualizados");
+                LimpiarCHBEscpeciales();
+                cbUsuariosEspeciales.Text = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL ACTUALIZAR PERMISOS ESPECIALES " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbUsuarios.SelectedIndex = -1;
+            cbUsuariosEspeciales.SelectedIndex = -1;
+            LimpiarCheckBox();
+            LimpiarCHBEscpeciales();
+        }
+
+        private void cbUsuariosEspeciales_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
         }
     }
 }

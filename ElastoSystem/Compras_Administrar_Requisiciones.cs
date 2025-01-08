@@ -265,6 +265,7 @@ namespace ElastoSystem
             txbProovedorRecomendado.Clear();
             txbTipoUso.Clear();
             txbNotas.Clear();
+            btnCompraAutorizada.Visible = false;
         }
 
         private void PartidasPBVisibles()
@@ -437,6 +438,7 @@ namespace ElastoSystem
             txbNotas.Clear();
             btnAlmacenar.Visible = false;
             chbCompraOnline.Checked = false;
+            btnCompraAutorizada.Visible = false;
 
             cbProveedores.SelectedIndex = -1;
             txbAtencion.Clear();
@@ -534,6 +536,75 @@ namespace ElastoSystem
                 chbCompraOnline.Checked = compraonl;
 
                 btnAlmacenar.Visible = compraonl;
+            }
+
+            RevisarBotonAlmacenar();
+        }
+
+        private void RevisarBotonAlmacenar()
+        {
+            btnCompraAutorizada.Visible = false;
+            MandarALlamarNoUsuario();
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            try
+            {
+                string query = "SELECT Compras_AlmacenarREQ FROM elastosystem_permisos_menu WHERE ID = @ID";
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@ID", lblNo.Text);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    string almacenarValue = reader["Compras_AlmacenarREQ"].ToString();
+                    if (almacenarValue == "True")
+                    {
+                        btnCompraAutorizada.Visible = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERRO AL REVISAR BOTON PARA ALMACENAR " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void MandarALlamarNoUsuario()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            string usuario = VariablesGlobales.Usuario;
+            MySqlDataReader reader = null;
+            string sql = "SELECT ID FROM elastosystem_login WHERE Usuario = '" + usuario + "'";
+            try
+            {
+                HashSet<string> unicos = new HashSet<string>();
+                MySqlCommand comando = new MySqlCommand(sql, conn);
+                reader = comando.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        lblNo.Text = reader.GetString(0);
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL OBTENER NUMERO DEL USUARIO" + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
             }
         }
 
@@ -666,6 +737,7 @@ namespace ElastoSystem
                 dgvPartidas.DataSource = null;
                 dgvPartidas.Rows.Clear();
                 CargarRequisiciones();
+                btnCompraAutorizada.Visible = false;
             }
             catch (Exception ex)
             {
@@ -732,45 +804,64 @@ namespace ElastoSystem
 
         private void button6_Click(object sender, EventArgs e)
         {
-            if (decimal.TryParse(txbTotal.Text, out decimal numero))
+            if (cbMoneda.SelectedIndex >= 0 && cbConfirmacionPedido.SelectedIndex >= 0 && cbCondicionPago.Text.Length >= 0 && txbTiempoEntrega.Text.Length > 0 && txbLugarEntrega.Text.Length > 0 && cbFormaPago.SelectedIndex >= 0 && cbRequisicion.SelectedIndex >= 0 && txbCotizacion.Text.Length > 0 && cbProveedores.Text.Length >= 0 && txbAtencion.Text.Length > 0 && txbTelefono.Text.Length > 0 && txbCorreo.Text.Length > 0)
             {
-                if (cbMoneda.Text == "DOLARES")
-                {
-                    string numeroEnLetras = VariablesGlobales.ConvertidorNumerosALetrasUSD.ConvertirNumeroALetras(numero);
-                    txbTotalLetra.Text = numeroEnLetras;
-                }
-                else if (cbMoneda.Text == "EUROS")
-                {
-                    string numeroEnLetras = VariablesGlobales.ConvertidorNumerosALetrasEuro.ConvertirNumeroALetras(numero);
-                    txbTotalLetra.Text = numeroEnLetras;
-                }
-                else
-                {
-                    string numeroEnLetras = VariablesGlobales.ConvertidorNumerosALetrasPESOS.ConvertirNumeroALetras(numero);
-                    txbTotalLetra.Text = numeroEnLetras;
-                }
-            }
+                lblCampos2.Visible = false;
+                pbCampos2.Visible = false;
+                pbMoneda.Visible = false;
+                pbConfirmacion.Visible = false;
+                pbCondicion.Visible = false;
+                pbTiempo.Visible = false;
+                pbLugar.Visible = false;
+                pbForma.Visible = false;
+                pbCalidad.Visible = false;
+                pbRequi.Visible = false;
+                pbCotizacion.Visible = false;
 
-            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand();
-            try
-            {
-                cmd.Connection = conn;
-                cmd.CommandText = "SELECT COUNT(*) FROM elastosystem_compras_oc WHERE Folio = @Folio";
-                cmd.Parameters.AddWithValue("@Folio", lblFolio.Text);
+                pbCampos.Visible = false;
+                lblCampos.Visible = false;
+                pbProveedor.Visible = false;
+                pbContacto.Visible = false;
+                pbTelefono.Visible = false;
+                pbCorreo.Visible = false;
+                pbTabla.Visible = false;
 
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                if (count > 0)
+                if (decimal.TryParse(txbTotal.Text, out decimal numero))
                 {
-                    Folio();
-                    btnGenerarOC.PerformClick();
-                }
-                else
-                {
-                    if (cbMoneda.SelectedIndex >= 0 && cbConfirmacionPedido.SelectedIndex >= 0 && cbCondicionPago.Text.Length >= 0 && txbTiempoEntrega.Text.Length > 0 && txbLugarEntrega.Text.Length > 0 && cbFormaPago.SelectedIndex >= 0 && cbRequisicion.SelectedIndex >= 0 && txbCotizacion.Text.Length > 0)
+                    if (cbMoneda.Text == "DOLARES")
                     {
-                        lblCampos2.Visible = false; pbCampos2.Visible = false; pbMoneda.Visible = false; pbConfirmacion.Visible = false; pbCondicion.Visible = false; pbTiempo.Visible = false; pbLugar.Visible = false; pbForma.Visible = false; pbCalidad.Visible = false; pbRequi.Visible = false; pbCotizacion.Visible = false;
+                        string numeroEnLetras = VariablesGlobales.ConvertidorNumerosALetrasUSD.ConvertirNumeroALetras(numero);
+                        txbTotalLetra.Text = numeroEnLetras;
+                    }
+                    else if (cbMoneda.Text == "EUROS")
+                    {
+                        string numeroEnLetras = VariablesGlobales.ConvertidorNumerosALetrasEuro.ConvertirNumeroALetras(numero);
+                        txbTotalLetra.Text = numeroEnLetras;
+                    }
+                    else
+                    {
+                        string numeroEnLetras = VariablesGlobales.ConvertidorNumerosALetrasPESOS.ConvertirNumeroALetras(numero);
+                        txbTotalLetra.Text = numeroEnLetras;
+                    }
+                }
+
+                MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand();
+                try
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "SELECT COUNT(*) FROM elastosystem_compras_oc WHERE Folio = @Folio";
+                    cmd.Parameters.AddWithValue("@Folio", lblFolio.Text);
+
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    if (count > 0)
+                    {
+                        Folio();
+                        btnGenerarOC.PerformClick();
+                    }
+                    else
+                    {
                         string certificadodecalidad = " ";
                         if (chbCerSi.Checked)
                         {
@@ -1710,34 +1801,44 @@ namespace ElastoSystem
 
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("DEBES DE LLENAR LOS CAMPOS OBLIGATORIOS");
-                        pbCampos2.Visible = true;
-                        lblCampos2.Visible = true;
-                        pbMoneda.Visible = true;
-                        pbConfirmacion.Visible = true;
-                        pbCondicion.Visible = true;
-                        pbTiempo.Visible = true;
-                        pbLugar.Visible = true;
-                        pbForma.Visible = true;
-                        pbCotizacion.Visible = true;
-                        pbRequi.Visible = true;
-                        pbCalidad.Visible = true;
-                    }
-
                 }
-
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al buscar Folios: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Error al buscar Folios: " + ex.Message);
+                MessageBox.Show("DEBES DE LLENAR LOS CAMPOS OBLIGATORIOS");
+                if (string.IsNullOrEmpty(txbAtencion.Text) || string.IsNullOrEmpty(txbTelefono.Text) || string.IsNullOrEmpty(txbCorreo.Text) || string.IsNullOrEmpty(cbProveedores.Text))
+                {
+                    tabControl1.SelectedIndex = 1;
+                    pbProveedor.Visible = true;
+                    pbContacto.Visible = true;
+                    pbTelefono.Visible = true;
+                    pbCorreo.Visible = true;
+                    pbCampos.Visible = true;
+                    lblCampos.Visible = true;
+                }
+                else
+                {
+                    pbCampos2.Visible = true;
+                    lblCampos2.Visible = true;
+                    pbMoneda.Visible = true;
+                    pbConfirmacion.Visible = true;
+                    pbCondicion.Visible = true;
+                    pbTiempo.Visible = true;
+                    pbLugar.Visible = true;
+                    pbForma.Visible = true;
+                    pbCotizacion.Visible = true;
+                    pbRequi.Visible = true;
+                    pbCalidad.Visible = true;
+                }
             }
-            finally
-            {
-                conn.Close();
-            }
-
         }
 
         private void txbTotal_TextChanged(object sender, EventArgs e)
@@ -1968,6 +2069,139 @@ namespace ElastoSystem
         private void btnAlmacenar_Click(object sender, EventArgs e)
         {
             AlmacenarProducto();
+        }
+
+        private void btnCompraAutorizada_Click(object sender, EventArgs e)
+        {
+            pnlComprobante.Visible = true;
+        }
+
+        private void CompraFinalizadaAutorizada()
+        {
+            try
+            {
+                string estatus = "CERRADA";
+                string ruta_archivo = lblRutaArchivo.Text.Replace("\\", "\\\\");
+                string oc = "COMPRA AUTORIZADA POR: " + VariablesGlobales.Usuario;
+                string fecha = DateTime.Now.ToString("yyyy/MM/dd");
+                MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                conn.Open();
+                MySqlCommand comando = new MySqlCommand();
+                comando.Connection = conn;
+                comando.CommandText = "UPDATE elastosystem_compras_requisicion_desglosada SET FechaFinal = @FECHAFINAL, Estatus = @ESTATUS, OC = @OC, Ruta_Comprobante = @RUTACOMPROBANTE, Comprobante = @COMPROBANTE, Autorizo = @AUTORIZO, Motivo = @MOTIVO WHERE ID_Producto = @ID";
+                comando.Parameters.AddWithValue("@FECHAFINAL", fecha);
+                comando.Parameters.AddWithValue("@ESTATUS", estatus);
+                comando.Parameters.AddWithValue("@OC", oc);
+                comando.Parameters.AddWithValue("@ID", lblIDProducto.Text);
+                comando.Parameters.AddWithValue("@RUTACOMPROBANTE", ruta_archivo);
+                comando.Parameters.AddWithValue("COMPROBANTE", archivoBytes);
+                comando.Parameters.AddWithValue("@AUTORIZO", VariablesGlobales.Usuario);
+                comando.Parameters.AddWithValue("@MOTIVO", txbMotivo.Text);
+                comando.ExecuteNonQuery();
+                MessageBox.Show("PRODUCTO FINALIZADO CORRECTAMENTE");
+                conn.Close();
+                btnCerrar.PerformClick();
+                btnAlmacenar.Visible = false;
+                chbCompraOnline.Checked = false;
+                txbCantidad.Clear();
+                txbUnidad.Clear();
+                txbPrecio.Clear();
+                txbDescripcion.Clear();
+                txbProovedorRecomendado.Clear();
+                txbTipoUso.Clear();
+                txbNotas.Clear();
+                lblIDProducto.Text = string.Empty;
+                dgvPartidas.DataSource = null;
+                dgvPartidas.Rows.Clear();
+                CargarRequisiciones();
+                btnCompraAutorizada.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL ALMACENAR PRODUCTO: " + ex.Message);
+            }
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            pnlComprobante.Visible = false;
+            LimpiarPanelComprobante();
+        }
+
+        private void LimpiarPanelComprobante()
+        {
+            pbComprobante.Image = null;
+            txbNombreArchivo.Clear();
+            lblRutaArchivo.Text = string.Empty;
+        }
+
+        private void btnCargarDoc_Click(object sender, EventArgs e)
+        {
+            CargarDocumento();
+        }
+
+        private byte[] archivoBytes;
+        private void CargarDocumento()
+        {
+            OpenFileDialog file = new OpenFileDialog();
+
+            file.Filter = "Todos los archivos (*.*)|*.*";
+            file.Title = "Seleccionar Archivo";
+
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = file.FileName;
+
+                string fileName = System.IO.Path.GetFileName(filePath);
+
+                txbNombreArchivo.Text = fileName;
+                lblRutaArchivo.Text = filePath;
+                pbComprobante.Image = null;
+
+                try
+                {
+                    archivoBytes = File.ReadAllBytes(filePath);
+
+                    if (EsImagen(filePath))
+                    {
+                        pbComprobante.Image = System.Drawing.Image.FromFile(filePath);
+                    }
+                    else
+                    {
+                        pbComprobante.Image = null;
+                        MessageBox.Show("ARCHIVO CARGADO CORRECTAMENTE");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR EL ARCHIVO: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("NO SE SELECCIONO NINGUN ARCHIVO");
+            }
+        }
+
+        private bool EsImagen(string filePath)
+        {
+            string extension = System.IO.Path.GetExtension(filePath).ToLower();
+
+            string[] extensionesImagen = { ".png", ".jpg", ".jpeg", ".gif", ".bmp" };
+
+            return extensionesImagen.Contains(extension);
+        }
+
+        private void btnFinalizarReq_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txbNombreArchivo.Text) || string.IsNullOrEmpty(txbMotivo.Text))
+            {
+                MessageBox.Show("Necesitas cargar un comprobante para finalizar o agregar motivo");
+            }
+            else
+            {
+                CompraFinalizadaAutorizada();
+            }
         }
     }
 }
