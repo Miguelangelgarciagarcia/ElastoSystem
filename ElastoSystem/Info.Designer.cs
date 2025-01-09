@@ -116,7 +116,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(24, 132);
+            label2.Location = new Point(24, 131);
             label2.Name = "label2";
             label2.Size = new Size(161, 16);
             label2.TabIndex = 3;
@@ -189,7 +189,7 @@
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label8.ForeColor = Color.White;
-            label8.Location = new Point(24, 148);
+            label8.Location = new Point(24, 147);
             label8.Name = "label8";
             label8.Size = new Size(181, 16);
             label8.TabIndex = 9;
