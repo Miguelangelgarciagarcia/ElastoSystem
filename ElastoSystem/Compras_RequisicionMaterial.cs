@@ -27,47 +27,31 @@ namespace ElastoSystem
                 MessageBox.Show("DEBES DE LLENAR LOS CAMPOS OBLIGATORIOS");
                 return;
             }
-            else
-            {
-                if (string.IsNullOrEmpty(txbPrecio.Text))
-                {
-                    string preciosnt = "0";
-                    string descripcionsnt = txbDescripcion.Text;
-                    string cantidadsnt = txbCantidad.Text;
-                    string unidadsnt = cbUnidad.Text;
-                    string proveedorsnt = cbProveedor.Text;
-                    string tipouso = cbTipoUso.Text;
-                    string comentarios = txbNotas.Text;
-                    bool chbOnline = chbCompraOnline.Checked;
-                    dgvListaMateriales.Rows.Add(descripcionsnt, cantidadsnt, unidadsnt, preciosnt, proveedorsnt, tipouso, comentarios, chbOnline);
 
-                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear(); chbCompraOnline.Checked = false;
-                    dgvListaMateriales.Enabled = true;
-                }
-                else
-                {
-                    string precio;
-                    if(txbPrecio.Text == ".")
-                    {
-                        txbPrecio.Text = "0";
-                    }
+            string descripcion = txbDescripcion.Text;
+            string cantidad = txbCantidad.Text;
+            string unidad = cbUnidad.Text;
+            string precio = string.IsNullOrEmpty(txbPrecio.Text) || txbPrecio.Text == "." ? "0" : txbPrecio.Text;
+            string proveedor = cbProveedor.Text;
+            string tipouso = cbTipoUso.Text;
+            string comentarios = txbNotas.Text;
+            bool chbOnline = chbCompraOnline.Checked;
+            string nombreArchivo = txbNombreArchivo.Text;
+            string rutaArchivo = txbRutaArchivo.Text;
 
-                    string descripcion = txbDescripcion.Text;
-                    string cantidad = txbCantidad.Text;
-                    string unidad = cbUnidad.Text;
-                    precio = txbPrecio.Text;
-                    string proveedor = cbProveedor.Text;
-                    string tipouso = cbTipoUso.Text;
-                    string comentarios = txbNotas.Text;
-                    bool chbOnline = chbCompraOnline.Checked;
-                    dgvListaMateriales.Rows.Add(descripcion, cantidad, unidad, precio, proveedor, tipouso, comentarios, chbOnline);
+            dgvListaMateriales.Rows.Add(descripcion, cantidad, unidad, precio, proveedor, tipouso, comentarios, chbOnline, archivoByte, nombreArchivo, rutaArchivo);
 
-                    txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear(); chbCompraOnline.Checked = false;
-                    dgvListaMateriales.Enabled = true;
-                }
-
-            }
-
+            txbDescripcion.Clear();
+            txbCantidad.Clear();
+            cbUnidad.Text = null;
+            txbPrecio.Clear();
+            cbProveedor.Text = null;
+            cbTipoUso.Text = null;
+            txbNotas.Clear();
+            chbCompraOnline.Checked = false;
+            txbNombreArchivo.Clear();
+            txbRutaArchivo.Clear();
+            archivoByte = null;
         }
         private void Tabs()
         {
@@ -85,18 +69,27 @@ namespace ElastoSystem
             {
                 dgvListaMateriales.Rows.Remove(row);
             }
-            txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear();
-            btnEliminar.Enabled = false;
-            btnModificar.Enabled = false;
+            txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear(); txbNombreArchivo.Clear(); txbRutaArchivo.Clear(); archivoByte = null;
+            btnEliminar.Visible = false;
+            btnModificar.Visible = false;
             btnAgregar.Visible = true;
             btnNuevo.Visible = false;
             txbDescripcion.Focus();
         }
         private void Nuevo()
         {
-            txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear();
-            btnEliminar.Enabled = false;
-            btnModificar.Enabled = false;
+            txbDescripcion.Clear(); 
+            txbCantidad.Clear(); 
+            cbUnidad.Text = null; 
+            txbPrecio.Clear(); 
+            cbProveedor.Text = null; 
+            cbTipoUso.Text = null; 
+            txbNotas.Clear();
+            txbNombreArchivo.Clear();
+            txbRutaArchivo.Clear();
+            archivoByte = null;
+            btnEliminar.Visible = false;
+            btnModificar.Visible = false;
             btnAgregar.Visible = true;
             btnNuevo.Visible = false;
             txbDescripcion.Focus();
@@ -108,6 +101,7 @@ namespace ElastoSystem
                 dgvListaMateriales.Rows.Remove(row);
             }
             AgregarADgv();
+            btnNuevo.PerformClick();
         }
         private void MaNdarALlamarProveedores()
         {
@@ -250,34 +244,45 @@ namespace ElastoSystem
                 string estatus = "ABIERTA";
                 bool online = Convert.ToBoolean(dgvListaMateriales.Rows[i].Cells["Onlinea"].Value);
                 int valorOnline = online ? 1 : 0;
+                object cotizacion1 = dgvListaMateriales.Rows[i].Cells["Cotizacion"].Value;
+                byte[] archivo = cotizacion1 != null ? (byte[])cotizacion1 : null;
+                object rutaCotizacionObj = dgvListaMateriales.Rows[i].Cells["Ruta"].Value;
+                string rutaCotizacion = rutaCotizacionObj != null ? rutaCotizacionObj.ToString() : string.Empty;
 
-                MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand();
-                try
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                 {
-                    cmd.Connection = conn;
-                    cmd.CommandText = "INSERT INTO elastosystem_compras_requisicion_desglosada (ID, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Estatus, Compra_Online, FechaInicio) VALUES (@ID, @DESCRIPCION, @CANTIDAD, @UNIDAD, @PRECIO, @PROVEEDOR, @TIPOUSO, @COMENTARIOS, @ESTATUS, @ONLINE, @FECHAINICIO);";
-                    cmd.Parameters.AddWithValue("@ID", lblFolio.Text);
-                    cmd.Parameters.AddWithValue("@DESCRIPCION", descripcion);
-                    cmd.Parameters.AddWithValue("@CANTIDAD", cantidad);
-                    cmd.Parameters.AddWithValue("@UNIDAD", unidad);
-                    cmd.Parameters.AddWithValue("@PRECIO", precio);
-                    cmd.Parameters.AddWithValue("@PROVEEDOR", proveedor);
-                    cmd.Parameters.AddWithValue("@TIPOUSO", tipouso);
-                    cmd.Parameters.AddWithValue("@COMENTARIOS", comentarios);
-                    cmd.Parameters.AddWithValue("@ESTATUS", estatus);
-                    cmd.Parameters.AddWithValue("@ONLINE", valorOnline);
-                    cmd.Parameters.AddWithValue("@FECHAINICIO", fechainicio);
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    conn.Close();
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = @"INSERT INTO elastosystem_compras_requisicion_desglosada
+                            (ID, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Estatus, Compra_Online, FechaInicio, Cotizacion1, Ruta_Cotizacion1)
+                            VALUES (@ID, @DESCRIPCION, @CANTIDAD, @UNIDAD, @PRECIO, @PROVEEDOR, @TIPOUSO, @COMENTARIOS, @ESTATUS, @ONLINE, @FECHAINICIO, @COTIZACION1, @RUTACOTIZACION1);";
+
+                        cmd.Parameters.AddWithValue("@ID", lblFolio.Text);
+                        cmd.Parameters.AddWithValue("@DESCRIPCION", descripcion);
+                        cmd.Parameters.AddWithValue("@CANTIDAD", cantidad);
+                        cmd.Parameters.AddWithValue("@UNIDAD", unidad);
+                        cmd.Parameters.AddWithValue("@PRECIO", precio);
+                        cmd.Parameters.AddWithValue("@PROVEEDOR", proveedor);
+                        cmd.Parameters.AddWithValue("@TIPOUSO", tipouso);
+                        cmd.Parameters.AddWithValue("@COMENTARIOS", comentarios);
+                        cmd.Parameters.AddWithValue("@ESTATUS", estatus);
+                        cmd.Parameters.AddWithValue("@ONLINE", valorOnline);
+                        cmd.Parameters.AddWithValue("@FECHAINICIO", fechainicio);
+
+                        if(archivo != null)
+                            cmd.Parameters.Add("@COTIZACION1", MySqlDbType.LongBlob).Value = archivo;
+                        else
+                            cmd.Parameters.AddWithValue("@COTIZACION1", DBNull.Value);
+
+                        if (!string.IsNullOrEmpty(rutaCotizacion))
+                            cmd.Parameters.AddWithValue("@RUTACOTIZACION1", rutaCotizacion);
+                        else
+                            cmd.Parameters.AddWithValue("@RUTACOTIZACION1", DBNull.Value);
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
         }
@@ -306,8 +311,8 @@ namespace ElastoSystem
 
         private void dgvListaMateriales_DoubleClick(object sender, EventArgs e)
         {
-            btnEliminar.Enabled = true;
-            btnModificar.Enabled = true;
+            btnEliminar.Visible = true;
+            btnModificar.Visible = true;
             btnAgregar.Visible = false;
             btnNuevo.Visible = true;
 
@@ -340,6 +345,15 @@ namespace ElastoSystem
 
                 bool chbOnline = Convert.ToBoolean(dgv.Rows[rowIndex].Cells[7].Value);
                 chbCompraOnline.Checked = chbOnline;
+
+                byte[] archivo = (byte[])dgv.Rows[rowIndex].Cells[8].Value;
+                archivoByte = archivo;
+
+                string nombreArchivo = dgv.Rows[rowIndex].Cells[9].Value.ToString();
+                txbNombreArchivo.Text = nombreArchivo;
+
+                string rutaArchivo = dgv.Rows[rowIndex].Cells[10].Value.ToString();
+                txbRutaArchivo.Text = rutaArchivo;
             }
         }
 
@@ -409,6 +423,44 @@ namespace ElastoSystem
         private void txbPrecio_KeyPress(object sender, KeyPressEventArgs e)
         {
             VariablesGlobales.ValidarSoloNoyPunto(e, txbPrecio);
+        }
+
+        private void button1_Click_3(object sender, EventArgs e)
+        {
+            CargarCotizacion();
+        }
+
+        private byte[] archivoByte;
+        private void CargarCotizacion()
+        {
+            OpenFileDialog file = new OpenFileDialog();
+
+            file.Filter = "Todos los archivos (*.*)|*.*";
+            file.Title = "Seleccionar Archivo";
+
+            if(file.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = file.FileName;
+
+                string fileName = Path.GetFileName(filePath);
+
+                txbNombreArchivo.Text = fileName;
+                txbRutaArchivo.Text = filePath;
+
+                try
+                {
+                    archivoByte = File.ReadAllBytes(filePath);
+                    MessageBox.Show("Archivo cargado correctamente");
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR COTIZACION: "+ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No se selecciono ningun archivo");
+            }
         }
     }
 }

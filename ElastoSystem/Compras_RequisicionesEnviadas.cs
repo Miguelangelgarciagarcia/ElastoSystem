@@ -58,6 +58,8 @@ namespace ElastoSystem
                 dgvPartidas.Columns["Comprobante"].Visible = false;
                 dgvPartidas.Columns["Autorizo"].Visible = false;
                 dgvPartidas.Columns["Motivo"].Visible = false;
+                dgvPartidas.Columns["Cotizacion1"].Visible = false;
+                dgvPartidas.Columns["Ruta_Cotizacion1"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -83,6 +85,8 @@ namespace ElastoSystem
             txbComprobante.Clear();
             lblOCResultado.Visible = false;
             btnDescargarComprobante.Visible = false;
+            btnDescargarCotizacion.Visible = false;
+            txbRutCot.Clear();
 
 
             DataGridView dgv = (DataGridView)sender;
@@ -158,6 +162,19 @@ namespace ElastoSystem
                         MandarALlamarComprobante();
                     }
                 }
+
+                string cotizacion = dgv.Rows[rowIndex].Cells[19].Value.ToString();
+                txbRutCot.Text = cotizacion;
+
+                if (string.IsNullOrEmpty(txbRutCot.Text))
+                {
+                    btnDescargarCotizacion.Visible = false;
+                }
+                else
+                {
+                    btnDescargarCotizacion.Visible = true;
+                    MandarALlamarCotizacion();
+                }
             }
         }
 
@@ -175,7 +192,8 @@ namespace ElastoSystem
             txbComprobante.Clear();
             lblOCResultado.Visible = false;
             btnDescargarComprobante.Visible = false;
-
+            btnDescargarCotizacion.Visible = false;
+            txbRutCot.Clear();
 
             DataGridView dgv = (DataGridView)sender;
 
@@ -259,6 +277,19 @@ namespace ElastoSystem
                         MandarALlamarComprobante();
                     }
                 }
+
+                string cotizacion = dgv.Rows[rowIndex].Cells[19].Value.ToString();
+                txbRutCot.Text = cotizacion;
+
+                if (string.IsNullOrEmpty(txbRutCot.Text))
+                {
+                    btnDescargarCotizacion.Visible = false;
+                }
+                else
+                {
+                    btnDescargarCotizacion.Visible = true;
+                    MandarALlamarCotizacion();
+                }
             }
         }
 
@@ -301,6 +332,48 @@ namespace ElastoSystem
             {
                 conn.Close();
             }
+        }
+
+        byte[] cotizacionBytes;
+        private void MandarALlamarCotizacion()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlDataReader reader = null;
+            string sql = "SELECT Cotizacion1, Ruta_Cotizacion1 FROM elastosystem_compras_requisicion_desglosada WHERE ID_PRODUCTO LIKE '" + lblIDProducto.Text + "'";
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            cotizacionBytes = (byte[])reader["Cotizacion1"];
+                            txbNombreCotizacion.Text = reader.GetString("Ruta_Cotizacion1");
+                            string rutacompleta = txbNombreCotizacion.Text;
+                            txbRutaCotizacion.Text = rutacompleta;
+                            string nombrearchivo = Path.GetFileName(rutacompleta);
+                            txbNombreCotizacion.Text = nombrearchivo;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("ERROR AL ASIGNAR NOMBRE Y RUTA DE COTIZACION: " + ex.Message);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL LLAMAR COTIZACIÓN: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
         }
 
         private void Buscador()
@@ -367,7 +440,7 @@ namespace ElastoSystem
                 DefaultExt = extensionArchivo
             };
 
-            if(save.ShowDialog() == DialogResult.OK)
+            if (save.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
@@ -376,9 +449,42 @@ namespace ElastoSystem
                     string argument = "/select, \"" + save.FileName + "\"";
                     System.Diagnostics.Process.Start("explorer.exe", argument);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL GUARDAR EL ARCHIVO: " + ex.Message);
+                }
+            }
+        }
+
+        private void btnDescargarCotizacion_Click(object sender, EventArgs e)
+        {
+            DescargarCotizacion();
+        }
+
+        private void DescargarCotizacion()
+        {
+            string extensionCotizacion = Path.GetExtension(txbRutaCotizacion.Text);
+            string nombreCotizacion = txbNombreCotizacion.Text;
+
+            SaveFileDialog file = new SaveFileDialog
+            {
+                FileName = nombreCotizacion,
+                Filter = "Todos los archivos (*.*)|*.*",
+                DefaultExt = extensionCotizacion
+            };
+
+            if(file.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    File.WriteAllBytes(file.FileName, cotizacionBytes);
+                    MessageBox.Show("Archivo guardado correctamente.");
+                    string argument = "/select, \"" + file.FileName + "\"";
+                    System.Diagnostics.Process.Start("explorer.exe", argument);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL GUARDAR LA COTIZACIÓN: "+ex.Message);
                 }
             }
         }

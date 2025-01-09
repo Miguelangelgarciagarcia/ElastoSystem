@@ -202,10 +202,10 @@ namespace ElastoSystem
         }
         private void LimpiarYReinicar()
         {
-            txbNoTrabajador.Clear(); 
+            txbNoTrabajador.Clear();
             txbIDProducto.Clear();
             txbNota.Clear();
-            dgvTemporal.DataSource= null;
+            dgvTemporal.DataSource = null;
             dgvTemporal.Rows.Clear();
             dgvTemporal.Columns.Clear();
             txbNoTrabajador.Focus();
@@ -246,27 +246,21 @@ namespace ElastoSystem
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                // Obtener el texto actual del TextBox
                 string texto = txbNoTrabajador.Text;
 
-                // Verificar si el texto contiene un salto de línea
                 if (texto.Contains(Environment.NewLine))
                 {
-                    // Eliminar el salto de línea
                     texto = texto.Replace(Environment.NewLine, "");
 
-                    // Asignar el texto modificado de nuevo al TextBox
                     txbNoTrabajador.Text = texto;
                 }
 
-                // Cambiar el enfoque al siguiente control
                 txbIDProducto.Focus();
 
-                // Consumir el evento para evitar que el Enter genere un salto de línea adicional
                 e.Handled = true;
+                MandarALlamarNombre();
             }
 
-            MandarALlamarNombre();
         }
         private void txbIDProducto_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -358,6 +352,19 @@ namespace ElastoSystem
             LimpiarBDTemporal();
             MandaALlamarBDSalidas();
             LimpiarYReinicar();
+        }
+
+        private void txbNoTrabajador_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void txbNoTrabajador_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                MandarALlamarNombre();
+            }
         }
     }
 }

@@ -28,14 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             lblFolio = new Label();
             label8 = new Label();
             lblfecha = new Label();
             label5 = new Label();
             panel5 = new Panel();
+            txbRutaArchivo = new TextBox();
+            txbNombreArchivo = new TextBox();
+            btnCargarCotizacion = new Button();
             chbCompraOnline = new CheckBox();
             cbTipoUso = new ComboBox();
             btnModificar = new Button();
@@ -67,13 +70,14 @@
             TipoUso = new DataGridViewTextBoxColumn();
             Comentarios = new DataGridViewTextBoxColumn();
             Onlinea = new DataGridViewTextBoxColumn();
-            panel4 = new Panel();
+            Cotizacion = new DataGridViewTextBoxColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Ruta = new DataGridViewTextBoxColumn();
             btnRequerimiento = new Button();
             lblFolioREQ = new Label();
             panel5.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaMateriales).BeginInit();
-            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -140,6 +144,9 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(3, 42, 76);
+            panel5.Controls.Add(txbRutaArchivo);
+            panel5.Controls.Add(txbNombreArchivo);
+            panel5.Controls.Add(btnCargarCotizacion);
             panel5.Controls.Add(chbCompraOnline);
             panel5.Controls.Add(cbTipoUso);
             panel5.Controls.Add(btnModificar);
@@ -162,9 +169,44 @@
             panel5.Controls.Add(txbDescripcion);
             panel5.Location = new Point(24, 105);
             panel5.Name = "panel5";
-            panel5.Size = new Size(564, 670);
+            panel5.Size = new Size(564, 699);
             panel5.TabIndex = 20;
             panel5.Paint += panel5_Paint;
+            // 
+            // txbRutaArchivo
+            // 
+            txbRutaArchivo.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbRutaArchivo.Location = new Point(25, 586);
+            txbRutaArchivo.Name = "txbRutaArchivo";
+            txbRutaArchivo.ReadOnly = true;
+            txbRutaArchivo.Size = new Size(90, 27);
+            txbRutaArchivo.TabIndex = 31;
+            txbRutaArchivo.Visible = false;
+            // 
+            // txbNombreArchivo
+            // 
+            txbNombreArchivo.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNombreArchivo.Location = new Point(26, 553);
+            txbNombreArchivo.Name = "txbNombreArchivo";
+            txbNombreArchivo.ReadOnly = true;
+            txbNombreArchivo.Size = new Size(287, 27);
+            txbNombreArchivo.TabIndex = 30;
+            // 
+            // btnCargarCotizacion
+            // 
+            btnCargarCotizacion.BackColor = Color.FromArgb(255, 102, 0);
+            btnCargarCotizacion.Cursor = Cursors.Hand;
+            btnCargarCotizacion.FlatAppearance.BorderSize = 0;
+            btnCargarCotizacion.FlatStyle = FlatStyle.Flat;
+            btnCargarCotizacion.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCargarCotizacion.ForeColor = Color.White;
+            btnCargarCotizacion.Location = new Point(319, 553);
+            btnCargarCotizacion.Name = "btnCargarCotizacion";
+            btnCargarCotizacion.Size = new Size(221, 30);
+            btnCargarCotizacion.TabIndex = 29;
+            btnCargarCotizacion.Text = "ADJUNTAR COTIZACIÓN";
+            btnCargarCotizacion.UseVisualStyleBackColor = false;
+            btnCargarCotizacion.Click += button1_Click_3;
             // 
             // chbCompraOnline
             // 
@@ -193,34 +235,34 @@
             // 
             btnModificar.BackColor = Color.FromArgb(255, 102, 0);
             btnModificar.Cursor = Cursors.Hand;
-            btnModificar.Enabled = false;
             btnModificar.FlatAppearance.BorderSize = 0;
             btnModificar.FlatStyle = FlatStyle.Flat;
             btnModificar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnModificar.ForeColor = Color.White;
-            btnModificar.Location = new Point(224, 623);
+            btnModificar.Location = new Point(184, 627);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(113, 30);
             btnModificar.TabIndex = 23;
             btnModificar.Text = "MODIFICAR";
             btnModificar.UseVisualStyleBackColor = false;
+            btnModificar.Visible = false;
             btnModificar.Click += btnModificar_Click;
             // 
             // btnEliminar
             // 
             btnEliminar.BackColor = Color.FromArgb(255, 102, 0);
             btnEliminar.Cursor = Cursors.Hand;
-            btnEliminar.Enabled = false;
             btnEliminar.FlatAppearance.BorderSize = 0;
             btnEliminar.FlatStyle = FlatStyle.Flat;
             btnEliminar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnEliminar.ForeColor = Color.White;
-            btnEliminar.Location = new Point(26, 624);
+            btnEliminar.Location = new Point(26, 628);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(113, 30);
             btnEliminar.TabIndex = 24;
             btnEliminar.Text = "ELIMINAR";
             btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Visible = false;
             btnEliminar.Click += btnEliminar_Click;
             // 
             // btnNuevo
@@ -231,9 +273,9 @@
             btnNuevo.FlatStyle = FlatStyle.Flat;
             btnNuevo.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnNuevo.ForeColor = Color.White;
-            btnNuevo.Location = new Point(415, 623);
+            btnNuevo.Location = new Point(402, 36);
             btnNuevo.Name = "btnNuevo";
-            btnNuevo.Size = new Size(113, 30);
+            btnNuevo.Size = new Size(138, 30);
             btnNuevo.TabIndex = 27;
             btnNuevo.Text = "NUEVO";
             btnNuevo.UseVisualStyleBackColor = false;
@@ -272,9 +314,9 @@
             btnAgregar.FlatStyle = FlatStyle.Flat;
             btnAgregar.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnAgregar.ForeColor = Color.White;
-            btnAgregar.Location = new Point(415, 623);
+            btnAgregar.Location = new Point(371, 627);
             btnAgregar.Name = "btnAgregar";
-            btnAgregar.Size = new Size(113, 30);
+            btnAgregar.Size = new Size(157, 30);
             btnAgregar.TabIndex = 22;
             btnAgregar.Text = "AGREGAR";
             btnAgregar.UseVisualStyleBackColor = false;
@@ -286,7 +328,7 @@
             txbNotas.Location = new Point(25, 448);
             txbNotas.Multiline = true;
             txbNotas.Name = "txbNotas";
-            txbNotas.Size = new Size(515, 148);
+            txbNotas.Size = new Size(515, 90);
             txbNotas.TabIndex = 14;
             // 
             // cbProveedor
@@ -419,7 +461,7 @@
             panel1.Controls.Add(dgvListaMateriales);
             panel1.Location = new Point(594, 105);
             panel1.Name = "panel1";
-            panel1.Size = new Size(718, 596);
+            panel1.Size = new Size(718, 620);
             panel1.TabIndex = 21;
             // 
             // label14
@@ -439,31 +481,30 @@
             dgvListaMateriales.AllowUserToAddRows = false;
             dgvListaMateriales.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvListaMateriales.BackgroundColor = Color.White;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvListaMateriales.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Onlinea });
-            dgvListaMateriales.Enabled = false;
+            dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Onlinea, Cotizacion, Nombre, Ruta });
             dgvListaMateriales.Location = new Point(16, 36);
             dgvListaMateriales.Name = "dgvListaMateriales";
             dgvListaMateriales.ReadOnly = true;
             dgvListaMateriales.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvListaMateriales.RowTemplate.Height = 25;
             dgvListaMateriales.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvListaMateriales.Size = new Size(688, 546);
+            dgvListaMateriales.Size = new Size(688, 565);
             dgvListaMateriales.TabIndex = 19;
             dgvListaMateriales.DoubleClick += dgvListaMateriales_DoubleClick;
             // 
@@ -516,14 +557,26 @@
             Onlinea.ReadOnly = true;
             Onlinea.Visible = false;
             // 
-            // panel4
+            // Cotizacion
             // 
-            panel4.BackColor = Color.FromArgb(3, 42, 76);
-            panel4.Controls.Add(btnRequerimiento);
-            panel4.Location = new Point(594, 707);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(718, 68);
-            panel4.TabIndex = 28;
+            Cotizacion.HeaderText = "Cotización";
+            Cotizacion.Name = "Cotizacion";
+            Cotizacion.ReadOnly = true;
+            Cotizacion.Visible = false;
+            // 
+            // Nombre
+            // 
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            Nombre.Visible = false;
+            // 
+            // Ruta
+            // 
+            Ruta.HeaderText = "Ruta";
+            Ruta.Name = "Ruta";
+            Ruta.ReadOnly = true;
+            Ruta.Visible = false;
             // 
             // btnRequerimiento
             // 
@@ -531,13 +584,13 @@
             btnRequerimiento.Cursor = Cursors.Hand;
             btnRequerimiento.FlatAppearance.BorderSize = 0;
             btnRequerimiento.FlatStyle = FlatStyle.Flat;
-            btnRequerimiento.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnRequerimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btnRequerimiento.ForeColor = Color.White;
-            btnRequerimiento.Location = new Point(97, 15);
+            btnRequerimiento.Location = new Point(684, 740);
             btnRequerimiento.Name = "btnRequerimiento";
-            btnRequerimiento.Size = new Size(542, 36);
+            btnRequerimiento.Size = new Size(549, 42);
             btnRequerimiento.TabIndex = 13;
-            btnRequerimiento.Text = "Enviar Requerimiento";
+            btnRequerimiento.Text = "ENVIAR REQUERIMIENTO";
             btnRequerimiento.UseVisualStyleBackColor = false;
             btnRequerimiento.Click += button1_Click_1;
             // 
@@ -559,8 +612,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(btnRequerimiento);
             Controls.Add(lblFolioREQ);
-            Controls.Add(panel4);
             Controls.Add(panel1);
             Controls.Add(panel5);
             Controls.Add(lblFolio);
@@ -577,7 +630,6 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaMateriales).EndInit();
-            panel4.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -612,10 +664,12 @@
         private Button btnNuevo;
         private Label label12;
         private TextBox txbNotas;
-        private Panel panel4;
         private Button btnRequerimiento;
         private Label lblFolioREQ;
         private CheckBox chbCompraOnline;
+        private Button btnCargarCotizacion;
+        private TextBox txbNombreArchivo;
+        private TextBox txbRutaArchivo;
         private DataGridViewTextBoxColumn Descripcion;
         private DataGridViewTextBoxColumn Cantidad;
         private DataGridViewTextBoxColumn Unidad;
@@ -624,5 +678,8 @@
         private DataGridViewTextBoxColumn TipoUso;
         private DataGridViewTextBoxColumn Comentarios;
         private DataGridViewTextBoxColumn Onlinea;
+        private DataGridViewTextBoxColumn Cotizacion;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Ruta;
     }
 }

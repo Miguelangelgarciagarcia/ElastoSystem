@@ -61,8 +61,8 @@
             btnLimpiar = new Button();
             lblRutaArchivo = new Label();
             panel6 = new Panel();
-            dgvHistorialMaquinado = new DataGridView();
             label3 = new Label();
+            dgvHistorialMaquinado = new DataGridView();
             panel4.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -434,6 +434,18 @@
             panel6.Size = new Size(1278, 266);
             panel6.TabIndex = 38;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(498, 12);
+            label3.Name = "label3";
+            label3.Size = new Size(227, 22);
+            label3.TabIndex = 39;
+            label3.Text = "HISTORIAL MAQUINADOS";
+            // 
             // dgvHistorialMaquinado
             // 
             dgvHistorialMaquinado.AllowUserToAddRows = false;
@@ -463,18 +475,6 @@
             dgvHistorialMaquinado.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvHistorialMaquinado.Size = new Size(1235, 197);
             dgvHistorialMaquinado.TabIndex = 24;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(498, 12);
-            label3.Name = "label3";
-            label3.Size = new Size(227, 22);
-            label3.TabIndex = 39;
-            label3.Text = "HISTORIAL MAQUINADOS";
             // 
             // Maquinado_Solicitud
             // 

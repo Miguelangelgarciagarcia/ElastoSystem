@@ -53,7 +53,7 @@ namespace ElastoSystem
         {
             try
             {
-                string tabla = "SELECT ID_Producto, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Compra_Online FROM elastosystem_compras_requisicion_desglosada WHERE ID = '" + txbFolio.Text + "' AND Estatus = 'ABIERTA'";
+                string tabla = "SELECT ID_Producto, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Compra_Online, Cotizacion1, Ruta_Cotizacion1 FROM elastosystem_compras_requisicion_desglosada WHERE ID = '" + txbFolio.Text + "' AND Estatus = 'ABIERTA'";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
@@ -73,6 +73,8 @@ namespace ElastoSystem
                     dgvPartidas.Columns["TipoUso"].Visible = false;
                     dgvPartidas.Columns["Comentarios"].Visible = false;
                     dgvPartidas.Columns["Compra_Online"].Visible = false;
+                    dgvPartidas.Columns["Cotizacion1"].Visible = false;
+                    dgvPartidas.Columns["Ruta_Cotizacion1"].Visible = false;
                 }
 
 
@@ -266,6 +268,7 @@ namespace ElastoSystem
             txbTipoUso.Clear();
             txbNotas.Clear();
             btnCompraAutorizada.Visible = false;
+            btnDescargarCotizacion.Visible = false;
         }
 
         private void PartidasPBVisibles()
@@ -476,6 +479,7 @@ namespace ElastoSystem
 
         private void dgvRequisicions_DoubleClick(object sender, EventArgs e)
         {
+            LimpiarAgregarPartidas();
             dgvPartidas.DataSource = null;
             dgvPartidas.Rows.Clear();
             PartidasPBOculto();
@@ -534,11 +538,72 @@ namespace ElastoSystem
 
                 bool compraonl = Convert.ToBoolean(dgv.Rows[rowIndex].Cells[8].Value);
                 chbCompraOnline.Checked = compraonl;
-
                 btnAlmacenar.Visible = compraonl;
+
+                RevisarSiHayCotizacion();
+
             }
 
             RevisarBotonAlmacenar();
+        }
+
+        byte[] cotizacionBytes;
+        private void RevisarSiHayCotizacion()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlDataReader reader = null;
+            string sql = "SELECT Cotizacion1, Ruta_Cotizacion1 FROM elastosystem_compras_requisicion_desglosada WHERE ID_Producto LIKE '" + lblIDProducto.Text + "'";
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            cotizacionBytes = (byte[])reader["Cotizacion1"];
+
+                            if (cotizacionBytes != null && cotizacionBytes.Length > 0)
+                            {
+                                btnDescargarCotizacion.Visible = true;
+                            }
+                            else
+                            {
+                                btnDescargarCotizacion.Visible = false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            btnDescargarCotizacion.Visible = false;
+                        }
+                        try
+                        {
+                            txbNombreCotizacion.Text = reader.GetString("Ruta_Cotizacion1");
+                            string rutacompleta = txbNombreCotizacion.Text;
+                            txbRutaCotizacion.Text = rutacompleta;
+                            string nombrearchivo = System.IO.Path.GetFileName(rutacompleta);
+                            txbNombreCotizacion.Text = nombrearchivo;
+                        }
+                        catch
+                        {
+                            txbNombreCotizacion.Text = string.Empty;
+                            txbRutaCotizacion.Text = string.Empty;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL PROCESAR COTIZACION: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private void RevisarBotonAlmacenar()
@@ -1896,7 +1961,7 @@ namespace ElastoSystem
                 txbPrecio.Text = precio;
 
                 EliminarDeCantidades();
-
+                RevisarSiHayCotizacion();
             }
         }
 
@@ -2202,6 +2267,116 @@ namespace ElastoSystem
             {
                 CompraFinalizadaAutorizada();
             }
+        }
+
+        private void btnDescargarCotizacion_Click(object sender, EventArgs e)
+        {
+            DescargarCotizacion();
+        }
+
+        private void DescargarCotizacion()
+        {
+            if (cotizacionBytes != null && cotizacionBytes.Length > 0)
+            {
+                string extensionArchivo = System.IO.Path.GetExtension(txbRutaCotizacion.Text);
+                string nombreArchivo = txbNombreCotizacion.Text;
+
+                SaveFileDialog file = new SaveFileDialog()
+                {
+                    FileName = nombreArchivo,
+                    Filter = "Todos los archivos (*.*)|*.*",
+                    DefaultExt = extensionArchivo
+                };
+
+                if (file.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        File.WriteAllBytes(file.FileName, cotizacionBytes);
+                        MessageBox.Show("ARCHIVO GUARDADO CORRECTAMENTE");
+                        string argument = "/select, \"" + file.FileName + "\"";
+                        System.Diagnostics.Process.Start("explorer.exe", argument);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("ERROR AL GUARDAR EL ARCHIVO: " + ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay archivo valido para descargar.");
+            }
+        }
+
+        private void dgvRequisicions_Click(object sender, EventArgs e)
+        {
+            LimpiarAgregarPartidas();
+            dgvPartidas.DataSource = null;
+            dgvPartidas.Rows.Clear();
+            PartidasPBOculto();
+            DataGridView dgv = (DataGridView)sender;
+
+            if (dgv.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgv.SelectedCells[0].RowIndex;
+
+                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                txbFolio.Text = id;
+
+                string req = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                txbReqFolio.Text = req;
+
+                string solicito = dgv.Rows[rowIndex].Cells[2].Value.ToString();
+                lblSolicito.Text = solicito;
+
+            }
+            MandarALlamarPartidas();
+        }
+
+        private void dgvPartidas_Click(object sender, EventArgs e)
+        {
+            PartidasPBOculto();
+            LimpiarAgregarPartidas();
+            DataGridView dgv = (DataGridView)sender;
+
+            if (dgv.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgv.SelectedCells[0].RowIndex;
+
+                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                lblIDProducto.Text = id;
+
+                string descripcion = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                txbDescripcion.Text = descripcion;
+
+                string cantidad = dgv.Rows[rowIndex].Cells[2].Value.ToString();
+                txbCantidad.Text = cantidad;
+
+                string unidad = dgv.Rows[rowIndex].Cells[3].Value.ToString();
+                txbUnidad.Text = unidad;
+
+                string precio = dgv.Rows[rowIndex].Cells[4].Value.ToString();
+                txbPrecio.Text = precio;
+
+                string proovedor = dgv.Rows[rowIndex].Cells[5].Value.ToString();
+                txbProovedorRecomendado.Text = proovedor;
+
+                string tipouso = dgv.Rows[rowIndex].Cells[6].Value.ToString();
+                txbTipoUso.Text = tipouso;
+
+                string comentarios = dgv.Rows[rowIndex].Cells[7].Value.ToString();
+                txbNotas.Text = comentarios;
+
+                bool compraonl = Convert.ToBoolean(dgv.Rows[rowIndex].Cells[8].Value);
+                chbCompraOnline.Checked = compraonl;
+                btnAlmacenar.Visible = compraonl;
+
+                RevisarSiHayCotizacion();
+
+            }
+
+            RevisarBotonAlmacenar();
         }
     }
 }

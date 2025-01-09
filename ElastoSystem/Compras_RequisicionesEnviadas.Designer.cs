@@ -40,6 +40,8 @@
             lblFolio = new Label();
             label2 = new Label();
             panel1 = new Panel();
+            txbRutCot = new TextBox();
+            btnDescargarCotizacion = new Button();
             lblIDProducto = new Label();
             btnDescargarComprobante = new Button();
             txbComprobante = new TextBox();
@@ -62,6 +64,8 @@
             lblFolioREQ = new Label();
             txbNombreArchivo = new TextBox();
             txbRuta = new TextBox();
+            txbRutaCotizacion = new TextBox();
+            txbNombreCotizacion = new TextBox();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvRequisicions).BeginInit();
             panel1.SuspendLayout();
@@ -174,6 +178,8 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
+            panel1.Controls.Add(txbRutCot);
+            panel1.Controls.Add(btnDescargarCotizacion);
             panel1.Controls.Add(lblIDProducto);
             panel1.Controls.Add(btnDescargarComprobante);
             panel1.Controls.Add(txbComprobante);
@@ -194,6 +200,34 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(735, 457);
             panel1.TabIndex = 22;
+            // 
+            // txbRutCot
+            // 
+            txbRutCot.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbRutCot.Location = new Point(423, 198);
+            txbRutCot.Multiline = true;
+            txbRutCot.Name = "txbRutCot";
+            txbRutCot.ReadOnly = true;
+            txbRutCot.Size = new Size(248, 30);
+            txbRutCot.TabIndex = 54;
+            txbRutCot.Visible = false;
+            // 
+            // btnDescargarCotizacion
+            // 
+            btnDescargarCotizacion.BackColor = Color.FromArgb(255, 102, 0);
+            btnDescargarCotizacion.Cursor = Cursors.Hand;
+            btnDescargarCotizacion.FlatAppearance.BorderSize = 0;
+            btnDescargarCotizacion.FlatStyle = FlatStyle.Flat;
+            btnDescargarCotizacion.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDescargarCotizacion.ForeColor = Color.White;
+            btnDescargarCotizacion.Location = new Point(405, 151);
+            btnDescargarCotizacion.Name = "btnDescargarCotizacion";
+            btnDescargarCotizacion.Size = new Size(291, 38);
+            btnDescargarCotizacion.TabIndex = 53;
+            btnDescargarCotizacion.Text = "Descargar Cotización";
+            btnDescargarCotizacion.UseVisualStyleBackColor = false;
+            btnDescargarCotizacion.Visible = false;
+            btnDescargarCotizacion.Click += btnDescargarCotizacion_Click;
             // 
             // lblIDProducto
             // 
@@ -460,11 +494,11 @@
             // txbNombreArchivo
             // 
             txbNombreArchivo.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbNombreArchivo.Location = new Point(854, 47);
+            txbNombreArchivo.Location = new Point(912, 47);
             txbNombreArchivo.Multiline = true;
             txbNombreArchivo.Name = "txbNombreArchivo";
             txbNombreArchivo.ReadOnly = true;
-            txbNombreArchivo.Size = new Size(75, 30);
+            txbNombreArchivo.Size = new Size(17, 30);
             txbNombreArchivo.TabIndex = 26;
             txbNombreArchivo.Visible = false;
             // 
@@ -475,9 +509,31 @@
             txbRuta.Multiline = true;
             txbRuta.Name = "txbRuta";
             txbRuta.ReadOnly = true;
-            txbRuta.Size = new Size(75, 30);
+            txbRuta.Size = new Size(17, 30);
             txbRuta.TabIndex = 27;
             txbRuta.Visible = false;
+            // 
+            // txbRutaCotizacion
+            // 
+            txbRutaCotizacion.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbRutaCotizacion.Location = new Point(896, 47);
+            txbRutaCotizacion.Multiline = true;
+            txbRutaCotizacion.Name = "txbRutaCotizacion";
+            txbRutaCotizacion.ReadOnly = true;
+            txbRutaCotizacion.Size = new Size(10, 30);
+            txbRutaCotizacion.TabIndex = 29;
+            txbRutaCotizacion.Visible = false;
+            // 
+            // txbNombreCotizacion
+            // 
+            txbNombreCotizacion.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNombreCotizacion.Location = new Point(878, 47);
+            txbNombreCotizacion.Multiline = true;
+            txbNombreCotizacion.Name = "txbNombreCotizacion";
+            txbNombreCotizacion.ReadOnly = true;
+            txbNombreCotizacion.Size = new Size(12, 30);
+            txbNombreCotizacion.TabIndex = 28;
+            txbNombreCotizacion.Visible = false;
             // 
             // Compras_RequisicionesEnviadas
             // 
@@ -485,6 +541,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(txbRutaCotizacion);
+            Controls.Add(txbNombreCotizacion);
             Controls.Add(txbRuta);
             Controls.Add(txbNombreArchivo);
             Controls.Add(lblFolioREQ);
@@ -542,5 +600,9 @@
         private Label lblIDProducto;
         private TextBox txbNombreArchivo;
         private TextBox txbRuta;
+        private Button btnDescargarCotizacion;
+        private TextBox txbRutCot;
+        private TextBox txbRutaCotizacion;
+        private TextBox txbNombreCotizacion;
     }
 }
