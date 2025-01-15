@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using Isopoh.Cryptography.Argon2;
+using FirebirdSql.Data.FirebirdClient;
 
 namespace ElastoSystem
 {
@@ -108,6 +109,7 @@ namespace ElastoSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            /*ConectarSAE();*/
             MandarALlamarIP();
             if (VariablesGlobales.IPServidor == "10.120.1.104")
             {
@@ -120,7 +122,26 @@ namespace ElastoSystem
             }
 
         }
-
+        /*
+        private void ConectarSAE()
+        {
+            string conn = "User=sysdba;Password=masterkey;Database=10.120.1.4:/dacaspel/Sistemas Aspel/SAE9.00/Empresa01/Datos/SAE90EMPRE01.FDB;Dialect=3;Charset=ISO8859_1;";
+            //string conn = "User=SYSDBA;Password=masterkey;Database=10.120.1.4:\\\\dacaspel\\Sistemas Aspel\\SAE9.00\\Empresa01\\Datos\\SAE90EMPRE01.FDB;Dialect=3;Charset=ISO8859_1;";
+            try
+            {
+                using (FbConnection connection = new FbConnection(conn))
+                {
+                    connection.Open();
+                    MessageBox.Show("Conexión exitosa a la base de datos.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error de conexión a la base de datos: {ex.Message}");
+                Application.Exit();
+            }
+        }
+        */
         private void MandarALlamarIP()
         {
             lblIP.Text = VariablesGlobales.IPServidor;

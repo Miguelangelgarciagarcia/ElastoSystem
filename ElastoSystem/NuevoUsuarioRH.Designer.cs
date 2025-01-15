@@ -370,7 +370,7 @@
             // 
             cbPuesto.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
             cbPuesto.FormattingEnabled = true;
-            cbPuesto.Items.AddRange(new object[] { "ALMACENISTA", "AUXILIAR", "AYUDANTE GENERAL A", "AYUDANTE GENERAL B", "AYUDANTE GENERAL C", "COORDINADOR", "CHOFER", "GERENTE", "GUARDIA", "INSPECTOR", "MECANICO A", "MECANICO B", "OPERADOR A", "OPERADOR B", "OPERADOR C", "REPRESENTANTE", "SUPERVISOR" });
+            cbPuesto.Items.AddRange(new object[] { "ALMACENISTA", "AUXILIAR", "AYUDANTE GENERAL A", "AYUDANTE GENERAL B", "AYUDANTE GENERAL C", "BECARIO", "COORDINADOR", "CHOFER", "GERENTE", "GUARDIA", "INSPECTOR", "MECANICO A", "MECANICO B", "OPERADOR A", "OPERADOR B", "OPERADOR C", "REPRESENTANTE", "SUPERVISOR" });
             cbPuesto.Location = new Point(164, 345);
             cbPuesto.Name = "cbPuesto";
             cbPuesto.Size = new Size(201, 24);

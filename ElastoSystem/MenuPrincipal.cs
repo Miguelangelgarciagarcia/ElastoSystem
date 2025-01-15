@@ -38,7 +38,7 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Almacen, Nuevo_Producto, Editar_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @idmenu";
+                string query = "SELECT Almacen, Nuevo_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @idmenu";
 
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@idmenu", idmenu);
@@ -57,12 +57,6 @@ namespace ElastoSystem
                         {
                             btnNuevoProducto.Enabled = true;
                             btnNuevoProducto.Visible = true;
-                        }
-
-                        string editarproductoValue = reader["Editar_Producto"].ToString();
-                        if (editarproductoValue == "True")
-                        {
-
                         }
 
                         string registrarexistenciasValue = reader["Registrar_Existencias"].ToString();
@@ -751,6 +745,11 @@ namespace ElastoSystem
         {
             openChildForm(new Mantenimiento_Historico());
             HideSubMenu();
+        }
+
+        private void MenuPrincipal_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

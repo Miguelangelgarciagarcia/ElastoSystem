@@ -1075,6 +1075,7 @@
             Opacity = 0.95D;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuPrincipal";
+            Load += MenuPrincipal_Load;
             PBarraTitulo.ResumeLayout(false);
             PBarraTitulo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PBNaranja).EndInit();
