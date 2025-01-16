@@ -122,11 +122,10 @@ namespace ElastoSystem
             }
 
         }
-        /*
         private void ConectarSAE()
         {
-            string conn = "User=sysdba;Password=masterkey;Database=10.120.1.4:/dacaspel/Sistemas Aspel/SAE9.00/Empresa01/Datos/SAE90EMPRE01.FDB;Dialect=3;Charset=ISO8859_1;";
-            //string conn = "User=SYSDBA;Password=masterkey;Database=10.120.1.4:\\\\dacaspel\\Sistemas Aspel\\SAE9.00\\Empresa01\\Datos\\SAE90EMPRE01.FDB;Dialect=3;Charset=ISO8859_1;";
+            //string conn = "User=sysdba;Password=masterkey;Database=10.120.1.4:/dacaspel/Sistemas Aspel/SAE9.00/Empresa01/Datos/SAE90EMPRE01.FDB;Dialect=3;Charset=ISO8859_1;";
+            string conn = "User=SYSDBA;Password=masterkey;Database=10.120.1.4:\\\\dacaspel\\Sistemas Aspel\\SAE9.00\\Empresa01\\Datos\\SAE90EMPRE01.FDB;Dialect=3;Charset=ISO8859_1;";
             try
             {
                 using (FbConnection connection = new FbConnection(conn))
@@ -141,7 +140,6 @@ namespace ElastoSystem
                 Application.Exit();
             }
         }
-        */
         private void MandarALlamarIP()
         {
             lblIP.Text = VariablesGlobales.IPServidor;

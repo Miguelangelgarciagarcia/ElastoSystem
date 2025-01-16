@@ -34,10 +34,6 @@
             label1 = new Label();
             label2 = new Label();
             cbTipoReq = new ComboBox();
-            label3 = new Label();
-            tbusuario = new TextBox();
-            label4 = new Label();
-            tbpassword = new TextBox();
             label5 = new Label();
             lblfecha = new Label();
             fecha = new System.Windows.Forms.Timer(components);
@@ -48,13 +44,19 @@
             btnEnviarReq = new Button();
             label8 = new Label();
             lblFolio = new Label();
-            panel5 = new Panel();
             label9 = new Label();
             panel1 = new Panel();
             dgvPendientesSistemas = new DataGridView();
-            panel5.SuspendLayout();
+            lblFolioOriginal = new Label();
+            pbImagen = new PictureBox();
+            txbNombreArchivo = new TextBox();
+            btnCargarArchivo = new Button();
+            panel2 = new Panel();
+            lblRutaArchivo = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPendientesSistemas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbImagen).BeginInit();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -63,75 +65,35 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Montserrat", 24F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(41, 36);
+            label1.Location = new Point(41, 50);
             label1.Name = "label1";
-            label1.Size = new Size(538, 44);
+            label1.Size = new Size(369, 44);
             label1.TabIndex = 0;
-            label1.Text = "REQUERIMIENTO DE SISTEMAS";
+            label1.Text = "TICKET DE SISTEMAS";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(52, 135);
+            label2.Location = new Point(52, 179);
             label2.Name = "label2";
-            label2.Size = new Size(183, 20);
+            label2.Size = new Size(171, 21);
             label2.TabIndex = 1;
-            label2.Text = "Tipo de Requerimiento:";
+            label2.Text = "Categoria del Ticket:";
             // 
             // cbTipoReq
             // 
-            cbTipoReq.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            cbTipoReq.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbTipoReq.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
             cbTipoReq.FormattingEnabled = true;
-            cbTipoReq.Items.AddRange(new object[] { "Asesoría", "Base De Datos", "Capacitación", "Hardware", "Infraestructura", "Mantenimiento", "Software", "Otro..." });
-            cbTipoReq.Location = new Point(240, 132);
+            cbTipoReq.Items.AddRange(new object[] { "Consulta General", "Fallo en Equipo de Computo", "Mantenimiento Preventivo", "Problemas de Impresoras/Periféricos", "Problema de Seguridad", "Problemas de Red", "Requerimientos de Hardware", "Requerimientos de Software", "Respaldo de Datos", "Sin Acceso al Sistema", "Solicitud de Capacitación", "Solicitud de Cambio o Mejora" });
+            cbTipoReq.Location = new Point(240, 176);
             cbTipoReq.Name = "cbTipoReq";
-            cbTipoReq.Size = new Size(262, 26);
+            cbTipoReq.Size = new Size(346, 29);
             cbTipoReq.TabIndex = 2;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(76, 40);
-            label3.Name = "label3";
-            label3.Size = new Size(78, 22);
-            label3.TabIndex = 3;
-            label3.Text = "Usuario:";
-            // 
-            // tbusuario
-            // 
-            tbusuario.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            tbusuario.Location = new Point(160, 37);
-            tbusuario.Name = "tbusuario";
-            tbusuario.Size = new Size(244, 27);
-            tbusuario.TabIndex = 4;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label4.ForeColor = Color.White;
-            label4.Location = new Point(45, 90);
-            label4.Name = "label4";
-            label4.Size = new Size(109, 22);
-            label4.TabIndex = 5;
-            label4.Text = "Contraseña:";
-            // 
-            // tbpassword
-            // 
-            tbpassword.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            tbpassword.Location = new Point(160, 85);
-            tbpassword.Name = "tbpassword";
-            tbpassword.Size = new Size(244, 27);
-            tbpassword.TabIndex = 6;
-            tbpassword.UseSystemPasswordChar = true;
-            tbpassword.KeyPress += tbpassword_KeyPress;
+            cbTipoReq.SelectedIndexChanged += cbTipoReq_SelectedIndexChanged;
             // 
             // label5
             // 
@@ -165,44 +127,46 @@
             // 
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(52, 222);
+            label6.Location = new Point(52, 228);
             label6.Name = "label6";
-            label6.Size = new Size(100, 20);
+            label6.Size = new Size(107, 21);
             label6.TabIndex = 9;
             label6.Text = "Descripción:";
             // 
             // tbDescr
             // 
-            tbDescr.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            tbDescr.Location = new Point(52, 260);
+            tbDescr.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            tbDescr.Location = new Point(52, 257);
             tbDescr.Multiline = true;
             tbDescr.Name = "tbDescr";
-            tbDescr.Size = new Size(650, 144);
+            tbDescr.Size = new Size(650, 180);
             tbDescr.TabIndex = 10;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.BackColor = Color.Transparent;
-            label7.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(52, 181);
+            label7.Location = new Point(51, 134);
             label7.Name = "label7";
-            label7.Size = new Size(144, 20);
+            label7.Size = new Size(153, 21);
             label7.TabIndex = 11;
             label7.Text = "Nivel de Prioridad:";
             // 
             // cbNivelPrio
             // 
-            cbNivelPrio.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            cbNivelPrio.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbNivelPrio.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
             cbNivelPrio.FormattingEnabled = true;
-            cbNivelPrio.Items.AddRange(new object[] { "Alta", "Media ", "Baja" });
-            cbNivelPrio.Location = new Point(241, 181);
+            cbNivelPrio.Items.AddRange(new object[] { "Alta", "Media", "Baja" });
+            cbNivelPrio.Location = new Point(240, 134);
             cbNivelPrio.Name = "cbNivelPrio";
-            cbNivelPrio.Size = new Size(262, 26);
+            cbNivelPrio.Size = new Size(345, 29);
             cbNivelPrio.TabIndex = 12;
+            cbNivelPrio.SelectedIndexChanged += cbNivelPrio_SelectedIndexChanged;
             // 
             // btnEnviarReq
             // 
@@ -212,11 +176,11 @@
             btnEnviarReq.FlatStyle = FlatStyle.Flat;
             btnEnviarReq.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             btnEnviarReq.ForeColor = Color.White;
-            btnEnviarReq.Location = new Point(123, 142);
+            btnEnviarReq.Location = new Point(535, 451);
             btnEnviarReq.Name = "btnEnviarReq";
-            btnEnviarReq.Size = new Size(238, 54);
+            btnEnviarReq.Size = new Size(334, 35);
             btnEnviarReq.TabIndex = 13;
-            btnEnviarReq.Text = "Enviar Requerimiento";
+            btnEnviarReq.Text = "ENVIAR TICKET";
             btnEnviarReq.UseVisualStyleBackColor = false;
             btnEnviarReq.Click += button1_Click;
             btnEnviarReq.KeyDown += btnEnviarReq_KeyDown;
@@ -228,7 +192,7 @@
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             label8.ForeColor = Color.White;
-            label8.Location = new Point(1046, 56);
+            label8.Location = new Point(1035, 56);
             label8.Name = "label8";
             label8.Size = new Size(75, 30);
             label8.TabIndex = 14;
@@ -240,24 +204,11 @@
             lblFolio.BackColor = Color.Transparent;
             lblFolio.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             lblFolio.ForeColor = Color.White;
-            lblFolio.Location = new Point(1118, 57);
+            lblFolio.Location = new Point(1107, 57);
             lblFolio.Name = "lblFolio";
             lblFolio.Size = new Size(101, 30);
             lblFolio.TabIndex = 15;
             lblFolio.Text = "240000";
-            // 
-            // panel5
-            // 
-            panel5.BackColor = Color.FromArgb(3, 42, 76);
-            panel5.Controls.Add(label3);
-            panel5.Controls.Add(tbusuario);
-            panel5.Controls.Add(label4);
-            panel5.Controls.Add(btnEnviarReq);
-            panel5.Controls.Add(tbpassword);
-            panel5.Location = new Point(823, 181);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(453, 223);
-            panel5.TabIndex = 16;
             // 
             // label9
             // 
@@ -265,24 +216,25 @@
             label9.BackColor = Color.Transparent;
             label9.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             label9.ForeColor = Color.White;
-            label9.Location = new Point(463, 20);
+            label9.Location = new Point(40, 17);
             label9.Name = "label9";
-            label9.Size = new Size(324, 30);
+            label9.Size = new Size(440, 30);
             label9.TabIndex = 17;
-            label9.Text = "PENDIENTES DE SISTEMAS";
+            label9.Text = "HISTORIAL DE TICKETS DE SISTEMAS";
             // 
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
             panel1.Controls.Add(dgvPendientesSistemas);
             panel1.Controls.Add(label9);
-            panel1.Location = new Point(52, 446);
+            panel1.Location = new Point(52, 512);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1224, 355);
+            panel1.Size = new Size(1224, 300);
             panel1.TabIndex = 18;
             // 
             // dgvPendientesSistemas
             // 
+            dgvPendientesSistemas.AllowUserToAddRows = false;
             dgvPendientesSistemas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPendientesSistemas.BackgroundColor = Color.White;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -294,7 +246,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvPendientesSistemas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvPendientesSistemas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvPendientesSistemas.Location = new Point(40, 67);
+            dgvPendientesSistemas.Location = new Point(40, 57);
             dgvPendientesSistemas.Name = "dgvPendientesSistemas";
             dgvPendientesSistemas.RowHeadersVisible = false;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -306,8 +258,81 @@
             dgvPendientesSistemas.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvPendientesSistemas.RowTemplate.Height = 25;
             dgvPendientesSistemas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvPendientesSistemas.Size = new Size(1148, 250);
+            dgvPendientesSistemas.Size = new Size(1148, 222);
             dgvPendientesSistemas.TabIndex = 18;
+            // 
+            // lblFolioOriginal
+            // 
+            lblFolioOriginal.AutoSize = true;
+            lblFolioOriginal.BackColor = Color.Transparent;
+            lblFolioOriginal.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
+            lblFolioOriginal.ForeColor = Color.White;
+            lblFolioOriginal.Location = new Point(1107, 27);
+            lblFolioOriginal.Name = "lblFolioOriginal";
+            lblFolioOriginal.Size = new Size(101, 30);
+            lblFolioOriginal.TabIndex = 19;
+            lblFolioOriginal.Text = "240000";
+            lblFolioOriginal.Visible = false;
+            // 
+            // pbImagen
+            // 
+            pbImagen.BackColor = Color.White;
+            pbImagen.Location = new Point(49, 24);
+            pbImagen.Name = "pbImagen";
+            pbImagen.Size = new Size(220, 190);
+            pbImagen.SizeMode = PictureBoxSizeMode.Zoom;
+            pbImagen.TabIndex = 40;
+            pbImagen.TabStop = false;
+            // 
+            // txbNombreArchivo
+            // 
+            txbNombreArchivo.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNombreArchivo.Location = new Point(31, 220);
+            txbNombreArchivo.Name = "txbNombreArchivo";
+            txbNombreArchivo.ReadOnly = true;
+            txbNombreArchivo.Size = new Size(261, 24);
+            txbNombreArchivo.TabIndex = 39;
+            txbNombreArchivo.TextAlign = HorizontalAlignment.Center;
+            // 
+            // btnCargarArchivo
+            // 
+            btnCargarArchivo.BackColor = Color.FromArgb(255, 102, 0);
+            btnCargarArchivo.Cursor = Cursors.Hand;
+            btnCargarArchivo.FlatAppearance.BorderSize = 0;
+            btnCargarArchivo.FlatStyle = FlatStyle.Flat;
+            btnCargarArchivo.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCargarArchivo.ForeColor = Color.White;
+            btnCargarArchivo.Location = new Point(62, 250);
+            btnCargarArchivo.Name = "btnCargarArchivo";
+            btnCargarArchivo.Size = new Size(193, 32);
+            btnCargarArchivo.TabIndex = 38;
+            btnCargarArchivo.Text = "Adjuntar Archivo o Imagen";
+            btnCargarArchivo.UseVisualStyleBackColor = false;
+            btnCargarArchivo.Click += btnCargarArchivo_Click;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.FromArgb(3, 42, 76);
+            panel2.Controls.Add(lblRutaArchivo);
+            panel2.Controls.Add(pbImagen);
+            panel2.Controls.Add(btnCargarArchivo);
+            panel2.Controls.Add(txbNombreArchivo);
+            panel2.Location = new Point(887, 134);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(321, 303);
+            panel2.TabIndex = 19;
+            // 
+            // lblRutaArchivo
+            // 
+            lblRutaArchivo.AutoSize = true;
+            lblRutaArchivo.BackColor = Color.Transparent;
+            lblRutaArchivo.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            lblRutaArchivo.ForeColor = Color.White;
+            lblRutaArchivo.Location = new Point(32, 223);
+            lblRutaArchivo.Name = "lblRutaArchivo";
+            lblRutaArchivo.Size = new Size(0, 20);
+            lblRutaArchivo.TabIndex = 20;
+            lblRutaArchivo.Visible = false;
             // 
             // ReqSistemas
             // 
@@ -315,9 +340,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(panel2);
+            Controls.Add(lblFolioOriginal);
             Controls.Add(panel1);
-            Controls.Add(panel5);
             Controls.Add(lblFolio);
+            Controls.Add(btnEnviarReq);
             Controls.Add(label8);
             Controls.Add(cbNivelPrio);
             Controls.Add(label7);
@@ -332,11 +359,12 @@
             Name = "ReqSistemas";
             Text = "ReqSistemas";
             Load += ReqSistemas_Load;
-            panel5.ResumeLayout(false);
-            panel5.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPendientesSistemas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbImagen).EndInit();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -346,10 +374,6 @@
         private Label label1;
         private Label label2;
         private ComboBox cbTipoReq;
-        private Label label3;
-        private TextBox tbusuario;
-        private Label label4;
-        private TextBox tbpassword;
         private Label label5;
         private Label lblfecha;
         private System.Windows.Forms.Timer fecha;
@@ -360,9 +384,14 @@
         private Button btnEnviarReq;
         private Label label8;
         private Label lblFolio;
-        private Panel panel5;
         private Label label9;
         private Panel panel1;
         private DataGridView dgvPendientesSistemas;
+        private Label lblFolioOriginal;
+        private PictureBox pbImagen;
+        private TextBox txbNombreArchivo;
+        private Button btnCargarArchivo;
+        private Panel panel2;
+        private Label lblRutaArchivo;
     }
 }
