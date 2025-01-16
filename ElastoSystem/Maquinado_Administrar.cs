@@ -26,7 +26,7 @@ namespace ElastoSystem
         {
             try
             {
-                string tabla = @"SELECT ID_MAQUINADO, FECHA, SOLICITANTE, PRIORIDAD, RECOMENDACIONES, TIPO, DESCRIPCION, DESCRIPCION_MAQUINADO 
+                string tabla = @"SELECT ID_MAQUINADO, ID_MAQUINADO_ALT, FECHA, SOLICITANTE, PRIORIDAD, RECOMENDACIONES, TIPO, DESCRIPCION, DESCRIPCION_MAQUINADO 
                                 FROM elastosystem_maquinado
                                 WHERE ESTATUS = 'ACTIVA'
                                 ORDER BY 
@@ -42,10 +42,11 @@ namespace ElastoSystem
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgvPendientesMaquinado.DataSource = dt;
+                dgvPendientesMaquinado.Columns["ID_MAQUINADO"].Visible = false;
                 dgvPendientesMaquinado.Columns["RECOMENDACIONES"].Visible = false;
                 dgvPendientesMaquinado.Columns["TIPO"].Visible = false;
                 dgvPendientesMaquinado.Columns["DESCRIPCION"].Visible = false;
-                dgvPendientesMaquinado.Columns["ID_MAQUINADO"].HeaderText = "FOLIO";
+                dgvPendientesMaquinado.Columns["ID_MAQUINADO_ALT"].HeaderText = "FOLIO";
                 dgvPendientesMaquinado.Columns["DESCRIPCION_MAQUINADO"].HeaderText = "MAQUINADO";
             }
             catch (Exception ex)
@@ -61,7 +62,7 @@ namespace ElastoSystem
             MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
             MySqlDataReader reader = null;
-            string sql = "SELECT ARCHIVO, RUTA FROM elastosystem_maquinado WHERE ID_MAQUINADO LIKE '" + txbFolio.Text + "' ";
+            string sql = "SELECT ARCHIVO, RUTA FROM elastosystem_maquinado WHERE ID_MAQUINADO LIKE '" + lblFolio.Text + "' ";
             try
             {
                 MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
@@ -73,28 +74,38 @@ namespace ElastoSystem
                     {
                         try
                         {
-                            archivoBytes = (byte[])reader["ARCHIVO"];
-
-                            if (archivoBytes != null && archivoBytes.Length > 0)
+                            if (!reader.IsDBNull(reader.GetOrdinal("ARCHIVO")))
                             {
-                                if (EsImagen(archivoBytes))
+                                archivoBytes = (byte[])reader["ARCHIVO"];
+
+                                if (archivoBytes != null && archivoBytes.Length > 0)
                                 {
-                                    using (MemoryStream ms = new MemoryStream(archivoBytes))
+                                    if (EsImagen(archivoBytes))
                                     {
-                                        pbImagen.Image = Image.FromStream(ms);
+                                        using (MemoryStream ms = new MemoryStream(archivoBytes))
+                                        {
+                                            pbImagen.Image = Image.FromStream(ms);
+                                        }
                                     }
+                                    else
+                                    {
+                                        pbImagen.Image = null;
+                                    }
+                                    validacion = "1";
                                 }
                                 else
                                 {
                                     pbImagen.Image = null;
+                                    validacion = "0";
                                 }
-                                validacion = "1";
                             }
                             else
                             {
+                                archivoBytes = null;
                                 pbImagen.Image = null;
                                 validacion = "0";
                             }
+                            
                         }
                         catch (Exception ex)
                         {
@@ -218,30 +229,33 @@ namespace ElastoSystem
             {
                 int rowIndex = dgv.SelectedCells[0].RowIndex;
 
-                string folio = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                string folio_original = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                lblFolio.Text = folio_original;
+
+                string folio = dgv.Rows[rowIndex].Cells[1].Value.ToString();
                 txbFolio.Text = folio;
 
-                string fechaConHora = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                string fechaConHora = dgv.Rows[rowIndex].Cells[2].Value.ToString();
                 DateTime fecha = Convert.ToDateTime(fechaConHora);
                 string fechaFormateada = fecha.ToString("yyyy-MM-dd");
                 txbFecha.Text = fechaFormateada;
 
-                string solicitante = dgv.Rows[rowIndex].Cells[2].Value.ToString();
+                string solicitante = dgv.Rows[rowIndex].Cells[3].Value.ToString();
                 txbSolicitante.Text = solicitante;
 
-                string prioridad = dgv.Rows[rowIndex].Cells[3].Value.ToString();
+                string prioridad = dgv.Rows[rowIndex].Cells[4].Value.ToString();
                 txbPrioridad.Text = prioridad;
 
-                string recomendaciones = dgv.Rows[rowIndex].Cells[4].Value.ToString();
+                string recomendaciones = dgv.Rows[rowIndex].Cells[5].Value.ToString();
                 txbRecomendaciones.Text = recomendaciones;
 
-                string tipo = dgv.Rows[rowIndex].Cells[5].Value.ToString();
+                string tipo = dgv.Rows[rowIndex].Cells[6].Value.ToString();
                 txbTipo.Text = tipo;
 
-                string descripcion = dgv.Rows[rowIndex].Cells[6].Value.ToString();
+                string descripcion = dgv.Rows[rowIndex].Cells[7].Value.ToString();
                 txbDescripcion.Text = descripcion;
 
-                string maquinado = dgv.Rows[rowIndex].Cells[7].Value.ToString();
+                string maquinado = dgv.Rows[rowIndex].Cells[8].Value.ToString();
                 txbDescripcionMaquinado.Text = maquinado;
 
 
@@ -341,7 +355,7 @@ namespace ElastoSystem
                 cmd.Connection = conn;
                 cmd.CommandText = "UPDATE elastosystem_maquinado SET ESTATUS = @Estatus, FECHA_TERMINO = @FechaTermino, RUTA_COMPROBANTE = @RutaComprobante, COMPROBANTE = @Comprobante, USUARIO_FINALIZO = @UsuarioFinalizo WHERE ID_MAQUINADO = @IdMaquinado";
 
-                cmd.Parameters.AddWithValue("@IdMaquinado", txbFolio.Text);
+                cmd.Parameters.AddWithValue("@IdMaquinado", lblFolio.Text);
                 cmd.Parameters.AddWithValue("@Estatus", estatus);
                 cmd.Parameters.AddWithValue("@FechaTermino", fecha);
                 cmd.Parameters.AddWithValue("@RutaComprobante", rutaarchivo);
