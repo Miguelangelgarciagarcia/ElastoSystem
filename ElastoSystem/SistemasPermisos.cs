@@ -450,7 +450,7 @@ namespace ElastoSystem
         {
             try
             {
-                string userQuery = "SELECT ID, Usuario, Paswd, No_Trabajador, Estatus FROM elastosystem_login";
+                string userQuery = "SELECT ID, Usuario, Paswd, Correo,  No_Trabajador, Estatus FROM elastosystem_login";
                 MySqlDataAdapter userinfoAdapter = new MySqlDataAdapter(userQuery, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 userinfoAdapter.Fill(dt);
@@ -817,11 +817,13 @@ namespace ElastoSystem
             txbPassword.Clear();
             txbNoTrabajador.Clear();
             cbEstatus.SelectedIndex = -1;
+            txbCorreo.Clear();
             lblCampos.Visible = false;
             pbCampos.Visible = false;
             pbUsuario.Visible = false;
             pbPassword.Visible = false;
             pbEstatus.Visible = false;
+            pbCorreo.Visible = false;
         }
 
         private void dgvUsuarioyPassword_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -841,6 +843,7 @@ namespace ElastoSystem
                 txbUsuario.Text = row.Cells["Usuario"].Value.ToString();
                 txbNoTrabajador.Text = row.Cells["No_Trabajador"].Value.ToString();
                 cbEstatus.Text = row.Cells["Estatus"].Value.ToString();
+                txbCorreo.Text = row.Cells["Correo"].Value.ToString();
             }
 
         }
@@ -849,7 +852,8 @@ namespace ElastoSystem
         {
             if (string.IsNullOrEmpty(txbUsuario.Text) ||
                 string.IsNullOrEmpty(txbPassword.Text) ||
-                string.IsNullOrEmpty(cbEstatus.Text))
+                string.IsNullOrEmpty(cbEstatus.Text) ||
+                string.IsNullOrEmpty(txbCorreo.Text))
             {
                 MessageBox.Show("Ingresa los datos obligatorios");
                 pbCampos.Visible = true;
@@ -857,7 +861,17 @@ namespace ElastoSystem
                 pbUsuario.Visible = true;
                 pbPassword.Visible = true;
                 pbEstatus.Visible = true;
+                pbCorreo.Visible = true;
                 return true;
+            }
+            else
+            {
+                pbCampos.Visible = false;
+                lblCampos.Visible = false;
+                pbUsuario.Visible = false;
+                pbPassword.Visible = false;
+                pbEstatus.Visible = false;
+                pbCorreo.Visible = false;
             }
 
             return false;
@@ -887,12 +901,13 @@ namespace ElastoSystem
 
                     string hashedPassword = Argon2.Hash(txbPassword.Text);
 
-                    string updateQuery = "UPDATE elastosystem_login SET Usuario = @Usuario, Paswd = @Password, No_Trabajador = @NoTrabajador, Estatus = @Estatus WHERE ID = @ID";
+                    string updateQuery = "UPDATE elastosystem_login SET Usuario = @Usuario, Paswd = @Password, Correo = @Correo, No_Trabajador = @NoTrabajador, Estatus = @Estatus WHERE ID = @ID";
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, conn);
 
                     updateCommand.Parameters.AddWithValue("@ID", txbID.Text);
                     updateCommand.Parameters.AddWithValue("@Usuario", txbUsuario.Text);
                     updateCommand.Parameters.AddWithValue("@Password", hashedPassword);
+                    updateCommand.Parameters.AddWithValue("@Correo", txbCorreo.Text);
                     updateCommand.Parameters.AddWithValue("@NoTrabajador", txbNoTrabajador.Text);
                     updateCommand.Parameters.AddWithValue("@Estatus", cbEstatus.Text);
 
@@ -959,11 +974,12 @@ namespace ElastoSystem
 
                     string hashedPassword = Argon2.Hash(txbPassword.Text);
 
-                    string insertQuery = "INSERT INTO elastosystem_login(Usuario, Paswd, No_Trabajador, Estatus) VALUES(@Usuario, @Password, @NoTrabajador, @Estatus)";
+                    string insertQuery = "INSERT INTO elastosystem_login(Usuario, Paswd, Correo, No_Trabajador, Estatus) VALUES(@Usuario, @Password, @Correo, @NoTrabajador, @Estatus)";
                     MySqlCommand insertCommand = new MySqlCommand(insertQuery, conn);
 
                     insertCommand.Parameters.AddWithValue("@Usuario", txbUsuario.Text);
                     insertCommand.Parameters.AddWithValue("@Password", hashedPassword);
+                    insertCommand.Parameters.AddWithValue("@Correo", txbCorreo.Text);
                     insertCommand.Parameters.AddWithValue("@NoTrabajador", txbNoTrabajador.Text);
                     insertCommand.Parameters.AddWithValue("@Estatus", cbEstatus.Text);
 
@@ -1251,6 +1267,11 @@ namespace ElastoSystem
         }
 
         private void cbUsuariosEspeciales_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvUsuarioyPassword_Click(object sender, EventArgs e)
         {
 
         }
