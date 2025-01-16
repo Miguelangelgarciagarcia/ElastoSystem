@@ -63,6 +63,7 @@
             panel6 = new Panel();
             label3 = new Label();
             dgvHistorialMaquinado = new DataGridView();
+            lblConMaq = new Label();
             panel4.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -91,11 +92,12 @@
             lblFolio.BackColor = Color.Transparent;
             lblFolio.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
             lblFolio.ForeColor = Color.White;
-            lblFolio.Location = new Point(1108, 43);
+            lblFolio.Location = new Point(1108, 17);
             lblFolio.Name = "lblFolio";
             lblFolio.Size = new Size(101, 30);
             lblFolio.TabIndex = 19;
             lblFolio.Text = "240000";
+            lblFolio.Visible = false;
             // 
             // label8
             // 
@@ -476,12 +478,25 @@
             dgvHistorialMaquinado.Size = new Size(1235, 197);
             dgvHistorialMaquinado.TabIndex = 24;
             // 
+            // lblConMaq
+            // 
+            lblConMaq.AutoSize = true;
+            lblConMaq.BackColor = Color.Transparent;
+            lblConMaq.Font = new Font("Montserrat", 16F, FontStyle.Bold, GraphicsUnit.Point);
+            lblConMaq.ForeColor = Color.White;
+            lblConMaq.Location = new Point(1108, 42);
+            lblConMaq.Name = "lblConMaq";
+            lblConMaq.Size = new Size(101, 30);
+            lblConMaq.TabIndex = 39;
+            lblConMaq.Text = "240000";
+            // 
             // Maquinado_Solicitud
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(lblConMaq);
             Controls.Add(panel6);
             Controls.Add(lblRutaArchivo);
             Controls.Add(btnLimpiar);
@@ -553,5 +568,6 @@
         private Panel panel6;
         private Label label3;
         private DataGridView dgvHistorialMaquinado;
+        private Label lblConMaq;
     }
 }

@@ -57,6 +57,7 @@ namespace ElastoSystem
                     }
                     ultimoFolio = ultimoFolio + 1;
                     lblFolio.Text = ultimoFolio.ToString();
+                    lblConMaq.Text = "MAQ-"+ultimoFolio.ToString();
                 }
                 else
                 {
@@ -82,6 +83,7 @@ namespace ElastoSystem
             lblRutaArchivo.Text = null;
             txbNombreArchivo.Text = null;
             pbImagen.Image = null;
+            archivoBytes = null;
         }
 
         private byte[] archivoBytes;
@@ -150,43 +152,37 @@ namespace ElastoSystem
             MySqlCommand cmd = new MySqlCommand();
             try
             {
-                if (validacion == "1")
-                {
-                    cmd.Connection = conn;
-                    cmd.CommandText = "INSERT INTO elastosystem_maquinado (FECHA, SOLICITANTE, PRIORIDAD, RECOMENDACIONES, TIPO, DESCRIPCION, DESCRIPCION_MAQUINADO, ARCHIVO, RUTA, ESTATUS) VALUES (@FECHA, @SOLICITANTE, @PRIORIDAD, @RECOMENDACIONES, @TIPO, @DESCRIPCION, @DESCRIPCION_MAQUINADO, @ARCHIVO, @RUTA, @ESTATUS);";
+                cmd.Connection = conn;
 
-                    cmd.Parameters.AddWithValue("@FECHA", fecha);
-                    cmd.Parameters.AddWithValue("@SOLICITANTE", txbSolicitante.Text);
-                    cmd.Parameters.AddWithValue("@PRIORIDAD", cbPrioridad.Text);
-                    cmd.Parameters.AddWithValue("@RECOMENDACIONES", txbRecomendacionesSugerencias.Text);
-                    cmd.Parameters.AddWithValue("@TIPO", cbTipo.Text);
-                    cmd.Parameters.AddWithValue("@DESCRIPCION", txbDescripcion.Text);
-                    cmd.Parameters.AddWithValue("@DESCRIPCION_MAQUINADO", txbDescripcionDelMaquinado.Text);
-                    cmd.Parameters.AddWithValue("@ARCHIVO", archivoBytes);
-                    cmd.Parameters.AddWithValue("@RUTA", rutaarchivo);
-                    cmd.Parameters.AddWithValue("@ESTATUS", estatus);
-                    cmd.ExecuteNonQuery();
-                }
-                else
+                cmd.CommandText = "SELECT COUNT(*) FROM elastosystem_maquinado WHERE ID_MAQUINADO = @ID";
+                cmd.Parameters.AddWithValue("@ID", lblFolio.Text);
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                if(count > 0)
                 {
-                    cmd.Connection = conn;
-                    cmd.CommandText = "INSERT INTO elastosystem_maquinado (FECHA, SOLICITANTE, PRIORIDAD, RECOMENDACIONES, TIPO, DESCRIPCION, DESCRIPCION_MAQUINADO, ESTATUS) VALUES (@FECHA, @SOLICITANTE, @PRIORIDAD, @RECOMENDACIONES, @TIPO, @DESCRIPCION, @DESCRIPCION_MAQUINADO, @ESTATUS);";
-
-                    cmd.Parameters.AddWithValue("@FECHA", fecha);
-                    cmd.Parameters.AddWithValue("@SOLICITANTE", txbSolicitante.Text);
-                    cmd.Parameters.AddWithValue("@PRIORIDAD", cbPrioridad.Text);
-                    cmd.Parameters.AddWithValue("@RECOMENDACIONES", txbRecomendacionesSugerencias.Text);
-                    cmd.Parameters.AddWithValue("@TIPO", cbTipo.Text);
-                    cmd.Parameters.AddWithValue("@DESCRIPCION", txbDescripcion.Text);
-                    cmd.Parameters.AddWithValue("@DESCRIPCION_MAQUINADO", txbDescripcionDelMaquinado.Text);
-                    cmd.Parameters.AddWithValue("@ESTATUS", estatus);
-                    cmd.ExecuteNonQuery();
+                    Folio();
+                    EnviarSolicitud();
+                    return;
                 }
+
+                cmd.CommandText = "INSERT INTO elastosystem_maquinado (ID_MAQUINADO_ALT, FECHA, SOLICITANTE, PRIORIDAD, RECOMENDACIONES, TIPO, DESCRIPCION, DESCRIPCION_MAQUINADO, ARCHIVO, RUTA, ESTATUS) " +
+                                    "VALUES (@ID_MAQUINADO_ALT, @FECHA, @SOLICITANTE, @PRIORIDAD, @RECOMENDACIONES, @TIPO, @DESCRIPCION, @DESCRIPCION_MAQUINADO, @ARCHIVO, @RUTA, @ESTATUS);";
+
+                cmd.Parameters.AddWithValue("@ID_MAQUINADO_ALT", lblConMaq.Text);
+                cmd.Parameters.AddWithValue("@FECHA", fecha);
+                cmd.Parameters.AddWithValue("@SOLICITANTE", txbSolicitante.Text);
+                cmd.Parameters.AddWithValue("@PRIORIDAD", cbPrioridad.Text);
+                cmd.Parameters.AddWithValue("@RECOMENDACIONES", txbRecomendacionesSugerencias.Text);
+                cmd.Parameters.AddWithValue("@TIPO", cbTipo.Text);
+                cmd.Parameters.AddWithValue("@DESCRIPCION", txbDescripcion.Text);
+                cmd.Parameters.AddWithValue("@DESCRIPCION_MAQUINADO", txbDescripcionDelMaquinado.Text);
+                cmd.Parameters.AddWithValue("@ARCHIVO", archivoBytes);
+                cmd.Parameters.AddWithValue("@RUTA", rutaarchivo);
+                cmd.Parameters.AddWithValue("@ESTATUS", estatus);
+                cmd.ExecuteNonQuery();
                 MessageBox.Show("REQUERIMIENTO " + lblFolio.Text + " ENVIADO CON EXITO");
                 Limpiar();
                 Folio();
-
-                
+                MandarALlamarHistorial();
             }
             catch (Exception ex)
             {
@@ -201,7 +197,7 @@ namespace ElastoSystem
         {
             try
             {
-                string tabla = @"SELECT ID_MAQUINADO, FECHA, PRIORIDAD, DESCRIPCION_MAQUINADO, ESTATUS
+                string tabla = @"SELECT ID_MAQUINADO, ID_MAQUINADO_ALT, FECHA, PRIORIDAD, DESCRIPCION_MAQUINADO, ESTATUS
                                 FROM elastosystem_maquinado
                                 WHERE SOLICITANTE = @SOLICITANTE
                                 ORDER BY ID_MAQUINADO DESC";
@@ -210,7 +206,8 @@ namespace ElastoSystem
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgvHistorialMaquinado.DataSource = dt;
-                dgvHistorialMaquinado.Columns["ID_MAQUINADO"].HeaderText = "FOLIO";
+                dgvHistorialMaquinado.Columns["ID_MAQUINADO"].Visible = false;
+                dgvHistorialMaquinado.Columns["ID_MAQUINADO_ALT"].HeaderText = "FOLIO";
                 dgvHistorialMaquinado.Columns["DESCRIPCION_MAQUINADO"].HeaderText = "MAQUINADO";
 
             }
