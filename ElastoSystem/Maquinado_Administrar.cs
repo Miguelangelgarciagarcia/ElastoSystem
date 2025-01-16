@@ -105,7 +105,7 @@ namespace ElastoSystem
                                 pbImagen.Image = null;
                                 validacion = "0";
                             }
-                            
+
                         }
                         catch (Exception ex)
                         {
@@ -201,6 +201,7 @@ namespace ElastoSystem
             txbTipo.Clear();
             txbFolio.Clear();
             pbImagen.Image = null;
+            archivoBytes = null;
             txbNombreArchivo.Clear();
             txbDescripcion.Clear();
             txbDescripcionMaquinado.Clear();
@@ -218,6 +219,7 @@ namespace ElastoSystem
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
+            Limpiar();
             MandarALlamarPendientesMaquinado();
         }
 
@@ -329,7 +331,7 @@ namespace ElastoSystem
 
         private void btnFinalizado_Click(object sender, EventArgs e)
         {
-            if(!string.IsNullOrWhiteSpace(txbNombreComprobante.Text) &&
+            if (!string.IsNullOrWhiteSpace(txbNombreComprobante.Text) &&
                 !string.IsNullOrWhiteSpace(lblRutaComprobante.Text) &&
                 comprobanteBytes != null && comprobanteBytes.Length > 0)
             {
@@ -361,7 +363,7 @@ namespace ElastoSystem
                 cmd.Parameters.AddWithValue("@RutaComprobante", rutaarchivo);
                 cmd.Parameters.AddWithValue("@Comprobante", comprobanteBytes);
                 cmd.Parameters.AddWithValue("@UsuarioFinalizo", usuario);
-                
+
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("MAQUINADO " + txbFolio.Text + " FINALIZADO CON EXITO");
                 Limpiar();
@@ -375,6 +377,48 @@ namespace ElastoSystem
             {
                 conn.Close();
             }
+        }
+
+        private void dgvPendientesMaquinado_Click(object sender, EventArgs e)
+        {
+            DataGridView dgv = (DataGridView)sender;
+
+            if (dgv.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgv.SelectedCells[0].RowIndex;
+
+                string folio_original = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                lblFolio.Text = folio_original;
+
+                string folio = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                txbFolio.Text = folio;
+
+                string fechaConHora = dgv.Rows[rowIndex].Cells[2].Value.ToString();
+                DateTime fecha = Convert.ToDateTime(fechaConHora);
+                string fechaFormateada = fecha.ToString("yyyy-MM-dd");
+                txbFecha.Text = fechaFormateada;
+
+                string solicitante = dgv.Rows[rowIndex].Cells[3].Value.ToString();
+                txbSolicitante.Text = solicitante;
+
+                string prioridad = dgv.Rows[rowIndex].Cells[4].Value.ToString();
+                txbPrioridad.Text = prioridad;
+
+                string recomendaciones = dgv.Rows[rowIndex].Cells[5].Value.ToString();
+                txbRecomendaciones.Text = recomendaciones;
+
+                string tipo = dgv.Rows[rowIndex].Cells[6].Value.ToString();
+                txbTipo.Text = tipo;
+
+                string descripcion = dgv.Rows[rowIndex].Cells[7].Value.ToString();
+                txbDescripcion.Text = descripcion;
+
+                string maquinado = dgv.Rows[rowIndex].Cells[8].Value.ToString();
+                txbDescripcionMaquinado.Text = maquinado;
+
+
+            }
+            MandarALlamarRestoMaquinado();
         }
     }
 }

@@ -164,6 +164,7 @@
             dgvPendientesMaquinado.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPendientesMaquinado.Size = new Size(711, 626);
             dgvPendientesMaquinado.TabIndex = 18;
+            dgvPendientesMaquinado.Click += dgvPendientesMaquinado_Click;
             dgvPendientesMaquinado.DoubleClick += dgvPendientesSistemas_DoubleClick;
             // 
             // pnlRealizado
