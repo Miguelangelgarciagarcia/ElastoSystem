@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Maquinado_Solicitud));
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             lblFolio = new Label();
             label8 = new Label();
@@ -41,17 +42,21 @@
             label15 = new Label();
             btnEnviarSolicitud = new Button();
             panel1 = new Panel();
+            pbPrioridad = new PictureBox();
             label4 = new Label();
             txbRecomendacionesSugerencias = new TextBox();
             cbPrioridad = new ComboBox();
             label7 = new Label();
             panel2 = new Panel();
+            pbDescripcion = new PictureBox();
+            pbTipo = new PictureBox();
             label6 = new Label();
             txbDescripcion = new TextBox();
             label9 = new Label();
             cbTipo = new ComboBox();
             label10 = new Label();
             panel3 = new Panel();
+            pbDescripcionMaquinado = new PictureBox();
             txbDescripcionDelMaquinado = new TextBox();
             label12 = new Label();
             panel5 = new Panel();
@@ -64,14 +69,21 @@
             label3 = new Label();
             dgvHistorialMaquinado = new DataGridView();
             lblConMaq = new Label();
+            pbCamposPartidas = new PictureBox();
+            lblCamposPartidas = new Label();
             panel4.SuspendLayout();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbPrioridad).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDescripcion).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbTipo).BeginInit();
             panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDescripcionMaquinado).BeginInit();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbImagen).BeginInit();
             panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvHistorialMaquinado).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbCamposPartidas).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -198,6 +210,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
+            panel1.Controls.Add(pbPrioridad);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(txbRecomendacionesSugerencias);
             panel1.Controls.Add(cbPrioridad);
@@ -206,6 +219,18 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(400, 167);
             panel1.TabIndex = 30;
+            // 
+            // pbPrioridad
+            // 
+            pbPrioridad.BackColor = Color.Transparent;
+            pbPrioridad.Image = (Image)resources.GetObject("pbPrioridad.Image");
+            pbPrioridad.Location = new Point(10, 23);
+            pbPrioridad.Name = "pbPrioridad";
+            pbPrioridad.Size = new Size(10, 20);
+            pbPrioridad.SizeMode = PictureBoxSizeMode.Zoom;
+            pbPrioridad.TabIndex = 59;
+            pbPrioridad.TabStop = false;
+            pbPrioridad.Visible = false;
             // 
             // label4
             // 
@@ -253,6 +278,8 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(3, 42, 76);
+            panel2.Controls.Add(pbDescripcion);
+            panel2.Controls.Add(pbTipo);
             panel2.Controls.Add(label6);
             panel2.Controls.Add(txbDescripcion);
             panel2.Controls.Add(label9);
@@ -262,6 +289,30 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(368, 167);
             panel2.TabIndex = 31;
+            // 
+            // pbDescripcion
+            // 
+            pbDescripcion.BackColor = Color.Transparent;
+            pbDescripcion.Image = (Image)resources.GetObject("pbDescripcion.Image");
+            pbDescripcion.Location = new Point(10, 114);
+            pbDescripcion.Name = "pbDescripcion";
+            pbDescripcion.Size = new Size(10, 20);
+            pbDescripcion.SizeMode = PictureBoxSizeMode.Zoom;
+            pbDescripcion.TabIndex = 59;
+            pbDescripcion.TabStop = false;
+            pbDescripcion.Visible = false;
+            // 
+            // pbTipo
+            // 
+            pbTipo.BackColor = Color.Transparent;
+            pbTipo.Image = (Image)resources.GetObject("pbTipo.Image");
+            pbTipo.Location = new Point(10, 67);
+            pbTipo.Name = "pbTipo";
+            pbTipo.Size = new Size(10, 20);
+            pbTipo.SizeMode = PictureBoxSizeMode.Zoom;
+            pbTipo.TabIndex = 59;
+            pbTipo.TabStop = false;
+            pbTipo.Visible = false;
             // 
             // label6
             // 
@@ -322,12 +373,25 @@
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(3, 42, 76);
+            panel3.Controls.Add(pbDescripcionMaquinado);
             panel3.Controls.Add(txbDescripcionDelMaquinado);
             panel3.Controls.Add(label12);
             panel3.Location = new Point(398, 290);
             panel3.Name = "panel3";
             panel3.Size = new Size(583, 167);
             panel3.TabIndex = 32;
+            // 
+            // pbDescripcionMaquinado
+            // 
+            pbDescripcionMaquinado.BackColor = Color.Transparent;
+            pbDescripcionMaquinado.Image = (Image)resources.GetObject("pbDescripcionMaquinado.Image");
+            pbDescripcionMaquinado.Location = new Point(9, 23);
+            pbDescripcionMaquinado.Name = "pbDescripcionMaquinado";
+            pbDescripcionMaquinado.Size = new Size(10, 20);
+            pbDescripcionMaquinado.SizeMode = PictureBoxSizeMode.Zoom;
+            pbDescripcionMaquinado.TabIndex = 59;
+            pbDescripcionMaquinado.TabStop = false;
+            pbDescripcionMaquinado.Visible = false;
             // 
             // txbDescripcionDelMaquinado
             // 
@@ -453,26 +517,26 @@
             dgvHistorialMaquinado.AllowUserToAddRows = false;
             dgvHistorialMaquinado.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvHistorialMaquinado.BackgroundColor = Color.White;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvHistorialMaquinado.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvHistorialMaquinado.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvHistorialMaquinado.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvHistorialMaquinado.Location = new Point(19, 48);
             dgvHistorialMaquinado.Name = "dgvHistorialMaquinado";
             dgvHistorialMaquinado.ReadOnly = true;
             dgvHistorialMaquinado.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dgvHistorialMaquinado.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvHistorialMaquinado.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvHistorialMaquinado.RowTemplate.Height = 25;
             dgvHistorialMaquinado.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvHistorialMaquinado.Size = new Size(1235, 197);
@@ -490,12 +554,39 @@
             lblConMaq.TabIndex = 39;
             lblConMaq.Text = "240000";
             // 
+            // pbCamposPartidas
+            // 
+            pbCamposPartidas.BackColor = Color.Transparent;
+            pbCamposPartidas.Image = (Image)resources.GetObject("pbCamposPartidas.Image");
+            pbCamposPartidas.Location = new Point(603, 72);
+            pbCamposPartidas.Name = "pbCamposPartidas";
+            pbCamposPartidas.Size = new Size(10, 20);
+            pbCamposPartidas.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCamposPartidas.TabIndex = 58;
+            pbCamposPartidas.TabStop = false;
+            pbCamposPartidas.Visible = false;
+            // 
+            // lblCamposPartidas
+            // 
+            lblCamposPartidas.AutoSize = true;
+            lblCamposPartidas.BackColor = Color.Transparent;
+            lblCamposPartidas.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblCamposPartidas.ForeColor = Color.White;
+            lblCamposPartidas.Location = new Point(614, 69);
+            lblCamposPartidas.Name = "lblCamposPartidas";
+            lblCamposPartidas.Size = new Size(186, 22);
+            lblCamposPartidas.TabIndex = 57;
+            lblCamposPartidas.Text = "Campos Obilgatorios";
+            lblCamposPartidas.Visible = false;
+            // 
             // Maquinado_Solicitud
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(pbCamposPartidas);
+            Controls.Add(lblCamposPartidas);
             Controls.Add(lblConMaq);
             Controls.Add(panel6);
             Controls.Add(lblRutaArchivo);
@@ -519,16 +610,21 @@
             panel4.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbPrioridad).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDescripcion).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbTipo).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDescripcionMaquinado).EndInit();
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbImagen).EndInit();
             panel6.ResumeLayout(false);
             panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvHistorialMaquinado).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbCamposPartidas).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -569,5 +665,11 @@
         private Label label3;
         private DataGridView dgvHistorialMaquinado;
         private Label lblConMaq;
+        private PictureBox pbCamposPartidas;
+        private Label lblCamposPartidas;
+        private PictureBox pbPrioridad;
+        private PictureBox pbDescripcion;
+        private PictureBox pbTipo;
+        private PictureBox pbDescripcionMaquinado;
     }
 }

@@ -233,6 +233,12 @@ namespace ElastoSystem
         private void btnLimpiar_Click_1(object sender, EventArgs e)
         {
             Limpiar();
+            pbCamposPartidas.Visible = false;
+            lblCamposPartidas.Visible = false;
+            pbPrioridad.Visible = false;
+            pbTipo.Visible = false;
+            pbDescripcion.Visible = false;
+            pbDescripcionMaquinado.Visible = false;
         }
 
         private void cbSolicitante_SelectedIndexChanged(object sender, EventArgs e)
@@ -247,7 +253,26 @@ namespace ElastoSystem
 
         private void btnEnviarSolicitud_Click(object sender, EventArgs e)
         {
-            EnviarSolicitud();
+            if(cbPrioridad.Text.Length > 0 && cbTipo.Text.Length > 0 && txbDescripcion.Text.Length > 0 && txbDescripcionDelMaquinado.Text.Length > 0)
+            {
+                pbCamposPartidas.Visible = false;
+                lblCamposPartidas.Visible = false;
+                pbPrioridad.Visible = false;
+                pbTipo.Visible = false;
+                pbDescripcion.Visible = false;
+                pbDescripcionMaquinado.Visible = false;
+                EnviarSolicitud();
+            }
+            else
+            {
+                MessageBox.Show("DEBES DE LLENAR TODOS LOS CAMPOS OBLIGATORIOS");
+                pbCamposPartidas.Visible = true;
+                lblCamposPartidas.Visible = true;
+                pbPrioridad.Visible = true;
+                pbTipo.Visible = true;
+                pbDescripcion.Visible= true;
+                pbDescripcionMaquinado.Visible = true;
+            }
         }
     }
 }
