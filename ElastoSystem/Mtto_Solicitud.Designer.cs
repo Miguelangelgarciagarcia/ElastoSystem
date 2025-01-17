@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mtto_Solicitud));
             label1 = new Label();
             panel2 = new Panel();
             pbImagen = new PictureBox();
@@ -59,9 +60,24 @@
             label11 = new Label();
             btnEnviarReq = new Button();
             lblFolioOriginal = new Label();
+            pbCamposPartidas = new PictureBox();
+            lblCamposPartidas = new Label();
+            pbMantenimiento = new PictureBox();
+            pbUbicacion = new PictureBox();
+            pbMaquina = new PictureBox();
+            pbPrioridad = new PictureBox();
+            pbTipoFalla = new PictureBox();
+            pbDescripcion = new PictureBox();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbImagen).BeginInit();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbCamposPartidas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbMantenimiento).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbUbicacion).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbMaquina).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbPrioridad).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbTipoFalla).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbDescripcion).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -79,6 +95,9 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(3, 42, 76);
+            panel2.Controls.Add(pbMaquina);
+            panel2.Controls.Add(pbUbicacion);
+            panel2.Controls.Add(pbMantenimiento);
             panel2.Controls.Add(pbImagen);
             panel2.Controls.Add(cbMaquinas);
             panel2.Controls.Add(cbUbicacion);
@@ -236,6 +255,9 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
+            panel1.Controls.Add(pbDescripcion);
+            panel1.Controls.Add(pbTipoFalla);
+            panel1.Controls.Add(pbPrioridad);
             panel1.Controls.Add(txbRefacciones);
             panel1.Controls.Add(txbDescripcion);
             panel1.Controls.Add(label15);
@@ -415,12 +437,111 @@
             lblFolioOriginal.Text = "240000";
             lblFolioOriginal.Visible = false;
             // 
+            // pbCamposPartidas
+            // 
+            pbCamposPartidas.BackColor = Color.Transparent;
+            pbCamposPartidas.Image = (Image)resources.GetObject("pbCamposPartidas.Image");
+            pbCamposPartidas.Location = new Point(46, 106);
+            pbCamposPartidas.Name = "pbCamposPartidas";
+            pbCamposPartidas.Size = new Size(10, 20);
+            pbCamposPartidas.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCamposPartidas.TabIndex = 58;
+            pbCamposPartidas.TabStop = false;
+            pbCamposPartidas.Visible = false;
+            // 
+            // lblCamposPartidas
+            // 
+            lblCamposPartidas.AutoSize = true;
+            lblCamposPartidas.BackColor = Color.Transparent;
+            lblCamposPartidas.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblCamposPartidas.ForeColor = Color.White;
+            lblCamposPartidas.Location = new Point(57, 103);
+            lblCamposPartidas.Name = "lblCamposPartidas";
+            lblCamposPartidas.Size = new Size(186, 22);
+            lblCamposPartidas.TabIndex = 57;
+            lblCamposPartidas.Text = "Campos Obilgatorios";
+            lblCamposPartidas.Visible = false;
+            // 
+            // pbMantenimiento
+            // 
+            pbMantenimiento.BackColor = Color.Transparent;
+            pbMantenimiento.Image = (Image)resources.GetObject("pbMantenimiento.Image");
+            pbMantenimiento.Location = new Point(11, 62);
+            pbMantenimiento.Name = "pbMantenimiento";
+            pbMantenimiento.Size = new Size(10, 20);
+            pbMantenimiento.SizeMode = PictureBoxSizeMode.Zoom;
+            pbMantenimiento.TabIndex = 59;
+            pbMantenimiento.TabStop = false;
+            pbMantenimiento.Visible = false;
+            // 
+            // pbUbicacion
+            // 
+            pbUbicacion.BackColor = Color.Transparent;
+            pbUbicacion.Image = (Image)resources.GetObject("pbUbicacion.Image");
+            pbUbicacion.Location = new Point(11, 100);
+            pbUbicacion.Name = "pbUbicacion";
+            pbUbicacion.Size = new Size(10, 20);
+            pbUbicacion.SizeMode = PictureBoxSizeMode.Zoom;
+            pbUbicacion.TabIndex = 60;
+            pbUbicacion.TabStop = false;
+            pbUbicacion.Visible = false;
+            // 
+            // pbMaquina
+            // 
+            pbMaquina.BackColor = Color.Transparent;
+            pbMaquina.Image = (Image)resources.GetObject("pbMaquina.Image");
+            pbMaquina.Location = new Point(11, 138);
+            pbMaquina.Name = "pbMaquina";
+            pbMaquina.Size = new Size(10, 20);
+            pbMaquina.SizeMode = PictureBoxSizeMode.Zoom;
+            pbMaquina.TabIndex = 61;
+            pbMaquina.TabStop = false;
+            pbMaquina.Visible = false;
+            // 
+            // pbPrioridad
+            // 
+            pbPrioridad.BackColor = Color.Transparent;
+            pbPrioridad.Image = (Image)resources.GetObject("pbPrioridad.Image");
+            pbPrioridad.Location = new Point(10, 62);
+            pbPrioridad.Name = "pbPrioridad";
+            pbPrioridad.Size = new Size(10, 20);
+            pbPrioridad.SizeMode = PictureBoxSizeMode.Zoom;
+            pbPrioridad.TabIndex = 62;
+            pbPrioridad.TabStop = false;
+            pbPrioridad.Visible = false;
+            // 
+            // pbTipoFalla
+            // 
+            pbTipoFalla.BackColor = Color.Transparent;
+            pbTipoFalla.Image = (Image)resources.GetObject("pbTipoFalla.Image");
+            pbTipoFalla.Location = new Point(10, 100);
+            pbTipoFalla.Name = "pbTipoFalla";
+            pbTipoFalla.Size = new Size(10, 20);
+            pbTipoFalla.SizeMode = PictureBoxSizeMode.Zoom;
+            pbTipoFalla.TabIndex = 63;
+            pbTipoFalla.TabStop = false;
+            pbTipoFalla.Visible = false;
+            // 
+            // pbDescripcion
+            // 
+            pbDescripcion.BackColor = Color.Transparent;
+            pbDescripcion.Image = (Image)resources.GetObject("pbDescripcion.Image");
+            pbDescripcion.Location = new Point(10, 138);
+            pbDescripcion.Name = "pbDescripcion";
+            pbDescripcion.Size = new Size(10, 20);
+            pbDescripcion.SizeMode = PictureBoxSizeMode.Zoom;
+            pbDescripcion.TabIndex = 64;
+            pbDescripcion.TabStop = false;
+            pbDescripcion.Visible = false;
+            // 
             // Mtto_Solicitud
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(pbCamposPartidas);
+            Controls.Add(lblCamposPartidas);
             Controls.Add(lblFolioOriginal);
             Controls.Add(btnEnviarReq);
             Controls.Add(panel1);
@@ -439,6 +560,13 @@
             ((System.ComponentModel.ISupportInitialize)pbImagen).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbCamposPartidas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbMantenimiento).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbUbicacion).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbMaquina).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbPrioridad).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbTipoFalla).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbDescripcion).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -475,5 +603,13 @@
         private Label label17;
         private TextBox txbRefacciones;
         private Label lblFolioOriginal;
+        private PictureBox pbCamposPartidas;
+        private Label lblCamposPartidas;
+        private PictureBox pbMaquina;
+        private PictureBox pbUbicacion;
+        private PictureBox pbMantenimiento;
+        private PictureBox pbDescripcion;
+        private PictureBox pbTipoFalla;
+        private PictureBox pbPrioridad;
     }
 }

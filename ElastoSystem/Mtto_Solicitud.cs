@@ -315,7 +315,31 @@ namespace ElastoSystem
 
         private void btnEnviarReq_Click(object sender, EventArgs e)
         {
-            EnviarRequerimiento();
+            if(cbTipoReq.Text.Length > 0 && cbUbicacion.Text.Length > 0 && cbMaquinas.Text.Length > 0 && cbPrioridad.Text.Length > 0 && cbTipoFalla.Text.Length > 0 && txbDescripcion.Text.Length > 0)
+            {
+                lblCamposPartidas.Visible = false;
+                pbCamposPartidas.Visible = false;
+                pbMantenimiento.Visible = false;
+                pbUbicacion.Visible = false;
+                pbMaquina.Visible = false;
+                pbPrioridad.Visible = false;
+                pbTipoFalla.Visible = false;
+                pbDescripcion.Visible = false;
+
+                EnviarRequerimiento();
+            }
+            else
+            {
+                MessageBox.Show("DEBES DE LLENAR TODOS LOS CAMPOS OBLIGATORIOS");
+                lblCamposPartidas.Visible = true;
+                pbCamposPartidas.Visible = true;
+                pbMantenimiento.Visible = true;
+                pbUbicacion.Visible = true;
+                pbMaquina.Visible = true;
+                pbPrioridad.Visible = true;
+                pbTipoFalla.Visible= true;
+                pbDescripcion.Visible= true;
+            }
         }
 
         private void cbTipoReq_SelectedIndexChanged(object sender, EventArgs e)
