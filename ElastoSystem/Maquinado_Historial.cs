@@ -22,16 +22,132 @@ namespace ElastoSystem
 
         private void Maquinado_Historial_Load(object sender, EventArgs e)
         {
-            MandarALlamarMaquinadosFinalizados();
+            CargarID();
+        }
+
+        string idusuario;
+        private void CargarID()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            try
+            {
+                string query = "SELECT ID FROM elastosystem_login WHERE Usuario = @USUARIO";
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    idusuario = reader["ID"].ToString();
+                }
+
+                RevisarUsuario();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL LLAMAR ID DE USUARIO: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void RevisarUsuario()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            try
+            {
+                string query = "SELECT Maquinado_VG FROM elastosystem_permisos_menu WHERE ID = @ID";
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@ID", idusuario);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string comprasVGValue = reader["Maquinado_VG"].ToString();
+                    if (comprasVGValue == "True")
+                    {
+                        MandarALlamarMaquinadosFinalizadosFULL();
+                    }
+                    else
+                    {
+                        MandarALlamarMaquinadosFinalizados();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL LLAMAR PENDIENTES: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private void MandarALlamarMaquinadosFinalizados()
         {
             try
             {
-                string tabla = @"SELECT ID_MAQUINADO, FECHA, FECHA_TERMINO, SOLICITANTE, DESCRIPCION_MAQUINADO, USUARIO_FINALIZO 
-                                FROM elastosystem_maquinado
-                                WHERE ESTATUS = 'FINALIZADA'";
+                string tabla = @"
+                        SELECT 
+                        ID_MAQUINADO, 
+                        IFNULL(FECHA, ' ') AS FECHA,
+                        IFNULL(FECHA_TERMINO, ' ') AS FECHA_TERMINO, 
+                        SOLICITANTE, 
+                        DESCRIPCION_MAQUINADO, 
+                        USUARIO_FINALIZO 
+                        FROM elastosystem_maquinado
+                        WHERE SOLICITANTE = @SOLICITANTE";
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    using(MySqlCommand cmd=new MySqlCommand(tabla, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@SOLICITANTE", VariablesGlobales.Usuario);
+
+                        using(MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adaptador.Fill(dt);
+                            dgvHistorialMaquinado.DataSource = dt;
+                            dgvHistorialMaquinado.Columns["ID_MAQUINADO"].HeaderText = "FOLIO";
+                            dgvHistorialMaquinado.Columns["FECHA"].HeaderText = "FECHA SOLICITUD";
+                            dgvHistorialMaquinado.Columns["FECHA_TERMINO"].HeaderText = "SE FINALIZO";
+                            dgvHistorialMaquinado.Columns["DESCRIPCION_MAQUINADO"].HeaderText = "MAQUINADO";
+                            dgvHistorialMaquinado.Columns["USUARIO_FINALIZO"].HeaderText = "FINALIZO";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL LLAMAR HISTORIAL: "+ex.Message);
+            }
+        }
+
+        private void MandarALlamarMaquinadosFinalizadosFULL()
+        {
+            try
+            {
+                string tabla = @"
+                        SELECT 
+                        ID_MAQUINADO, 
+                        IFNULL(FECHA, ' ') AS FECHA,
+                        IFNULL(FECHA_TERMINO, ' ') AS FECHA_TERMINO, 
+                        SOLICITANTE, 
+                        DESCRIPCION_MAQUINADO, 
+                        USUARIO_FINALIZO 
+                        FROM elastosystem_maquinado";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
@@ -100,47 +216,62 @@ namespace ElastoSystem
         byte[] comprobanteBytes;
         private void MandarALlamarComprobante()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            string sql = "SELECT COMPROBANTE, RUTA_COMPROBANTE FROM elastosystem_maquinado WHERE ID_MAQUINADO LIKE '" + txbFolio.Text + "' ";
-            try
+            using (MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-
-                if (reader.HasRows)
+                mySqlConnection.Open();
+                string sql = "SELECT COMPROBANTE, RUTA_COMPROBANTE FROM elastosystem_maquinado WHERE ID_MAQUINADO LIKE @ID_MAQUINADO";
+                try
                 {
-                    while (reader.Read())
+                    using (MySqlCommand comando = new MySqlCommand(sql, mySqlConnection))
                     {
-                        try
-                        {
+                        comando.Parameters.AddWithValue("@ID_MAQUINADO", txbFolio.Text);
 
-                            comprobanteBytes = (byte[])reader["COMPROBANTE"];
-                            txbNombreArchivo.Text = reader.GetString("RUTA_COMPROBANTE");
-                            string rutacompleta = txbNombreArchivo.Text;
-                            txbRuta.Text = rutacompleta;
-                            string nombrearchivo = Path.GetFileName(rutacompleta);
-                            txbNombreArchivo.Text = nombrearchivo;
-                        }
-                        catch (Exception ex)
+                        using (MySqlDataReader reader = comando.ExecuteReader())
                         {
-                            MessageBox.Show("Error al procesar el archivo" + ex.Message);
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    try
+                                    {
+                                        if (!reader.IsDBNull(reader.GetOrdinal("COMPROBANTE")))
+                                        {
+                                            comprobanteBytes = (byte[])reader["COMPROBANTE"];
+                                            btnDescargar.Visible = true;
+                                        }
+                                        else
+                                        {
+                                            comprobanteBytes = null;
+                                            btnDescargar.Visible = false;
+                                        }
+
+                                        if (!reader.IsDBNull(reader.GetOrdinal("RUTA_COMPROBANTE")))
+                                        {
+                                            txbNombreArchivo.Text = reader.GetString("RUTA_COMPROBANTE");
+                                            string rutacompleta = txbNombreArchivo.Text;
+                                            txbRuta.Text = rutacompleta;
+                                            string nombrearchivo = Path.GetFileName(rutacompleta);
+                                            txbNombreArchivo.Text = nombrearchivo;
+                                        }
+                                        else
+                                        {
+                                            txbNombreArchivo.Text = string.Empty;
+                                            txbRuta.Text = string.Empty;
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show("Error al procesar el archivo: " + ex.Message);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-
+                    MessageBox.Show("Error en la consulta: " + ex.Message);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
             }
         }
 

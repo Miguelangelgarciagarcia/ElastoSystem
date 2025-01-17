@@ -67,6 +67,7 @@
             btnDescargar.TabIndex = 22;
             btnDescargar.Text = "DESCARGAR COMPROBANTE";
             btnDescargar.UseVisualStyleBackColor = false;
+            btnDescargar.Visible = false;
             btnDescargar.Click += btnDescargar_Click_1;
             // 
             // dgvHistorialMaquinado
