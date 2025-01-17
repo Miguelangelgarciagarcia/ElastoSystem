@@ -1157,6 +1157,11 @@ namespace ElastoSystem
         private void LimpiarCHBEscpeciales()
         {
             chbComprasAlmacenar.Checked = false;
+            chbComprasVG.Checked = false;
+            
+            chbMantenimientoVG.Checked = false;
+
+            chbMaquinadoVG.Checked = false;
         }
 
         private void MandarALlamarNoEspecial()
@@ -1204,7 +1209,7 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Compras_AlmacenarREQ FROM elastosystem_permisos_menu WHERE ID = @ID";
+                string query = "SELECT Compras_AlmacenarREQ, Compras_VG, Mantenimiento_VG, Maquinado_VG FROM elastosystem_permisos_menu WHERE ID = @ID";
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@ID", id);
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -1214,6 +1219,24 @@ namespace ElastoSystem
                     if (almacenarREQValue == "True")
                     {
                         chbComprasAlmacenar.Checked = true;
+                    }
+
+                    string comprasVGValue = reader["Compras_VG"].ToString();
+                    if(comprasVGValue == "True")
+                    {
+                        chbComprasVG.Checked = true;
+                    }
+
+                    string mantenimientoVGValue = reader["Mantenimiento_VG"].ToString();
+                    if(mantenimientoVGValue == "True")
+                    {
+                        chbMantenimientoVG.Checked = true;
+                    }
+
+                    string maquinadoVGValue = reader["Maquinado_VG"].ToString();
+                    if(maquinadoVGValue == "True")
+                    {
+                        chbMaquinadoVG.Checked = true;
                     }
                 }
             }
@@ -1235,6 +1258,11 @@ namespace ElastoSystem
         private void ActualizarPermisosEspeciales()
         {
             bool boolAlmacenarReq = chbComprasAlmacenar.Checked;
+            bool boolComprasVG = chbComprasVG.Checked;
+
+            bool boolMantenimientoVG = chbMantenimientoVG.Checked;
+
+            bool boolMaquinadoVG = chbMaquinadoVG.Checked;
 
             MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
@@ -1242,11 +1270,11 @@ namespace ElastoSystem
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Compras_AlmacenarREQ = " + boolAlmacenarReq + " WHERE ID = '" + lblNumeroEspecial.Text + "'";
+                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Compras_AlmacenarREQ = " + boolAlmacenarReq + ", Compras_VG = " + boolComprasVG + ", Maquinado_VG = " + boolMaquinadoVG + ", Mantenimiento_VG = " + boolMantenimientoVG + " WHERE ID = '" + lblNumeroEspecial.Text + "'";
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Permisos Especiales Actualizados");
                 LimpiarCHBEscpeciales();
-                cbUsuariosEspeciales.Text = string.Empty;
+                cbUsuariosEspeciales.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
