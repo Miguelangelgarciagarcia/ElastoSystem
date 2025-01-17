@@ -36,6 +36,26 @@ namespace ElastoSystem
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void CargarRequisicionesPendientesFULL()
+        {
+            try
+            {
+                string tabla = $"SELECT ID, ID_ALT, Usuario, Fecha, Estatus FROM elastosystem_compras_requisicion";
+                MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
+                DataTable dt = new DataTable();
+                mySqlAdapter.Fill(dt);
+                dt.Columns["ID_ALT"].ColumnName = "Folio";
+                dt.Columns["Usuario"].ColumnName = "Solicitante";
+                dgvRequisicions.DataSource = dt;
+                dgvRequisicions.Columns["ID"].Visible = false;
+                dt.DefaultView.Sort = "Folio DESC";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         private void MandarALlamarPartidas()
         {
             try
@@ -68,7 +88,76 @@ namespace ElastoSystem
         }
         private void Compras_RequisicionesEnviadas_Load(object sender, EventArgs e)
         {
-            CargarRequisicionesPendientes();
+            CargarID();
+        }
+
+        string idusuario;
+        private void CargarID()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            try
+            {
+                string query = "SELECT ID FROM elastosystem_login WHERE Usuario = @USUARIO";
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    idusuario = reader["ID"].ToString();
+                }
+
+                RevisarUsuario();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL LLAMAR ID DE USUARIO: "+ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void RevisarUsuario()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            try
+            {
+                string query = "SELECT Compras_VG FROM elastosystem_permisos_menu WHERE ID = @ID";
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@ID", idusuario);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string comprasVGValue = reader["Compras_VG"].ToString();
+                    if(comprasVGValue == "True")
+                    {
+                        CargarRequisicionesPendientesFULL();
+                    }
+                    else
+                    {
+                        CargarRequisicionesPendientes();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("ERROR AL LLAMAR PENDIENTES: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private void dgvRequisicions_DoubleClick(object sender, EventArgs e)
