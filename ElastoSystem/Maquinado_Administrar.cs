@@ -292,7 +292,7 @@ namespace ElastoSystem
             Limpiar();
             MandarALlamarPendientesMaquinado();
         }
-
+        
         private void CargarComprobante()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -302,16 +302,27 @@ namespace ElastoSystem
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string filePath = openFileDialog.FileName;
+                string filePathc = openFileDialog.FileName;
 
-                string fileName = Path.GetFileName(filePath);
+                string fileName = Path.GetFileName(filePathc);
 
                 txbNombreComprobante.Text = fileName;
-                lblRutaComprobante.Text = filePath;
+                lblRutaComprobante.Text = filePathc;
+                pbComprobanteMaquinado.Image = null;
 
                 try
                 {
-                    comprobanteBytes = File.ReadAllBytes(filePath);
+                    comprobanteBytes = File.ReadAllBytes(filePathc);
+
+                    if (EsImagenCom(filePathc))
+                    {
+                        pbComprobanteMaquinado.Image = Image.FromFile(filePathc);
+                    }
+                    else
+                    {
+                        pbComprobanteMaquinado.Image = null;
+                        MessageBox.Show("ARCHIVO CARGADO CORRECTAMENTE");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -322,6 +333,15 @@ namespace ElastoSystem
             {
                 MessageBox.Show("No se seleccionó ningún archivo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private bool EsImagenCom(string filePath)
+        {
+            string extension = Path.GetExtension(filePath).ToLower();
+
+            string[] extensionesImagen = { ".png", ".jpg", ".jpeg", ".gif", ".bmp" };
+
+            return extensionesImagen.Contains(extension);
         }
 
         private void btnCargarArchivo_Click(object sender, EventArgs e)

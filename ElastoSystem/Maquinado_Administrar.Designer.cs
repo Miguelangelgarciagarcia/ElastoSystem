@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             pnlPendientesMaquinado = new Panel();
             btnActualizar = new Button();
             btnRealizado = new Button();
             dgvPendientesMaquinado = new DataGridView();
             pnlRealizado = new Panel();
+            pbComprobanteMaquinado = new PictureBox();
             lblRutaComprobante = new Label();
             label8 = new Label();
             btnRegresar = new Button();
@@ -72,6 +73,7 @@
             pnlPendientesMaquinado.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPendientesMaquinado).BeginInit();
             pnlRealizado.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbComprobanteMaquinado).BeginInit();
             panel4.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -140,26 +142,26 @@
             dgvPendientesMaquinado.AllowUserToAddRows = false;
             dgvPendientesMaquinado.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPendientesMaquinado.BackgroundColor = Color.White;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvPendientesMaquinado.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvPendientesMaquinado.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvPendientesMaquinado.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPendientesMaquinado.Location = new Point(16, 67);
             dgvPendientesMaquinado.Name = "dgvPendientesMaquinado";
             dgvPendientesMaquinado.ReadOnly = true;
             dgvPendientesMaquinado.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dgvPendientesMaquinado.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvPendientesMaquinado.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvPendientesMaquinado.RowTemplate.Height = 25;
             dgvPendientesMaquinado.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPendientesMaquinado.Size = new Size(711, 626);
@@ -170,6 +172,7 @@
             // pnlRealizado
             // 
             pnlRealizado.BackColor = Color.FromArgb(3, 42, 76);
+            pnlRealizado.Controls.Add(pbComprobanteMaquinado);
             pnlRealizado.Controls.Add(lblRutaComprobante);
             pnlRealizado.Controls.Add(label8);
             pnlRealizado.Controls.Add(btnRegresar);
@@ -181,6 +184,16 @@
             pnlRealizado.Size = new Size(742, 709);
             pnlRealizado.TabIndex = 21;
             pnlRealizado.Visible = false;
+            // 
+            // pbComprobanteMaquinado
+            // 
+            pbComprobanteMaquinado.BackColor = Color.White;
+            pbComprobanteMaquinado.Location = new Point(157, 193);
+            pbComprobanteMaquinado.Name = "pbComprobanteMaquinado";
+            pbComprobanteMaquinado.Size = new Size(245, 199);
+            pbComprobanteMaquinado.SizeMode = PictureBoxSizeMode.Zoom;
+            pbComprobanteMaquinado.TabIndex = 39;
+            pbComprobanteMaquinado.TabStop = false;
             // 
             // lblRutaComprobante
             // 
@@ -590,6 +603,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvPendientesMaquinado).EndInit();
             pnlRealizado.ResumeLayout(false);
             pnlRealizado.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbComprobanteMaquinado).EndInit();
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
             panel2.ResumeLayout(false);
@@ -646,5 +660,6 @@
         private Label label8;
         private Label lblRutaComprobante;
         private Label lblFolio;
+        private PictureBox pbComprobanteMaquinado;
     }
 }
