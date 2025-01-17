@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReqSistemas));
             label1 = new Label();
             label2 = new Label();
             cbTipoReq = new ComboBox();
@@ -53,10 +54,19 @@
             btnCargarArchivo = new Button();
             panel2 = new Panel();
             lblRutaArchivo = new Label();
+            pbCamposPartidas = new PictureBox();
+            lblCamposPartidas = new Label();
+            pbNivelPrioridad = new PictureBox();
+            pbCategoria = new PictureBox();
+            pbDescripcion = new PictureBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPendientesSistemas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbImagen).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbCamposPartidas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbNivelPrioridad).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbCategoria).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbDescripcion).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -334,12 +344,78 @@
             lblRutaArchivo.TabIndex = 20;
             lblRutaArchivo.Visible = false;
             // 
+            // pbCamposPartidas
+            // 
+            pbCamposPartidas.BackColor = Color.Transparent;
+            pbCamposPartidas.Image = (Image)resources.GetObject("pbCamposPartidas.Image");
+            pbCamposPartidas.Location = new Point(610, 67);
+            pbCamposPartidas.Name = "pbCamposPartidas";
+            pbCamposPartidas.Size = new Size(10, 20);
+            pbCamposPartidas.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCamposPartidas.TabIndex = 56;
+            pbCamposPartidas.TabStop = false;
+            pbCamposPartidas.Visible = false;
+            // 
+            // lblCamposPartidas
+            // 
+            lblCamposPartidas.AutoSize = true;
+            lblCamposPartidas.BackColor = Color.Transparent;
+            lblCamposPartidas.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblCamposPartidas.ForeColor = Color.White;
+            lblCamposPartidas.Location = new Point(621, 64);
+            lblCamposPartidas.Name = "lblCamposPartidas";
+            lblCamposPartidas.Size = new Size(186, 22);
+            lblCamposPartidas.TabIndex = 55;
+            lblCamposPartidas.Text = "Campos Obilgatorios";
+            lblCamposPartidas.Visible = false;
+            // 
+            // pbNivelPrioridad
+            // 
+            pbNivelPrioridad.BackColor = Color.Transparent;
+            pbNivelPrioridad.Image = (Image)resources.GetObject("pbNivelPrioridad.Image");
+            pbNivelPrioridad.Location = new Point(39, 136);
+            pbNivelPrioridad.Name = "pbNivelPrioridad";
+            pbNivelPrioridad.Size = new Size(10, 20);
+            pbNivelPrioridad.SizeMode = PictureBoxSizeMode.Zoom;
+            pbNivelPrioridad.TabIndex = 57;
+            pbNivelPrioridad.TabStop = false;
+            pbNivelPrioridad.Visible = false;
+            // 
+            // pbCategoria
+            // 
+            pbCategoria.BackColor = Color.Transparent;
+            pbCategoria.Image = (Image)resources.GetObject("pbCategoria.Image");
+            pbCategoria.Location = new Point(39, 180);
+            pbCategoria.Name = "pbCategoria";
+            pbCategoria.Size = new Size(10, 20);
+            pbCategoria.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCategoria.TabIndex = 58;
+            pbCategoria.TabStop = false;
+            pbCategoria.Visible = false;
+            // 
+            // pbDescripcion
+            // 
+            pbDescripcion.BackColor = Color.Transparent;
+            pbDescripcion.Image = (Image)resources.GetObject("pbDescripcion.Image");
+            pbDescripcion.Location = new Point(39, 229);
+            pbDescripcion.Name = "pbDescripcion";
+            pbDescripcion.Size = new Size(10, 20);
+            pbDescripcion.SizeMode = PictureBoxSizeMode.Zoom;
+            pbDescripcion.TabIndex = 59;
+            pbDescripcion.TabStop = false;
+            pbDescripcion.Visible = false;
+            // 
             // ReqSistemas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(pbDescripcion);
+            Controls.Add(pbCategoria);
+            Controls.Add(pbNivelPrioridad);
+            Controls.Add(pbCamposPartidas);
+            Controls.Add(lblCamposPartidas);
             Controls.Add(panel2);
             Controls.Add(lblFolioOriginal);
             Controls.Add(panel1);
@@ -365,6 +441,10 @@
             ((System.ComponentModel.ISupportInitialize)pbImagen).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbCamposPartidas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbNivelPrioridad).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbCategoria).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbDescripcion).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -393,5 +473,10 @@
         private Button btnCargarArchivo;
         private Panel panel2;
         private Label lblRutaArchivo;
+        private PictureBox pbCamposPartidas;
+        private Label lblCamposPartidas;
+        private PictureBox pbNivelPrioridad;
+        private PictureBox pbCategoria;
+        private PictureBox pbDescripcion;
     }
 }

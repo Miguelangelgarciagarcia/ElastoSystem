@@ -180,9 +180,9 @@ namespace ElastoSystem
 
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress("notificaciones.elastosystem@elastotecnica.com.mx");
-                mailMessage.To.Add("soporte@elastotecnica.com.mx");
+                //mailMessage.To.Add("soporte@elastotecnica.com.mx");
                 mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
-                mailMessage.To.Add("imedinaa@elastotecnica.com");
+                //mailMessage.To.Add("imedinaa@elastotecnica.com");
                 mailMessage.Subject = "TICKET DE SISTEMAS: "+lblFolio.Text;
 
                 StringBuilder cuerpoCorreo = new StringBuilder();
@@ -233,8 +233,26 @@ namespace ElastoSystem
 
         private void button1_Click(object sender, EventArgs e)
         {
-            EnviarRequerimiento();
-            MandarALlamarPendientesSistemas();
+            if(cbNivelPrio.Text.Length > 0 && cbTipoReq.Text.Length > 0 && tbDescr.Text.Length > 0)
+            {
+                pbCamposPartidas.Visible = false;
+                lblCamposPartidas.Visible = false;
+                pbNivelPrioridad.Visible = false;
+                pbCategoria.Visible = false;
+                pbDescripcion.Visible = false;
+                EnviarRequerimiento();
+                MandarALlamarPendientesSistemas();
+            }
+            else
+            {
+                MessageBox.Show("DEBES DE LLENAR TODOS LOS CAMPOS OBLIGATORIOS");
+                pbCamposPartidas.Visible = true;
+                lblCamposPartidas.Visible = true;
+                pbNivelPrioridad.Visible = true;
+                pbCategoria.Visible = true;
+                pbDescripcion.Visible = true;
+            }
+            
         }
 
         private void btnEnviarReq_KeyPress(object sender, KeyPressEventArgs e)
