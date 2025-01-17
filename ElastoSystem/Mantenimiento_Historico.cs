@@ -20,7 +20,76 @@ namespace ElastoSystem
 
         private void Mantenimiento_Historico_Load(object sender, EventArgs e)
         {
-            CargarHistorico();
+            CargarID();
+        }
+
+        string idusuario;
+        private void CargarID()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            try
+            {
+                string query = "SELECT ID FROM elastosystem_login WHERE Usuario = @USUARIO";
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    idusuario = reader["ID"].ToString();
+                }
+
+                RevisarUsuario();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL LLAMAR ID DE USUARIO: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void RevisarUsuario()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            try
+            {
+                string query = "SELECT Mantenimiento_VG FROM elastosystem_permisos_menu WHERE ID = @ID";
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@ID", idusuario);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string comprasVGValue = reader["Mantenimiento_VG"].ToString();
+                    if (comprasVGValue == "True")
+                    {
+                        CargarHistoricoFULL();
+                    }
+                    else
+                    {
+                        CargarHistorico();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL LLAMAR PENDIENTES: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private void CargarHistorico()
@@ -51,6 +120,51 @@ namespace ElastoSystem
                             dgvMantenimiento.DataSource = dt;
                             dgvMantenimiento.Columns["Folio"].Visible = false;
                             dgvMantenimiento.Columns["Solicitante"].Visible = false;
+                            dgvMantenimiento.Columns["Tipo_Falla"].Visible = false;
+                            dgvMantenimiento.Columns["Mantenimiento"].Visible = false;
+                            dgvMantenimiento.Columns["Ubicacion"].Visible = false;
+                            dgvMantenimiento.Columns["Recomendaciones_Sugerencias"].Visible = false;
+                            dgvMantenimiento.Columns["Refacciones"].Visible = false;
+                            dgvMantenimiento.Columns["Ruta_Comprobante"].Visible = false;
+                            dgvMantenimiento.Columns["Comprobante"].Visible = false;
+                            dgvMantenimiento.Columns["Folio_ALT"].HeaderText = "Folio";
+                            dgvMantenimiento.Columns["Fecha_Termino"].HeaderText = "Fecha Fin";
+                            dgvMantenimiento.Columns["Usuario_Finalizo"].HeaderText = "Finalizo";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR EL HISTORICO DE MANTENIMIENTO: " + ex.Message);
+                }
+            }
+        }
+
+        private void CargarHistoricoFULL()
+        {
+            string query = @"
+                SELECT * 
+                FROM elastosystem_mtto_req
+                ORDER BY Fecha DESC,
+                CASE Estatus
+                    WHEN 'ACTIVA' THEN 1
+                    WHEN 'FINALIZADA' THEN 2
+                    ELSE 3
+                END ASC";
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+
+                        using (MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adaptador.Fill(dt);
+                            dgvMantenimiento.DataSource = dt;
+                            dgvMantenimiento.Columns["Folio"].Visible = false;
                             dgvMantenimiento.Columns["Tipo_Falla"].Visible = false;
                             dgvMantenimiento.Columns["Mantenimiento"].Visible = false;
                             dgvMantenimiento.Columns["Ubicacion"].Visible = false;
