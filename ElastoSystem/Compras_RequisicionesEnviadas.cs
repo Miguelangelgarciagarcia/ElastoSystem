@@ -115,7 +115,7 @@ namespace ElastoSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ERROR AL LLAMAR ID DE USUARIO: "+ex.Message);
+                MessageBox.Show("ERROR AL LLAMAR ID DE USUARIO: " + ex.Message);
             }
             finally
             {
@@ -140,17 +140,18 @@ namespace ElastoSystem
                 while (reader.Read())
                 {
                     string comprasVGValue = reader["Compras_VG"].ToString();
-                    if(comprasVGValue == "True")
+                    if (comprasVGValue == "True")
                     {
                         CargarRequisicionesPendientesFULL();
                     }
                     else
                     {
                         CargarRequisicionesPendientes();
+                        txbBuscadorGeneral.Visible = false;
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("ERROR AL LLAMAR PENDIENTES: " + ex.Message);
             }
@@ -507,6 +508,47 @@ namespace ElastoSystem
             }
         }
 
+        private void BuscadorGeneral()
+        {
+            try
+            {
+                string valorBusqueda = txbBuscadorGeneral.Text.Trim();
+                string consulta;
+
+                if (string.IsNullOrEmpty(valorBusqueda))
+                {
+                    consulta = $"SELECT ID, ID_ALT, Usuario, Fecha, Estatus FROM elastosystem_compras_requisicion";
+                }
+                else
+                {
+                    consulta = $"SELECT ID, ID_ALT, Usuario, Fecha, Estatus FROM elastosystem_compras_requisicion WHERE (ID LIKE @ValorBusqueda OR ID_ALT LIKE @ValorBusqueda OR Usuario LIKE @ValorBusqueda)";
+                }
+
+                MySqlDataAdapter adapatador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
+
+                if (!string.IsNullOrEmpty(valorBusqueda))
+                {
+                    adapatador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
+                }
+
+                DataTable dt = new DataTable();
+                adapatador.Fill(dt);
+
+                dt.Columns["ID_ALT"].ColumnName = "Folio";
+                dt.Columns["Usuario"].ColumnName = "Solicitante";
+
+                dgvRequisicions.DataSource = dt;
+
+                dgvRequisicions.Columns["ID"].Visible = false;
+
+                dt.DefaultView.Sort = "Folio DESC";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL BUSCAR DATOS: " + ex.Message);
+            }
+        }
+
         private void txbBuscador_TextChanged(object sender, EventArgs e)
         {
             Buscador();
@@ -562,7 +604,7 @@ namespace ElastoSystem
                 DefaultExt = extensionCotizacion
             };
 
-            if(file.ShowDialog() == DialogResult.OK)
+            if (file.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
@@ -571,11 +613,16 @@ namespace ElastoSystem
                     string argument = "/select, \"" + file.FileName + "\"";
                     System.Diagnostics.Process.Start("explorer.exe", argument);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("ERROR AL GUARDAR LA COTIZACIÓN: "+ex.Message);
+                    MessageBox.Show("ERROR AL GUARDAR LA COTIZACIÓN: " + ex.Message);
                 }
             }
+        }
+
+        private void txbBuscadorGeneral_TextChanged(object sender, EventArgs e)
+        {
+            BuscadorGeneral();
         }
     }
 }

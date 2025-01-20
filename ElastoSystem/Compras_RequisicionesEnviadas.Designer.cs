@@ -34,6 +34,7 @@
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             panel5 = new Panel();
+            txbBuscadorGeneral = new TextBox();
             txbBuscador = new TextBox();
             label13 = new Label();
             dgvRequisicions = new DataGridView();
@@ -88,6 +89,7 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(3, 42, 76);
+            panel5.Controls.Add(txbBuscadorGeneral);
             panel5.Controls.Add(txbBuscador);
             panel5.Controls.Add(label13);
             panel5.Controls.Add(dgvRequisicions);
@@ -95,6 +97,15 @@
             panel5.Name = "panel5";
             panel5.Size = new Size(539, 700);
             panel5.TabIndex = 21;
+            // 
+            // txbBuscadorGeneral
+            // 
+            txbBuscadorGeneral.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbBuscadorGeneral.Location = new Point(140, 29);
+            txbBuscadorGeneral.Name = "txbBuscadorGeneral";
+            txbBuscadorGeneral.Size = new Size(382, 27);
+            txbBuscadorGeneral.TabIndex = 29;
+            txbBuscadorGeneral.TextChanged += txbBuscadorGeneral_TextChanged;
             // 
             // txbBuscador
             // 
@@ -604,5 +615,6 @@
         private TextBox txbRutCot;
         private TextBox txbRutaCotizacion;
         private TextBox txbNombreCotizacion;
+        private TextBox txbBuscadorGeneral;
     }
 }
