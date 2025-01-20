@@ -81,6 +81,7 @@ namespace ElastoSystem
                     else
                     {
                         MandarALlamarMaquinadosFinalizados();
+                        txbBuscadorGeneral.Visible = false;
                     }
                 }
             }
@@ -111,11 +112,11 @@ namespace ElastoSystem
                 using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                 {
                     conn.Open();
-                    using(MySqlCommand cmd=new MySqlCommand(tabla, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(tabla, conn))
                     {
                         cmd.Parameters.AddWithValue("@SOLICITANTE", VariablesGlobales.Usuario);
 
-                        using(MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
+                        using (MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
                         {
                             DataTable dt = new DataTable();
                             adaptador.Fill(dt);
@@ -131,7 +132,7 @@ namespace ElastoSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ERROR AL LLAMAR HISTORIAL: "+ex.Message);
+                MessageBox.Show("ERROR AL LLAMAR HISTORIAL: " + ex.Message);
             }
         }
 
@@ -174,10 +175,20 @@ namespace ElastoSystem
                 conn.Open();
 
                 string valorBusqueda = txbBuscador.Text;
-                string searchQuery = "SELECT ID_MAQUINADO, FECHA, FECHA_TERMINO, SOLICITANTE, DESCRIPCION_MAQUINADO, USUARIO_FINALIZO FROM elastosystem_maquinado WHERE (ID_MAQUINADO LIKE @ValorBusqueda OR SOLICITANTE LIKE @ValorBusqueda OR DESCRIPCION_MAQUINADO LIKE @ValorBusqueda OR USUARIO_FINALIZO LIKE @ValorBusqueda) AND ESTATUS = 'FINALIZADA' AND FECHA IS NOT NULL AND FECHA_TERMINO IS NOT NULL";
+                string searchQuery = @"
+                        SELECT 
+                        ID_MAQUINADO, 
+                        IFNULL(FECHA, ' ') AS FECHA,
+                        IFNULL(FECHA_TERMINO, ' ') AS FECHA_TERMINO,
+                        SOLICITANTE, 
+                        DESCRIPCION_MAQUINADO, 
+                        USUARIO_FINALIZO
+                        FROM elastosystem_maquinado 
+                        WHERE (ID_MAQUINADO LIKE @ValorBusqueda OR SOLICITANTE LIKE @ValorBusqueda OR DESCRIPCION_MAQUINADO LIKE @ValorBusqueda OR USUARIO_FINALIZO LIKE @ValorBusqueda) AND SOLICITANTE = @SOLICITANTE";
 
                 MySqlDataAdapter adaptador = new MySqlDataAdapter(searchQuery, VariablesGlobales.ConexionBDElastotecnica);
                 adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
+                adaptador.SelectCommand.Parameters.AddWithValue("@SOLICITANTE", VariablesGlobales.Usuario);
 
                 DataTable tableResultados = new DataTable();
                 adaptador.Fill(tableResultados);
@@ -189,6 +200,43 @@ namespace ElastoSystem
             catch (Exception ex)
             {
                 MessageBox.Show("Error al buscador datos: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void BuscadorGeneral()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            try
+            {
+                conn.Open();
+
+                string valorBusqueda = txbBuscadorGeneral.Text;
+                string searchQuery = @"
+                        SELECT 
+                        ID_MAQUINADO, 
+                        IFNULL(FECHA, ' ') AS FECHA,
+                        IFNULL(FECHA_TERMINO, ' ') AS FECHA_TERMINO,
+                        SOLICITANTE,
+                        DESCRIPCION_MAQUINADO,
+                        USUARIO_FINALIZO 
+                        FROM elastosystem_maquinado
+                        WHERE (ID_MAQUINADO LIKE @ValorBusqueda OR SOLICITANTE LIKE @ValorBusqueda OR DESCRIPCION_MAQUINADO LIKE @ValorBusqueda OR USUARIO_FINALIZO LIKE @ValorBusqueda)";
+
+                MySqlDataAdapter adaptador = new MySqlDataAdapter(searchQuery, VariablesGlobales.ConexionBDElastotecnica);
+                adaptador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
+
+                DataTable tableResultados = new DataTable();
+                adaptador.Fill(tableResultados);
+
+                dgvHistorialMaquinado.DataSource = tableResultados;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERRO AL BUSCAR DATOS: " + ex.Message);
             }
             finally
             {
@@ -315,6 +363,11 @@ namespace ElastoSystem
         private void btnDescargar_Click_1(object sender, EventArgs e)
         {
             DescargarComprobante();
+        }
+
+        private void txbBuscadorGeneral_TextChanged(object sender, EventArgs e)
+        {
+            BuscadorGeneral();
         }
     }
 }

@@ -38,6 +38,7 @@
             txbFolio = new TextBox();
             txbNombreArchivo = new TextBox();
             txbRuta = new TextBox();
+            txbBuscadorGeneral = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvHistorialMaquinado).BeginInit();
             SuspendLayout();
             // 
@@ -150,12 +151,22 @@
             txbRuta.TabIndex = 28;
             txbRuta.Visible = false;
             // 
+            // txbBuscadorGeneral
+            // 
+            txbBuscadorGeneral.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbBuscadorGeneral.Location = new Point(144, 97);
+            txbBuscadorGeneral.Name = "txbBuscadorGeneral";
+            txbBuscadorGeneral.Size = new Size(208, 27);
+            txbBuscadorGeneral.TabIndex = 29;
+            txbBuscadorGeneral.TextChanged += txbBuscadorGeneral_TextChanged;
+            // 
             // Maquinado_Historial
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(txbBuscadorGeneral);
             Controls.Add(txbRuta);
             Controls.Add(txbNombreArchivo);
             Controls.Add(txbFolio);
@@ -183,5 +194,6 @@
         private TextBox txbFolio;
         private TextBox txbNombreArchivo;
         private TextBox txbRuta;
+        private TextBox txbBuscadorGeneral;
     }
 }
