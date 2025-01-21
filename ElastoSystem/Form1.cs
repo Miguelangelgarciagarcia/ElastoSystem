@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using Isopoh.Cryptography.Argon2;
 using FirebirdSql.Data.FirebirdClient;
+using System.Data;
 
 namespace ElastoSystem
 {
@@ -109,7 +110,7 @@ namespace ElastoSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            /*ConectarSAE();*/
+            ConectarSAE();
             MandarALlamarIP();
             if (VariablesGlobales.IPServidor == "10.120.1.104")
             {
@@ -124,22 +125,112 @@ namespace ElastoSystem
         }
         private void ConectarSAE()
         {
-            //string conn = "User=sysdba;Password=masterkey;Database=10.120.1.4:/dacaspel/Sistemas Aspel/SAE9.00/Empresa01/Datos/SAE90EMPRE01.FDB;Dialect=3;Charset=ISO8859_1;";
-            string conn = "User=SYSDBA;Password=masterkey;Database=10.120.1.4:\\\\dacaspel\\Sistemas Aspel\\SAE9.00\\Empresa01\\Datos\\SAE90EMPRE01.FDB;Dialect=3;Charset=ISO8859_1;";
             try
             {
-                using (FbConnection connection = new FbConnection(conn))
+                FbConnectionStringBuilder cadena = new FbConnectionStringBuilder();
+                cadena.UserID = "SYSDBA";
+                cadena.Password = "masterkey";
+                cadena.Database = VariablesGlobales.DireccionBDSAE;
+                cadena.DataSource = VariablesGlobales.IPSAE;
+                cadena.Port = 3050;
+
+                using(FbConnection conexion = new FbConnection(cadena.ConnectionString))
                 {
-                    connection.Open();
-                    MessageBox.Show("Conexión exitosa a la base de datos.");
+                    conexion.Open();
+                    conexion.Close();
+                    CargarExistenciaSAE();
                 }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("ERROR DE CONEXION CON LA BASE DE DATOS DE ASPEL: " + ex.Message);
+            }
+        }
+        private void CargarExistenciaSAE()
+        {
+            try
+            {
+                dgvProductosSAE.AutoGenerateColumns = true;
+
+                FbConnectionStringBuilder cadena = new FbConnectionStringBuilder();
+                cadena.UserID = "SYSDBA";
+                cadena.Password = "masterkey";
+                cadena.Database = VariablesGlobales.DireccionBDSAE;
+                cadena.DataSource = VariablesGlobales.IPSAE;
+                cadena.Port = 3050;
+
+                FbConnection conn = new FbConnection(cadena.ConnectionString);
+                FbCommand comando = new FbCommand();
+                FbDataAdapter adaptador = new FbDataAdapter();
+                DataSet datos = new DataSet();
+                string sql = "SELECT CVE_ART, EXIST FROM mult01 WHERE CVE_ALM = 1";
+
+                comando.Connection = conn;
+                comando.CommandText = sql;
+                adaptador.SelectCommand = comando;
+
+                conn.Open();
+                adaptador.Fill(datos);
+                conn.Close();
+
+                bindingSource1.DataSource = datos.Tables[0];
+                dgvProductosSAE.DataSource = bindingSource1;
+
+                ActualizarBDProductosSAE();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error de conexión a la base de datos: {ex.Message}");
-                Application.Exit();
+                MessageBox.Show("ERROR AL CARGAR LOS PRODUCTOS DE ASPEL SAE: "+ex.Message);
             }
         }
+
+        private void ActualizarBDProductosSAE()
+        {
+            try
+            {
+                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    foreach (DataGridViewRow row in dgvProductosSAE.Rows)
+                    {
+                        if (!row.IsNewRow)
+                        {
+                            string cveArt = row.Cells["CVE_ART"].Value.ToString();
+                            string existencia = row.Cells["EXIST"].Value.ToString();
+
+                            string checkQuery = "SELECT COUNT(*) FROM elastosystem_sae_productos WHERE Producto = @CVE_ART";
+                            MySqlCommand cmd = new MySqlCommand(checkQuery, conn);
+                            cmd.Parameters.AddWithValue("@CVE_ART", cveArt);
+                            int count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                            if(count > 0)
+                            {
+                                string updateQuery = "UPDATE elastosystem_sae_productos SET Existencia = @EXISTENCIA WHERE Producto = @CVE_ART";
+                                MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn);
+                                updateCmd.Parameters.AddWithValue("@EXISTENCIA", existencia);
+                                updateCmd.Parameters.AddWithValue("@CVE_ART", cveArt);
+                                updateCmd.ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                string insertQuery = "INSERT INTO elastosystem_sae_productos (Producto, Existencia) VALUES (@CVE_ART, @EXISTENCIAS)";
+                                MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn);
+                                insertCmd.Parameters.AddWithValue("@CVE_ART", cveArt);
+                                insertCmd.Parameters.AddWithValue("@EXISTENCIAS", existencia);
+                                insertCmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("HUBO UN ERROR AL ACTUALIZAR EXISTENCIAS DE SAE EN BD: " + ex.Message);
+            }
+        }
+
         private void MandarALlamarIP()
         {
             lblIP.Text = VariablesGlobales.IPServidor;

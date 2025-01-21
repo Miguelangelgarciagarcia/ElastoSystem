@@ -16,6 +16,10 @@ namespace ElastoSystem
         */
         public static string IPServidor = "10.120.1.104";
         public static string ConexionBDElastotecnica = $"server={IPServidor} ; username=root; password=; database=elastosystem";
+        public static string IPSAE = "10.120.1.104";
+        //public static string IPSAE = "10.120.1.4";
+        public static string DireccionBDSAE = @"C:\Databases\SAE90EMPRE01.FDB";
+        //public static string DireccionBDSAE = @"C:\Program Files (x86)\Common Files\Aspel\Sistemas Aspel\SAE9.00\Empresa01\Datos\SAE90EMPRE01.FDB";
 
         public static void ValidarSoloNoyPunto(KeyPressEventArgs e, TextBox textBox)
         {

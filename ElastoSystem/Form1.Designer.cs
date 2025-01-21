@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             btnlogin = new Button();
             tbpassword = new TextBox();
@@ -50,6 +51,8 @@
             pictureBox3 = new PictureBox();
             pictureBox5 = new PictureBox();
             lblIP = new Label();
+            dgvProductosSAE = new DataGridView();
+            bindingSource1 = new BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -63,6 +66,8 @@
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProductosSAE).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             SuspendLayout();
             // 
             // btnlogin
@@ -341,6 +346,17 @@
             lblIP.TabIndex = 25;
             lblIP.Text = "ERROR IP";
             // 
+            // dgvProductosSAE
+            // 
+            dgvProductosSAE.AllowUserToAddRows = false;
+            dgvProductosSAE.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductosSAE.Location = new Point(24, 52);
+            dgvProductosSAE.Name = "dgvProductosSAE";
+            dgvProductosSAE.RowTemplate.Height = 25;
+            dgvProductosSAE.Size = new Size(16, 22);
+            dgvProductosSAE.TabIndex = 26;
+            dgvProductosSAE.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
@@ -348,6 +364,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(674, 653);
+            Controls.Add(dgvProductosSAE);
             Controls.Add(lblIP);
             Controls.Add(panel3);
             Controls.Add(panel2);
@@ -385,6 +402,8 @@
             panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProductosSAE).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -411,5 +430,7 @@
         private PictureBox pictureBox5;
         private Label lblIP;
         private Label lblModoPrueba;
+        private DataGridView dgvProductosSAE;
+        private BindingSource bindingSource1;
     }
 }
