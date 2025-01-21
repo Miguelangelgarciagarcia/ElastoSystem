@@ -28,12 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Almacen_InventarioAlmacen";
+            label1 = new Label();
+            SuspendLayout();
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Montserrat", 22F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(23, 22);
+            label1.Name = "label1";
+            label1.Size = new Size(334, 41);
+            label1.TabIndex = 2;
+            label1.Text = "INVENTARIO PT SAE";
+            // 
+            // Almacen_InventarioAlmacen
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            ClientSize = new Size(1338, 831);
+            Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.None;
+            Name = "Almacen_InventarioAlmacen";
+            Text = "Almacen_InventarioAlmacen";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label label1;
     }
 }

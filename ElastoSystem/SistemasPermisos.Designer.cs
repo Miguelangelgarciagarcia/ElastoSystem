@@ -1370,7 +1370,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(1322, 792);
+            ClientSize = new Size(1338, 831);
             Controls.Add(tabControl1);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
