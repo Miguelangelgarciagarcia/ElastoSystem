@@ -76,6 +76,8 @@
             btnConsumibles = new Button();
             button6 = new Button();
             panelSubMenuAlmacen = new Panel();
+            btnInventarioAlmacen = new Button();
+            btnAdminInventario = new Button();
             btnConsultaSalidas = new Button();
             btnControlAlmacen = new Button();
             btnRegistrarExistencias = new Button();
@@ -222,7 +224,7 @@
             sbmMantenimiento.Controls.Add(btnPendientesMtto);
             sbmMantenimiento.Controls.Add(btnSolicitudMantenimiento);
             sbmMantenimiento.Dock = DockStyle.Top;
-            sbmMantenimiento.Location = new Point(0, 1296);
+            sbmMantenimiento.Location = new Point(0, 1369);
             sbmMantenimiento.Name = "sbmMantenimiento";
             sbmMantenimiento.Size = new Size(187, 153);
             sbmMantenimiento.TabIndex = 17;
@@ -311,7 +313,7 @@
             btnMantenimiento.FlatStyle = FlatStyle.Flat;
             btnMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btnMantenimiento.ForeColor = Color.White;
-            btnMantenimiento.Location = new Point(0, 1260);
+            btnMantenimiento.Location = new Point(0, 1333);
             btnMantenimiento.Name = "btnMantenimiento";
             btnMantenimiento.Padding = new Padding(10, 0, 0, 0);
             btnMantenimiento.Size = new Size(187, 36);
@@ -329,7 +331,7 @@
             sbmMaquinado.Controls.Add(btnPendientesMaquinado);
             sbmMaquinado.Controls.Add(btnSolicitudMquinado);
             sbmMaquinado.Dock = DockStyle.Top;
-            sbmMaquinado.Location = new Point(0, 1136);
+            sbmMaquinado.Location = new Point(0, 1209);
             sbmMaquinado.Name = "sbmMaquinado";
             sbmMaquinado.Size = new Size(187, 124);
             sbmMaquinado.TabIndex = 15;
@@ -399,7 +401,7 @@
             btnMaquinado.FlatStyle = FlatStyle.Flat;
             btnMaquinado.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btnMaquinado.ForeColor = Color.White;
-            btnMaquinado.Location = new Point(0, 1100);
+            btnMaquinado.Location = new Point(0, 1173);
             btnMaquinado.Name = "btnMaquinado";
             btnMaquinado.Padding = new Padding(10, 0, 0, 0);
             btnMaquinado.Size = new Size(187, 36);
@@ -415,7 +417,7 @@
             sbmProduccion.BackColor = Color.FromArgb(3, 52, 92);
             sbmProduccion.Controls.Add(btnReporte);
             sbmProduccion.Dock = DockStyle.Top;
-            sbmProduccion.Location = new Point(0, 1048);
+            sbmProduccion.Location = new Point(0, 1121);
             sbmProduccion.Name = "sbmProduccion";
             sbmProduccion.Size = new Size(187, 52);
             sbmProduccion.TabIndex = 13;
@@ -447,7 +449,7 @@
             btnProduccion.FlatStyle = FlatStyle.Flat;
             btnProduccion.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btnProduccion.ForeColor = Color.White;
-            btnProduccion.Location = new Point(0, 1012);
+            btnProduccion.Location = new Point(0, 1085);
             btnProduccion.Name = "btnProduccion";
             btnProduccion.Padding = new Padding(10, 0, 0, 0);
             btnProduccion.Size = new Size(187, 36);
@@ -466,7 +468,7 @@
             sbmVentas.Controls.Add(btnCatalogoClientes);
             sbmVentas.Controls.Add(btnBuscarCotizacion);
             sbmVentas.Dock = DockStyle.Top;
-            sbmVentas.Location = new Point(0, 856);
+            sbmVentas.Location = new Point(0, 929);
             sbmVentas.Name = "sbmVentas";
             sbmVentas.Size = new Size(187, 156);
             sbmVentas.TabIndex = 11;
@@ -555,7 +557,7 @@
             btnVentas.FlatStyle = FlatStyle.Flat;
             btnVentas.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btnVentas.ForeColor = Color.White;
-            btnVentas.Location = new Point(0, 820);
+            btnVentas.Location = new Point(0, 893);
             btnVentas.Name = "btnVentas";
             btnVentas.Padding = new Padding(10, 0, 0, 0);
             btnVentas.Size = new Size(187, 36);
@@ -572,7 +574,7 @@
             panelSubMenu4.Controls.Add(btnPermisos);
             panelSubMenu4.Controls.Add(btnSistemasReq);
             panelSubMenu4.Dock = DockStyle.Top;
-            panelSubMenu4.Location = new Point(0, 736);
+            panelSubMenu4.Location = new Point(0, 809);
             panelSubMenu4.Name = "panelSubMenu4";
             panelSubMenu4.Size = new Size(187, 84);
             panelSubMenu4.TabIndex = 9;
@@ -623,7 +625,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(0, 700);
+            button1.Location = new Point(0, 773);
             button1.Name = "button1";
             button1.Padding = new Padding(10, 0, 0, 0);
             button1.Size = new Size(187, 36);
@@ -638,7 +640,7 @@
             // 
             panel1.Controls.Add(btninfo);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 1449);
+            panel1.Location = new Point(0, 1522);
             panel1.Name = "panel1";
             panel1.Size = new Size(187, 56);
             panel1.TabIndex = 0;
@@ -666,7 +668,7 @@
             panelSubMenu3.Controls.Add(btnCredencial);
             panelSubMenu3.Controls.Add(btnRegistroTrabajador);
             panelSubMenu3.Dock = DockStyle.Top;
-            panelSubMenu3.Location = new Point(0, 619);
+            panelSubMenu3.Location = new Point(0, 692);
             panelSubMenu3.Name = "panelSubMenu3";
             panelSubMenu3.Size = new Size(187, 81);
             panelSubMenu3.TabIndex = 7;
@@ -718,7 +720,7 @@
             button11.FlatStyle = FlatStyle.Flat;
             button11.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             button11.ForeColor = Color.White;
-            button11.Location = new Point(0, 583);
+            button11.Location = new Point(0, 656);
             button11.Name = "button11";
             button11.Padding = new Padding(10, 0, 0, 0);
             button11.Size = new Size(187, 36);
@@ -740,7 +742,7 @@
             panelSubMenu2.Controls.Add(btnReqCompra);
             panelSubMenu2.Controls.Add(btnConsumibles);
             panelSubMenu2.Dock = DockStyle.Top;
-            panelSubMenu2.Location = new Point(0, 323);
+            panelSubMenu2.Location = new Point(0, 396);
             panelSubMenu2.Name = "panelSubMenu2";
             panelSubMenu2.Size = new Size(187, 260);
             panelSubMenu2.TabIndex = 5;
@@ -886,7 +888,7 @@
             button6.FlatStyle = FlatStyle.Flat;
             button6.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             button6.ForeColor = Color.White;
-            button6.Location = new Point(0, 287);
+            button6.Location = new Point(0, 360);
             button6.Name = "button6";
             button6.Padding = new Padding(10, 0, 0, 0);
             button6.Size = new Size(187, 36);
@@ -900,6 +902,8 @@
             // panelSubMenuAlmacen
             // 
             panelSubMenuAlmacen.BackColor = Color.FromArgb(3, 52, 92);
+            panelSubMenuAlmacen.Controls.Add(btnInventarioAlmacen);
+            panelSubMenuAlmacen.Controls.Add(btnAdminInventario);
             panelSubMenuAlmacen.Controls.Add(btnConsultaSalidas);
             panelSubMenuAlmacen.Controls.Add(btnControlAlmacen);
             panelSubMenuAlmacen.Controls.Add(btnRegistrarExistencias);
@@ -907,8 +911,46 @@
             panelSubMenuAlmacen.Dock = DockStyle.Top;
             panelSubMenuAlmacen.Location = new Point(0, 134);
             panelSubMenuAlmacen.Name = "panelSubMenuAlmacen";
-            panelSubMenuAlmacen.Size = new Size(187, 153);
+            panelSubMenuAlmacen.Size = new Size(187, 226);
             panelSubMenuAlmacen.TabIndex = 3;
+            // 
+            // btnInventarioAlmacen
+            // 
+            btnInventarioAlmacen.Dock = DockStyle.Top;
+            btnInventarioAlmacen.Enabled = false;
+            btnInventarioAlmacen.FlatAppearance.BorderSize = 0;
+            btnInventarioAlmacen.FlatStyle = FlatStyle.Flat;
+            btnInventarioAlmacen.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnInventarioAlmacen.ForeColor = Color.White;
+            btnInventarioAlmacen.Location = new Point(0, 180);
+            btnInventarioAlmacen.Name = "btnInventarioAlmacen";
+            btnInventarioAlmacen.Padding = new Padding(20, 0, 0, 0);
+            btnInventarioAlmacen.Size = new Size(187, 36);
+            btnInventarioAlmacen.TabIndex = 9;
+            btnInventarioAlmacen.Text = "Inventario Almacen PT";
+            btnInventarioAlmacen.TextAlign = ContentAlignment.MiddleLeft;
+            btnInventarioAlmacen.UseVisualStyleBackColor = true;
+            btnInventarioAlmacen.Visible = false;
+            btnInventarioAlmacen.Click += btnInventarioAlmacen_Click;
+            // 
+            // btnAdminInventario
+            // 
+            btnAdminInventario.Dock = DockStyle.Top;
+            btnAdminInventario.Enabled = false;
+            btnAdminInventario.FlatAppearance.BorderSize = 0;
+            btnAdminInventario.FlatStyle = FlatStyle.Flat;
+            btnAdminInventario.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnAdminInventario.ForeColor = Color.White;
+            btnAdminInventario.Location = new Point(0, 144);
+            btnAdminInventario.Name = "btnAdminInventario";
+            btnAdminInventario.Padding = new Padding(20, 0, 0, 0);
+            btnAdminInventario.Size = new Size(187, 36);
+            btnAdminInventario.TabIndex = 8;
+            btnAdminInventario.Text = "Admin. Inventario PT";
+            btnAdminInventario.TextAlign = ContentAlignment.MiddleLeft;
+            btnAdminInventario.UseVisualStyleBackColor = true;
+            btnAdminInventario.Visible = false;
+            btnAdminInventario.Click += btnAdminInventario_Click;
             // 
             // btnConsultaSalidas
             // 
@@ -1161,5 +1203,7 @@
         private Button btnSolicitudMantenimiento;
         private Button btnMantenimiento;
         private Button btnInventarioMaquinas;
+        private Button btnInventarioAlmacen;
+        private Button btnAdminInventario;
     }
 }

@@ -353,7 +353,7 @@
             dgvProductosSAE.Location = new Point(24, 52);
             dgvProductosSAE.Name = "dgvProductosSAE";
             dgvProductosSAE.RowTemplate.Height = 25;
-            dgvProductosSAE.Size = new Size(16, 22);
+            dgvProductosSAE.Size = new Size(21, 24);
             dgvProductosSAE.TabIndex = 26;
             dgvProductosSAE.Visible = false;
             // 

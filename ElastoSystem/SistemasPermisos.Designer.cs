@@ -29,12 +29,14 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SistemasPermisos));
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             label2 = new Label();
             cbUsuarios = new ComboBox();
             panel1 = new Panel();
+            chbInventarioAlmacenPT = new CheckBox();
+            chbAdminInventarioPT = new CheckBox();
             chbConsultaSalidas = new CheckBox();
             chbControlAlmacen = new CheckBox();
             chbRegistrarExistencias = new CheckBox();
@@ -108,20 +110,20 @@
             chbSolicitudMtto = new CheckBox();
             chbMantenimiento = new CheckBox();
             tabPage1 = new TabPage();
+            panel11 = new Panel();
+            label12 = new Label();
+            chbMaquinadoVG = new CheckBox();
+            panel10 = new Panel();
+            label11 = new Label();
+            chbMantenimientoVG = new CheckBox();
             lblNumeroEspecial = new Label();
             btnActualizarPermisosEspeciales = new Button();
             panel9 = new Panel();
+            chbComprasVG = new CheckBox();
             label9 = new Label();
             chbComprasAlmacenar = new CheckBox();
             cbUsuariosEspeciales = new ComboBox();
             label8 = new Label();
-            chbComprasVG = new CheckBox();
-            panel10 = new Panel();
-            label11 = new Label();
-            chbMantenimientoVG = new CheckBox();
-            panel11 = new Panel();
-            label12 = new Label();
-            chbMaquinadoVG = new CheckBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -140,9 +142,9 @@
             tabPermisosUsuarios.SuspendLayout();
             panel8.SuspendLayout();
             tabPage1.SuspendLayout();
-            panel9.SuspendLayout();
-            panel10.SuspendLayout();
             panel11.SuspendLayout();
+            panel10.SuspendLayout();
+            panel9.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -183,6 +185,8 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
+            panel1.Controls.Add(chbInventarioAlmacenPT);
+            panel1.Controls.Add(chbAdminInventarioPT);
             panel1.Controls.Add(chbConsultaSalidas);
             panel1.Controls.Add(chbControlAlmacen);
             panel1.Controls.Add(chbRegistrarExistencias);
@@ -193,6 +197,32 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(240, 240);
             panel1.TabIndex = 3;
+            // 
+            // chbInventarioAlmacenPT
+            // 
+            chbInventarioAlmacenPT.AutoSize = true;
+            chbInventarioAlmacenPT.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbInventarioAlmacenPT.ForeColor = Color.White;
+            chbInventarioAlmacenPT.Location = new Point(15, 204);
+            chbInventarioAlmacenPT.Name = "chbInventarioAlmacenPT";
+            chbInventarioAlmacenPT.Size = new Size(164, 20);
+            chbInventarioAlmacenPT.TabIndex = 7;
+            chbInventarioAlmacenPT.Text = "Inventario Almacen PT";
+            chbInventarioAlmacenPT.UseVisualStyleBackColor = true;
+            chbInventarioAlmacenPT.CheckedChanged += chbInventarioAlmacenPT_CheckedChanged;
+            // 
+            // chbAdminInventarioPT
+            // 
+            chbAdminInventarioPT.AutoSize = true;
+            chbAdminInventarioPT.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbAdminInventarioPT.ForeColor = Color.White;
+            chbAdminInventarioPT.Location = new Point(15, 178);
+            chbAdminInventarioPT.Name = "chbAdminInventarioPT";
+            chbAdminInventarioPT.Size = new Size(154, 20);
+            chbAdminInventarioPT.TabIndex = 6;
+            chbAdminInventarioPT.Text = "Admin. Inventario PT";
+            chbAdminInventarioPT.UseVisualStyleBackColor = true;
+            chbAdminInventarioPT.CheckedChanged += chbAdminInventarioPT_CheckedChanged;
             // 
             // chbConsultaSalidas
             // 
@@ -1022,26 +1052,26 @@
             dgvUsuarioyPassword.AllowUserToAddRows = false;
             dgvUsuarioyPassword.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvUsuarioyPassword.BackgroundColor = Color.White;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvUsuarioyPassword.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvUsuarioyPassword.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvUsuarioyPassword.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsuarioyPassword.Location = new Point(24, 325);
             dgvUsuarioyPassword.Name = "dgvUsuarioyPassword";
             dgvUsuarioyPassword.ReadOnly = true;
             dgvUsuarioyPassword.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dgvUsuarioyPassword.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dgvUsuarioyPassword.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvUsuarioyPassword.RowTemplate.Height = 25;
             dgvUsuarioyPassword.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvUsuarioyPassword.Size = new Size(1207, 275);
@@ -1168,6 +1198,74 @@
             tabPage1.Text = "Permisos Especiales";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // panel11
+            // 
+            panel11.BackColor = Color.FromArgb(3, 42, 76);
+            panel11.Controls.Add(label12);
+            panel11.Controls.Add(chbMaquinadoVG);
+            panel11.Location = new Point(518, 93);
+            panel11.Name = "panel11";
+            panel11.Size = new Size(240, 240);
+            panel11.TabIndex = 13;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.BackColor = Color.Transparent;
+            label12.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label12.ForeColor = Color.White;
+            label12.Location = new Point(15, 13);
+            label12.Name = "label12";
+            label12.Size = new Size(121, 22);
+            label12.TabIndex = 8;
+            label12.Text = "MAQUINADO";
+            // 
+            // chbMaquinadoVG
+            // 
+            chbMaquinadoVG.AutoSize = true;
+            chbMaquinadoVG.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbMaquinadoVG.ForeColor = Color.White;
+            chbMaquinadoVG.Location = new Point(15, 48);
+            chbMaquinadoVG.Name = "chbMaquinadoVG";
+            chbMaquinadoVG.Size = new Size(174, 20);
+            chbMaquinadoVG.TabIndex = 2;
+            chbMaquinadoVG.Text = "Vista General de Historial";
+            chbMaquinadoVG.UseVisualStyleBackColor = true;
+            // 
+            // panel10
+            // 
+            panel10.BackColor = Color.FromArgb(3, 42, 76);
+            panel10.Controls.Add(label11);
+            panel10.Controls.Add(chbMantenimientoVG);
+            panel10.Location = new Point(272, 93);
+            panel10.Name = "panel10";
+            panel10.Size = new Size(240, 240);
+            panel10.TabIndex = 12;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.BackColor = Color.Transparent;
+            label11.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label11.ForeColor = Color.White;
+            label11.Location = new Point(15, 13);
+            label11.Name = "label11";
+            label11.Size = new Size(157, 22);
+            label11.TabIndex = 8;
+            label11.Text = "MANTENIMIENTO";
+            // 
+            // chbMantenimientoVG
+            // 
+            chbMantenimientoVG.AutoSize = true;
+            chbMantenimientoVG.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbMantenimientoVG.ForeColor = Color.White;
+            chbMantenimientoVG.Location = new Point(15, 48);
+            chbMantenimientoVG.Name = "chbMantenimientoVG";
+            chbMantenimientoVG.Size = new Size(174, 20);
+            chbMantenimientoVG.TabIndex = 2;
+            chbMantenimientoVG.Text = "Vista General de Historial";
+            chbMantenimientoVG.UseVisualStyleBackColor = true;
+            // 
             // lblNumeroEspecial
             // 
             lblNumeroEspecial.AutoSize = true;
@@ -1205,6 +1303,18 @@
             panel9.Name = "panel9";
             panel9.Size = new Size(240, 240);
             panel9.TabIndex = 9;
+            // 
+            // chbComprasVG
+            // 
+            chbComprasVG.AutoSize = true;
+            chbComprasVG.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbComprasVG.ForeColor = Color.White;
+            chbComprasVG.Location = new Point(15, 74);
+            chbComprasVG.Name = "chbComprasVG";
+            chbComprasVG.Size = new Size(174, 20);
+            chbComprasVG.TabIndex = 9;
+            chbComprasVG.Text = "Vista General de Historial";
+            chbComprasVG.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -1254,86 +1364,6 @@
             label8.TabIndex = 3;
             label8.Text = "Usuario:";
             // 
-            // chbComprasVG
-            // 
-            chbComprasVG.AutoSize = true;
-            chbComprasVG.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            chbComprasVG.ForeColor = Color.White;
-            chbComprasVG.Location = new Point(15, 74);
-            chbComprasVG.Name = "chbComprasVG";
-            chbComprasVG.Size = new Size(174, 20);
-            chbComprasVG.TabIndex = 9;
-            chbComprasVG.Text = "Vista General de Historial";
-            chbComprasVG.UseVisualStyleBackColor = true;
-            // 
-            // panel10
-            // 
-            panel10.BackColor = Color.FromArgb(3, 42, 76);
-            panel10.Controls.Add(label11);
-            panel10.Controls.Add(chbMantenimientoVG);
-            panel10.Location = new Point(272, 93);
-            panel10.Name = "panel10";
-            panel10.Size = new Size(240, 240);
-            panel10.TabIndex = 12;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.BackColor = Color.Transparent;
-            label11.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label11.ForeColor = Color.White;
-            label11.Location = new Point(15, 13);
-            label11.Name = "label11";
-            label11.Size = new Size(157, 22);
-            label11.TabIndex = 8;
-            label11.Text = "MANTENIMIENTO";
-            // 
-            // chbMantenimientoVG
-            // 
-            chbMantenimientoVG.AutoSize = true;
-            chbMantenimientoVG.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            chbMantenimientoVG.ForeColor = Color.White;
-            chbMantenimientoVG.Location = new Point(15, 48);
-            chbMantenimientoVG.Name = "chbMantenimientoVG";
-            chbMantenimientoVG.Size = new Size(174, 20);
-            chbMantenimientoVG.TabIndex = 2;
-            chbMantenimientoVG.Text = "Vista General de Historial";
-            chbMantenimientoVG.UseVisualStyleBackColor = true;
-            // 
-            // panel11
-            // 
-            panel11.BackColor = Color.FromArgb(3, 42, 76);
-            panel11.Controls.Add(label12);
-            panel11.Controls.Add(chbMaquinadoVG);
-            panel11.Location = new Point(518, 93);
-            panel11.Name = "panel11";
-            panel11.Size = new Size(240, 240);
-            panel11.TabIndex = 13;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.BackColor = Color.Transparent;
-            label12.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label12.ForeColor = Color.White;
-            label12.Location = new Point(15, 13);
-            label12.Name = "label12";
-            label12.Size = new Size(121, 22);
-            label12.TabIndex = 8;
-            label12.Text = "MAQUINADO";
-            // 
-            // chbMaquinadoVG
-            // 
-            chbMaquinadoVG.AutoSize = true;
-            chbMaquinadoVG.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            chbMaquinadoVG.ForeColor = Color.White;
-            chbMaquinadoVG.Location = new Point(15, 48);
-            chbMaquinadoVG.Name = "chbMaquinadoVG";
-            chbMaquinadoVG.Size = new Size(174, 20);
-            chbMaquinadoVG.TabIndex = 2;
-            chbMaquinadoVG.Text = "Vista General de Historial";
-            chbMaquinadoVG.UseVisualStyleBackColor = true;
-            // 
             // SistemasPermisos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1376,12 +1406,12 @@
             panel8.PerformLayout();
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
-            panel9.ResumeLayout(false);
-            panel9.PerformLayout();
-            panel10.ResumeLayout(false);
-            panel10.PerformLayout();
             panel11.ResumeLayout(false);
             panel11.PerformLayout();
+            panel10.ResumeLayout(false);
+            panel10.PerformLayout();
+            panel9.ResumeLayout(false);
+            panel9.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1479,5 +1509,7 @@
         private Panel panel10;
         private Label label11;
         private CheckBox chbMantenimientoVG;
+        private CheckBox chbInventarioAlmacenPT;
+        private CheckBox chbAdminInventarioPT;
     }
 }

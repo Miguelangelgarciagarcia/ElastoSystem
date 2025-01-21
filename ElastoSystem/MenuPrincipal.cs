@@ -38,7 +38,7 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Almacen, Nuevo_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @idmenu";
+                string query = "SELECT Almacen, Nuevo_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Admin_Inventario, Inventario_Almacen, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @idmenu";
 
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@idmenu", idmenu);
@@ -78,6 +78,20 @@ namespace ElastoSystem
                         {
                             btnConsultaSalidas.Enabled = true;
                             btnConsultaSalidas.Visible = true;
+                        }
+
+                        string admininventarioValue = reader["Admin_Inventario"].ToString();
+                        if (admininventarioValue == "True")
+                        {
+                            btnAdminInventario.Enabled = true;
+                            btnAdminInventario.Visible = true;
+                        }
+
+                        string inventarioalmacenValue = reader["Inventario_Almacen"].ToString();
+                        if (inventarioalmacenValue == "True")
+                        {
+                            btnInventarioAlmacen.Enabled = true;
+                            btnInventarioAlmacen.Visible = true;
                         }
                     }
 
@@ -750,6 +764,18 @@ namespace ElastoSystem
         private void MenuPrincipal_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnAdminInventario_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Almacen_Admin_Inventario());
+            HideSubMenu();
+        }
+
+        private void btnInventarioAlmacen_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Almacen_InventarioAlmacen());
+            HideSubMenu();
         }
     }
 }
