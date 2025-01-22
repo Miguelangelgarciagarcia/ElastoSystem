@@ -23,6 +23,14 @@ namespace ElastoSystem
             CargarProductos();
         }
 
+        private void ValidarNumero(KeyPressEventArgs e, TextBox textBox)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
+        }
+
         private void CargarProductos()
         {
             cbProductos.Items.Clear();
@@ -119,7 +127,7 @@ namespace ElastoSystem
             int m2 = m1 * 2;
             int m3 = m1 * 3;
 
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -134,15 +142,15 @@ namespace ElastoSystem
                     cmd.Parameters.AddWithValue("@PRODUCTO", cbProductos.Text);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
-                    if(rowsAffected > 0)
+                    if (rowsAffected > 0)
                     {
                         MessageBox.Show("PRODUCTO ACTUALIZADO CORRECTAMENTE");
                         Limpiar();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("ERROR AL ACTUALIZAR LOS DATOS: "+ex.Message);
+                    MessageBox.Show("ERROR AL ACTUALIZAR LOS DATOS: " + ex.Message);
                 }
                 finally
                 {
@@ -150,6 +158,11 @@ namespace ElastoSystem
                 }
             }
 
+        }
+
+        private void txbConsumoMensual_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumero(e, txbConsumoMensual);
         }
     }
 }

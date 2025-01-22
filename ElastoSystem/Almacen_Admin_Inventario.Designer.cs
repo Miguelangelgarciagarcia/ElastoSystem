@@ -107,6 +107,7 @@
             txbConsumoMensual.Name = "txbConsumoMensual";
             txbConsumoMensual.Size = new Size(288, 27);
             txbConsumoMensual.TabIndex = 41;
+            txbConsumoMensual.KeyPress += txbConsumoMensual_KeyPress;
             // 
             // Almacen_Admin_Inventario
             // 
