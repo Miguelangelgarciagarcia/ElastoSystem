@@ -739,6 +739,7 @@
             txbPrecio.Name = "txbPrecio";
             txbPrecio.Size = new Size(153, 27);
             txbPrecio.TabIndex = 23;
+            txbPrecio.KeyPress += txbPrecio_KeyPress;
             // 
             // label9
             // 
@@ -779,6 +780,7 @@
             txbCantidad.Name = "txbCantidad";
             txbCantidad.Size = new Size(153, 27);
             txbCantidad.TabIndex = 19;
+            txbCantidad.KeyPress += txbCantidad_KeyPress;
             // 
             // label6
             // 

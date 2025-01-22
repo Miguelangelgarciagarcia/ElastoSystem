@@ -193,6 +193,19 @@ namespace ElastoSystem
             }
         }
 
+        private void ValidarNumero(KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
+
+            if (e.KeyChar == '.' && textBox.Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+        }
+
         private void ExtraerValoresDescripcion(string descripcionlarga)
         {
             string antesDeRequisicion = "";
@@ -2377,6 +2390,16 @@ namespace ElastoSystem
             }
 
             RevisarBotonAlmacenar();
+        }
+
+        private void txbCantidad_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumero(e, txbCantidad);
+        }
+
+        private void txbPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ValidarNumero(e, txbPrecio);
         }
     }
 }
