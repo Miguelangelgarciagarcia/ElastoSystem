@@ -160,11 +160,13 @@ namespace ElastoSystem
                 {
                     double importe = valor1 * valor2;
                     importe = Math.Round(importe, 2);
+                    valor1 = Math.Round(valor1, 2);
+                    valor2 = Math.Round(valor2, 2);
                     string folio = lblIDProducto.Text;
-                    string cantidad = txbCantidad.Text;
+                    string cantidad = valor2.ToString();
                     string unidad = txbUnidad.Text;
                     string descripcion = txbDescripcion.Text + "\n" + "Requisicion: " + txbReqFolio.Text + ",    " + "Solicito: " + lblSolicito.Text + ",    " + "Uso: " + txbTipoUso.Text + "\n" + "Comentarios: " + txbNotas.Text;
-                    string precio = txbPrecio.Text;
+                    string precio = valor1.ToString();
                     string req = txbReqFolio.Text;
 
                     int partida = dgvListaMateriales.Rows.Count + 1;
