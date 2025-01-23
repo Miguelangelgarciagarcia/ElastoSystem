@@ -126,6 +126,8 @@ namespace ElastoSystem
             int m1 = int.Parse(txbConsumoMensual.Text);
             int m2 = m1 * 2;
             int m3 = m1 * 3;
+            int m4 = m1 * 4;
+            int tm = m1 / 3;
 
             using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
@@ -133,12 +135,14 @@ namespace ElastoSystem
                 {
                     conn.Open();
 
-                    string query = "UPDATE elastosystem_sae_productos SET 1M = @MES1, 2M = @MES2, 3M = @MES3 WHERE Producto = @PRODUCTO";
+                    string query = "UPDATE elastosystem_sae_productos SET TM = @TM, 1M = @MES1, 2M = @MES2, 3M = @MES3, 4M = @MES4 WHERE Producto = @PRODUCTO";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
 
+                    cmd.Parameters.AddWithValue("@TM", tm);
                     cmd.Parameters.AddWithValue("@MES1", m1);
                     cmd.Parameters.AddWithValue("@MES2", m2);
                     cmd.Parameters.AddWithValue("@MES3", m3);
+                    cmd.Parameters.AddWithValue("@MES4", m4);
                     cmd.Parameters.AddWithValue("@PRODUCTO", cbProductos.Text);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
