@@ -42,12 +42,12 @@ namespace ElastoSystem
                 {
                     conn.Open();
                     string query = "DELETE FROM elastosystem_mtto_inventariomaquinas WHERE ID = @ID";
-                    using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@ID", lblID.Text);
                         int filasAfectadas = cmd.ExecuteNonQuery();
 
-                        if(filasAfectadas > 0)
+                        if (filasAfectadas > 0)
                         {
                             MessageBox.Show("Maquina " + txbNombre.Text + " eliminada");
                         }
@@ -62,7 +62,7 @@ namespace ElastoSystem
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("ERROR AL ELIMINAR EL REGISTRO: "+ex.Message);
+                    MessageBox.Show("ERROR AL ELIMINAR EL REGISTRO: " + ex.Message);
                 }
             }
         }
@@ -72,12 +72,12 @@ namespace ElastoSystem
             bool boomantenimiento = chbMantenimiento.Checked;
             bool booindicador = chbIndicador.Checked;
 
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 conn.Open();
                 string query;
 
-                if(pbImagen.Image != null)
+                if (pbImagen.Image != null)
                 {
                     query = "INSERT INTO elastosystem_mtto_inventariomaquinas " +
                         "(Nombre, Modelo, No_Serie, Ubicacion, Imagen, Estatus, Orden_Trabajo, Mantenimiento, Indicador) " +
@@ -101,7 +101,7 @@ namespace ElastoSystem
                     cmd.Parameters.AddWithValue("@MANTENIMIENTO", boomantenimiento);
                     cmd.Parameters.AddWithValue("@INDICADOR", booindicador);
 
-                    if(pbImagen.Image != null)
+                    if (pbImagen.Image != null)
                     {
                         byte[] bytesFoto;
                         using (MemoryStream ms = new MemoryStream())
@@ -134,7 +134,7 @@ namespace ElastoSystem
                     bool boolmantenimiento = chbMantenimiento.Checked;
                     bool boolindicador = chbIndicador.Checked;
 
-                    if(pbImagen.Image != null && imagencargada == 0)
+                    if (pbImagen.Image != null && imagencargada == 0)
                     {
                         byte[] bytesFoto;
                         using (MemoryStream ms = new MemoryStream())
@@ -172,9 +172,9 @@ namespace ElastoSystem
 
                     MessageBox.Show("Maquina " + txbNombre.Text + " modificada con exito.");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("ERROR AL MODIFICAR LA MAQUINA: " +ex.Message);
+                    MessageBox.Show("ERROR AL MODIFICAR LA MAQUINA: " + ex.Message);
                 }
                 finally
                 {
@@ -187,14 +187,14 @@ namespace ElastoSystem
         }
         private void Limpiar()
         {
-            txbNombre.Clear(); 
-            txbModelo.Clear(); 
-            txbNumeroSerie.Clear(); 
-            cbUbicacion.SelectedIndex = -1; 
-            cbEstatus.SelectedIndex = -1; 
-            chbOrdenTrabajo.Checked = false; 
-            chbMantenimiento.Checked = false; 
-            chbIndicador.Checked = false; 
+            txbNombre.Clear();
+            txbModelo.Clear();
+            txbNumeroSerie.Clear();
+            cbUbicacion.SelectedIndex = -1;
+            cbEstatus.SelectedIndex = -1;
+            chbOrdenTrabajo.Checked = false;
+            chbMantenimiento.Checked = false;
+            chbIndicador.Checked = false;
             pbImagen.Image = null;
             lblID.Text = string.Empty;
         }
@@ -218,7 +218,7 @@ namespace ElastoSystem
                 }
             }
         }
-        
+
         private void Tabuladores()
         {
             txbNombre.TabIndex = 0;
@@ -235,6 +235,7 @@ namespace ElastoSystem
         private void button3_Click(object sender, EventArgs e)
         {
             EliminarRegistro();
+            txbBuscador.Clear();
         }
         private void Mtto_InventarioMaquinas_Load(object sender, EventArgs e)
         {
@@ -271,7 +272,7 @@ namespace ElastoSystem
                 cbUbicacion.Text = ubicacion;
 
                 object imagen = dgvBD.Rows[rowIndex].Cells[5].Value;
-                if(imagen != DBNull.Value && imagen != null)
+                if (imagen != DBNull.Value && imagen != null)
                 {
                     try
                     {
@@ -326,14 +327,17 @@ namespace ElastoSystem
             btnAgregar.Visible = true;
             btnEliminar.Visible = false;
             btnModificar.Visible = false;
+            txbBuscador.Clear();
         }
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             AgregarRegistro();
+            txbBuscador.Clear();
         }
         private void btnModificar_Click(object sender, EventArgs e)
         {
             EditarRegistro();
+            txbBuscador.Clear();
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -342,6 +346,42 @@ namespace ElastoSystem
         private void btnActualizarPermisos_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void txbBuscador_TextChanged(object sender, EventArgs e)
+        {
+            Buscador();
+        }
+
+        private void Buscador()
+        {
+            try
+            {
+                string valorBusqueda = txbBuscador.Text;
+
+                if (string.IsNullOrEmpty(valorBusqueda))
+                {
+                    MandarALlamarBDInventarioMaquinas();
+                }
+                else
+                {
+                    string consulta = "SELECT * FROM elastosystem_mtto_inventariomaquinas WHERE Nombre LIKE @ValorBusqueda OR No_Serie LIKE @ValorBusqueda";
+
+                    MySqlDataAdapter adapatador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
+
+                    adapatador.SelectCommand.Parameters.AddWithValue("@ValorBusqueda", "%" + valorBusqueda + "%");
+
+                    DataSet datos = new DataSet();
+
+                    adapatador.Fill(datos, "Resultados");
+
+                    dgvBD.DataSource = datos.Tables["Resultados"];
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("ERROR AL BUSCAR MAQUINA: "+ex.Message);
+            }
         }
     }
 }
