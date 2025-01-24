@@ -1338,5 +1338,22 @@ namespace ElastoSystem
                 chbAlmacen.Checked = true;
             }
         }
+
+        private void pbOjoCerrado_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(txbPassword.Text != string.Empty)
+            {
+                pbOjoCerrado.Visible = false;
+                pbOjoAbierto.Visible = true;
+                txbPassword.UseSystemPasswordChar = false;
+            }
+        }
+
+        private void pbOjoAbierto_MouseLeave(object sender, EventArgs e)
+        {
+            pbOjoAbierto.Visible = false;
+            pbOjoCerrado.Visible = true;
+            txbPassword.UseSystemPasswordChar = true;
+        }
     }
 }

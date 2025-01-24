@@ -78,6 +78,8 @@
             chbMaquinado = new CheckBox();
             tabControl1 = new TabControl();
             tabGestionUsuarios = new TabPage();
+            pbOjoCerrado = new PictureBox();
+            pbOjoAbierto = new PictureBox();
             pbCorreo = new PictureBox();
             txbCorreo = new TextBox();
             label10 = new Label();
@@ -133,6 +135,8 @@
             panel7.SuspendLayout();
             tabControl1.SuspendLayout();
             tabGestionUsuarios.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbOjoCerrado).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbOjoAbierto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbCorreo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbEstatus).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbPassword).BeginInit();
@@ -742,6 +746,8 @@
             // tabGestionUsuarios
             // 
             tabGestionUsuarios.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabGestionUsuarios.Controls.Add(pbOjoCerrado);
+            tabGestionUsuarios.Controls.Add(pbOjoAbierto);
             tabGestionUsuarios.Controls.Add(pbCorreo);
             tabGestionUsuarios.Controls.Add(txbCorreo);
             tabGestionUsuarios.Controls.Add(label10);
@@ -776,6 +782,29 @@
             tabGestionUsuarios.Text = "Gestion de Usuarios";
             tabGestionUsuarios.UseVisualStyleBackColor = true;
             tabGestionUsuarios.Click += tabGestionUsuarios_Click;
+            // 
+            // pbOjoCerrado
+            // 
+            pbOjoCerrado.Image = (Image)resources.GetObject("pbOjoCerrado.Image");
+            pbOjoCerrado.Location = new Point(451, 116);
+            pbOjoCerrado.Name = "pbOjoCerrado";
+            pbOjoCerrado.Size = new Size(26, 26);
+            pbOjoCerrado.SizeMode = PictureBoxSizeMode.Zoom;
+            pbOjoCerrado.TabIndex = 62;
+            pbOjoCerrado.TabStop = false;
+            pbOjoCerrado.MouseMove += pbOjoCerrado_MouseMove;
+            // 
+            // pbOjoAbierto
+            // 
+            pbOjoAbierto.Image = (Image)resources.GetObject("pbOjoAbierto.Image");
+            pbOjoAbierto.Location = new Point(451, 116);
+            pbOjoAbierto.Name = "pbOjoAbierto";
+            pbOjoAbierto.Size = new Size(26, 26);
+            pbOjoAbierto.SizeMode = PictureBoxSizeMode.Zoom;
+            pbOjoAbierto.TabIndex = 61;
+            pbOjoAbierto.TabStop = false;
+            pbOjoAbierto.Visible = false;
+            pbOjoAbierto.MouseLeave += pbOjoAbierto_MouseLeave;
             // 
             // pbCorreo
             // 
@@ -1394,6 +1423,8 @@
             tabControl1.ResumeLayout(false);
             tabGestionUsuarios.ResumeLayout(false);
             tabGestionUsuarios.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbOjoCerrado).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbOjoAbierto).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbCorreo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbEstatus).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbPassword).EndInit();
@@ -1511,5 +1542,7 @@
         private CheckBox chbMantenimientoVG;
         private CheckBox chbInventarioAlmacenPT;
         private CheckBox chbAdminInventarioPT;
+        private PictureBox pbOjoCerrado;
+        private PictureBox pbOjoAbierto;
     }
 }
