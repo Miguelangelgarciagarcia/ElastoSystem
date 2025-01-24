@@ -339,66 +339,85 @@ namespace ElastoSystem
         }
         private void MandarCorreoCompras()
         {
-            string tabla = "SELECT * FROM elastosystem_almacenconsumiblesporsurtir";
+            string tabla = "SELECT Producto, Existencias, Stock_Minimo FROM elastosystem_almacenconsumiblesporsurtir";
             MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
+
             dgv.DataSource = dt;
 
             string idmenu = labelid.Text;
             if (idmenu == "3")
             {
-                SmtpClient smtpClient = new SmtpClient("smtp.ionos.mx");
-                smtpClient.Port = 587;
-                smtpClient.Credentials = new NetworkCredential("almacen@elastotecnica.com.mx", "El@sto2023:");
-                smtpClient.EnableSsl = true;
-
-                // Crear el mensaje de correo
-                MailMessage mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress("compras@elastotecnica.com.mx");
-                mailMessage.To.Add("dmedina@elastotecnica.com");
-                mailMessage.To.Add("ini.medina@gmail.com");
-                mailMessage.To.Add("compras@elastotecnica.com.mx");
-                mailMessage.Subject = "COMPRAS PARA ALMACEN";
-
-                StringBuilder cuerpoCorreo = new StringBuilder();
-                cuerpoCorreo.AppendLine("<html><body>");
-                cuerpoCorreo.AppendLine("<h2>CONSUMIBLES PENDIENTES POR COMPRAR PARA ALMACEN:</h2>");
-                cuerpoCorreo.AppendLine("<table border='1'>");
-
-                // Agrega los encabezados de la tabla
-                cuerpoCorreo.AppendLine("<tr>");
-                foreach (DataGridViewColumn columna in dgv.Columns)
+                try
                 {
-                    cuerpoCorreo.AppendLine("<th><center>" + columna.HeaderText + "</center></th>");
-                }
-                cuerpoCorreo.AppendLine("</tr>");
-
-                // Agrega los datos de las filas
-                foreach (DataGridViewRow fila in dgv.Rows)
-                {
-                    cuerpoCorreo.AppendLine("<tr>");
-                    foreach (DataGridViewCell celda in fila.Cells)
+                    SmtpClient smtpClient = new SmtpClient("smtp.ionos.mx")
                     {
-                        string valorCelda = (celda.Value != null) ? celda.Value.ToString() : "";
-                        cuerpoCorreo.AppendLine("<td><center>" + valorCelda + "</center></td>");
-                    }
-                    cuerpoCorreo.AppendLine("</tr>");
+                        Port = 587,
+                        Credentials = new NetworkCredential("notificaciones.elastosystem@elastotecnica.com.mx", "El@st0Sys25."),
+                        EnableSsl = true
+                    };
+
+                    MailMessage mailMessage = new MailMessage
+                    {
+                        From = new MailAddress("notificaciones.elastosystem@elastotecnica.com.mx", "ELASTOTECNICA ALMACEN"),
+                        Subject = "COMPRAS PARA ALMACEN",
+                        IsBodyHtml = true,
+                        Body = ConstruirCuerpoCorreoHTML(dt)
+                    };
+
+                    //mailMessage.To.Add("dmedina@elastotecnica.com");
+                    //mailMessage.To.Add("ini.medina@gmail.com");
+                    //mailMessage.To.Add("compras@elastotecnica.com.mx");
+                    mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
+
+                    smtpClient.Send(mailMessage);
                 }
-
-                cuerpoCorreo.AppendLine("</table>");
-                cuerpoCorreo.AppendLine("</body></html>");
-
-                mailMessage.IsBodyHtml = true;
-                mailMessage.Body = cuerpoCorreo.ToString();
-
-                smtpClient.Send(mailMessage);
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ENVIAR EL CORREO: " + ex.Message);
+                }
             }
             else
             {
 
             }
         }
+
+        private string ConstruirCuerpoCorreoHTML(DataTable dataTable)
+        {
+            StringBuilder cuerpoCorreo = new StringBuilder();
+
+            cuerpoCorreo.AppendLine("<html><body>");
+            cuerpoCorreo.AppendLine("<h2>CONSUMIBLES PENDIENTES POR COMPRAR PARA ALMACEN:</h2>");
+            cuerpoCorreo.AppendLine("<table border='1' style='border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;'>");
+
+            // Encabezados de la tabla
+            cuerpoCorreo.AppendLine("<tr style='background-color: #f2f2f2;'>");
+            foreach (DataColumn columna in dataTable.Columns)
+            {
+                cuerpoCorreo.AppendLine($"<th style='padding: 8px; text-align: center; border: 1px solid #ddd;'>{columna.ColumnName}</th>");
+            }
+            cuerpoCorreo.AppendLine("</tr>");
+
+            // Filas de datos
+            foreach (DataRow fila in dataTable.Rows)
+            {
+                cuerpoCorreo.AppendLine("<tr>");
+                foreach (var celda in fila.ItemArray)
+                {
+                    string valorCelda = celda != null ? celda.ToString() : "";
+                    cuerpoCorreo.AppendLine($"<td style='padding: 8px; text-align: center; border: 1px solid #ddd;'>{valorCelda}</td>");
+                }
+                cuerpoCorreo.AppendLine("</tr>");
+            }
+
+            cuerpoCorreo.AppendLine("</table>");
+            cuerpoCorreo.AppendLine("</body></html>");
+
+            return cuerpoCorreo.ToString();
+        }
+
         private void customDesign()
         {
             panelSubMenuAlmacen.Visible = false;
