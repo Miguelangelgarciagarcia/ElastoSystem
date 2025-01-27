@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             btnAgergarUsuario = new Button();
             pbFoto = new PictureBox();
             button3 = new Button();
@@ -50,20 +52,20 @@
             txCURP = new TextBox();
             cbDepartamento = new ComboBox();
             cbPuesto = new ComboBox();
-            txbCPFiscal = new TextBox();
-            label20 = new Label();
-            label19 = new Label();
-            label18 = new Label();
-            label17 = new Label();
-            label16 = new Label();
-            label15 = new Label();
-            cbLugarNacimiento = new ComboBox();
-            label14 = new Label();
             label13 = new Label();
+            label9 = new Label();
+            label10 = new Label();
+            txbCPFiscal = new TextBox();
             label12 = new Label();
             label11 = new Label();
-            label10 = new Label();
-            label9 = new Label();
+            label14 = new Label();
+            label15 = new Label();
+            label16 = new Label();
+            label17 = new Label();
+            label18 = new Label();
+            cbLugarNacimiento = new ComboBox();
+            label20 = new Label();
+            label19 = new Label();
             panel2 = new Panel();
             panel3 = new Panel();
             txbTelefono1 = new TextBox();
@@ -78,22 +80,22 @@
             txbCalle = new TextBox();
             label31 = new Label();
             label30 = new Label();
-            label29 = new Label();
-            label28 = new Label();
-            label27 = new Label();
             label26 = new Label();
+            label27 = new Label();
+            label28 = new Label();
+            label29 = new Label();
             label25 = new Label();
             label24 = new Label();
             label23 = new Label();
             label22 = new Label();
             panel4 = new Panel();
             cbEstadoCivil = new ComboBox();
-            cbNivelEstudios = new ComboBox();
             cbTipoSangre = new ComboBox();
-            txbProfesion = new TextBox();
             label37 = new Label();
             label38 = new Label();
+            cbNivelEstudios = new ComboBox();
             label39 = new Label();
+            txbProfesion = new TextBox();
             label40 = new Label();
             panel5 = new Panel();
             txbFechaApli = new TextBox();
@@ -113,6 +115,12 @@
             label21 = new Label();
             btnEditarUsuario = new Button();
             button1 = new Button();
+            label2 = new Label();
+            pnlTabla = new Panel();
+            txbBuscador = new TextBox();
+            label3 = new Label();
+            btnEnviarSolicitud = new Button();
+            dgvTrabajadores = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)pbFoto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbqr).BeginInit();
             panel1.SuspendLayout();
@@ -120,6 +128,8 @@
             panel3.SuspendLayout();
             panel4.SuspendLayout();
             panel5.SuspendLayout();
+            pnlTabla.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvTrabajadores).BeginInit();
             SuspendLayout();
             // 
             // btnAgergarUsuario
@@ -128,11 +138,11 @@
             btnAgergarUsuario.Cursor = Cursors.Hand;
             btnAgergarUsuario.FlatAppearance.BorderSize = 0;
             btnAgergarUsuario.FlatStyle = FlatStyle.Flat;
-            btnAgergarUsuario.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnAgergarUsuario.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             btnAgergarUsuario.ForeColor = Color.White;
-            btnAgergarUsuario.Location = new Point(1020, 706);
+            btnAgergarUsuario.Location = new Point(660, 576);
             btnAgergarUsuario.Name = "btnAgergarUsuario";
-            btnAgergarUsuario.Size = new Size(245, 46);
+            btnAgergarUsuario.Size = new Size(380, 40);
             btnAgergarUsuario.TabIndex = 10;
             btnAgergarUsuario.Text = "AGREGAR TRABAJADOR";
             btnAgergarUsuario.UseVisualStyleBackColor = false;
@@ -154,11 +164,11 @@
             button3.Cursor = Cursors.Hand;
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            button3.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             button3.ForeColor = Color.White;
-            button3.Location = new Point(30, 184);
+            button3.Location = new Point(22, 184);
             button3.Name = "button3";
-            button3.Size = new Size(125, 37);
+            button3.Size = new Size(150, 37);
             button3.TabIndex = 13;
             button3.Text = "Cargar Imagen";
             button3.UseVisualStyleBackColor = false;
@@ -196,7 +206,7 @@
             label6.BackColor = Color.Transparent;
             label6.Font = new Font("Montserrat", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(103, 19);
+            label6.Location = new Point(617, 44);
             label6.Name = "label6";
             label6.Size = new Size(73, 29);
             label6.TabIndex = 16;
@@ -206,7 +216,7 @@
             // 
             cbClave.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             cbClave.FormattingEnabled = true;
-            cbClave.Location = new Point(182, 21);
+            cbClave.Location = new Point(696, 46);
             cbClave.Name = "cbClave";
             cbClave.Size = new Size(186, 30);
             cbClave.TabIndex = 17;
@@ -218,7 +228,7 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Montserrat", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(374, 25);
+            label7.Location = new Point(888, 50);
             label7.Name = "label7";
             label7.Size = new Size(0, 21);
             label7.TabIndex = 18;
@@ -229,7 +239,7 @@
             lblNombre.BackColor = Color.Transparent;
             lblNombre.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblNombre.ForeColor = Color.White;
-            lblNombre.Location = new Point(374, 24);
+            lblNombre.Location = new Point(888, 49);
             lblNombre.Name = "lblNombre";
             lblNombre.Size = new Size(196, 22);
             lblNombre.TabIndex = 19;
@@ -239,28 +249,28 @@
             // 
             label8.AutoSize = true;
             label8.BackColor = Color.Transparent;
-            label8.Font = new Font("Montserrat", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
             label8.ForeColor = Color.White;
-            label8.Location = new Point(771, 19);
+            label8.Location = new Point(17, 46);
             label8.Name = "label8";
-            label8.Size = new Size(94, 29);
+            label8.Size = new Size(64, 20);
             label8.TabIndex = 20;
-            label8.Text = "Estatus";
+            label8.Text = "Estatus:";
             // 
             // cbEstatus
             // 
-            cbEstatus.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            cbEstatus.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
             cbEstatus.FormattingEnabled = true;
             cbEstatus.Items.AddRange(new object[] { "ALTA", "BAJA", "LICENCIA", "FINIQUITO", "REINGRESO" });
-            cbEstatus.Location = new Point(871, 18);
+            cbEstatus.Location = new Point(186, 43);
             cbEstatus.Name = "cbEstatus";
-            cbEstatus.Size = new Size(209, 30);
+            cbEstatus.Size = new Size(201, 26);
             cbEstatus.TabIndex = 21;
             cbEstatus.SelectedIndexChanged += cbEstatus_SelectedIndexChanged;
             // 
             // panel1
             // 
-            panel1.BackColor = Color.FromArgb(205, 215, 224);
+            panel1.BackColor = Color.FromArgb(3, 42, 76);
             panel1.Controls.Add(tbFechaNacimiento);
             panel1.Controls.Add(cbSex);
             panel1.Controls.Add(txbNom);
@@ -268,279 +278,295 @@
             panel1.Controls.Add(txbApMa);
             panel1.Controls.Add(txbIM);
             panel1.Controls.Add(txbRF);
+            panel1.Controls.Add(cbEstatus);
             panel1.Controls.Add(txCURP);
+            panel1.Controls.Add(label8);
             panel1.Controls.Add(cbDepartamento);
             panel1.Controls.Add(cbPuesto);
-            panel1.Controls.Add(txbCPFiscal);
-            panel1.Controls.Add(label20);
-            panel1.Controls.Add(label19);
-            panel1.Controls.Add(label18);
-            panel1.Controls.Add(label17);
-            panel1.Controls.Add(label16);
-            panel1.Controls.Add(label15);
-            panel1.Controls.Add(cbLugarNacimiento);
-            panel1.Controls.Add(label14);
             panel1.Controls.Add(label13);
+            panel1.Controls.Add(label9);
+            panel1.Controls.Add(label10);
+            panel1.Controls.Add(txbCPFiscal);
             panel1.Controls.Add(label12);
             panel1.Controls.Add(label11);
-            panel1.Controls.Add(label10);
-            panel1.Controls.Add(label9);
-            panel1.Location = new Point(40, 361);
+            panel1.Controls.Add(label14);
+            panel1.Controls.Add(label15);
+            panel1.Controls.Add(label16);
+            panel1.Controls.Add(label17);
+            panel1.Controls.Add(label18);
+            panel1.Controls.Add(cbLugarNacimiento);
+            panel1.Controls.Add(label20);
+            panel1.Controls.Add(label19);
+            panel1.Location = new Point(260, 83);
             panel1.Name = "panel1";
-            panel1.Size = new Size(385, 410);
+            panel1.Size = new Size(824, 239);
             panel1.TabIndex = 22;
             // 
             // tbFechaNacimiento
             // 
-            tbFechaNacimiento.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            tbFechaNacimiento.Location = new Point(164, 135);
+            tbFechaNacimiento.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            tbFechaNacimiento.Location = new Point(186, 197);
             tbFechaNacimiento.Name = "tbFechaNacimiento";
-            tbFechaNacimiento.Size = new Size(201, 22);
+            tbFechaNacimiento.Size = new Size(201, 24);
             tbFechaNacimiento.TabIndex = 53;
             // 
             // cbSex
             // 
-            cbSex.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            cbSex.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
             cbSex.FormattingEnabled = true;
             cbSex.Items.AddRange(new object[] { "FEMENINO", "MASCULINO" });
-            cbSex.Location = new Point(164, 105);
+            cbSex.Location = new Point(186, 165);
             cbSex.Name = "cbSex";
-            cbSex.Size = new Size(201, 24);
+            cbSex.Size = new Size(201, 26);
             cbSex.TabIndex = 52;
             // 
             // txbNom
             // 
-            txbNom.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbNom.Location = new Point(164, 15);
+            txbNom.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNom.Location = new Point(186, 75);
             txbNom.Name = "txbNom";
-            txbNom.Size = new Size(201, 22);
+            txbNom.Size = new Size(201, 24);
             txbNom.TabIndex = 51;
+            txbNom.TextChanged += txbNom_TextChanged;
             // 
             // txbApPat
             // 
-            txbApPat.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbApPat.Location = new Point(164, 45);
+            txbApPat.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbApPat.Location = new Point(186, 105);
             txbApPat.Name = "txbApPat";
-            txbApPat.Size = new Size(201, 22);
+            txbApPat.Size = new Size(201, 24);
             txbApPat.TabIndex = 50;
             // 
             // txbApMa
             // 
-            txbApMa.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbApMa.Location = new Point(164, 75);
+            txbApMa.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbApMa.Location = new Point(186, 135);
             txbApMa.Name = "txbApMa";
-            txbApMa.Size = new Size(201, 22);
+            txbApMa.Size = new Size(201, 24);
             txbApMa.TabIndex = 49;
             // 
             // txbIM
             // 
-            txbIM.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbIM.Location = new Point(164, 195);
+            txbIM.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbIM.Location = new Point(600, 46);
             txbIM.Name = "txbIM";
-            txbIM.Size = new Size(201, 22);
+            txbIM.Size = new Size(201, 24);
             txbIM.TabIndex = 48;
             // 
             // txbRF
             // 
-            txbRF.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbRF.Location = new Point(164, 225);
+            txbRF.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbRF.Location = new Point(600, 75);
             txbRF.Name = "txbRF";
-            txbRF.Size = new Size(201, 22);
+            txbRF.Size = new Size(201, 24);
             txbRF.TabIndex = 47;
             // 
             // txCURP
             // 
-            txCURP.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txCURP.Location = new Point(164, 255);
+            txCURP.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txCURP.Location = new Point(600, 105);
             txCURP.Name = "txCURP";
-            txCURP.Size = new Size(201, 22);
+            txCURP.Size = new Size(201, 24);
             txCURP.TabIndex = 46;
             // 
             // cbDepartamento
             // 
-            cbDepartamento.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            cbDepartamento.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
             cbDepartamento.FormattingEnabled = true;
             cbDepartamento.Items.AddRange(new object[] { "ADMINISTRATIVO", "ALMACÉN", "CALIDAD", "COMPRAS", "DESVIRADO", "EMBARQUES", "FUNDICIÓN", "INYECCIÓN", "MANTENIMIENTO", "MAQUINADO", "MOLINO", "PRENSAS", "PRODUCCIÓN", "VENTAS", "VIGILANCIA" });
-            cbDepartamento.Location = new Point(164, 315);
+            cbDepartamento.Location = new Point(600, 165);
             cbDepartamento.Name = "cbDepartamento";
-            cbDepartamento.Size = new Size(201, 24);
+            cbDepartamento.Size = new Size(201, 26);
             cbDepartamento.TabIndex = 45;
             // 
             // cbPuesto
             // 
-            cbPuesto.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            cbPuesto.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
             cbPuesto.FormattingEnabled = true;
             cbPuesto.Items.AddRange(new object[] { "ALMACENISTA", "AUXILIAR", "AYUDANTE GENERAL A", "AYUDANTE GENERAL B", "AYUDANTE GENERAL C", "BECARIO", "COORDINADOR", "CHOFER", "GERENTE", "GUARDIA", "INSPECTOR", "MECANICO A", "MECANICO B", "OPERADOR A", "OPERADOR B", "OPERADOR C", "REPRESENTANTE", "SUPERVISOR" });
-            cbPuesto.Location = new Point(164, 345);
+            cbPuesto.Location = new Point(600, 197);
             cbPuesto.Name = "cbPuesto";
-            cbPuesto.Size = new Size(201, 24);
+            cbPuesto.Size = new Size(201, 26);
             cbPuesto.TabIndex = 44;
-            // 
-            // txbCPFiscal
-            // 
-            txbCPFiscal.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbCPFiscal.Location = new Point(164, 285);
-            txbCPFiscal.Name = "txbCPFiscal";
-            txbCPFiscal.Size = new Size(201, 22);
-            txbCPFiscal.TabIndex = 43;
-            // 
-            // label20
-            // 
-            label20.AutoSize = true;
-            label20.BackColor = Color.Transparent;
-            label20.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label20.Location = new Point(14, 318);
-            label20.Name = "label20";
-            label20.Size = new Size(99, 16);
-            label20.TabIndex = 42;
-            label20.Text = "Departamento";
-            // 
-            // label19
-            // 
-            label19.AutoSize = true;
-            label19.BackColor = Color.Transparent;
-            label19.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label19.Location = new Point(14, 348);
-            label19.Name = "label19";
-            label19.Size = new Size(51, 16);
-            label19.TabIndex = 41;
-            label19.Text = "Puesto";
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.BackColor = Color.Transparent;
-            label18.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label18.Location = new Point(14, 288);
-            label18.Name = "label18";
-            label18.Size = new Size(133, 16);
-            label18.TabIndex = 40;
-            label18.Text = "Código Postal Fiscal";
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.BackColor = Color.Transparent;
-            label17.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label17.Location = new Point(14, 258);
-            label17.Name = "label17";
-            label17.Size = new Size(43, 16);
-            label17.TabIndex = 39;
-            label17.Text = "CURP";
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.BackColor = Color.Transparent;
-            label16.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label16.Location = new Point(14, 228);
-            label16.Name = "label16";
-            label16.Size = new Size(33, 16);
-            label16.TabIndex = 38;
-            label16.Text = "RFC";
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.BackColor = Color.Transparent;
-            label15.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label15.Location = new Point(14, 198);
-            label15.Name = "label15";
-            label15.Size = new Size(38, 16);
-            label15.TabIndex = 37;
-            label15.Text = "IMSS";
-            // 
-            // cbLugarNacimiento
-            // 
-            cbLugarNacimiento.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            cbLugarNacimiento.FormattingEnabled = true;
-            cbLugarNacimiento.Items.AddRange(new object[] { "AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR", "CAMPECHE", "CHIAPAS", "CHIHUAHUA", "CIUDAD DE MÉXICO", "COAHUILA", "COLIMA", "DURANGO", "ESTADO DE MÉXICO", "GUANAJUATO", "GUERRERO", "HIDALGO", "JALISCO", "MICHOACÁN", "MORELOS", "NAYARIT", "NUEVO LEÓN", "OAXACA", "PUEBLA", "QUERÉTARO", "QUINTANA ROO", "SAN LUIS POTOSÍ", "SINALOA", "SONORA", "TABASCO", "TAMAULIPAS", "TLAXCALA", "VERACRUZ", "YUCATÁN", "ZACATECAS" });
-            cbLugarNacimiento.Location = new Point(164, 165);
-            cbLugarNacimiento.Name = "cbLugarNacimiento";
-            cbLugarNacimiento.Size = new Size(201, 24);
-            cbLugarNacimiento.TabIndex = 36;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.BackColor = Color.Transparent;
-            label14.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label14.Location = new Point(14, 168);
-            label14.Name = "label14";
-            label14.Size = new Size(138, 16);
-            label14.TabIndex = 35;
-            label14.Text = "Lugar de Nacimiento";
             // 
             // label13
             // 
             label13.AutoSize = true;
             label13.BackColor = Color.Transparent;
-            label13.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label13.Location = new Point(14, 138);
+            label13.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label13.ForeColor = Color.White;
+            label13.Location = new Point(17, 200);
             label13.Name = "label13";
-            label13.Size = new Size(141, 16);
+            label13.Size = new Size(161, 20);
             label13.TabIndex = 34;
-            label13.Text = "Fecha de Nacimiento";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.BackColor = Color.Transparent;
-            label12.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label12.Location = new Point(14, 108);
-            label12.Name = "label12";
-            label12.Size = new Size(38, 16);
-            label12.TabIndex = 32;
-            label12.Text = "Sexo";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.BackColor = Color.Transparent;
-            label11.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label11.Location = new Point(14, 78);
-            label11.Name = "label11";
-            label11.Size = new Size(115, 16);
-            label11.TabIndex = 25;
-            label11.Text = "Apellido Materno";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.BackColor = Color.Transparent;
-            label10.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label10.Location = new Point(14, 48);
-            label10.Name = "label10";
-            label10.Size = new Size(113, 16);
-            label10.TabIndex = 24;
-            label10.Text = "Apellido Paterno";
+            label13.Text = "Fecha de Nacimiento:";
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.BackColor = Color.Transparent;
-            label9.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label9.Location = new Point(14, 18);
+            label9.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label9.ForeColor = Color.White;
+            label9.Location = new Point(17, 78);
             label9.Name = "label9";
-            label9.Size = new Size(76, 16);
+            label9.Size = new Size(91, 20);
             label9.TabIndex = 23;
-            label9.Text = "Nombre (s)";
+            label9.Text = "Nombre (s):";
+            label9.Click += label9_Click;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.BackColor = Color.Transparent;
+            label10.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label10.ForeColor = Color.White;
+            label10.Location = new Point(17, 108);
+            label10.Name = "label10";
+            label10.Size = new Size(129, 20);
+            label10.TabIndex = 24;
+            label10.Text = "Apellido Paterno:";
+            // 
+            // txbCPFiscal
+            // 
+            txbCPFiscal.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbCPFiscal.Location = new Point(600, 135);
+            txbCPFiscal.Name = "txbCPFiscal";
+            txbCPFiscal.Size = new Size(201, 24);
+            txbCPFiscal.TabIndex = 43;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.BackColor = Color.Transparent;
+            label12.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label12.ForeColor = Color.White;
+            label12.Location = new Point(17, 168);
+            label12.Name = "label12";
+            label12.Size = new Size(45, 20);
+            label12.TabIndex = 32;
+            label12.Text = "Sexo:";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.BackColor = Color.Transparent;
+            label11.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label11.ForeColor = Color.White;
+            label11.Location = new Point(17, 138);
+            label11.Name = "label11";
+            label11.Size = new Size(132, 20);
+            label11.TabIndex = 25;
+            label11.Text = "Apellido Materno:";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.BackColor = Color.Transparent;
+            label14.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label14.ForeColor = Color.White;
+            label14.Location = new Point(418, 19);
+            label14.Name = "label14";
+            label14.Size = new Size(160, 20);
+            label14.TabIndex = 35;
+            label14.Text = "Lugar de Nacimiento:";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.BackColor = Color.Transparent;
+            label15.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label15.ForeColor = Color.White;
+            label15.Location = new Point(418, 48);
+            label15.Name = "label15";
+            label15.Size = new Size(47, 20);
+            label15.TabIndex = 37;
+            label15.Text = "IMSS:";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.BackColor = Color.Transparent;
+            label16.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label16.ForeColor = Color.White;
+            label16.Location = new Point(418, 78);
+            label16.Name = "label16";
+            label16.Size = new Size(41, 20);
+            label16.TabIndex = 38;
+            label16.Text = "RFC:";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.BackColor = Color.Transparent;
+            label17.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label17.ForeColor = Color.White;
+            label17.Location = new Point(418, 108);
+            label17.Name = "label17";
+            label17.Size = new Size(53, 20);
+            label17.TabIndex = 39;
+            label17.Text = "CURP:";
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.BackColor = Color.Transparent;
+            label18.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label18.ForeColor = Color.White;
+            label18.Location = new Point(418, 138);
+            label18.Name = "label18";
+            label18.Size = new Size(155, 20);
+            label18.TabIndex = 40;
+            label18.Text = "Código Postal Fiscal:";
+            // 
+            // cbLugarNacimiento
+            // 
+            cbLugarNacimiento.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            cbLugarNacimiento.FormattingEnabled = true;
+            cbLugarNacimiento.Items.AddRange(new object[] { "AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR", "CAMPECHE", "CHIAPAS", "CHIHUAHUA", "CIUDAD DE MÉXICO", "COAHUILA", "COLIMA", "DURANGO", "ESTADO DE MÉXICO", "GUANAJUATO", "GUERRERO", "HIDALGO", "JALISCO", "MICHOACÁN", "MORELOS", "NAYARIT", "NUEVO LEÓN", "OAXACA", "PUEBLA", "QUERÉTARO", "QUINTANA ROO", "SAN LUIS POTOSÍ", "SINALOA", "SONORA", "TABASCO", "TAMAULIPAS", "TLAXCALA", "VERACRUZ", "YUCATÁN", "ZACATECAS" });
+            cbLugarNacimiento.Location = new Point(600, 16);
+            cbLugarNacimiento.Name = "cbLugarNacimiento";
+            cbLugarNacimiento.Size = new Size(201, 26);
+            cbLugarNacimiento.TabIndex = 36;
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.BackColor = Color.Transparent;
+            label20.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label20.ForeColor = Color.White;
+            label20.Location = new Point(418, 170);
+            label20.Name = "label20";
+            label20.Size = new Size(116, 20);
+            label20.TabIndex = 42;
+            label20.Text = "Departamento:";
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.BackColor = Color.Transparent;
+            label19.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label19.ForeColor = Color.White;
+            label19.Location = new Point(418, 200);
+            label19.Name = "label19";
+            label19.Size = new Size(61, 20);
+            label19.TabIndex = 41;
+            label19.Text = "Puesto:";
             // 
             // panel2
             // 
-            panel2.BackColor = Color.FromArgb(205, 215, 224);
+            panel2.BackColor = Color.FromArgb(3, 42, 76);
             panel2.Controls.Add(pbFoto);
             panel2.Controls.Add(pbqr);
             panel2.Controls.Add(button3);
             panel2.Controls.Add(button4);
-            panel2.Location = new Point(146, 101);
+            panel2.Location = new Point(40, 83);
             panel2.Name = "panel2";
             panel2.Size = new Size(198, 239);
             panel2.TabIndex = 23;
             // 
             // panel3
             // 
-            panel3.BackColor = Color.FromArgb(205, 215, 224);
+            panel3.BackColor = Color.FromArgb(3, 42, 76);
             panel3.Controls.Add(txbTelefono1);
             panel3.Controls.Add(txbTelefono2);
             panel3.Controls.Add(txbPais);
@@ -553,308 +579,322 @@
             panel3.Controls.Add(txbCalle);
             panel3.Controls.Add(label31);
             panel3.Controls.Add(label30);
-            panel3.Controls.Add(label29);
-            panel3.Controls.Add(label28);
-            panel3.Controls.Add(label27);
             panel3.Controls.Add(label26);
+            panel3.Controls.Add(label27);
+            panel3.Controls.Add(label28);
+            panel3.Controls.Add(label29);
             panel3.Controls.Add(label25);
             panel3.Controls.Add(label24);
             panel3.Controls.Add(label23);
             panel3.Controls.Add(label22);
-            panel3.Location = new Point(452, 101);
+            panel3.Location = new Point(40, 339);
             panel3.Name = "panel3";
-            panel3.Size = new Size(494, 331);
+            panel3.Size = new Size(561, 333);
             panel3.TabIndex = 24;
             // 
             // txbTelefono1
             // 
-            txbTelefono1.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbTelefono1.Location = new Point(198, 257);
+            txbTelefono1.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbTelefono1.Location = new Point(198, 259);
             txbTelefono1.Name = "txbTelefono1";
-            txbTelefono1.Size = new Size(274, 22);
+            txbTelefono1.Size = new Size(343, 24);
             txbTelefono1.TabIndex = 44;
             // 
             // txbTelefono2
             // 
-            txbTelefono2.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbTelefono2.Location = new Point(198, 287);
+            txbTelefono2.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbTelefono2.Location = new Point(198, 289);
             txbTelefono2.Name = "txbTelefono2";
-            txbTelefono2.Size = new Size(274, 22);
+            txbTelefono2.Size = new Size(343, 24);
             txbTelefono2.TabIndex = 43;
             // 
             // txbPais
             // 
-            txbPais.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbPais.Location = new Point(198, 137);
+            txbPais.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbPais.Location = new Point(198, 139);
             txbPais.Name = "txbPais";
-            txbPais.Size = new Size(274, 22);
+            txbPais.Size = new Size(343, 24);
             txbPais.TabIndex = 42;
             // 
             // txbCorreo1
             // 
-            txbCorreo1.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbCorreo1.Location = new Point(198, 167);
+            txbCorreo1.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbCorreo1.Location = new Point(198, 169);
             txbCorreo1.Name = "txbCorreo1";
-            txbCorreo1.Size = new Size(274, 22);
+            txbCorreo1.Size = new Size(343, 24);
             txbCorreo1.TabIndex = 41;
             // 
             // txbCP
             // 
-            txbCP.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbCP.Location = new Point(198, 227);
+            txbCP.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbCP.Location = new Point(198, 229);
             txbCP.Name = "txbCP";
-            txbCP.Size = new Size(274, 22);
+            txbCP.Size = new Size(343, 24);
             txbCP.TabIndex = 40;
             // 
             // txbCorreo2
             // 
-            txbCorreo2.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbCorreo2.Location = new Point(198, 197);
+            txbCorreo2.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbCorreo2.Location = new Point(198, 199);
             txbCorreo2.Name = "txbCorreo2";
-            txbCorreo2.Size = new Size(274, 22);
+            txbCorreo2.Size = new Size(343, 24);
             txbCorreo2.TabIndex = 39;
             // 
             // cbEntidadFederativa
             // 
-            cbEntidadFederativa.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            cbEntidadFederativa.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
             cbEntidadFederativa.FormattingEnabled = true;
             cbEntidadFederativa.Items.AddRange(new object[] { "AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR", "CAMPECHE", "CHIAPAS", "CHIHUAHUA", "CIUDAD DE MÉXICO", "COAHUILA", "COLIMA", "DURANGO", "ESTADO DE MÉXICO", "GUANAJUATO", "GUERRERO", "HIDALGO", "JALISCO", "MICHOACÁN", "MORELOS", "NAYARIT", "NUEVO LEÓN", "OAXACA", "PUEBLA", "QUERÉTARO", "QUINTANA ROO", "SAN LUIS POTOSÍ", "SINALOA", "SONORA", "TABASCO", "TAMAULIPAS", "TLAXCALA", "VERACRUZ", "YUCATÁN", "ZACATECAS " });
             cbEntidadFederativa.Location = new Point(198, 107);
             cbEntidadFederativa.Name = "cbEntidadFederativa";
-            cbEntidadFederativa.Size = new Size(274, 24);
+            cbEntidadFederativa.Size = new Size(343, 26);
             cbEntidadFederativa.TabIndex = 38;
             // 
             // txbPoblacion
             // 
-            txbPoblacion.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            txbPoblacion.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
             txbPoblacion.Location = new Point(198, 77);
             txbPoblacion.Name = "txbPoblacion";
-            txbPoblacion.Size = new Size(274, 22);
+            txbPoblacion.Size = new Size(343, 24);
             txbPoblacion.TabIndex = 37;
             // 
             // txbColonia
             // 
-            txbColonia.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            txbColonia.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
             txbColonia.Location = new Point(198, 47);
             txbColonia.Name = "txbColonia";
-            txbColonia.Size = new Size(274, 22);
+            txbColonia.Size = new Size(343, 24);
             txbColonia.TabIndex = 36;
             // 
             // txbCalle
             // 
-            txbCalle.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            txbCalle.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
             txbCalle.Location = new Point(198, 17);
             txbCalle.Name = "txbCalle";
-            txbCalle.Size = new Size(274, 22);
+            txbCalle.Size = new Size(343, 24);
             txbCalle.TabIndex = 35;
             // 
             // label31
             // 
             label31.AutoSize = true;
             label31.BackColor = Color.Transparent;
-            label31.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label31.Location = new Point(19, 140);
+            label31.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label31.ForeColor = Color.White;
+            label31.Location = new Point(22, 142);
             label31.Name = "label31";
-            label31.Size = new Size(33, 16);
+            label31.Size = new Size(41, 20);
             label31.TabIndex = 34;
-            label31.Text = "País";
+            label31.Text = "País:";
             // 
             // label30
             // 
             label30.AutoSize = true;
             label30.BackColor = Color.Transparent;
-            label30.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label30.Location = new Point(19, 170);
+            label30.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label30.ForeColor = Color.White;
+            label30.Location = new Point(22, 172);
             label30.Name = "label30";
-            label30.Size = new Size(133, 16);
+            label30.Size = new Size(153, 20);
             label30.TabIndex = 33;
-            label30.Text = "Correo Electrónico 1";
-            // 
-            // label29
-            // 
-            label29.AutoSize = true;
-            label29.BackColor = Color.Transparent;
-            label29.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label29.Location = new Point(19, 200);
-            label29.Name = "label29";
-            label29.Size = new Size(135, 16);
-            label29.TabIndex = 32;
-            label29.Text = "Correo Electrónico 2";
-            // 
-            // label28
-            // 
-            label28.AutoSize = true;
-            label28.BackColor = Color.Transparent;
-            label28.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label28.Location = new Point(19, 230);
-            label28.Name = "label28";
-            label28.Size = new Size(94, 16);
-            label28.TabIndex = 31;
-            label28.Text = "Código Postal";
-            // 
-            // label27
-            // 
-            label27.AutoSize = true;
-            label27.BackColor = Color.Transparent;
-            label27.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label27.Location = new Point(19, 260);
-            label27.Name = "label27";
-            label27.Size = new Size(70, 16);
-            label27.TabIndex = 30;
-            label27.Text = "Teléfono 1";
+            label30.Text = "Correo Electrónico 1:";
             // 
             // label26
             // 
             label26.AutoSize = true;
             label26.BackColor = Color.Transparent;
-            label26.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label26.Location = new Point(19, 290);
+            label26.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label26.ForeColor = Color.White;
+            label26.Location = new Point(22, 292);
             label26.Name = "label26";
-            label26.Size = new Size(72, 16);
+            label26.Size = new Size(83, 20);
             label26.TabIndex = 29;
-            label26.Text = "Teléfono 2";
+            label26.Text = "Teléfono 2:";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.BackColor = Color.Transparent;
+            label27.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label27.ForeColor = Color.White;
+            label27.Location = new Point(22, 262);
+            label27.Name = "label27";
+            label27.Size = new Size(80, 20);
+            label27.TabIndex = 30;
+            label27.Text = "Teléfono 1:";
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.BackColor = Color.Transparent;
+            label28.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label28.ForeColor = Color.White;
+            label28.Location = new Point(22, 232);
+            label28.Name = "label28";
+            label28.Size = new Size(111, 20);
+            label28.TabIndex = 31;
+            label28.Text = "Código Postal:";
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.BackColor = Color.Transparent;
+            label29.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label29.ForeColor = Color.White;
+            label29.Location = new Point(22, 199);
+            label29.Name = "label29";
+            label29.Size = new Size(156, 20);
+            label29.TabIndex = 32;
+            label29.Text = "Correo Electrónico 2:";
             // 
             // label25
             // 
             label25.AutoSize = true;
             label25.BackColor = Color.Transparent;
-            label25.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label25.Location = new Point(19, 20);
+            label25.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label25.ForeColor = Color.White;
+            label25.Location = new Point(22, 20);
             label25.Name = "label25";
-            label25.Size = new Size(105, 16);
+            label25.Size = new Size(121, 20);
             label25.TabIndex = 28;
-            label25.Text = "Calle Y Número";
+            label25.Text = "Calle Y Número:";
             // 
             // label24
             // 
             label24.AutoSize = true;
             label24.BackColor = Color.Transparent;
-            label24.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label24.Location = new Point(19, 50);
+            label24.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label24.ForeColor = Color.White;
+            label24.Location = new Point(22, 50);
             label24.Name = "label24";
-            label24.Size = new Size(55, 16);
+            label24.Size = new Size(65, 20);
             label24.TabIndex = 27;
-            label24.Text = "Colonia";
+            label24.Text = "Colonia:";
             // 
             // label23
             // 
             label23.AutoSize = true;
             label23.BackColor = Color.Transparent;
-            label23.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label23.Location = new Point(19, 80);
+            label23.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label23.ForeColor = Color.White;
+            label23.Location = new Point(22, 80);
             label23.Name = "label23";
-            label23.Size = new Size(70, 16);
+            label23.Size = new Size(82, 20);
             label23.TabIndex = 26;
-            label23.Text = "Población";
+            label23.Text = "Población:";
             // 
             // label22
             // 
             label22.AutoSize = true;
             label22.BackColor = Color.Transparent;
-            label22.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label22.Location = new Point(19, 110);
+            label22.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label22.ForeColor = Color.White;
+            label22.Location = new Point(22, 110);
             label22.Name = "label22";
-            label22.Size = new Size(125, 16);
+            label22.Size = new Size(143, 20);
             label22.TabIndex = 25;
-            label22.Text = "Entidad Federativa";
+            label22.Text = "Entidad Federativa:";
             // 
             // panel4
             // 
-            panel4.BackColor = Color.FromArgb(205, 215, 224);
+            panel4.BackColor = Color.FromArgb(3, 42, 76);
             panel4.Controls.Add(cbEstadoCivil);
-            panel4.Controls.Add(cbNivelEstudios);
             panel4.Controls.Add(cbTipoSangre);
-            panel4.Controls.Add(txbProfesion);
             panel4.Controls.Add(label37);
             panel4.Controls.Add(label38);
+            panel4.Controls.Add(cbNivelEstudios);
             panel4.Controls.Add(label39);
+            panel4.Controls.Add(txbProfesion);
             panel4.Controls.Add(label40);
-            panel4.Location = new Point(452, 444);
+            panel4.Location = new Point(607, 339);
             panel4.Name = "panel4";
-            panel4.Size = new Size(494, 149);
+            panel4.Size = new Size(477, 149);
             panel4.TabIndex = 25;
             // 
             // cbEstadoCivil
             // 
-            cbEstadoCivil.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            cbEstadoCivil.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
             cbEstadoCivil.FormattingEnabled = true;
             cbEstadoCivil.Items.AddRange(new object[] { "SOLTER@", "CASAD@", "DIVORCIAD@", "VIUD@", "UNIÓN LIBRE" });
-            cbEstadoCivil.Location = new Point(198, 77);
+            cbEstadoCivil.Location = new Point(188, 75);
             cbEstadoCivil.Name = "cbEstadoCivil";
-            cbEstadoCivil.Size = new Size(274, 24);
+            cbEstadoCivil.Size = new Size(274, 26);
             cbEstadoCivil.TabIndex = 40;
-            // 
-            // cbNivelEstudios
-            // 
-            cbNivelEstudios.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            cbNivelEstudios.FormattingEnabled = true;
-            cbNivelEstudios.Items.AddRange(new object[] { "NO DEFINIDO", "PRIMARIA", "SECUNDARIA", "MEDIA SUPERIOR", "TÉCNICO", "SUPERIOR", "POSGRADO" });
-            cbNivelEstudios.Location = new Point(198, 17);
-            cbNivelEstudios.Name = "cbNivelEstudios";
-            cbNivelEstudios.Size = new Size(274, 24);
-            cbNivelEstudios.TabIndex = 39;
             // 
             // cbTipoSangre
             // 
-            cbTipoSangre.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            cbTipoSangre.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
             cbTipoSangre.FormattingEnabled = true;
             cbTipoSangre.Items.AddRange(new object[] { "NO REGISTRADA", "A+", "A-", "B+ ", "B-", "O+", "O-", "AB+", "AB-" });
-            cbTipoSangre.Location = new Point(198, 107);
+            cbTipoSangre.Location = new Point(188, 106);
             cbTipoSangre.Name = "cbTipoSangre";
-            cbTipoSangre.Size = new Size(274, 24);
+            cbTipoSangre.Size = new Size(274, 26);
             cbTipoSangre.TabIndex = 38;
-            // 
-            // txbProfesion
-            // 
-            txbProfesion.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            txbProfesion.Location = new Point(198, 47);
-            txbProfesion.Name = "txbProfesion";
-            txbProfesion.Size = new Size(274, 22);
-            txbProfesion.TabIndex = 36;
             // 
             // label37
             // 
             label37.AutoSize = true;
             label37.BackColor = Color.Transparent;
-            label37.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label37.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label37.ForeColor = Color.White;
             label37.Location = new Point(19, 20);
             label37.Name = "label37";
-            label37.Size = new Size(115, 16);
+            label37.Size = new Size(132, 20);
             label37.TabIndex = 28;
-            label37.Text = "Nivel de Estudios";
+            label37.Text = "Nivel de Estudios:";
             // 
             // label38
             // 
             label38.AutoSize = true;
             label38.BackColor = Color.Transparent;
-            label38.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label38.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label38.ForeColor = Color.White;
             label38.Location = new Point(19, 50);
             label38.Name = "label38";
-            label38.Size = new Size(68, 16);
+            label38.Size = new Size(79, 20);
             label38.TabIndex = 27;
-            label38.Text = "Profesión";
+            label38.Text = "Profesión:";
+            // 
+            // cbNivelEstudios
+            // 
+            cbNivelEstudios.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            cbNivelEstudios.FormattingEnabled = true;
+            cbNivelEstudios.Items.AddRange(new object[] { "NO DEFINIDO", "PRIMARIA", "SECUNDARIA", "MEDIA SUPERIOR", "TÉCNICO", "SUPERIOR", "POSGRADO" });
+            cbNivelEstudios.Location = new Point(188, 17);
+            cbNivelEstudios.Name = "cbNivelEstudios";
+            cbNivelEstudios.Size = new Size(274, 26);
+            cbNivelEstudios.TabIndex = 39;
             // 
             // label39
             // 
             label39.AutoSize = true;
             label39.BackColor = Color.Transparent;
-            label39.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label39.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label39.ForeColor = Color.White;
             label39.Location = new Point(19, 80);
             label39.Name = "label39";
-            label39.Size = new Size(80, 16);
+            label39.Size = new Size(94, 20);
             label39.TabIndex = 26;
-            label39.Text = "Estado Civil";
+            label39.Text = "Estado Civil:";
+            // 
+            // txbProfesion
+            // 
+            txbProfesion.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbProfesion.Location = new Point(188, 47);
+            txbProfesion.Name = "txbProfesion";
+            txbProfesion.Size = new Size(274, 24);
+            txbProfesion.TabIndex = 36;
             // 
             // label40
             // 
             label40.AutoSize = true;
             label40.BackColor = Color.Transparent;
-            label40.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label40.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label40.ForeColor = Color.White;
             label40.Location = new Point(19, 110);
             label40.Name = "label40";
-            label40.Size = new Size(100, 16);
+            label40.Size = new Size(117, 20);
             label40.TabIndex = 25;
-            label40.Text = "Tipo de Sangre";
+            label40.Text = "Tipo de Sangre:";
             // 
             // panel5
             // 
@@ -874,9 +914,9 @@
             panel5.Controls.Add(txbHorasxDia);
             panel5.Controls.Add(txbDiasxSemana);
             panel5.Controls.Add(label21);
-            panel5.Location = new Point(976, 101);
+            panel5.Location = new Point(1130, 233);
             panel5.Name = "panel5";
-            panel5.Size = new Size(328, 239);
+            panel5.Size = new Size(338, 239);
             panel5.TabIndex = 26;
             panel5.Visible = false;
             panel5.Paint += panel5_Paint;
@@ -1039,11 +1079,11 @@
             btnEditarUsuario.Cursor = Cursors.Hand;
             btnEditarUsuario.FlatAppearance.BorderSize = 0;
             btnEditarUsuario.FlatStyle = FlatStyle.Flat;
-            btnEditarUsuario.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEditarUsuario.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
             btnEditarUsuario.ForeColor = Color.White;
-            btnEditarUsuario.Location = new Point(1020, 636);
+            btnEditarUsuario.Location = new Point(660, 522);
             btnEditarUsuario.Name = "btnEditarUsuario";
-            btnEditarUsuario.Size = new Size(245, 46);
+            btnEditarUsuario.Size = new Size(380, 40);
             btnEditarUsuario.TabIndex = 27;
             btnEditarUsuario.Text = "EDITAR TRABAJADOR";
             btnEditarUsuario.UseVisualStyleBackColor = false;
@@ -1055,16 +1095,107 @@
             button1.Cursor = Cursors.Hand;
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            button1.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(608, 636);
+            button1.Location = new Point(1102, 98);
             button1.Name = "button1";
-            button1.Size = new Size(220, 46);
+            button1.Size = new Size(172, 27);
             button1.TabIndex = 28;
             button1.Text = "LIMPIAR CAMPOS";
             button1.UseVisualStyleBackColor = false;
             button1.Visible = false;
             button1.Click += button1_Click_1;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Montserrat", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(40, 24);
+            label2.Name = "label2";
+            label2.Size = new Size(533, 44);
+            label2.TabIndex = 29;
+            label2.Text = "REGISTRO DE TRABAJADORES";
+            // 
+            // pnlTabla
+            // 
+            pnlTabla.BackColor = Color.FromArgb(3, 42, 76);
+            pnlTabla.Controls.Add(txbBuscador);
+            pnlTabla.Controls.Add(label3);
+            pnlTabla.Controls.Add(btnEnviarSolicitud);
+            pnlTabla.Controls.Add(dgvTrabajadores);
+            pnlTabla.Location = new Point(1234, 24);
+            pnlTabla.Name = "pnlTabla";
+            pnlTabla.Size = new Size(20, 21);
+            pnlTabla.TabIndex = 39;
+            pnlTabla.Visible = false;
+            // 
+            // txbBuscador
+            // 
+            txbBuscador.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbBuscador.Location = new Point(137, 29);
+            txbBuscador.Name = "txbBuscador";
+            txbBuscador.Size = new Size(278, 27);
+            txbBuscador.TabIndex = 28;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(22, 32);
+            label3.Name = "label3";
+            label3.Size = new Size(89, 22);
+            label3.TabIndex = 27;
+            label3.Text = "Buscador:";
+            // 
+            // btnEnviarSolicitud
+            // 
+            btnEnviarSolicitud.BackColor = Color.FromArgb(255, 102, 0);
+            btnEnviarSolicitud.Cursor = Cursors.Hand;
+            btnEnviarSolicitud.FlatAppearance.BorderSize = 0;
+            btnEnviarSolicitud.FlatStyle = FlatStyle.Flat;
+            btnEnviarSolicitud.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEnviarSolicitud.ForeColor = Color.White;
+            btnEnviarSolicitud.Location = new Point(1061, 20);
+            btnEnviarSolicitud.Name = "btnEnviarSolicitud";
+            btnEnviarSolicitud.Size = new Size(192, 33);
+            btnEnviarSolicitud.TabIndex = 26;
+            btnEnviarSolicitud.Text = "Agregar Nuevo";
+            btnEnviarSolicitud.UseVisualStyleBackColor = false;
+            btnEnviarSolicitud.Click += btnEnviarSolicitud_Click;
+            // 
+            // dgvTrabajadores
+            // 
+            dgvTrabajadores.AllowUserToAddRows = false;
+            dgvTrabajadores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvTrabajadores.BackgroundColor = Color.White;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvTrabajadores.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvTrabajadores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvTrabajadores.Location = new Point(22, 69);
+            dgvTrabajadores.Name = "dgvTrabajadores";
+            dgvTrabajadores.ReadOnly = true;
+            dgvTrabajadores.RowHeadersVisible = false;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dgvTrabajadores.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dgvTrabajadores.RowTemplate.Height = 25;
+            dgvTrabajadores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvTrabajadores.Size = new Size(1235, 640);
+            dgvTrabajadores.TabIndex = 25;
             // 
             // NuevoUsuarioRH
             // 
@@ -1072,6 +1203,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(pnlTabla);
+            Controls.Add(label2);
             Controls.Add(button1);
             Controls.Add(btnEditarUsuario);
             Controls.Add(panel5);
@@ -1079,8 +1212,6 @@
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Controls.Add(cbEstatus);
-            Controls.Add(label8);
             Controls.Add(lblNombre);
             Controls.Add(label7);
             Controls.Add(cbClave);
@@ -1101,20 +1232,20 @@
             panel4.PerformLayout();
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
+            pnlTabla.ResumeLayout(false);
+            pnlTabla.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvTrabajadores).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Label label1;
         private Label label2;
         private TextBox tbnotrabajador;
         private TextBox tbnombre;
         private TextBox tbap;
         private TextBox tbam;
         private TextBox tbcurp;
-        private Label label3;
         private Label label4;
         private Label label5;
         private Button btnAgergarUsuario;
@@ -1206,5 +1337,10 @@
         private TextBox tbFechaNacimiento;
         private Button button1;
         private TextBox txbFechaApli;
+        private Panel pnlTabla;
+        private DataGridView dgvTrabajadores;
+        private Button btnEnviarSolicitud;
+        private TextBox txbBuscador;
+        private Label label3;
     }
 }

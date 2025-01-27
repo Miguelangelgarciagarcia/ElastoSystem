@@ -19,7 +19,6 @@ using System.Drawing.Imaging;
 using Gma.QrCodeNet.Encoding.Windows.Render;
 using Gma.QrCodeNet.Encoding;
 using DocumentFormat.OpenXml.Bibliography;
-
 namespace ElastoSystem
 {
     public partial class RH_Credencial : Form
@@ -41,6 +40,25 @@ namespace ElastoSystem
         private void RH_Credencial_Load(object sender, EventArgs e)
         {
             MandarALlamarNoTrabajadores();
+            MandarALlamarImagenes();
+        }
+
+        string ruta1 = @"W:\Elastosystem\Recursos\credencialatras20251.jpg";
+        string ruta2 = @"W:\Elastosystem\Recursos\credencialatras20252.jpg";
+        private void MandarALlamarImagenes()
+        {
+            try
+            {
+                if (System.IO.File.Exists(ruta2))
+                {
+                    panel2.BackgroundImage = System.Drawing.Image.FromFile(ruta2);
+                    pAtras.BackgroundImage = System.Drawing.Image.FromFile(ruta1);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(""+ex.Message);
+            }
         }
         private void MandarALlamarNoTrabajadores()
         {

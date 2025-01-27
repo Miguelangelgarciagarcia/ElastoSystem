@@ -58,7 +58,6 @@
             PBICerrar = new PictureBox();
             PBIconoMin = new PictureBox();
             label2 = new Label();
-            label3 = new Label();
             panel2 = new Panel();
             pbQR2 = new PictureBox();
             pFrente.SuspendLayout();
@@ -294,7 +293,7 @@
             // 
             cbClave.Font = new Font("Montserrat", 18F, FontStyle.Bold, GraphicsUnit.Point);
             cbClave.FormattingEnabled = true;
-            cbClave.Location = new Point(195, 276);
+            cbClave.Location = new Point(167, 147);
             cbClave.Name = "cbClave";
             cbClave.Size = new Size(262, 41);
             cbClave.TabIndex = 1;
@@ -304,13 +303,13 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Montserrat", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Montserrat", 18F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(77, 279);
+            label1.Location = new Point(57, 150);
             label1.Name = "label1";
             label1.Size = new Size(84, 33);
             label1.TabIndex = 2;
-            label1.Text = "Clave";
+            label1.Text = "Clave:";
             // 
             // btnExportar
             // 
@@ -320,9 +319,9 @@
             btnExportar.FlatStyle = FlatStyle.Flat;
             btnExportar.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btnExportar.ForeColor = Color.White;
-            btnExportar.Location = new Point(190, 367);
+            btnExportar.Location = new Point(114, 228);
             btnExportar.Name = "btnExportar";
-            btnExportar.Size = new Size(267, 62);
+            btnExportar.Size = new Size(294, 46);
             btnExportar.TabIndex = 7;
             btnExportar.Text = "GUARDAR CREDENCIAL";
             btnExportar.UseVisualStyleBackColor = false;
@@ -331,7 +330,6 @@
             // pAtras
             // 
             pAtras.BackColor = Color.White;
-            pAtras.BackgroundImage = (Image)resources.GetObject("pAtras.BackgroundImage");
             pAtras.BackgroundImageLayout = ImageLayout.Stretch;
             pAtras.Controls.Add(pbQR);
             pAtras.ForeColor = Color.White;
@@ -355,7 +353,7 @@
             // lblDepartamentotemp
             // 
             lblDepartamentotemp.AutoSize = true;
-            lblDepartamentotemp.Location = new Point(77, 331);
+            lblDepartamentotemp.Location = new Point(254, 191);
             lblDepartamentotemp.Name = "lblDepartamentotemp";
             lblDepartamentotemp.Size = new Size(94, 15);
             lblDepartamentotemp.TabIndex = 10;
@@ -372,14 +370,14 @@
             PBarraTitulo.Dock = DockStyle.Top;
             PBarraTitulo.Location = new Point(0, 0);
             PBarraTitulo.Name = "PBarraTitulo";
-            PBarraTitulo.Size = new Size(1920, 30);
+            PBarraTitulo.Size = new Size(525, 30);
             PBarraTitulo.TabIndex = 11;
             // 
             // PBNaranja
             // 
             PBNaranja.BackColor = Color.Transparent;
             PBNaranja.Image = (Image)resources.GetObject("PBNaranja.Image");
-            PBNaranja.Location = new Point(1877, 3);
+            PBNaranja.Location = new Point(485, 3);
             PBNaranja.Name = "PBNaranja";
             PBNaranja.Size = new Size(24, 24);
             PBNaranja.SizeMode = PictureBoxSizeMode.Zoom;
@@ -391,7 +389,7 @@
             // 
             PBAzul.BackColor = Color.Transparent;
             PBAzul.Image = (Image)resources.GetObject("PBAzul.Image");
-            PBAzul.Location = new Point(1847, 3);
+            PBAzul.Location = new Point(455, 3);
             PBAzul.Name = "PBAzul";
             PBAzul.Size = new Size(24, 24);
             PBAzul.SizeMode = PictureBoxSizeMode.Zoom;
@@ -403,7 +401,7 @@
             // 
             PBICerrar.BackColor = Color.Transparent;
             PBICerrar.Image = (Image)resources.GetObject("PBICerrar.Image");
-            PBICerrar.Location = new Point(1877, 3);
+            PBICerrar.Location = new Point(485, 3);
             PBICerrar.Name = "PBICerrar";
             PBICerrar.Size = new Size(24, 24);
             PBICerrar.SizeMode = PictureBoxSizeMode.Zoom;
@@ -416,7 +414,7 @@
             // 
             PBIconoMin.BackColor = Color.Transparent;
             PBIconoMin.Image = Properties.Resources.circuloazulminimizar;
-            PBIconoMin.Location = new Point(1847, 3);
+            PBIconoMin.Location = new Point(455, 3);
             PBIconoMin.Name = "PBIconoMin";
             PBIconoMin.Size = new Size(24, 24);
             PBIconoMin.SizeMode = PictureBoxSizeMode.Zoom;
@@ -429,30 +427,17 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Montserrat", 22F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Font = new Font("Montserrat", 19F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(136, 85);
+            label2.Location = new Point(36, 63);
             label2.Name = "label2";
-            label2.Size = new Size(275, 41);
+            label2.Size = new Size(455, 36);
             label2.TabIndex = 12;
-            label2.Text = "GENERADOR DE";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 22F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(136, 126);
-            label3.Name = "label3";
-            label3.Size = new Size(263, 41);
-            label3.TabIndex = 13;
-            label3.Text = "CREDENCIALES";
+            label2.Text = "GENERADOR DE CREDENCIALES";
             // 
             // panel2
             // 
             panel2.BackColor = Color.White;
-            panel2.BackgroundImage = (Image)resources.GetObject("panel2.BackgroundImage");
             panel2.BackgroundImageLayout = ImageLayout.Stretch;
             panel2.Controls.Add(pbQR2);
             panel2.ForeColor = Color.White;
@@ -477,10 +462,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
-            ClientSize = new Size(1920, 1080);
+            ClientSize = new Size(525, 305);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(PBarraTitulo);
             Controls.Add(lblDepartamentotemp);
@@ -492,6 +476,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "RH_Credencial";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "RH_Credencial";
             Load += RH_Credencial_Load;
             pFrente.ResumeLayout(false);
@@ -532,7 +517,6 @@
         private PictureBox PBICerrar;
         private PictureBox PBIconoMin;
         private Label label2;
-        private Label label3;
         private Panel panel1;
         private Label label4;
         private PictureBox pictureBox1;

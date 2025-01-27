@@ -71,7 +71,7 @@ namespace ElastoSystem
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -82,7 +82,7 @@ namespace ElastoSystem
 
         private void NuevoUsuarioRH_Load(object sender, EventArgs e)
         {
-
+            //CargarTrabajadores();
             if (rbJS.Checked = true)
             {
                 rbJN.Checked = false;
@@ -106,6 +106,22 @@ namespace ElastoSystem
             NuevoNoTrabajador();
             BloquearBotonDeEditar();
 
+        }
+
+        private void CargarTrabajadores()
+        {
+            try
+            {
+                string query = "SELECT ID, Nombre, Apellido_Paterno, Apellido_Materno, Estatus FROM elastosystem_rh";
+                MySqlDataAdapter adaptador = new MySqlDataAdapter(query, VariablesGlobales.ConexionBDElastotecnica);
+                DataTable dt = new DataTable();
+                adaptador.Fill(dt);
+                dgvTrabajadores.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL CARGAR REGISTRO DE TRABAJADORES: " + ex.Message);
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -365,6 +381,21 @@ namespace ElastoSystem
         private void cbEstatus_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void txbNom_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnEnviarSolicitud_Click(object sender, EventArgs e)
+        {
+            pnlTabla.Visible = false;
         }
     }
 }
