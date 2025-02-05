@@ -39,7 +39,6 @@ namespace ElastoSystem
             try
             {
                 string query = "SELECT Almacen, Nuevo_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Admin_Inventario, Inventario_Almacen, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @idmenu";
-
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@idmenu", idmenu);
 
@@ -79,7 +78,6 @@ namespace ElastoSystem
                             btnConsultaSalidas.Enabled = true;
                             btnConsultaSalidas.Visible = true;
                         }
-
                         string admininventarioValue = reader["Admin_Inventario"].ToString();
                         if (admininventarioValue == "True")
                         {
@@ -366,10 +364,9 @@ namespace ElastoSystem
                         Body = ConstruirCuerpoCorreoHTML(dt)
                     };
 
-                    //mailMessage.To.Add("dmedina@elastotecnica.com");
-                    //mailMessage.To.Add("ini.medina@gmail.com");
-                    //mailMessage.To.Add("compras@elastotecnica.com.mx");
-                    mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
+                    mailMessage.To.Add("dmedina@elastotecnica.com");
+                    mailMessage.To.Add("ini.medina@gmail.com");
+                    mailMessage.To.Add("compras@elastotecnica.com.mx");
 
                     smtpClient.Send(mailMessage);
                 }
@@ -392,7 +389,6 @@ namespace ElastoSystem
             cuerpoCorreo.AppendLine("<h2>CONSUMIBLES PENDIENTES POR COMPRAR PARA ALMACEN:</h2>");
             cuerpoCorreo.AppendLine("<table border='1' style='border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;'>");
 
-            // Encabezados de la tabla
             cuerpoCorreo.AppendLine("<tr style='background-color: #f2f2f2;'>");
             foreach (DataColumn columna in dataTable.Columns)
             {
@@ -400,7 +396,6 @@ namespace ElastoSystem
             }
             cuerpoCorreo.AppendLine("</tr>");
 
-            // Filas de datos
             foreach (DataRow fila in dataTable.Rows)
             {
                 cuerpoCorreo.AppendLine("<tr>");

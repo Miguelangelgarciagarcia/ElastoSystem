@@ -43,8 +43,8 @@ namespace ElastoSystem
             MandarALlamarImagenes();
         }
 
-        string ruta1 = @"W:\Elastosystem\Recursos\credencialatras20251.jpg";
-        string ruta2 = @"W:\Elastosystem\Recursos\credencialatras20252.jpg";
+        string ruta1 = @"W:\Recursos_Sistemas\ElastoSystem\credencialatras20251.jpg";
+        string ruta2 = @"W:\Recursos_Sistemas\ElastoSystem\credencialatras20252.jpg";
         private void MandarALlamarImagenes()
         {
             try

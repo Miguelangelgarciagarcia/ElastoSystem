@@ -28,12 +28,54 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
             label1 = new Label();
             label2 = new Label();
             cbProductos = new ComboBox();
             label3 = new Label();
             btnActualizar = new Button();
             txbConsumoMensual = new TextBox();
+            dgvFacturasSAE = new DataGridView();
+            label4 = new Label();
+            btnDescargarReporte = new Button();
+            bindingSource1 = new BindingSource(components);
+            dgvPartidasFacturaSAE = new DataGridView();
+            bindingSource2 = new BindingSource(components);
+            panel1 = new Panel();
+            dgvReporte = new DataGridView();
+            progressBar1 = new ProgressBar();
+            btnFiltrar = new Button();
+            lblProductos = new Label();
+            lblClientes = new Label();
+            lblFechas = new Label();
+            lblFechaInicio = new Label();
+            lblFechaFinal = new Label();
+            dgvClientes = new DataGridView();
+            bindingSource3 = new BindingSource(components);
+            bindingSource4 = new BindingSource(components);
+            label5 = new Label();
+            txbMaxOC = new TextBox();
+            pnlCargando = new Panel();
+            label6 = new Label();
+            btnDescargarPDF = new Button();
+            ((System.ComponentModel.ISupportInitialize)dgvFacturasSAE).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvPartidasFacturaSAE).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource2).BeginInit();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvReporte).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource4).BeginInit();
+            pnlCargando.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -42,7 +84,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Montserrat", 22F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(23, 27);
+            label1.Location = new Point(43, 27);
             label1.Name = "label1";
             label1.Size = new Size(362, 41);
             label1.TabIndex = 1;
@@ -54,7 +96,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(34, 90);
+            label2.Location = new Point(54, 100);
             label2.Name = "label2";
             label2.Size = new Size(87, 22);
             label2.TabIndex = 2;
@@ -66,7 +108,7 @@
             cbProductos.AutoCompleteSource = AutoCompleteSource.CustomSource;
             cbProductos.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             cbProductos.FormattingEnabled = true;
-            cbProductos.Location = new Point(204, 86);
+            cbProductos.Location = new Point(288, 97);
             cbProductos.Name = "cbProductos";
             cbProductos.Size = new Size(288, 30);
             cbProductos.TabIndex = 3;
@@ -78,7 +120,7 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(34, 125);
+            label3.Location = new Point(54, 135);
             label3.Name = "label3";
             label3.Size = new Size(164, 22);
             label3.TabIndex = 4;
@@ -92,7 +134,7 @@
             btnActualizar.FlatStyle = FlatStyle.Flat;
             btnActualizar.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btnActualizar.ForeColor = Color.White;
-            btnActualizar.Location = new Point(531, 103);
+            btnActualizar.Location = new Point(621, 157);
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(173, 34);
             btnActualizar.TabIndex = 9;
@@ -103,11 +145,317 @@
             // txbConsumoMensual
             // 
             txbConsumoMensual.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txbConsumoMensual.Location = new Point(204, 122);
+            txbConsumoMensual.Location = new Point(288, 133);
             txbConsumoMensual.Name = "txbConsumoMensual";
             txbConsumoMensual.Size = new Size(288, 27);
             txbConsumoMensual.TabIndex = 41;
             txbConsumoMensual.KeyPress += txbConsumoMensual_KeyPress;
+            // 
+            // dgvFacturasSAE
+            // 
+            dgvFacturasSAE.AllowUserToAddRows = false;
+            dgvFacturasSAE.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvFacturasSAE.BackgroundColor = Color.White;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = Color.White;
+            dataGridViewCellStyle9.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle9.ForeColor = Color.Black;
+            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle9.SelectionForeColor = Color.White;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            dgvFacturasSAE.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dgvFacturasSAE.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvFacturasSAE.Location = new Point(515, 252);
+            dgvFacturasSAE.Name = "dgvFacturasSAE";
+            dgvFacturasSAE.ReadOnly = true;
+            dgvFacturasSAE.RowHeadersVisible = false;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.BackColor = Color.White;
+            dataGridViewCellStyle10.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle10.ForeColor = Color.Black;
+            dataGridViewCellStyle10.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle10.SelectionForeColor = Color.White;
+            dgvFacturasSAE.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dgvFacturasSAE.RowTemplate.Height = 25;
+            dgvFacturasSAE.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvFacturasSAE.Size = new Size(19, 23);
+            dgvFacturasSAE.TabIndex = 42;
+            dgvFacturasSAE.Visible = false;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Montserrat", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(43, 242);
+            label4.Name = "label4";
+            label4.Size = new Size(321, 33);
+            label4.TabIndex = 43;
+            label4.Text = "REPORTE DE FACTURAS";
+            // 
+            // btnDescargarReporte
+            // 
+            btnDescargarReporte.BackColor = Color.FromArgb(255, 102, 0);
+            btnDescargarReporte.Cursor = Cursors.Hand;
+            btnDescargarReporte.FlatAppearance.BorderSize = 0;
+            btnDescargarReporte.FlatStyle = FlatStyle.Flat;
+            btnDescargarReporte.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDescargarReporte.ForeColor = Color.White;
+            btnDescargarReporte.Location = new Point(1012, 756);
+            btnDescargarReporte.Name = "btnDescargarReporte";
+            btnDescargarReporte.Size = new Size(238, 34);
+            btnDescargarReporte.TabIndex = 44;
+            btnDescargarReporte.Text = "DESCARGAR .XLSX";
+            btnDescargarReporte.UseVisualStyleBackColor = false;
+            btnDescargarReporte.Visible = false;
+            btnDescargarReporte.Click += btnDescargarReporte_Click;
+            // 
+            // dgvPartidasFacturaSAE
+            // 
+            dgvPartidasFacturaSAE.AllowUserToAddRows = false;
+            dgvPartidasFacturaSAE.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPartidasFacturaSAE.BackgroundColor = Color.White;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = Color.White;
+            dataGridViewCellStyle11.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle11.ForeColor = Color.Black;
+            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle11.SelectionForeColor = Color.White;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            dgvPartidasFacturaSAE.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dgvPartidasFacturaSAE.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvPartidasFacturaSAE.Location = new Point(540, 252);
+            dgvPartidasFacturaSAE.Name = "dgvPartidasFacturaSAE";
+            dgvPartidasFacturaSAE.ReadOnly = true;
+            dgvPartidasFacturaSAE.RowHeadersVisible = false;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = Color.White;
+            dataGridViewCellStyle12.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle12.ForeColor = Color.Black;
+            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle12.SelectionForeColor = Color.White;
+            dgvPartidasFacturaSAE.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dgvPartidasFacturaSAE.RowTemplate.Height = 25;
+            dgvPartidasFacturaSAE.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvPartidasFacturaSAE.Size = new Size(20, 23);
+            dgvPartidasFacturaSAE.TabIndex = 45;
+            dgvPartidasFacturaSAE.Visible = false;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(3, 42, 76);
+            panel1.Controls.Add(dgvReporte);
+            panel1.Location = new Point(43, 285);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1224, 465);
+            panel1.TabIndex = 46;
+            // 
+            // dgvReporte
+            // 
+            dgvReporte.AllowUserToAddRows = false;
+            dgvReporte.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvReporte.BackgroundColor = Color.White;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.BackColor = Color.White;
+            dataGridViewCellStyle13.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle13.ForeColor = Color.Black;
+            dataGridViewCellStyle13.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle13.SelectionForeColor = Color.White;
+            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
+            dgvReporte.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dgvReporte.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvReporte.Location = new Point(20, 19);
+            dgvReporte.Name = "dgvReporte";
+            dgvReporte.ReadOnly = true;
+            dgvReporte.RowHeadersVisible = false;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.BackColor = Color.White;
+            dataGridViewCellStyle14.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle14.ForeColor = Color.Black;
+            dataGridViewCellStyle14.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle14.SelectionForeColor = Color.White;
+            dgvReporte.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            dgvReporte.RowTemplate.Height = 25;
+            dgvReporte.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvReporte.Size = new Size(1187, 427);
+            dgvReporte.TabIndex = 43;
+            dgvReporte.Visible = false;
+            // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(93, 248);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(1057, 24);
+            progressBar1.TabIndex = 0;
+            // 
+            // btnFiltrar
+            // 
+            btnFiltrar.BackColor = Color.FromArgb(255, 102, 0);
+            btnFiltrar.Cursor = Cursors.Hand;
+            btnFiltrar.FlatAppearance.BorderSize = 0;
+            btnFiltrar.FlatStyle = FlatStyle.Flat;
+            btnFiltrar.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnFiltrar.ForeColor = Color.White;
+            btnFiltrar.Location = new Point(380, 248);
+            btnFiltrar.Name = "btnFiltrar";
+            btnFiltrar.Size = new Size(125, 31);
+            btnFiltrar.TabIndex = 47;
+            btnFiltrar.Text = "Filtrar";
+            btnFiltrar.UseVisualStyleBackColor = false;
+            btnFiltrar.Visible = false;
+            btnFiltrar.Click += btnFiltrar_Click;
+            // 
+            // lblProductos
+            // 
+            lblProductos.AutoSize = true;
+            lblProductos.BackColor = Color.Transparent;
+            lblProductos.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblProductos.ForeColor = Color.White;
+            lblProductos.Location = new Point(821, 46);
+            lblProductos.Name = "lblProductos";
+            lblProductos.Size = new Size(0, 22);
+            lblProductos.TabIndex = 48;
+            lblProductos.Visible = false;
+            // 
+            // lblClientes
+            // 
+            lblClientes.AutoSize = true;
+            lblClientes.BackColor = Color.Transparent;
+            lblClientes.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblClientes.ForeColor = Color.White;
+            lblClientes.Location = new Point(821, 68);
+            lblClientes.Name = "lblClientes";
+            lblClientes.Size = new Size(0, 22);
+            lblClientes.TabIndex = 49;
+            lblClientes.Visible = false;
+            // 
+            // lblFechas
+            // 
+            lblFechas.AutoSize = true;
+            lblFechas.BackColor = Color.Transparent;
+            lblFechas.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblFechas.ForeColor = Color.White;
+            lblFechas.Location = new Point(821, 92);
+            lblFechas.Name = "lblFechas";
+            lblFechas.Size = new Size(0, 22);
+            lblFechas.TabIndex = 50;
+            lblFechas.Visible = false;
+            // 
+            // lblFechaInicio
+            // 
+            lblFechaInicio.AutoSize = true;
+            lblFechaInicio.BackColor = Color.Transparent;
+            lblFechaInicio.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblFechaInicio.ForeColor = Color.White;
+            lblFechaInicio.Location = new Point(821, 115);
+            lblFechaInicio.Name = "lblFechaInicio";
+            lblFechaInicio.Size = new Size(0, 22);
+            lblFechaInicio.TabIndex = 51;
+            lblFechaInicio.Visible = false;
+            // 
+            // lblFechaFinal
+            // 
+            lblFechaFinal.AutoSize = true;
+            lblFechaFinal.BackColor = Color.Transparent;
+            lblFechaFinal.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblFechaFinal.ForeColor = Color.White;
+            lblFechaFinal.Location = new Point(821, 137);
+            lblFechaFinal.Name = "lblFechaFinal";
+            lblFechaFinal.Size = new Size(0, 22);
+            lblFechaFinal.TabIndex = 52;
+            lblFechaFinal.Visible = false;
+            // 
+            // dgvClientes
+            // 
+            dgvClientes.AllowUserToAddRows = false;
+            dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvClientes.BackgroundColor = Color.White;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.BackColor = Color.White;
+            dataGridViewCellStyle15.Font = new Font("Montserrat", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle15.ForeColor = Color.Black;
+            dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle15.SelectionForeColor = Color.White;
+            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
+            dgvClientes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvClientes.Location = new Point(566, 252);
+            dgvClientes.Name = "dgvClientes";
+            dgvClientes.ReadOnly = true;
+            dgvClientes.RowHeadersVisible = false;
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.BackColor = Color.White;
+            dataGridViewCellStyle16.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle16.ForeColor = Color.Black;
+            dataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle16.SelectionForeColor = Color.White;
+            dgvClientes.RowsDefaultCellStyle = dataGridViewCellStyle16;
+            dgvClientes.RowTemplate.Height = 25;
+            dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvClientes.Size = new Size(14, 23);
+            dgvClientes.TabIndex = 53;
+            dgvClientes.Visible = false;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = Color.Transparent;
+            label5.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(54, 169);
+            label5.Name = "label5";
+            label5.Size = new Size(217, 22);
+            label5.TabIndex = 54;
+            label5.Text = "Cantidad Maxima de 1 OC:";
+            // 
+            // txbMaxOC
+            // 
+            txbMaxOC.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbMaxOC.Location = new Point(288, 166);
+            txbMaxOC.Name = "txbMaxOC";
+            txbMaxOC.Size = new Size(288, 27);
+            txbMaxOC.TabIndex = 55;
+            txbMaxOC.KeyPress += txbMaxOC_KeyPress;
+            // 
+            // pnlCargando
+            // 
+            pnlCargando.BackColor = Color.FromArgb(3, 42, 76);
+            pnlCargando.Controls.Add(label6);
+            pnlCargando.Controls.Add(progressBar1);
+            pnlCargando.Location = new Point(26, 71);
+            pnlCargando.Name = "pnlCargando";
+            pnlCargando.Size = new Size(1286, 719);
+            pnlCargando.TabIndex = 56;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.BackColor = Color.FromArgb(3, 42, 76);
+            label6.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(1025, 285);
+            label6.Name = "label6";
+            label6.Size = new Size(125, 27);
+            label6.TabIndex = 58;
+            label6.Text = "Cargando...";
+            // 
+            // btnDescargarPDF
+            // 
+            btnDescargarPDF.BackColor = Color.FromArgb(255, 102, 0);
+            btnDescargarPDF.Cursor = Cursors.Hand;
+            btnDescargarPDF.FlatAppearance.BorderSize = 0;
+            btnDescargarPDF.FlatStyle = FlatStyle.Flat;
+            btnDescargarPDF.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDescargarPDF.ForeColor = Color.White;
+            btnDescargarPDF.Location = new Point(757, 756);
+            btnDescargarPDF.Name = "btnDescargarPDF";
+            btnDescargarPDF.Size = new Size(238, 34);
+            btnDescargarPDF.TabIndex = 57;
+            btnDescargarPDF.Text = "DESCARGAR .PDF";
+            btnDescargarPDF.UseVisualStyleBackColor = false;
+            btnDescargarPDF.Visible = false;
+            btnDescargarPDF.Click += btnDescargarPDF_Click;
             // 
             // Almacen_Admin_Inventario
             // 
@@ -115,16 +463,43 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(pnlCargando);
+            Controls.Add(txbMaxOC);
+            Controls.Add(label5);
+            Controls.Add(dgvClientes);
+            Controls.Add(lblFechaFinal);
+            Controls.Add(lblFechaInicio);
+            Controls.Add(lblFechas);
+            Controls.Add(lblClientes);
+            Controls.Add(lblProductos);
+            Controls.Add(btnFiltrar);
+            Controls.Add(panel1);
+            Controls.Add(dgvPartidasFacturaSAE);
+            Controls.Add(btnDescargarReporte);
+            Controls.Add(label4);
+            Controls.Add(dgvFacturasSAE);
             Controls.Add(txbConsumoMensual);
             Controls.Add(btnActualizar);
             Controls.Add(label3);
             Controls.Add(cbProductos);
             Controls.Add(label2);
             Controls.Add(label1);
+            Controls.Add(btnDescargarPDF);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Almacen_Admin_Inventario";
             Text = "Almacen_Admin_Inventario";
             Load += Almacen_Admin_Inventario_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvFacturasSAE).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvPartidasFacturaSAE).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource2).EndInit();
+            panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvReporte).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource4).EndInit();
+            pnlCargando.ResumeLayout(false);
+            pnlCargando.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -137,5 +512,28 @@
         private Label label3;
         private Button btnActualizar;
         private TextBox txbConsumoMensual;
+        private DataGridView dgvFacturasSAE;
+        private Label label4;
+        private Button btnDescargarReporte;
+        private BindingSource bindingSource1;
+        private DataGridView dgvPartidasFacturaSAE;
+        private BindingSource bindingSource2;
+        private Panel panel1;
+        private ProgressBar progressBar1;
+        private DataGridView dgvReporte;
+        private Button btnFiltrar;
+        private Label lblProductos;
+        private Label lblClientes;
+        private Label lblFechas;
+        private Label lblFechaInicio;
+        private Label lblFechaFinal;
+        private DataGridView dgvClientes;
+        private BindingSource bindingSource3;
+        private BindingSource bindingSource4;
+        private Label label5;
+        private TextBox txbMaxOC;
+        private Panel pnlCargando;
+        private Button btnDescargarPDF;
+        private Label label6;
     }
 }

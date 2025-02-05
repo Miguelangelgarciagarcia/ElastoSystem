@@ -163,24 +163,18 @@ namespace ElastoSystem
             {
                 try
                 {
-                    // Crear un cuadro de diálogo para seleccionar la ubicación de guardado
                     SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                     saveFileDialog1.Filter = "Archivos de imagen (*.png)|*.png|Todos los archivos (*.*)|*.*";
                     saveFileDialog1.Title = "Guardar imagen";
 
-                    // Establecer el nombre predeterminado para el archivo
-                    saveFileDialog1.FileName = lbidproducto.Text + ".png"; // Usar el texto de label1 como nombre de archivo
+                    saveFileDialog1.FileName = lbidproducto.Text + ".png";
 
-                    // Mostrar el cuadro de diálogo
                     DialogResult result = saveFileDialog1.ShowDialog();
 
-                    // Si el usuario selecciona una ubicación y hace clic en "Guardar"
                     if (result == DialogResult.OK)
                     {
-                        // Obtener la ruta completa del archivo seleccionado por el usuario
                         string nombreArchivo = saveFileDialog1.FileName;
 
-                        // Guardar la imagen en el archivo seleccionado
                         pbQR.Image.Save(nombreArchivo, System.Drawing.Imaging.ImageFormat.Png);
 
                         MessageBox.Show("Imagen guardada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -309,5 +303,17 @@ namespace ElastoSystem
         {
             GenerarQR2();
         }
+
+        private void tbminimo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            VariablesGlobales.ValidarNumeroEntero(e, tbminimo);
+        }
+
+        private void tbexistencias_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            VariablesGlobales.ValidarNumeroEntero(e, tbexistencias);
+        }
+
+        
     }
 }

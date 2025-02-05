@@ -14,8 +14,6 @@ namespace ElastoSystem
 
         public void PruebaConexionMySql()
         {
-            //PRUEBA CONEXION A BASE DE DATOS elastosystem
-
             MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             try
             {
