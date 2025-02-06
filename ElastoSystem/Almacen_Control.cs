@@ -380,11 +380,12 @@ namespace ElastoSystem
         {
             string table = "SELECT Producto, Existencia, Estatus, Meses " +
                             "FROM elastosystem_sae_productos " +
-                            "WHERE Estatus = 'Resurtir' OR Estatus = 'Programar' " +
+                            "WHERE Estatus = 'Critico' OR Estatus = 'Resurtir' OR Estatus = 'Programar' " +
                             "ORDER BY CASE " +
-                            "WHEN Estatus = 'Resurtir' THEN 1 " +
-                            "WHEN Estatus = 'Programar' THEN 2 " +
-                            "ELSE 3 END, Meses ASC";
+                            "WHEN Estatus = 'Critico' THEN 1 " +
+                            "WHEN Estatus = 'Resurtir' THEN 2 " +
+                            "WHEN Estatus = 'Programar' THEN 3 " +
+                            "ELSE 4 END, Meses ASC";
             MySqlDataAdapter adapatador = new MySqlDataAdapter(table, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             adapatador.Fill(dt);
@@ -407,7 +408,9 @@ namespace ElastoSystem
                     Body = ConstruirCuerpoCorreoHTMLPrioridades(dt)
                 };
 
-                mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
+                mailMessage.To.Add("imedinaa@elastotecnica.com");
+                mailMessage.To.Add("mario.lopez@elastotecnica.com.mx");
+                mailMessage.To.Add("almacen@elastotecnica.com");
 
                 smtpClient.Send(mailMessage);
             }
@@ -434,7 +437,15 @@ namespace ElastoSystem
 
             foreach (DataRow fila in dataTable.Rows)
             {
-                cuerpoCorreo.AppendLine("<tr>");
+                string estatus = fila["Estatus"].ToString();
+                string colorFila = "#FFFFFF";
+
+                if (estatus == "Critico") colorFila = "FF0000";
+                else if (estatus == "Resurtir") colorFila = "CC0000";
+                else if (estatus == "Programar") colorFila = "FFFF00";
+
+                cuerpoCorreo.AppendLine($"<tr style='background-color: #{colorFila};'>");
+
                 foreach (var celda in fila.ItemArray)
                 {
                     string valorCelda = celda != null ? celda.ToString() : "";
