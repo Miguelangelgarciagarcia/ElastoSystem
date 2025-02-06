@@ -118,9 +118,9 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(24, 131);
             label2.Name = "label2";
-            label2.Size = new Size(161, 16);
+            label2.Size = new Size(157, 16);
             label2.TabIndex = 3;
-            label2.Text = "Elasto System Version 4.0";
+            label2.Text = "Elasto System Version 4.1";
             // 
             // label3
             // 
