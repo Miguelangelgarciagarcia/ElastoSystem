@@ -364,9 +364,10 @@ namespace ElastoSystem
                         Body = ConstruirCuerpoCorreoHTML(dt)
                     };
 
-                    mailMessage.To.Add("dmedina@elastotecnica.com");
-                    mailMessage.To.Add("ini.medina@gmail.com");
-                    mailMessage.To.Add("compras@elastotecnica.com.mx");
+                    //mailMessage.To.Add("dmedina@elastotecnica.com");
+                    //mailMessage.To.Add("ini.medina@gmail.com");
+                    //mailMessage.To.Add("compras@elastotecnica.com.mx");
+                    mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
 
                     smtpClient.Send(mailMessage);
                 }

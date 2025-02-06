@@ -149,6 +149,7 @@ namespace ElastoSystem
                 INNER JOIN elastosystem_sae_clientes AS c
                     ON f.Clave_Cliente = c.Clave
                 WHERE f.Status IN ('E', 'O')
+                    AND p.Almacen = 1
                 ORDER BY f.Fecha_Documento DESC;";
 
             using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
@@ -204,7 +205,7 @@ namespace ElastoSystem
                 FbCommand comando = new FbCommand();
                 FbDataAdapter adaptador = new FbDataAdapter();
                 DataSet datos = new DataSet();
-                string sql = "SELECT CVE_DOC, CVE_CLPV, STATUS, FECHA_DOC FROM factf01 WHERE CVE_DOC LIKE 'A      %'";
+                string sql = "SELECT CVE_DOC, CVE_CLPV, STATUS, FECHA_DOC FROM factf01 WHERE CVE_DOC LIKE 'A      %' AND CVE_DOC NOT IN ('A      6586', 'A      6585', 'A      6584', 'A      6546', 'A      5576', 'A      5452', 'A      5451', 'A      5443')";
 
                 comando.Connection = conn;
                 comando.CommandText = sql;
@@ -280,7 +281,7 @@ namespace ElastoSystem
                 FbCommand comando = new FbCommand();
                 FbDataAdapter adaptador = new FbDataAdapter();
                 DataSet datos = new DataSet();
-                string sql = "SELECT CVE_DOC, CVE_ART, CANT FROM par_factf01 WHERE CVE_DOC LIKE 'A      %'";
+                string sql = "SELECT CVE_DOC, CVE_ART, CANT, NUM_ALM FROM par_factf01 WHERE CVE_DOC LIKE 'A      %'";
 
                 comando.Connection = conn;
                 comando.CommandText = sql;
@@ -319,13 +320,15 @@ namespace ElastoSystem
                         string claveDocumento = row.Cells["CVE_DOC"].Value.ToString();
                         string claveArticulo = row.Cells["CVE_ART"].Value.ToString();
                         int cantidad = Convert.ToInt32(Convert.ToDecimal(row.Cells["CANT"].Value));
+                        int almacen = Convert.ToInt32(Convert.ToDecimal(row.Cells["NUM_ALM"].Value));
 
-                        string sqlInsertar = @"INSERT INTO elastosystem_sae_facturas_partidas(Clave_Documento, Producto, Cantidad)
-                                                VALUES (@CLAVEDOCUMENTO, @PRODUCTO, @CANTIDAD)";
+                        string sqlInsertar = @"INSERT INTO elastosystem_sae_facturas_partidas(Clave_Documento, Producto, Cantidad, Almacen)
+                                                VALUES (@CLAVEDOCUMENTO, @PRODUCTO, @CANTIDAD, @ALMACEN)";
                         MySqlCommand cmdInsertar = new MySqlCommand(sqlInsertar, conn);
                         cmdInsertar.Parameters.AddWithValue("@CLAVEDOCUMENTO", claveDocumento);
                         cmdInsertar.Parameters.AddWithValue("@PRODUCTO", claveArticulo);
                         cmdInsertar.Parameters.AddWithValue("@CANTIDAD", cantidad);
+                        cmdInsertar.Parameters.AddWithValue("@ALMACEN", almacen);
                         cmdInsertar.ExecuteNonQuery();
                     }
                 }
@@ -492,13 +495,14 @@ namespace ElastoSystem
 
         private void btnDescargarReporte_Click(object sender, EventArgs e)
         {
+            string producto = lblProductos.Text;
             try
             {
                 using (var saveFileDialog = new SaveFileDialog())
                 {
                     saveFileDialog.Filter = "Archivos de Excel (*.xlsx)|*.xlsx";
                     saveFileDialog.Title = "Guardar reporte como";
-                    saveFileDialog.FileName = "Reporte.xlsx";
+                    saveFileDialog.FileName = producto + " Reporte.xlsx";
 
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
@@ -591,7 +595,8 @@ namespace ElastoSystem
                         ON f.Clave_Documento = p.Clave_Documento
                     INNER JOIN elastosystem_sae_clientes AS c
                         ON f.Clave_Cliente = c.Clave
-                    WHERE f.Status IN ('E', 'O')";
+                    WHERE f.Status IN ('E', 'O')
+                        AND p.Almacen = 1";
 
             if (lblClientes.Text != "clientestodos")
             {
@@ -795,10 +800,13 @@ namespace ElastoSystem
                 foreach (var anio in sumasPorAnioYMes.Keys.OrderBy(a => a))
                 {
                     double sumaAnual = sumasPorAnioYMes[anio].Values.Sum();
+                    int cantidadMeses = sumasPorAnioYMes[anio].Count;
+                    double promedioMensualAnio = cantidadMeses > 0 ? sumaAnual / cantidadMeses : 0;
+
                     doc.Add(new iTextSharp.text.Paragraph($"\nTotal {anio} = {sumaAnual:F2}", contenidoFont));
+                    doc.Add(new iTextSharp.text.Paragraph($"Promedio mensual {anio} = {promedioMensualAnio:F2}", contenidoFont));
 
                     int mesMayor = sumasPorAnioYMes[anio].OrderByDescending(m => m.Value).First().Key;
-                    double maxCantidadMes = sumasPorAnioYMes[anio][mesMayor];
 
                     foreach (var mes in sumasPorAnioYMes[anio].Keys.OrderBy(m => m))
                     {

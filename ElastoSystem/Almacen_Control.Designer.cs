@@ -59,6 +59,12 @@
             lblFecha = new Label();
             lblHora = new Label();
             horayfecha = new System.Windows.Forms.Timer(components);
+            pnlCargando = new Panel();
+            dgvProductos = new DataGridView();
+            label2 = new Label();
+            progressBar1 = new ProgressBar();
+            bindingSource1 = new BindingSource(components);
+            bindingSource2 = new BindingSource(components);
             paneltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -66,6 +72,10 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvTemporal).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvBD).BeginInit();
+            pnlCargando.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource2).BeginInit();
             SuspendLayout();
             // 
             // paneltop
@@ -397,12 +407,53 @@
             horayfecha.Enabled = true;
             horayfecha.Tick += horayfecha_Tick;
             // 
+            // pnlCargando
+            // 
+            pnlCargando.BackColor = Color.FromArgb(3, 42, 76);
+            pnlCargando.Controls.Add(dgvProductos);
+            pnlCargando.Controls.Add(label2);
+            pnlCargando.Controls.Add(progressBar1);
+            pnlCargando.Location = new Point(33, 49);
+            pnlCargando.Name = "pnlCargando";
+            pnlCargando.Size = new Size(1852, 1010);
+            pnlCargando.TabIndex = 57;
+            // 
+            // dgvProductos
+            // 
+            dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductos.Location = new Point(93, 286);
+            dgvProductos.Name = "dgvProductos";
+            dgvProductos.RowTemplate.Height = 25;
+            dgvProductos.Size = new Size(46, 38);
+            dgvProductos.TabIndex = 59;
+            dgvProductos.Visible = false;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.FromArgb(3, 42, 76);
+            label2.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(1614, 286);
+            label2.Name = "label2";
+            label2.Size = new Size(125, 27);
+            label2.TabIndex = 58;
+            label2.Text = "Cargando...";
+            // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(93, 248);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(1649, 24);
+            progressBar1.TabIndex = 0;
+            // 
             // Almacen_Control
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1920, 1080);
+            Controls.Add(pnlCargando);
             Controls.Add(lblFecha);
             Controls.Add(lblHora);
             Controls.Add(dgvBD);
@@ -431,6 +482,11 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvTemporal).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvBD).EndInit();
+            pnlCargando.ResumeLayout(false);
+            pnlCargando.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -458,5 +514,11 @@
         private Label lblFecha;
         private Label lblHora;
         private System.Windows.Forms.Timer horayfecha;
+        private Panel pnlCargando;
+        private Label label2;
+        private ProgressBar progressBar1;
+        private DataGridView dgvProductos;
+        private BindingSource bindingSource1;
+        private BindingSource bindingSource2;
     }
 }

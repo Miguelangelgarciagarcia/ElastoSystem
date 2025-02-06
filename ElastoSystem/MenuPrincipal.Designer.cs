@@ -88,6 +88,7 @@
             panelPrincipal = new Panel();
             dgv = new DataGridView();
             labelid = new Label();
+            dgvProductos = new DataGridView();
             PBarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PBNaranja).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PBAzul).BeginInit();
@@ -107,6 +108,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panelPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             SuspendLayout();
             // 
             // PBarraTitulo
@@ -1072,6 +1074,7 @@
             // panelPrincipal
             // 
             panelPrincipal.BackColor = Color.Transparent;
+            panelPrincipal.Controls.Add(dgvProductos);
             panelPrincipal.Controls.Add(dgv);
             panelPrincipal.Controls.Add(labelid);
             panelPrincipal.Dock = DockStyle.Fill;
@@ -1101,6 +1104,16 @@
             labelid.Text = "label1";
             labelid.Visible = false;
             labelid.TextChanged += labelrol_TextChanged;
+            // 
+            // dgvProductos
+            // 
+            dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductos.Location = new Point(55, 54);
+            dgvProductos.Name = "dgvProductos";
+            dgvProductos.RowTemplate.Height = 25;
+            dgvProductos.Size = new Size(46, 38);
+            dgvProductos.TabIndex = 2;
+            dgvProductos.Visible = false;
             // 
             // MenuPrincipal
             // 
@@ -1139,6 +1152,7 @@
             panelPrincipal.ResumeLayout(false);
             panelPrincipal.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ResumeLayout(false);
         }
 
@@ -1205,5 +1219,6 @@
         private Button btnInventarioMaquinas;
         private Button btnInventarioAlmacen;
         private Button btnAdminInventario;
+        private DataGridView dgvProductos;
     }
 }

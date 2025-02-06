@@ -6,9 +6,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FirebirdSql.Data.FirebirdClient;
 
 namespace ElastoSystem
 {
@@ -318,10 +321,132 @@ namespace ElastoSystem
             pictureBox2.Visible = true;
         }
 
-        private void Almacen_Control_Load(object sender, EventArgs e)
+        private async void Almacen_Control_Load(object sender, EventArgs e)
         {
+            progressBar1.Value = 0;
+            progressBar1.Maximum = 100;
+
+            await Task.Run(() =>
+            {
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 33));
+                MandarALlamarProductos();
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 66));
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 88));
+                MandarCorreoPrioridadesAlmacen();
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 99));
+
+            });
+
             MandaALlamarBDSalidas();
             OrdenTabuladores();
+
+            pnlCargando.Visible = false;
+        }
+
+        private void MandarALlamarProductos()
+        {
+            try
+            {
+                string update = @"
+                    UPDATE elastosystem_sae_productos
+                    SET Estatus = CASE
+                        WHEN `1M` IS NULL OR `1M` = 0 THEN '----------'
+                        WHEN Existencia < `TM` THEN 'Critico'
+                        WHEN Existencia >= `TM` AND Existencia < `1M` THEN 'Resurtir'
+                        WHEN Existencia >= `1M` AND Existencia < `3M` THEN 'Programar'
+                        WHEN Existencia >= `3M` AND Existencia < `4M` THEN 'Suficiente'
+                        WHEN Existencia > `4M` THEN 'Sobre Inventario'
+                        ELSE ''
+                    END,
+                    Meses = CASE
+                        WHEN `1M` IS NOT NULL AND `1M` > 0 THEN ROUND(Existencia / `1M`, 2)
+                        ELSE 0
+                    END";
+
+                MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+                MySqlCommand cmd = new MySqlCommand(update, conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL LLAMAR ACTUALIZAR ESTATUS EN PRODUCTOS: " + ex.Message);
+            }
+        }
+
+        private void MandarCorreoPrioridadesAlmacen()
+        {
+            string table = "SELECT Producto, Existencia, Estatus, Meses " +
+                            "FROM elastosystem_sae_productos " +
+                            "WHERE Estatus = 'Resurtir' OR Estatus = 'Programar' " +
+                            "ORDER BY CASE " +
+                            "WHEN Estatus = 'Resurtir' THEN 1 " +
+                            "WHEN Estatus = 'Programar' THEN 2 " +
+                            "ELSE 3 END, Meses ASC";
+            MySqlDataAdapter adapatador = new MySqlDataAdapter(table, VariablesGlobales.ConexionBDElastotecnica);
+            DataTable dt = new DataTable();
+            adapatador.Fill(dt);
+
+            dgvProductos.DataSource = dt;
+            try
+            {
+                SmtpClient smtpClient = new SmtpClient("smtp.ionos.mx")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("notificaciones.elastosystem@elastotecnica.com.mx", "El@st0Sys25."),
+                    EnableSsl = true
+                };
+
+                MailMessage mailMessage = new MailMessage
+                {
+                    From = new MailAddress("notificaciones.elastosystem@elastotecnica.com.mx", "ELASTOTECNICA ALMACEN"),
+                    Subject = "PRIORIDADES DE ALMACEN",
+                    IsBodyHtml = true,
+                    Body = ConstruirCuerpoCorreoHTMLPrioridades(dt)
+                };
+
+                mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
+
+                smtpClient.Send(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL ENVIAR EL CORREO DE PRIORIDADES DE ALMACEN: " + ex.Message);
+            }
+        }
+
+        private string ConstruirCuerpoCorreoHTMLPrioridades(DataTable dataTable)
+        {
+            StringBuilder cuerpoCorreo = new StringBuilder();
+
+            cuerpoCorreo.AppendLine("<html><body>");
+            cuerpoCorreo.AppendLine("<h2>PRIORIDADES PARA PRODUCCIÓN:</h2>");
+            cuerpoCorreo.AppendLine("<table border='1' style='border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;'>");
+
+            cuerpoCorreo.AppendLine("<tr style='background-color: #f2f2f2;'>");
+            foreach (DataColumn columna in dataTable.Columns)
+            {
+                cuerpoCorreo.AppendLine($"<th style='padding: 8px; text-align: center; border: 1px solid #ddd;'>{columna.ColumnName}</th>");
+            }
+            cuerpoCorreo.AppendLine("</tr>");
+
+            foreach (DataRow fila in dataTable.Rows)
+            {
+                cuerpoCorreo.AppendLine("<tr>");
+                foreach (var celda in fila.ItemArray)
+                {
+                    string valorCelda = celda != null ? celda.ToString() : "";
+                    cuerpoCorreo.AppendLine($"<td style='padding: 8px; text-align: center; border: 1px solid #ddd;'>{valorCelda}</td>");
+                }
+                cuerpoCorreo.AppendLine("</tr>");
+            }
+
+            cuerpoCorreo.AppendLine("</table>");
+            cuerpoCorreo.AppendLine("</body></html>");
+
+            return cuerpoCorreo.ToString();
         }
 
         private void horayfecha_Tick(object sender, EventArgs e)
