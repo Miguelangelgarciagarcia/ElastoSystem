@@ -367,7 +367,7 @@ namespace ElastoSystem
                     //mailMessage.To.Add("dmedina@elastotecnica.com");
                     //mailMessage.To.Add("ini.medina@gmail.com");
                     //mailMessage.To.Add("compras@elastotecnica.com.mx");
-                    mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
+                    mailMessage.To.Add("imedinaa@elastotecnica.com");
 
                     smtpClient.Send(mailMessage);
                 }
