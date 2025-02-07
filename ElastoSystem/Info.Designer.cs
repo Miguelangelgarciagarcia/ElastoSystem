@@ -191,9 +191,9 @@
             label8.ForeColor = Color.White;
             label8.Location = new Point(24, 147);
             label8.Name = "label8";
-            label8.Size = new Size(181, 16);
+            label8.Size = new Size(183, 16);
             label8.TabIndex = 9;
-            label8.Text = "Última actualización 09/01/25";
+            label8.Text = "Última actualización 07/02/25";
             // 
             // lblConexion
             // 

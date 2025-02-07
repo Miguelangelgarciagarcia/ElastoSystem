@@ -409,8 +409,8 @@ namespace ElastoSystem
                 };
 
                 mailMessage.To.Add("imedinaa@elastotecnica.com");
-                //mailMessage.To.Add("mario.lopez@elastotecnica.com.mx");
-                //mailMessage.To.Add("almacen@elastotecnica.com");
+                mailMessage.To.Add("mario.lopez@elastotecnica.com.mx");
+                mailMessage.To.Add("almacen@elastotecnica.com");
 
                 smtpClient.Send(mailMessage);
             }
