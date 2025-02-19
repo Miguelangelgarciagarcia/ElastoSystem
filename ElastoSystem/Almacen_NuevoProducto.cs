@@ -95,6 +95,7 @@ namespace ElastoSystem
             if (string.IsNullOrWhiteSpace(lbidproducto.Text) || string.IsNullOrWhiteSpace(tbproducto.Text) || string.IsNullOrWhiteSpace(tbdescripcion.Text) || cbEstatus.SelectedIndex == -1 || string.IsNullOrWhiteSpace(tbminimo.Text) || cbunidad.SelectedIndex == -1)
             {
                 MessageBox.Show("DEBEN DE ESTAR LLENOS TODOS LOS CAMPOS");
+                pbCamposPartidas.Visible = true; lblCamposPartidas.Visible = true; pbProducto.Visible = true; pbDescripcion.Visible = true; pbExistencias.Visible = true; pbStockMinimo.Visible = true; pbUnidad.Visible = true;
             }
             else
             {
@@ -105,6 +106,7 @@ namespace ElastoSystem
                 }
                 else
                 {
+                    pbCamposPartidas.Visible = false; lblCamposPartidas.Visible = false; pbProducto.Visible = false; pbDescripcion.Visible = false; pbExistencias.Visible = false; pbStockMinimo.Visible = false; pbUnidad.Visible = false;
                     try
                     {
                         MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
@@ -221,9 +223,17 @@ namespace ElastoSystem
                 if (string.IsNullOrWhiteSpace(tbproducto.Text) || string.IsNullOrWhiteSpace(tbdescripcion.Text) || string.IsNullOrWhiteSpace(tbexistencias.Text) || cbunidad.SelectedIndex == -1 || string.IsNullOrEmpty(tbminimo.Text))
                 {
                     MessageBox.Show("Favor de Ingresar todos los datos");
+                    pbCamposPartidas.Visible = true;
+                    lblCamposPartidas.Visible = true;
+                    pbProducto.Visible = true;
+                    pbDescripcion.Visible = true;
+                    pbExistencias.Visible = true;
+                    pbStockMinimo.Visible = true;
+                    pbUnidad.Visible = true;
                 }
                 else
                 {
+                    pbCamposPartidas.Visible = false; lblCamposPartidas.Visible = false; pbProducto.Visible = false; pbDescripcion.Visible = false; pbExistencias.Visible = false; pbStockMinimo.Visible = false; pbUnidad.Visible = false;
                     comando.CommandText = "INSERT INTO elastosystem_almacen (ID_Producto, Producto, Descripcion, Existencias, Unidad, Stock_Minimo, Estatus) VALUES('" + lbidproducto.Text + "','" + tbproducto.Text + "','" + tbdescripcion.Text + "','" + tbexistencias.Text + "' , '" + cbunidad.Text + "' , '" + tbminimo.Text + "', '" + "ACTIVO" + "');";
                     comando.ExecuteNonQuery();
                     mySqlConnection.Close();
@@ -246,6 +256,8 @@ namespace ElastoSystem
 
         private void dgvConsumibles_DoubleClick(object sender, EventArgs e)
         {
+            pbCamposPartidas.Visible = false; lblCamposPartidas.Visible = false; pbProducto.Visible = false; pbDescripcion.Visible = false; pbExistencias.Visible = false; pbStockMinimo.Visible = false; pbUnidad.Visible = false;
+
             btnNuevoProducto.Visible = true;
 
             DataGridView dgv = (DataGridView)sender;
@@ -286,6 +298,7 @@ namespace ElastoSystem
 
         private void btnNuevoProducto_Click(object sender, EventArgs e)
         {
+            pbCamposPartidas.Visible = false; lblCamposPartidas.Visible = false; pbProducto.Visible = false; pbDescripcion.Visible = false; pbExistencias.Visible = false; pbStockMinimo.Visible = false; pbUnidad.Visible = false;
             IDIncremetable();
             cbunidad.Text = null;
             tbproducto.Clear(); tbdescripcion.Clear(); tbexistencias.Clear(); tbminimo.Clear();
@@ -325,6 +338,8 @@ namespace ElastoSystem
 
         private void dgvConsumibles_Click(object sender, EventArgs e)
         {
+            pbCamposPartidas.Visible = false; lblCamposPartidas.Visible = false; pbProducto.Visible = false; pbDescripcion.Visible = false; pbExistencias.Visible = false; pbStockMinimo.Visible = false; pbUnidad.Visible = false;
+
             btnNuevoProducto.Visible = true;
 
             DataGridView dgv = (DataGridView)sender;

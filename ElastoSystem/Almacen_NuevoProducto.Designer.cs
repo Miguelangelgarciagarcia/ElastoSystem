@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Almacen_NuevoProducto));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -47,6 +48,11 @@
             label6 = new Label();
             label7 = new Label();
             panel5 = new Panel();
+            pbUnidad = new PictureBox();
+            pbStockMinimo = new PictureBox();
+            pbExistencias = new PictureBox();
+            pbDescripcion = new PictureBox();
+            pbProducto = new PictureBox();
             cbEstatus = new ComboBox();
             btnNuevoProducto = new Button();
             btnEditarProducto = new Button();
@@ -61,11 +67,19 @@
             label9 = new Label();
             textBox1 = new TextBox();
             txbBuscador = new TextBox();
+            pbCamposPartidas = new PictureBox();
+            lblCamposPartidas = new Label();
             panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbUnidad).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbStockMinimo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbExistencias).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbDescripcion).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbProducto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvConsumibles).BeginInit();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbQR).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbCamposPartidas).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -229,6 +243,11 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(3, 42, 76);
+            panel5.Controls.Add(pbUnidad);
+            panel5.Controls.Add(pbStockMinimo);
+            panel5.Controls.Add(pbExistencias);
+            panel5.Controls.Add(pbDescripcion);
+            panel5.Controls.Add(pbProducto);
             panel5.Controls.Add(cbEstatus);
             panel5.Controls.Add(btnNuevoProducto);
             panel5.Controls.Add(btnEditarProducto);
@@ -250,6 +269,66 @@
             panel5.Name = "panel5";
             panel5.Size = new Size(743, 351);
             panel5.TabIndex = 17;
+            // 
+            // pbUnidad
+            // 
+            pbUnidad.BackColor = Color.Transparent;
+            pbUnidad.Image = (Image)resources.GetObject("pbUnidad.Image");
+            pbUnidad.Location = new Point(11, 225);
+            pbUnidad.Name = "pbUnidad";
+            pbUnidad.Size = new Size(10, 20);
+            pbUnidad.SizeMode = PictureBoxSizeMode.Zoom;
+            pbUnidad.TabIndex = 66;
+            pbUnidad.TabStop = false;
+            pbUnidad.Visible = false;
+            // 
+            // pbStockMinimo
+            // 
+            pbStockMinimo.BackColor = Color.Transparent;
+            pbStockMinimo.Image = (Image)resources.GetObject("pbStockMinimo.Image");
+            pbStockMinimo.Location = new Point(11, 184);
+            pbStockMinimo.Name = "pbStockMinimo";
+            pbStockMinimo.Size = new Size(10, 20);
+            pbStockMinimo.SizeMode = PictureBoxSizeMode.Zoom;
+            pbStockMinimo.TabIndex = 65;
+            pbStockMinimo.TabStop = false;
+            pbStockMinimo.Visible = false;
+            // 
+            // pbExistencias
+            // 
+            pbExistencias.BackColor = Color.Transparent;
+            pbExistencias.Image = (Image)resources.GetObject("pbExistencias.Image");
+            pbExistencias.Location = new Point(11, 144);
+            pbExistencias.Name = "pbExistencias";
+            pbExistencias.Size = new Size(10, 20);
+            pbExistencias.SizeMode = PictureBoxSizeMode.Zoom;
+            pbExistencias.TabIndex = 64;
+            pbExistencias.TabStop = false;
+            pbExistencias.Visible = false;
+            // 
+            // pbDescripcion
+            // 
+            pbDescripcion.BackColor = Color.Transparent;
+            pbDescripcion.Image = (Image)resources.GetObject("pbDescripcion.Image");
+            pbDescripcion.Location = new Point(11, 105);
+            pbDescripcion.Name = "pbDescripcion";
+            pbDescripcion.Size = new Size(10, 20);
+            pbDescripcion.SizeMode = PictureBoxSizeMode.Zoom;
+            pbDescripcion.TabIndex = 63;
+            pbDescripcion.TabStop = false;
+            pbDescripcion.Visible = false;
+            // 
+            // pbProducto
+            // 
+            pbProducto.BackColor = Color.Transparent;
+            pbProducto.Image = (Image)resources.GetObject("pbProducto.Image");
+            pbProducto.Location = new Point(11, 65);
+            pbProducto.Name = "pbProducto";
+            pbProducto.Size = new Size(10, 20);
+            pbProducto.SizeMode = PictureBoxSizeMode.Zoom;
+            pbProducto.TabIndex = 62;
+            pbProducto.TabStop = false;
+            pbProducto.Visible = false;
             // 
             // cbEstatus
             // 
@@ -316,43 +395,43 @@
             dgvConsumibles.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvConsumibles.BackgroundColor = Color.FromArgb(205, 215, 224);
             dgvConsumibles.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.White;
-            dataGridViewCellStyle5.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = Color.Black;
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle5.SelectionForeColor = Color.White;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvConsumibles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvConsumibles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvConsumibles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvConsumibles.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvConsumibles.DefaultCellStyle = dataGridViewCellStyle2;
             dgvConsumibles.GridColor = SystemColors.ActiveCaptionText;
             dgvConsumibles.Location = new Point(28, 505);
             dgvConsumibles.Name = "dgvConsumibles";
             dgvConsumibles.ReadOnly = true;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle7.Font = new Font("Montserrat", 9F);
-            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle7.SelectionForeColor = Color.White;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dgvConsumibles.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(205, 215, 224);
+            dataGridViewCellStyle3.Font = new Font("Montserrat", 9F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvConsumibles.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvConsumibles.RowHeadersVisible = false;
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = Color.White;
-            dataGridViewCellStyle8.Font = new Font("Montserrat", 11F);
-            dataGridViewCellStyle8.ForeColor = Color.Black;
-            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle8.SelectionForeColor = Color.White;
-            dgvConsumibles.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 11F);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvConsumibles.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvConsumibles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvConsumibles.Size = new Size(1264, 250);
             dgvConsumibles.TabIndex = 18;
@@ -405,9 +484,9 @@
             // txbLink
             // 
             txbLink.Font = new Font("Montserrat", 14F);
-            txbLink.Location = new Point(543, 37);
+            txbLink.Location = new Point(1143, 53);
             txbLink.Name = "txbLink";
-            txbLink.Size = new Size(513, 30);
+            txbLink.Size = new Size(30, 30);
             txbLink.TabIndex = 20;
             txbLink.Visible = false;
             // 
@@ -419,7 +498,7 @@
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             button2.ForeColor = Color.White;
-            button2.Location = new Point(1084, 35);
+            button2.Location = new Point(1191, 51);
             button2.Name = "button2";
             button2.Size = new Size(101, 39);
             button2.TabIndex = 21;
@@ -457,12 +536,39 @@
             txbBuscador.TabIndex = 29;
             txbBuscador.TextChanged += txbBuscador_TextChanged;
             // 
+            // pbCamposPartidas
+            // 
+            pbCamposPartidas.BackColor = Color.Transparent;
+            pbCamposPartidas.Image = (Image)resources.GetObject("pbCamposPartidas.Image");
+            pbCamposPartidas.Location = new Point(574, 71);
+            pbCamposPartidas.Name = "pbCamposPartidas";
+            pbCamposPartidas.Size = new Size(10, 20);
+            pbCamposPartidas.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCamposPartidas.TabIndex = 60;
+            pbCamposPartidas.TabStop = false;
+            pbCamposPartidas.Visible = false;
+            // 
+            // lblCamposPartidas
+            // 
+            lblCamposPartidas.AutoSize = true;
+            lblCamposPartidas.BackColor = Color.Transparent;
+            lblCamposPartidas.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            lblCamposPartidas.ForeColor = Color.White;
+            lblCamposPartidas.Location = new Point(585, 68);
+            lblCamposPartidas.Name = "lblCamposPartidas";
+            lblCamposPartidas.Size = new Size(186, 22);
+            lblCamposPartidas.TabIndex = 59;
+            lblCamposPartidas.Text = "Campos Obilgatorios";
+            lblCamposPartidas.Visible = false;
+            // 
             // Almacen_NuevoProducto
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1322, 792);
+            Controls.Add(pbCamposPartidas);
+            Controls.Add(lblCamposPartidas);
             Controls.Add(txbBuscador);
             Controls.Add(button2);
             Controls.Add(txbLink);
@@ -478,10 +584,16 @@
             Load += Almacen_NuevoProducto_Load;
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbUnidad).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbStockMinimo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbExistencias).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbDescripcion).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbProducto).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvConsumibles).EndInit();
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pbQR).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbCamposPartidas).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -517,5 +629,12 @@
         private Label label9;
         private TextBox textBox1;
         private TextBox txbBuscador;
+        private PictureBox pbUnidad;
+        private PictureBox pbStockMinimo;
+        private PictureBox pbExistencias;
+        private PictureBox pbDescripcion;
+        private PictureBox pbProducto;
+        private PictureBox pbCamposPartidas;
+        private Label lblCamposPartidas;
     }
 }
