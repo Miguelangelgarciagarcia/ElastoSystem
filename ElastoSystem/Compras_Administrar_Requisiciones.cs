@@ -670,7 +670,7 @@ namespace ElastoSystem
                 {
                     while (reader.Read())
                     {
-                        lblNo.Text = reader.GetString(0);
+                        lblNo.Text = reader.GetInt32(0).ToString();
                     }
                 }
                 else
