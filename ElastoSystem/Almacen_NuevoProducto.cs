@@ -124,7 +124,7 @@ namespace ElastoSystem
                         btnNuevoProducto.Visible = false;
                         button1.Visible = true;
 
-                        tbproducto.Clear(); tbdescripcion.Clear(); tbexistencias.Clear(); tbminimo.Clear(); cbunidad.Text = string.Empty; cbEstatus.Text = string.Empty;
+                        tbproducto.Clear(); tbdescripcion.Clear(); tbexistencias.Clear(); tbminimo.Clear(); cbunidad.SelectedIndex = -1; cbEstatus.SelectedIndex = -1;
                         LlamarBaseDatosConsumibles();
                         IDIncremetable();
                     }
@@ -228,7 +228,8 @@ namespace ElastoSystem
                     comando.ExecuteNonQuery();
                     mySqlConnection.Close();
                     MessageBox.Show("Producto No. " + lbidproducto.Text + " registrado");
-                    lbidproducto.Text = string.Empty; tbproducto.Clear(); tbdescripcion.Clear(); tbexistencias.Clear(); cbunidad.Text = string.Empty; tbminimo.Text = string.Empty;
+                    lbidproducto.Text = string.Empty; tbproducto.Clear(); tbdescripcion.Clear(); tbexistencias.Clear(); cbunidad.SelectedIndex = -1; tbminimo.Text = string.Empty; cbunidad.SelectedIndex = -1;
+                    LlamarBaseDatosConsumibles();
                     IDIncremetable();
                 }
             }
