@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -20,11 +20,11 @@
     <PackageReference Include="ClosedXML" Version="0.104.2" />
     <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.3.2" />
     <PackageReference Include="Isopoh.Cryptography.Argon2" Version="2.0.0" />
-    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
-    <PackageReference Include="MySql.Data" Version="8.2.0" />
-    <PackageReference Include="NuGet.Frameworks" Version="6.7.0" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.4" />
+    <PackageReference Include="MySql.Data" Version="9.2.0" />
+    <PackageReference Include="NuGet.Frameworks" Version="6.13.1" />
     <PackageReference Include="QrCode.Net" Version="0.4.0" />
-    <PackageReference Include="QRCoder" Version="1.4.3" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
     <PackageReference Include="SpreadsheetLight" Version="3.5.0" />
   </ItemGroup>
 
