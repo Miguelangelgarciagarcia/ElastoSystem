@@ -69,13 +69,25 @@ namespace ElastoSystem
             MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
-            dgvConsumibles.DataSource = dt;
-            dt.DefaultView.Sort = "ID_Producto DESC";
+
+            DataRow[] filasFiltradas = dt.Select("Producto IS NOT NULL AND Producto <> ''");
+            DataTable dtFiltrado = dt.Clone();
+
+            foreach (DataRow fila in filasFiltradas)
+            {
+                dtFiltrado.ImportRow(fila);
+            }
+
+            dgvConsumibles.DataSource = dtFiltrado;
+            dtFiltrado.DefaultView.Sort = "ID_Producto DESC";
+            
+            dgvConsumibles.Columns["ID_producto"].HeaderText = "ID";
+            dgvConsumibles.Columns["Stock_Minimo"].HeaderText = "Stock Minimo";
+            
             this.BeginInvoke(new Action(() =>
             {
                 tbproducto.Focus();
             }));
-
         }
         private void EditarProducto()
         {
@@ -314,6 +326,44 @@ namespace ElastoSystem
             VariablesGlobales.ValidarNumeroEntero(e, tbexistencias);
         }
 
-        
+        private void dgvConsumibles_Click(object sender, EventArgs e)
+        {
+            btnNuevoProducto.Visible = true;
+
+            DataGridView dgv = (DataGridView)sender;
+
+            if (dgv.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgv.SelectedCells[0].RowIndex;
+
+                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                lbidproducto.Text = id;
+
+                string producto = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                tbproducto.Text = producto;
+
+                string descripcion = dgv.Rows[rowIndex].Cells[2].Value.ToString();
+                tbdescripcion.Text = descripcion;
+
+                string estatus = dgv.Rows[rowIndex].Cells[5].Value.ToString();
+                cbEstatus.Text = estatus;
+
+                tbexistencias.Visible = false;
+                label4.Visible = false;
+                cbEstatus.Visible = true;
+                label8.Visible = true;
+                button1.Visible = false;
+                btnEditarProducto.Visible = true;
+                btnNuevoProducto.Visible = true;
+
+                string minimo = dgv.Rows[rowIndex].Cells[4].Value.ToString();
+                tbminimo.Text = minimo;
+
+                string unidad = dgv.Rows[rowIndex].Cells[3].Value.ToString();
+                cbunidad.Text = unidad;
+            }
+
+            GenerarQR();
+        }
     }
 }
