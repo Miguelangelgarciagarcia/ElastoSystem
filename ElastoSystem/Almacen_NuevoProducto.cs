@@ -80,14 +80,10 @@ namespace ElastoSystem
 
             dgvConsumibles.DataSource = dtFiltrado;
             dtFiltrado.DefaultView.Sort = "ID_Producto DESC";
-            
+
             dgvConsumibles.Columns["ID_producto"].HeaderText = "ID";
             dgvConsumibles.Columns["Stock_Minimo"].HeaderText = "Stock Minimo";
-            
-            this.BeginInvoke(new Action(() =>
-            {
-                tbproducto.Focus();
-            }));
+
         }
         private void EditarProducto()
         {
@@ -364,6 +360,37 @@ namespace ElastoSystem
             }
 
             GenerarQR();
+        }
+
+        private void txbBuscador_TextChanged(object sender, EventArgs e)
+        {
+            Buscador();
+        }
+
+        private void Buscador()
+        {
+            try
+            {
+                string valorBusqueda = txbBuscador.Text;
+
+                if (string.IsNullOrEmpty(valorBusqueda))
+                {
+                    LlamarBaseDatosConsumibles();
+                }
+                else
+                {
+                    string consulta = "SELECT ID_Producto, Producto, Descripcion, Unidad, Stock_Minimo, Estatus FROM elastosystem_almacen WHERE Producto LIKE @VALORBUSQUEDA OR Descripcion LIKE @VALORBUSQUEDA OR Estatus LIKE @VALORBUSQUEDA";
+                    MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
+                    adaptador.SelectCommand.Parameters.AddWithValue("@VALORBUSQUEDA", "%" + valorBusqueda + "%");
+                    DataSet datos = new DataSet();
+                    adaptador.Fill(datos, "Resultado");
+                    dgvConsumibles.DataSource = datos.Tables["Resultado"];
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL BUSCAR EL PRODUCTO: " + ex.Message);
+            }
         }
     }
 }

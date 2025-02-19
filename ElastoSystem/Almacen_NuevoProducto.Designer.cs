@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -58,6 +58,9 @@
             btnGuardarQR = new Button();
             txbLink = new TextBox();
             button2 = new Button();
+            label9 = new Label();
+            textBox1 = new TextBox();
+            txbBuscador = new TextBox();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvConsumibles).BeginInit();
             panel1.SuspendLayout();
@@ -313,45 +316,45 @@
             dgvConsumibles.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvConsumibles.BackgroundColor = Color.FromArgb(205, 215, 224);
             dgvConsumibles.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvConsumibles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = Color.White;
+            dataGridViewCellStyle9.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold);
+            dataGridViewCellStyle9.ForeColor = Color.Black;
+            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle9.SelectionForeColor = Color.White;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            dgvConsumibles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dgvConsumibles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvConsumibles.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle10.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle10.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.False;
+            dgvConsumibles.DefaultCellStyle = dataGridViewCellStyle10;
             dgvConsumibles.GridColor = SystemColors.ActiveCaptionText;
-            dgvConsumibles.Location = new Point(28, 476);
+            dgvConsumibles.Location = new Point(28, 505);
             dgvConsumibles.Name = "dgvConsumibles";
             dgvConsumibles.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle3.Font = new Font("Montserrat", 9F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvConsumibles.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = Color.FromArgb(205, 215, 224);
+            dataGridViewCellStyle11.Font = new Font("Montserrat", 9F);
+            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle11.SelectionForeColor = Color.White;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            dgvConsumibles.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
             dgvConsumibles.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Montserrat", 11F);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dgvConsumibles.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = Color.White;
+            dataGridViewCellStyle12.Font = new Font("Montserrat", 11F);
+            dataGridViewCellStyle12.ForeColor = Color.Black;
+            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle12.SelectionForeColor = Color.White;
+            dgvConsumibles.RowsDefaultCellStyle = dataGridViewCellStyle12;
             dgvConsumibles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvConsumibles.Size = new Size(1264, 279);
+            dgvConsumibles.Size = new Size(1264, 250);
             dgvConsumibles.TabIndex = 18;
             dgvConsumibles.Click += dgvConsumibles_Click;
             dgvConsumibles.DoubleClick += dgvConsumibles_DoubleClick;
@@ -425,17 +428,49 @@
             button2.Visible = false;
             button2.Click += button2_Click_1;
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.BackColor = Color.Transparent;
+            label9.Font = new Font("Montserrat", 15F);
+            label9.ForeColor = Color.White;
+            label9.Location = new Point(28, 464);
+            label9.Name = "label9";
+            label9.Size = new Size(112, 27);
+            label9.TabIndex = 24;
+            label9.Text = "Buscador:";
+            // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Montserrat", 12F);
+            textBox1.Location = new Point(151, 465);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(208, 27);
+            textBox1.TabIndex = 25;
+            // 
+            // txbBuscador
+            // 
+            txbBuscador.Font = new Font("Montserrat", 12F);
+            txbBuscador.Location = new Point(151, 464);
+            txbBuscador.Name = "txbBuscador";
+            txbBuscador.Size = new Size(208, 27);
+            txbBuscador.TabIndex = 29;
+            txbBuscador.TextChanged += txbBuscador_TextChanged;
+            // 
             // Almacen_NuevoProducto
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1322, 792);
+            Controls.Add(txbBuscador);
             Controls.Add(button2);
             Controls.Add(txbLink);
             Controls.Add(panel1);
             Controls.Add(dgvConsumibles);
+            Controls.Add(textBox1);
             Controls.Add(panel5);
+            Controls.Add(label9);
             Controls.Add(label7);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Almacen_NuevoProducto";
@@ -479,5 +514,8 @@
         private Panel panel2;
         private TextBox txbLink;
         private Button button2;
+        private Label label9;
+        private TextBox textBox1;
+        private TextBox txbBuscador;
     }
 }
