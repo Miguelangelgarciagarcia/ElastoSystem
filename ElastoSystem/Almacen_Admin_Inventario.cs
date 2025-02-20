@@ -400,35 +400,38 @@ namespace ElastoSystem
         private void cbProductos_SelectedIndexChanged(object sender, EventArgs e)
         {
             txbConsumoMensual.Clear();
-            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            conn.Open();
-            String producto = cbProductos.Text;
-            MySqlDataReader reader = null;
-            string sql = "SELECT 1M FROM elastosystem_sae_productos WHERE Producto ='" + producto + "' ";
-            try
-            {
-                HashSet<string> unicos = new HashSet<string>();
-                MySqlCommand comando = new MySqlCommand(sql, conn);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        txbConsumoMensual.Text = reader.GetString(0);
+            txbMaxOC.Clear();
 
+            string producto = cbProductos.Text;
+
+            string sql = "SELECT `1M`, `CantidadMaxOC` FROM elastosystem_sae_productos WHERE Producto = @Producto";
+
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    using(MySqlCommand comando = new MySqlCommand(sql, conn))
+                    {
+                        comando.Parameters.AddWithValue("@Producto", producto);
+
+                        using (MySqlDataReader reader = comando.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                int consumoMensual = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                                int cantidadMaxOC = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+
+                                txbConsumoMensual.Text = consumoMensual.ToString();
+                                txbMaxOC.Text = cantidadMaxOC.ToString();
+                            }
+                        }
                     }
                 }
-                else
+                catch(Exception ex)
                 {
+                    MessageBox.Show($"OCURRIO UN ERROR AL CARGAR EL CONSUMO MENSUAL: {ex.Message}");
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
             }
         }
 
