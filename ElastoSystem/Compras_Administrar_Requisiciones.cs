@@ -329,42 +329,53 @@ namespace ElastoSystem
         }
         private void MandarALlamarDatosProveedor()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            mySqlConnection.Open();
-            String nombre = cbProveedores.Text;
-            MySqlDataReader reader = null;
-            string sql = "SELECT ID, Contacto, Telefono, Email FROM elastosystem_compras_proveedores WHERE Nombre LIKE '" + nombre + "' ";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        txbIDProveedor.Text = reader.GetString("ID");
-                        txbAtencion.Text = reader.GetString("Contacto");
-                        txbTelefono.Text = reader.GetString("Telefono");
-                        txbCorreo.Text = reader.GetString("Email");
-                    }
+            txbIDProveedor.Clear();
+            txbAtencion.Clear();
+            txbTelefono.Clear();
+            txbCorreo.Clear();
+            txbProveedorC.Clear();
+            txbContactoC.Clear();
+            txbTelefonoC.Clear();
+            txbCorreoC.Clear();
 
-                    txbProveedorC.Text = cbProveedores.Text;
-                    txbContactoC.Text = txbAtencion.Text;
-                    txbTelefonoC.Text = txbTelefono.Text;
-                    txbCorreoC.Text = txbCorreo.Text;
-                }
-                else
+            string nombre = cbProveedores.Text;
+
+            string sql = "SELECT ID, Contacto, Telefono, Email FROM elastosystem_compras_proveedores WHERE Nombre LIKE @Nombre";
+
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
                 {
-                    MessageBox.Show("ERROR LLAMAR A SISTEMAS");
+                    conn.Open();
+                    using(MySqlCommand comando = new MySqlCommand(sql, conn))
+                    {
+                        comando.Parameters.AddWithValue("@Nombre", nombre);
+
+                        using(MySqlDataReader reader = comando.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txbIDProveedor.Text = reader["ID"].ToString();
+                                txbAtencion.Text = reader["Contacto"].ToString();
+                                txbTelefono.Text = reader["Telefono"].ToString();
+                                txbCorreo.Text = reader["Email"].ToString();
+
+                                txbProveedorC.Text = cbProveedores.Text;
+                                txbContactoC.Text = string.IsNullOrEmpty(txbAtencion.Text) ? "0" : txbAtencion.Text;
+                                txbTelefonoC.Text = string.IsNullOrEmpty(txbTelefono.Text) ? "0" : txbTelefono.Text;
+                                txbCorreoC.Text = string.IsNullOrEmpty(txbCorreo.Text) ? "0" : txbCorreo.Text;
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se encontro el proovedor");
+                            }
+                        }
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL OBTENER DATOS DEL PROVEEDOR: " + ex.Message);
+                }
             }
         }
 
@@ -462,6 +473,10 @@ namespace ElastoSystem
             txbAtencion.Clear();
             txbTelefono.Clear();
             txbCorreo.Clear();
+            txbProveedorC.Clear();
+            txbContactoC.Clear();
+            txbCorreoC.Clear();
+            txbTelefonoC.Clear();
             dgvListaMateriales.Rows.Clear();
             txbTotalLetra.Clear();
             txbSubtotal.Clear();
@@ -478,6 +493,8 @@ namespace ElastoSystem
             txbCotizacion.Clear();
             cbFormaPago.SelectedIndex = -1;
             chbCerSi.Checked = true;
+
+            CompararDatosProveedor();
         }
 
         private void Compras_Administrar_Requisiciones_Load(object sender, EventArgs e)
