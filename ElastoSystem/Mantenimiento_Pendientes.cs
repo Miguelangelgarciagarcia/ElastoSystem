@@ -149,7 +149,7 @@ namespace ElastoSystem
                 }
                 else
                 {
-                    MessageBox.Show("ERRO AL LLAMAR IMAGEN");
+
                 }
             }
             catch (Exception ex)
