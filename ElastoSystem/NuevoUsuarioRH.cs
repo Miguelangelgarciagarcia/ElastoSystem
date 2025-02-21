@@ -28,6 +28,27 @@ namespace ElastoSystem
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if(cbEstatus.Text == string.Empty || txbNom.Text == string.Empty || txbApPat.Text == string.Empty || txbApMa.Text == string.Empty ||
+                cbSex.Text == string.Empty || tbFechaNacimiento.Text == string.Empty || cbLugarNacimiento.Text == string.Empty || txbIM.Text == string.Empty ||
+                txbRF.Text == string.Empty || txCURP.Text == string.Empty || txbCPFiscal.Text == string.Empty || cbDepartamento.Text == string.Empty || cbPuesto.Text == string.Empty||
+                txbCalle.Text == string.Empty || txbColonia.Text == string.Empty || txbPoblacion.Text == string.Empty || cbEntidadFederativa.Text == string.Empty || txbPais.Text == string.Empty ||
+                txbCorreo1.Text == string.Empty || txbCP.Text == string.Empty || txbTelefono1.Text == string.Empty || cbNivelEstudios.Text == string.Empty || cbEstadoCivil.Text == string.Empty)
+            {
+                MessageBox.Show("FAVOR DE LLENAR TODOS LOS CAMPOS OBLIGATORIOS");
+                pbCampos.Visible = true; lblCampos.Visible = true; pbEstatus.Visible = true; pbNombre.Visible = true; pbApellidoPaterno.Visible = true; pbApellidoMaterno.Visible = true; 
+                pbSexo.Visible = true; pbFechaNacimiento.Visible = true; pbLugarNacimiento.Visible = true; pbIMSS.Visible = true; pbRFC.Visible = true; pbCURP.Visible = true; pbCodigoPostalFiscal.Visible = true; 
+                pbDepartamento.Visible = true; pbPuesto.Visible = true; pbCalle.Visible = true; pbColonia.Visible = true; pbPoblacion.Visible = true; pbEntidadFederativa.Visible = true; pbPais.Visible = true; 
+                pbCorreoElectronico.Visible = true; pbCodigoPostal.Visible = true; pbTelefono.Visible = true; pbNivelEstudios.Visible = true; pbEstadoCivil.Visible = true;
+                return;
+            }
+            else
+            {
+                pbCampos.Visible = false; lblCampos.Visible = false; pbEstatus.Visible = false; pbNombre.Visible = false; pbApellidoPaterno.Visible = false; pbApellidoMaterno.Visible = false;
+                pbSexo.Visible = false; pbFechaNacimiento.Visible = false; pbLugarNacimiento.Visible = false; pbIMSS.Visible = false; pbRFC.Visible = false; pbCURP.Visible = false; pbCodigoPostalFiscal.Visible = false;
+                pbDepartamento.Visible = false; pbPuesto.Visible = false; pbCalle.Visible = false; pbColonia.Visible = false; pbPoblacion.Visible = false; pbEntidadFederativa.Visible = false; pbPais.Visible = false;
+                pbCorreoElectronico.Visible = false; pbCodigoPostal.Visible = false; pbTelefono.Visible = false; pbNivelEstudios.Visible = false; pbEstadoCivil.Visible = false;
+            }
+
             MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
@@ -54,7 +75,11 @@ namespace ElastoSystem
                 }
                 pbFoto.Image = null;
                 MessageBox.Show("TRABAJADOR " + cbClave.Text + " REGISTRADO CON EXITO");
-                cbEstatus.Text = String.Empty; txbNom.Clear(); txbApPat.Clear(); txbApMa.Clear(); cbSex.Text = String.Empty; tbFechaNacimiento.Clear(); cbLugarNacimiento.Text = String.Empty; txbIM.Clear(); txbIM.Clear(); txbRF.Clear(); txCURP.Clear(); txbCPFiscal.Clear(); cbDepartamento.Text = String.Empty; cbPuesto.Text = String.Empty; txbCalle.Clear(); txbColonia.Clear(); txbPoblacion.Clear(); cbEntidadFederativa.Text = String.Empty; txbPais.Clear(); txbCorreo1.Clear(); txbCorreo2.Clear(); txbCP.Clear(); txbTelefono1.Clear(); txbTelefono2.Clear(); cbNivelEstudios.Text = String.Empty; txbProfesion.Clear(); cbEstadoCivil.Text = String.Empty; cbTipoSangre.Text = String.Empty; lblNombre.Text = "NUEVO TRABAJADOR"; btnAgergarUsuario.Enabled = true; btnEditarUsuario.Enabled = false;
+                cbEstatus.SelectedIndex = -1; txbNom.Clear(); txbApPat.Clear(); txbApMa.Clear(); cbSex.SelectedIndex = -1; tbFechaNacimiento.Clear(); cbLugarNacimiento.SelectedIndex = -1; 
+                txbIM.Clear(); txbIM.Clear(); txbRF.Clear(); txCURP.Clear(); txbCPFiscal.Clear(); cbDepartamento.SelectedIndex = -1; cbPuesto.SelectedIndex = -1; txbCalle.Clear(); txbColonia.Clear(); 
+                txbPoblacion.Clear(); cbEntidadFederativa.SelectedIndex = -1; txbPais.Clear(); txbCorreo1.Clear(); txbCorreo2.Clear(); txbCP.Clear(); txbTelefono1.Clear(); txbTelefono2.Clear(); 
+                cbNivelEstudios.SelectedIndex = -1; txbProfesion.Clear(); cbEstadoCivil.SelectedIndex = -1; cbTipoSangre.SelectedIndex = -1; lblNombre.Text = "NUEVO TRABAJADOR"; 
+                btnAgergarUsuario.Enabled = true; btnEditarUsuario.Enabled = false;
                 MandarALlamarNoTrabajadores();
                 NuevoNoTrabajador();
             }
@@ -234,7 +259,11 @@ namespace ElastoSystem
                 }
                 pbFoto.Image = null;
                 MessageBox.Show("DATOS ACTUALIZADOS CON EXITO");
-                cbEstatus.Text = String.Empty; txbNom.Clear(); txbApPat.Clear(); txbApMa.Clear(); cbSex.Text = String.Empty; tbFechaNacimiento.Clear(); cbLugarNacimiento.Text = String.Empty; txbIM.Clear(); txbIM.Clear(); txbRF.Clear(); txCURP.Clear(); txbCPFiscal.Clear(); cbDepartamento.Text = String.Empty; cbPuesto.Text = String.Empty; txbCalle.Clear(); txbColonia.Clear(); txbPoblacion.Clear(); cbEntidadFederativa.Text = String.Empty; txbPais.Clear(); txbCorreo1.Clear(); txbCorreo2.Clear(); txbCP.Clear(); txbTelefono1.Clear(); txbTelefono2.Clear(); cbNivelEstudios.Text = String.Empty; txbProfesion.Clear(); cbEstadoCivil.Text = String.Empty; cbTipoSangre.Text = String.Empty; lblNombre.Text = "NUEVO TRABAJADOR"; btnAgergarUsuario.Enabled = true; btnEditarUsuario.Enabled = false;
+                cbEstatus.SelectedIndex = -1; txbNom.Clear(); txbApPat.Clear(); txbApMa.Clear(); cbSex.SelectedIndex = -1; tbFechaNacimiento.Clear(); cbLugarNacimiento.SelectedIndex = -1; txbIM.Clear(); 
+                txbRF.Clear(); txCURP.Clear(); txbCPFiscal.Clear(); cbDepartamento.SelectedIndex = -1; cbPuesto.SelectedIndex = -1; txbCalle.Clear(); txbColonia.Clear(); txbPoblacion.Clear(); 
+                cbEntidadFederativa.SelectedIndex = -1; txbPais.Clear(); txbCorreo1.Clear(); txbCorreo2.Clear(); txbCP.Clear(); txbTelefono1.Clear(); txbTelefono2.Clear(); 
+                cbNivelEstudios.SelectedIndex = -1; txbProfesion.Clear(); cbEstadoCivil.SelectedIndex = -1; cbTipoSangre.SelectedIndex = -1; lblNombre.Text = "NUEVO TRABAJADOR"; 
+                btnAgergarUsuario.Enabled = true; btnEditarUsuario.Enabled = false;
             }
             catch (Exception ex)
             {
@@ -254,11 +283,13 @@ namespace ElastoSystem
             mySqlConnection.Open();
             String codigo = cbClave.Text;
             MySqlDataReader reader = null;
-            string sql = "SELECT Nombre, Apellido_Paterno, Apellido_Materno, Foto, Estatus, Sexo, Fecha_Nacimiento, CURP, Lugar_Nacimiento, IMSS, RFC, CPF, Departamento, Puesto, CalleYNum, Colonia, Poblacion, EntidadFederativa, Pais, Correo1, Correo2, CP, Telefono1, Telefono2, Nivel_Estudios, Profesion, Estado_Civil, Tipo_Sangre, Jornada_Completa, Salario_Dia, Salario_Hora, Horas_Dia, Dias_Semana, Fecha_Aplica, Forma_Pago FROM elastosystem_rh WHERE ID LIKE '" + codigo + "' ";
+            string sql = "SELECT * FROM elastosystem_rh WHERE ID = @ID";
             try
             {
                 MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
+                comando.Parameters.AddWithValue("@ID", codigo);
                 reader = comando.ExecuteReader();
+
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -272,10 +303,17 @@ namespace ElastoSystem
                         txbApMa.Text = apellidoMaterno;
                         try
                         {
-                            byte[] imageData = (byte[])reader["Foto"];
-                            using (MemoryStream ms = new MemoryStream(imageData))
+                            if(!reader.IsDBNull(reader.GetOrdinal("Foto")))
                             {
-                                pbFoto.Image = Image.FromStream(ms);
+                                byte[] imageData = (byte[])reader["Foto"];
+                                using(MemoryStream ms = new MemoryStream(imageData))
+                                {
+                                    pbFoto.Image = Image.FromStream(ms);
+                                }
+                            }
+                            else
+                            {
+                                pbFoto.Image = null;
                             }
                         }
                         catch
@@ -289,7 +327,7 @@ namespace ElastoSystem
                         cbLugarNacimiento.Text = reader.GetString("Lugar_Nacimiento");
                         txbIM.Text = reader.GetString("IMSS");
                         txbRF.Text = reader.GetString("RFC");
-                        txbCPFiscal.Text = reader.GetString("CPF");
+                        txbCPFiscal.Text = reader["CPF"].ToString();
                         cbDepartamento.Text = reader.GetString("Departamento");
                         cbPuesto.Text = reader.GetString("Puesto");
                         txbCalle.Text = reader.GetString("CalleYNum");
@@ -318,10 +356,10 @@ namespace ElastoSystem
                         {
                             rbJS.Checked = true;
                         }
-                        txbSalarioxDia.Text = reader.GetString("Salario_Dia");
-                        txbSalarioxHora.Text = reader.GetString("Salario_Hora");
-                        txbHorasxDia.Text = reader.GetString("Horas_Dia");
-                        txbDiasxSemana.Text = reader.GetString("Dias_Semana");
+                        txbSalarioxDia.Text = reader["Salario_Dia"].ToString();
+                        txbSalarioxHora.Text = reader["Salario_Hora"].ToString();
+                        txbHorasxDia.Text = reader["Horas_Dia"].ToString();
+                        txbDiasxSemana.Text = reader["Dias_Semana"].ToString();
                         txbFechaApli.Text = reader.GetString("Fecha_Aplica");
                         cbFormaPago.Text = reader.GetString("Forma_Pago");
                     }
@@ -333,7 +371,7 @@ namespace ElastoSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("ERROR: "+ex.Message);
             }
             finally
             {
@@ -353,6 +391,26 @@ namespace ElastoSystem
 
         private void btnEditarUsuario_Click(object sender, EventArgs e)
         {
+            if (cbEstatus.Text == string.Empty || txbNom.Text == string.Empty || txbApPat.Text == string.Empty || txbApMa.Text == string.Empty ||
+                cbSex.Text == string.Empty || tbFechaNacimiento.Text == string.Empty || cbLugarNacimiento.Text == string.Empty || txbIM.Text == string.Empty ||
+                txbRF.Text == string.Empty || txCURP.Text == string.Empty || txbCPFiscal.Text == string.Empty || cbDepartamento.Text == string.Empty || cbPuesto.Text == string.Empty ||
+                txbCalle.Text == string.Empty || txbColonia.Text == string.Empty || txbPoblacion.Text == string.Empty || cbEntidadFederativa.Text == string.Empty || txbPais.Text == string.Empty ||
+                txbCorreo1.Text == string.Empty || txbCP.Text == string.Empty || txbTelefono1.Text == string.Empty || cbNivelEstudios.Text == string.Empty || cbEstadoCivil.Text == string.Empty)
+            {
+                MessageBox.Show("FAVOR DE LLENAR TODOS LOS CAMPOS OBLIGATORIOS");
+                pbCampos.Visible = true; lblCampos.Visible = true; pbEstatus.Visible = true; pbNombre.Visible = true; pbApellidoPaterno.Visible = true; pbApellidoMaterno.Visible = true;
+                pbSexo.Visible = true; pbFechaNacimiento.Visible = true; pbLugarNacimiento.Visible = true; pbIMSS.Visible = true; pbRFC.Visible = true; pbCURP.Visible = true; pbCodigoPostalFiscal.Visible = true;
+                pbDepartamento.Visible = true; pbPuesto.Visible = true; pbCalle.Visible = true; pbColonia.Visible = true; pbPoblacion.Visible = true; pbEntidadFederativa.Visible = true; pbPais.Visible = true;
+                pbCorreoElectronico.Visible = true; pbCodigoPostal.Visible = true; pbTelefono.Visible = true; pbNivelEstudios.Visible = true; pbEstadoCivil.Visible = true;
+                return;
+            }
+            else
+            {
+                pbCampos.Visible = false; lblCampos.Visible = false; pbEstatus.Visible = false; pbNombre.Visible = false; pbApellidoPaterno.Visible = false; pbApellidoMaterno.Visible = false;
+                pbSexo.Visible = false; pbFechaNacimiento.Visible = false; pbLugarNacimiento.Visible = false; pbIMSS.Visible = false; pbRFC.Visible = false; pbCURP.Visible = false; pbCodigoPostalFiscal.Visible = false;
+                pbDepartamento.Visible = false; pbPuesto.Visible = false; pbCalle.Visible = false; pbColonia.Visible = false; pbPoblacion.Visible = false; pbEntidadFederativa.Visible = false; pbPais.Visible = false;
+                pbCorreoElectronico.Visible = false; pbCodigoPostal.Visible = false; pbTelefono.Visible = false; pbNivelEstudios.Visible = false; pbEstadoCivil.Visible = false;
+            }
             ActualizarDatos();
             NuevoNoTrabajador();
         }
