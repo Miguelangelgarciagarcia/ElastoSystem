@@ -74,7 +74,7 @@ namespace ElastoSystem
                 {
                     while (reader.Read())
                     {
-                        lblNumeroTemp.Text = reader.GetString(0);
+                        lblNumeroTemp.Text = reader.GetInt32(0).ToString();
 
                     }
                 }
@@ -1199,7 +1199,7 @@ namespace ElastoSystem
                 {
                     while (reader.Read())
                     {
-                        lblNumeroEspecial.Text = reader.GetString(0);
+                        lblNumeroEspecial.Text = reader.GetInt32(0).ToString();
                     }
 
                     MandarALlamarPermisosEspeciales();
