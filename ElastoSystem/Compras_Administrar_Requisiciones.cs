@@ -26,6 +26,7 @@ namespace ElastoSystem
 {
     public partial class Compras_Administrar_Requisiciones : Form
     {
+        public List<int> ListaProductos { get; set; }
         public Compras_Administrar_Requisiciones()
         {
             InitializeComponent();
@@ -2297,8 +2298,92 @@ namespace ElastoSystem
             }
             else
             {
-                CompraFinalizadaAutorizada();
+                DialogResult resultado = MessageBox.Show("¿Deseas vincular otras partidas con este comprobante?", "Vincular", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if(resultado == DialogResult.Yes)
+                {
+                    string idProducto = lblIDProducto.Text;
+
+                    Compras_VincularPartidas vincular = new Compras_VincularPartidas(idProducto);
+                    vincular.ShowDialog();
+
+                    if(ListaProductos.Count > 0)
+                    {
+                        ListaProductos.Add(Convert.ToInt32(idProducto));
+                        CompraListaFinalizadaAutorizada();
+                        ListaProductos.Clear();
+                    }
+
+                }
+                else
+                {
+                    CompraFinalizadaAutorizada();
+                }
             }
+        }
+        
+        private void CompraListaFinalizadaAutorizada()
+        {
+            try
+            {
+                string estatus = "CERRADA";
+                string ruta_archivo = lblRutaArchivo.Text.Replace("\\", "\\\\");
+                string oc = "COMPRA AUTORIZADA POR: " + VariablesGlobales.Usuario;
+                string fecha = DateTime.Now.ToString("yyyy/MM/dd");
+
+                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    foreach(var idProducto in ListaProductos)
+                    {
+                        using(MySqlCommand comando = new MySqlCommand())
+                        {
+                            comando.Connection = conn;
+                            comando.CommandText = "UPDATE elastosystem_compras_requisicion_desglosada SET FechaFinal = @FECHAFINAL, Estatus = @ESTATUS, OC = @OC, Ruta_Comprobante = @RUTACOMPROBANTE, Comprobante = @COMPROBANTE, Autorizo = @AUTORIZO, Motivo = @MOTIVO WHERE ID_Producto = @ID";
+
+                            comando.Parameters.AddWithValue("@FECHAFINAL", fecha);
+                            comando.Parameters.AddWithValue("@ESTATUS", estatus);
+                            comando.Parameters.AddWithValue("@OC", oc);
+                            comando.Parameters.AddWithValue("@ID", idProducto);
+                            comando.Parameters.AddWithValue("@RUTACOMPROBANTE", ruta_archivo);
+                            comando.Parameters.AddWithValue("COMPROBANTE", archivoBytes);
+                            comando.Parameters.AddWithValue("@AUTORIZO", VariablesGlobales.Usuario);
+                            comando.Parameters.AddWithValue("@MOTIVO", txbMotivo.Text);
+
+                            comando.ExecuteNonQuery();
+                        }
+                    }
+                }
+
+                MessageBox.Show("PRODUCTOS FINALIZADOS CORRECTAMENTE");
+
+                btnCerrar.PerformClick();
+                btnAlmacenar.Visible = false;
+                chbCompraOnline.Checked = false;
+                txbCantidad.Clear();
+                txbUnidad.Clear();
+                txbPrecio.Clear();
+                txbDescripcion.Clear();
+                txbProovedorRecomendado.Clear();
+                txbTipoUso.Clear();
+                txbNotas.Clear();
+                txbMotivo.Clear();
+                lblIDProducto.Text = string.Empty;
+                dgvPartidas.DataSource = null;
+                dgvPartidas.Rows.Clear();
+                CargarRequisiciones();
+                btnCompraAutorizada.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL ALMACENAR PRODUCTO: " + ex.Message);
+            }
+        }
+
+        public void RecibirListaProductos(List<int> lista)
+        {
+            ListaProductos = lista;
         }
 
         private void btnDescargarCotizacion_Click(object sender, EventArgs e)
