@@ -58,6 +58,7 @@
             chbRegistroTrabajador = new CheckBox();
             chbRecursosHumanos = new CheckBox();
             panel4 = new Panel();
+            chbPendientesSistemas = new CheckBox();
             chbPermisos = new CheckBox();
             chbRequisicion = new CheckBox();
             chbSistemas = new CheckBox();
@@ -155,7 +156,7 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Montserrat", 22F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Montserrat", 22F, FontStyle.Bold);
             label1.ForeColor = Color.White;
             label1.Location = new Point(29, 31);
             label1.Name = "label1";
@@ -167,7 +168,7 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Montserrat", 15F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Font = new Font("Montserrat", 15F, FontStyle.Bold);
             label2.ForeColor = Color.White;
             label2.Location = new Point(26, 33);
             label2.Name = "label2";
@@ -178,7 +179,7 @@
             // cbUsuarios
             // 
             cbUsuarios.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbUsuarios.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            cbUsuarios.Font = new Font("Montserrat", 15F);
             cbUsuarios.FormattingEnabled = true;
             cbUsuarios.Location = new Point(140, 30);
             cbUsuarios.Name = "cbUsuarios";
@@ -205,7 +206,7 @@
             // chbInventarioAlmacenPT
             // 
             chbInventarioAlmacenPT.AutoSize = true;
-            chbInventarioAlmacenPT.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbInventarioAlmacenPT.Font = new Font("Montserrat", 9F);
             chbInventarioAlmacenPT.ForeColor = Color.White;
             chbInventarioAlmacenPT.Location = new Point(15, 204);
             chbInventarioAlmacenPT.Name = "chbInventarioAlmacenPT";
@@ -218,7 +219,7 @@
             // chbAdminInventarioPT
             // 
             chbAdminInventarioPT.AutoSize = true;
-            chbAdminInventarioPT.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbAdminInventarioPT.Font = new Font("Montserrat", 9F);
             chbAdminInventarioPT.ForeColor = Color.White;
             chbAdminInventarioPT.Location = new Point(15, 178);
             chbAdminInventarioPT.Name = "chbAdminInventarioPT";
@@ -231,7 +232,7 @@
             // chbConsultaSalidas
             // 
             chbConsultaSalidas.AutoSize = true;
-            chbConsultaSalidas.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbConsultaSalidas.Font = new Font("Montserrat", 9F);
             chbConsultaSalidas.ForeColor = Color.White;
             chbConsultaSalidas.Location = new Point(15, 152);
             chbConsultaSalidas.Name = "chbConsultaSalidas";
@@ -244,7 +245,7 @@
             // chbControlAlmacen
             // 
             chbControlAlmacen.AutoSize = true;
-            chbControlAlmacen.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbControlAlmacen.Font = new Font("Montserrat", 9F);
             chbControlAlmacen.ForeColor = Color.White;
             chbControlAlmacen.Location = new Point(15, 126);
             chbControlAlmacen.Name = "chbControlAlmacen";
@@ -257,7 +258,7 @@
             // chbRegistrarExistencias
             // 
             chbRegistrarExistencias.AutoSize = true;
-            chbRegistrarExistencias.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbRegistrarExistencias.Font = new Font("Montserrat", 9F);
             chbRegistrarExistencias.ForeColor = Color.White;
             chbRegistrarExistencias.Location = new Point(15, 100);
             chbRegistrarExistencias.Name = "chbRegistrarExistencias";
@@ -270,7 +271,7 @@
             // chbEditarProducto
             // 
             chbEditarProducto.AutoSize = true;
-            chbEditarProducto.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbEditarProducto.Font = new Font("Montserrat", 9F);
             chbEditarProducto.ForeColor = Color.White;
             chbEditarProducto.Location = new Point(15, 74);
             chbEditarProducto.Name = "chbEditarProducto";
@@ -283,7 +284,7 @@
             // chbNuevoProducto
             // 
             chbNuevoProducto.AutoSize = true;
-            chbNuevoProducto.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbNuevoProducto.Font = new Font("Montserrat", 9F);
             chbNuevoProducto.ForeColor = Color.White;
             chbNuevoProducto.Location = new Point(15, 48);
             chbNuevoProducto.Name = "chbNuevoProducto";
@@ -296,7 +297,7 @@
             // chbAlmacen
             // 
             chbAlmacen.AutoSize = true;
-            chbAlmacen.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            chbAlmacen.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             chbAlmacen.ForeColor = Color.White;
             chbAlmacen.Location = new Point(15, 13);
             chbAlmacen.Name = "chbAlmacen";
@@ -336,7 +337,7 @@
             // chbConsultarOCs
             // 
             chbConsultarOCs.AutoSize = true;
-            chbConsultarOCs.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbConsultarOCs.Font = new Font("Montserrat", 9F);
             chbConsultarOCs.ForeColor = Color.White;
             chbConsultarOCs.Location = new Point(15, 204);
             chbConsultarOCs.Name = "chbConsultarOCs";
@@ -349,7 +350,7 @@
             // chbReqEnviadas
             // 
             chbReqEnviadas.AutoSize = true;
-            chbReqEnviadas.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbReqEnviadas.Font = new Font("Montserrat", 9F);
             chbReqEnviadas.ForeColor = Color.White;
             chbReqEnviadas.Location = new Point(15, 152);
             chbReqEnviadas.Name = "chbReqEnviadas";
@@ -362,7 +363,7 @@
             // chbAdmiProvee
             // 
             chbAdmiProvee.AutoSize = true;
-            chbAdmiProvee.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbAdmiProvee.Font = new Font("Montserrat", 9F);
             chbAdmiProvee.ForeColor = Color.White;
             chbAdmiProvee.Location = new Point(15, 126);
             chbAdmiProvee.Name = "chbAdmiProvee";
@@ -375,7 +376,7 @@
             // chbAdmiReq
             // 
             chbAdmiReq.AutoSize = true;
-            chbAdmiReq.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbAdmiReq.Font = new Font("Montserrat", 9F);
             chbAdmiReq.ForeColor = Color.White;
             chbAdmiReq.Location = new Point(15, 100);
             chbAdmiReq.Name = "chbAdmiReq";
@@ -388,7 +389,7 @@
             // chbReqCompra
             // 
             chbReqCompra.AutoSize = true;
-            chbReqCompra.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbReqCompra.Font = new Font("Montserrat", 9F);
             chbReqCompra.ForeColor = Color.White;
             chbReqCompra.Location = new Point(15, 74);
             chbReqCompra.Name = "chbReqCompra";
@@ -401,7 +402,7 @@
             // chbConsumiblesAlmacen
             // 
             chbConsumiblesAlmacen.AutoSize = true;
-            chbConsumiblesAlmacen.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbConsumiblesAlmacen.Font = new Font("Montserrat", 9F);
             chbConsumiblesAlmacen.ForeColor = Color.White;
             chbConsumiblesAlmacen.Location = new Point(15, 48);
             chbConsumiblesAlmacen.Name = "chbConsumiblesAlmacen";
@@ -414,7 +415,7 @@
             // chbIndicadorCompras
             // 
             chbIndicadorCompras.AutoSize = true;
-            chbIndicadorCompras.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbIndicadorCompras.Font = new Font("Montserrat", 9F);
             chbIndicadorCompras.ForeColor = Color.White;
             chbIndicadorCompras.Location = new Point(15, 178);
             chbIndicadorCompras.Name = "chbIndicadorCompras";
@@ -427,7 +428,7 @@
             // chbCompras
             // 
             chbCompras.AutoSize = true;
-            chbCompras.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            chbCompras.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             chbCompras.ForeColor = Color.White;
             chbCompras.Location = new Point(15, 13);
             chbCompras.Name = "chbCompras";
@@ -451,7 +452,7 @@
             // chbGenerarCredencial
             // 
             chbGenerarCredencial.AutoSize = true;
-            chbGenerarCredencial.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbGenerarCredencial.Font = new Font("Montserrat", 9F);
             chbGenerarCredencial.ForeColor = Color.White;
             chbGenerarCredencial.Location = new Point(15, 74);
             chbGenerarCredencial.Name = "chbGenerarCredencial";
@@ -464,7 +465,7 @@
             // chbRegistroTrabajador
             // 
             chbRegistroTrabajador.AutoSize = true;
-            chbRegistroTrabajador.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbRegistroTrabajador.Font = new Font("Montserrat", 9F);
             chbRegistroTrabajador.ForeColor = Color.White;
             chbRegistroTrabajador.Location = new Point(15, 48);
             chbRegistroTrabajador.Name = "chbRegistroTrabajador";
@@ -477,7 +478,7 @@
             // chbRecursosHumanos
             // 
             chbRecursosHumanos.AutoSize = true;
-            chbRecursosHumanos.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            chbRecursosHumanos.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             chbRecursosHumanos.ForeColor = Color.White;
             chbRecursosHumanos.Location = new Point(15, 13);
             chbRecursosHumanos.Name = "chbRecursosHumanos";
@@ -490,6 +491,7 @@
             // panel4
             // 
             panel4.BackColor = Color.FromArgb(3, 42, 76);
+            panel4.Controls.Add(chbPendientesSistemas);
             panel4.Controls.Add(chbPermisos);
             panel4.Controls.Add(chbRequisicion);
             panel4.Controls.Add(chbSistemas);
@@ -498,10 +500,23 @@
             panel4.Size = new Size(240, 240);
             panel4.TabIndex = 7;
             // 
+            // chbPendientesSistemas
+            // 
+            chbPendientesSistemas.AutoSize = true;
+            chbPendientesSistemas.Font = new Font("Montserrat", 9F);
+            chbPendientesSistemas.ForeColor = Color.White;
+            chbPendientesSistemas.Location = new Point(15, 100);
+            chbPendientesSistemas.Name = "chbPendientesSistemas";
+            chbPendientesSistemas.Size = new Size(151, 20);
+            chbPendientesSistemas.TabIndex = 3;
+            chbPendientesSistemas.Text = "Pendientes Sistemas";
+            chbPendientesSistemas.UseVisualStyleBackColor = true;
+            chbPendientesSistemas.CheckedChanged += chbPendientesSistemas_CheckedChanged;
+            // 
             // chbPermisos
             // 
             chbPermisos.AutoSize = true;
-            chbPermisos.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbPermisos.Font = new Font("Montserrat", 9F);
             chbPermisos.ForeColor = Color.White;
             chbPermisos.Location = new Point(15, 74);
             chbPermisos.Name = "chbPermisos";
@@ -514,7 +529,7 @@
             // chbRequisicion
             // 
             chbRequisicion.AutoSize = true;
-            chbRequisicion.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbRequisicion.Font = new Font("Montserrat", 9F);
             chbRequisicion.ForeColor = Color.White;
             chbRequisicion.Location = new Point(15, 48);
             chbRequisicion.Name = "chbRequisicion";
@@ -527,7 +542,7 @@
             // chbSistemas
             // 
             chbSistemas.AutoSize = true;
-            chbSistemas.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            chbSistemas.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             chbSistemas.ForeColor = Color.White;
             chbSistemas.Location = new Point(15, 13);
             chbSistemas.Name = "chbSistemas";
@@ -543,7 +558,7 @@
             btnactualizar.Cursor = Cursors.Hand;
             btnactualizar.FlatAppearance.BorderSize = 0;
             btnactualizar.FlatStyle = FlatStyle.Flat;
-            btnactualizar.Font = new Font("Montserrat", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnactualizar.Font = new Font("Montserrat", 14.25F, FontStyle.Bold);
             btnactualizar.ForeColor = Color.White;
             btnactualizar.Location = new Point(837, 383);
             btnactualizar.Name = "btnactualizar";
@@ -569,7 +584,7 @@
             // chbBuscarCotizacion
             // 
             chbBuscarCotizacion.AutoSize = true;
-            chbBuscarCotizacion.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbBuscarCotizacion.Font = new Font("Montserrat", 9F);
             chbBuscarCotizacion.ForeColor = Color.White;
             chbBuscarCotizacion.Location = new Point(15, 48);
             chbBuscarCotizacion.Name = "chbBuscarCotizacion";
@@ -582,7 +597,7 @@
             // chbCatalogoProductos
             // 
             chbCatalogoProductos.AutoSize = true;
-            chbCatalogoProductos.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbCatalogoProductos.Font = new Font("Montserrat", 9F);
             chbCatalogoProductos.ForeColor = Color.White;
             chbCatalogoProductos.Location = new Point(15, 100);
             chbCatalogoProductos.Name = "chbCatalogoProductos";
@@ -595,7 +610,7 @@
             // chbNuevaCotizacion
             // 
             chbNuevaCotizacion.AutoSize = true;
-            chbNuevaCotizacion.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbNuevaCotizacion.Font = new Font("Montserrat", 9F);
             chbNuevaCotizacion.ForeColor = Color.White;
             chbNuevaCotizacion.Location = new Point(15, 126);
             chbNuevaCotizacion.Name = "chbNuevaCotizacion";
@@ -608,7 +623,7 @@
             // chbClientes
             // 
             chbClientes.AutoSize = true;
-            chbClientes.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbClientes.Font = new Font("Montserrat", 9F);
             chbClientes.ForeColor = Color.White;
             chbClientes.Location = new Point(15, 74);
             chbClientes.Name = "chbClientes";
@@ -621,7 +636,7 @@
             // chbVentas
             // 
             chbVentas.AutoSize = true;
-            chbVentas.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            chbVentas.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             chbVentas.ForeColor = Color.White;
             chbVentas.Location = new Point(15, 13);
             chbVentas.Name = "chbVentas";
@@ -644,7 +659,7 @@
             // chbReporteProduccion
             // 
             chbReporteProduccion.AutoSize = true;
-            chbReporteProduccion.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbReporteProduccion.Font = new Font("Montserrat", 9F);
             chbReporteProduccion.ForeColor = Color.White;
             chbReporteProduccion.Location = new Point(15, 48);
             chbReporteProduccion.Name = "chbReporteProduccion";
@@ -657,7 +672,7 @@
             // chbProduccion
             // 
             chbProduccion.AutoSize = true;
-            chbProduccion.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            chbProduccion.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             chbProduccion.ForeColor = Color.White;
             chbProduccion.Location = new Point(15, 13);
             chbProduccion.Name = "chbProduccion";
@@ -682,7 +697,7 @@
             // chbHistorialMaquinado
             // 
             chbHistorialMaquinado.AutoSize = true;
-            chbHistorialMaquinado.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbHistorialMaquinado.Font = new Font("Montserrat", 9F);
             chbHistorialMaquinado.ForeColor = Color.White;
             chbHistorialMaquinado.Location = new Point(15, 100);
             chbHistorialMaquinado.Name = "chbHistorialMaquinado";
@@ -695,7 +710,7 @@
             // chbPendientesMaquinado
             // 
             chbPendientesMaquinado.AutoSize = true;
-            chbPendientesMaquinado.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbPendientesMaquinado.Font = new Font("Montserrat", 9F);
             chbPendientesMaquinado.ForeColor = Color.White;
             chbPendientesMaquinado.Location = new Point(15, 74);
             chbPendientesMaquinado.Name = "chbPendientesMaquinado";
@@ -708,7 +723,7 @@
             // chbSolicitudMaquinado
             // 
             chbSolicitudMaquinado.AutoSize = true;
-            chbSolicitudMaquinado.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbSolicitudMaquinado.Font = new Font("Montserrat", 9F);
             chbSolicitudMaquinado.ForeColor = Color.White;
             chbSolicitudMaquinado.Location = new Point(15, 48);
             chbSolicitudMaquinado.Name = "chbSolicitudMaquinado";
@@ -721,7 +736,7 @@
             // chbMaquinado
             // 
             chbMaquinado.AutoSize = true;
-            chbMaquinado.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            chbMaquinado.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             chbMaquinado.ForeColor = Color.White;
             chbMaquinado.Location = new Point(15, 13);
             chbMaquinado.Name = "chbMaquinado";
@@ -773,7 +788,7 @@
             tabGestionUsuarios.Controls.Add(label3);
             tabGestionUsuarios.Controls.Add(dgvUsuarioyPassword);
             tabGestionUsuarios.Cursor = Cursors.Hand;
-            tabGestionUsuarios.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            tabGestionUsuarios.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             tabGestionUsuarios.Location = new Point(4, 24);
             tabGestionUsuarios.Name = "tabGestionUsuarios";
             tabGestionUsuarios.Padding = new Padding(3);
@@ -819,7 +834,7 @@
             // 
             // txbCorreo
             // 
-            txbCorreo.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbCorreo.Font = new Font("Montserrat", 12F);
             txbCorreo.Location = new Point(203, 160);
             txbCorreo.Name = "txbCorreo";
             txbCorreo.Size = new Size(683, 27);
@@ -829,7 +844,7 @@
             // 
             label10.AutoSize = true;
             label10.BackColor = Color.Transparent;
-            label10.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label10.Font = new Font("Montserrat", 12F);
             label10.ForeColor = Color.White;
             label10.Location = new Point(76, 163);
             label10.Name = "label10";
@@ -885,7 +900,7 @@
             // 
             lblCampos.AutoSize = true;
             lblCampos.BackColor = Color.Transparent;
-            lblCampos.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblCampos.Font = new Font("Montserrat", 12F);
             lblCampos.ForeColor = Color.White;
             lblCampos.Location = new Point(439, 31);
             lblCampos.Name = "lblCampos";
@@ -896,7 +911,7 @@
             // 
             // txbID
             // 
-            txbID.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbID.Font = new Font("Montserrat", 12F);
             txbID.Location = new Point(248, 31);
             txbID.Name = "txbID";
             txbID.Size = new Size(90, 27);
@@ -906,7 +921,7 @@
             // cbEstatus
             // 
             cbEstatus.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbEstatus.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            cbEstatus.Font = new Font("Montserrat", 12F);
             cbEstatus.FormattingEnabled = true;
             cbEstatus.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
             cbEstatus.Location = new Point(645, 115);
@@ -918,7 +933,7 @@
             // 
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label6.Font = new Font("Montserrat", 12F);
             label6.ForeColor = Color.White;
             label6.Location = new Point(518, 118);
             label6.Name = "label6";
@@ -928,7 +943,7 @@
             // 
             // txbNoTrabajador
             // 
-            txbNoTrabajador.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNoTrabajador.Font = new Font("Montserrat", 12F);
             txbNoTrabajador.Location = new Point(645, 71);
             txbNoTrabajador.Name = "txbNoTrabajador";
             txbNoTrabajador.Size = new Size(241, 27);
@@ -939,7 +954,7 @@
             // 
             label7.AutoSize = true;
             label7.BackColor = Color.Transparent;
-            label7.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label7.Font = new Font("Montserrat", 12F);
             label7.ForeColor = Color.White;
             label7.Location = new Point(518, 74);
             label7.Name = "label7";
@@ -949,7 +964,7 @@
             // 
             // txbPassword
             // 
-            txbPassword.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbPassword.Font = new Font("Montserrat", 12F);
             txbPassword.Location = new Point(203, 115);
             txbPassword.Name = "txbPassword";
             txbPassword.Size = new Size(241, 27);
@@ -960,7 +975,7 @@
             // 
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
-            label5.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Font = new Font("Montserrat", 12F);
             label5.ForeColor = Color.White;
             label5.Location = new Point(76, 118);
             label5.Name = "label5";
@@ -970,7 +985,7 @@
             // 
             // txbUsuario
             // 
-            txbUsuario.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbUsuario.Font = new Font("Montserrat", 12F);
             txbUsuario.Location = new Point(203, 71);
             txbUsuario.Name = "txbUsuario";
             txbUsuario.Size = new Size(241, 27);
@@ -980,7 +995,7 @@
             // 
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Font = new Font("Montserrat", 12F);
             label4.ForeColor = Color.White;
             label4.Location = new Point(76, 74);
             label4.Name = "label4";
@@ -994,7 +1009,7 @@
             btnEliminar.Cursor = Cursors.Hand;
             btnEliminar.FlatAppearance.BorderSize = 0;
             btnEliminar.FlatStyle = FlatStyle.Flat;
-            btnEliminar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEliminar.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnEliminar.ForeColor = Color.White;
             btnEliminar.Location = new Point(264, 228);
             btnEliminar.Name = "btnEliminar";
@@ -1011,7 +1026,7 @@
             btnAgregar.Cursor = Cursors.Hand;
             btnAgregar.FlatAppearance.BorderSize = 0;
             btnAgregar.FlatStyle = FlatStyle.Flat;
-            btnAgregar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnAgregar.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnAgregar.ForeColor = Color.White;
             btnAgregar.Location = new Point(651, 228);
             btnAgregar.Name = "btnAgregar";
@@ -1027,7 +1042,7 @@
             btnActualizarUsuario.Cursor = Cursors.Hand;
             btnActualizarUsuario.FlatAppearance.BorderSize = 0;
             btnActualizarUsuario.FlatStyle = FlatStyle.Flat;
-            btnActualizarUsuario.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnActualizarUsuario.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnActualizarUsuario.ForeColor = Color.White;
             btnActualizarUsuario.Location = new Point(464, 228);
             btnActualizarUsuario.Name = "btnActualizarUsuario";
@@ -1044,7 +1059,7 @@
             btnNuevo.Cursor = Cursors.Hand;
             btnNuevo.FlatAppearance.BorderSize = 0;
             btnNuevo.FlatStyle = FlatStyle.Flat;
-            btnNuevo.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnNuevo.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnNuevo.ForeColor = Color.White;
             btnNuevo.Location = new Point(893, 26);
             btnNuevo.Name = "btnNuevo";
@@ -1057,7 +1072,7 @@
             // 
             // txbBuscador
             // 
-            txbBuscador.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txbBuscador.Font = new Font("Montserrat", 12F);
             txbBuscador.Location = new Point(149, 292);
             txbBuscador.Name = "txbBuscador";
             txbBuscador.Size = new Size(208, 27);
@@ -1068,7 +1083,7 @@
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 15F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.Font = new Font("Montserrat", 15F, FontStyle.Bold);
             label3.ForeColor = Color.White;
             label3.Location = new Point(26, 291);
             label3.Name = "label3";
@@ -1083,7 +1098,7 @@
             dgvUsuarioyPassword.BackgroundColor = Color.White;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             dataGridViewCellStyle1.ForeColor = Color.Black;
             dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
             dataGridViewCellStyle1.SelectionForeColor = Color.White;
@@ -1096,12 +1111,11 @@
             dgvUsuarioyPassword.RowHeadersVisible = false;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F);
             dataGridViewCellStyle2.ForeColor = Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
             dataGridViewCellStyle2.SelectionForeColor = Color.White;
             dgvUsuarioyPassword.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            dgvUsuarioyPassword.RowTemplate.Height = 25;
             dgvUsuarioyPassword.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvUsuarioyPassword.Size = new Size(1207, 275);
             dgvUsuarioyPassword.TabIndex = 19;
@@ -1148,7 +1162,7 @@
             // chbInventarioMaquinas
             // 
             chbInventarioMaquinas.AutoSize = true;
-            chbInventarioMaquinas.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbInventarioMaquinas.Font = new Font("Montserrat", 9F);
             chbInventarioMaquinas.ForeColor = Color.White;
             chbInventarioMaquinas.Location = new Point(15, 126);
             chbInventarioMaquinas.Name = "chbInventarioMaquinas";
@@ -1161,7 +1175,7 @@
             // chbHistorialMtto
             // 
             chbHistorialMtto.AutoSize = true;
-            chbHistorialMtto.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbHistorialMtto.Font = new Font("Montserrat", 9F);
             chbHistorialMtto.ForeColor = Color.White;
             chbHistorialMtto.Location = new Point(15, 100);
             chbHistorialMtto.Name = "chbHistorialMtto";
@@ -1174,7 +1188,7 @@
             // chbPendientesMtto
             // 
             chbPendientesMtto.AutoSize = true;
-            chbPendientesMtto.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbPendientesMtto.Font = new Font("Montserrat", 9F);
             chbPendientesMtto.ForeColor = Color.White;
             chbPendientesMtto.Location = new Point(15, 74);
             chbPendientesMtto.Name = "chbPendientesMtto";
@@ -1187,7 +1201,7 @@
             // chbSolicitudMtto
             // 
             chbSolicitudMtto.AutoSize = true;
-            chbSolicitudMtto.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbSolicitudMtto.Font = new Font("Montserrat", 9F);
             chbSolicitudMtto.ForeColor = Color.White;
             chbSolicitudMtto.Location = new Point(15, 48);
             chbSolicitudMtto.Name = "chbSolicitudMtto";
@@ -1200,7 +1214,7 @@
             // chbMantenimiento
             // 
             chbMantenimiento.AutoSize = true;
-            chbMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            chbMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             chbMantenimiento.ForeColor = Color.White;
             chbMantenimiento.Location = new Point(15, 13);
             chbMantenimiento.Name = "chbMantenimiento";
@@ -1241,7 +1255,7 @@
             // 
             label12.AutoSize = true;
             label12.BackColor = Color.Transparent;
-            label12.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label12.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             label12.ForeColor = Color.White;
             label12.Location = new Point(15, 13);
             label12.Name = "label12";
@@ -1252,7 +1266,7 @@
             // chbMaquinadoVG
             // 
             chbMaquinadoVG.AutoSize = true;
-            chbMaquinadoVG.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbMaquinadoVG.Font = new Font("Montserrat", 9F);
             chbMaquinadoVG.ForeColor = Color.White;
             chbMaquinadoVG.Location = new Point(15, 48);
             chbMaquinadoVG.Name = "chbMaquinadoVG";
@@ -1275,7 +1289,7 @@
             // 
             label11.AutoSize = true;
             label11.BackColor = Color.Transparent;
-            label11.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label11.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             label11.ForeColor = Color.White;
             label11.Location = new Point(15, 13);
             label11.Name = "label11";
@@ -1286,7 +1300,7 @@
             // chbMantenimientoVG
             // 
             chbMantenimientoVG.AutoSize = true;
-            chbMantenimientoVG.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbMantenimientoVG.Font = new Font("Montserrat", 9F);
             chbMantenimientoVG.ForeColor = Color.White;
             chbMantenimientoVG.Location = new Point(15, 48);
             chbMantenimientoVG.Name = "chbMantenimientoVG";
@@ -1312,7 +1326,7 @@
             btnActualizarPermisosEspeciales.Cursor = Cursors.Hand;
             btnActualizarPermisosEspeciales.FlatAppearance.BorderSize = 0;
             btnActualizarPermisosEspeciales.FlatStyle = FlatStyle.Flat;
-            btnActualizarPermisosEspeciales.Font = new Font("Montserrat", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnActualizarPermisosEspeciales.Font = new Font("Montserrat", 14.25F, FontStyle.Bold);
             btnActualizarPermisosEspeciales.ForeColor = Color.White;
             btnActualizarPermisosEspeciales.Location = new Point(902, 404);
             btnActualizarPermisosEspeciales.Name = "btnActualizarPermisosEspeciales";
@@ -1336,7 +1350,7 @@
             // chbComprasVG
             // 
             chbComprasVG.AutoSize = true;
-            chbComprasVG.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbComprasVG.Font = new Font("Montserrat", 9F);
             chbComprasVG.ForeColor = Color.White;
             chbComprasVG.Location = new Point(15, 74);
             chbComprasVG.Name = "chbComprasVG";
@@ -1349,7 +1363,7 @@
             // 
             label9.AutoSize = true;
             label9.BackColor = Color.Transparent;
-            label9.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label9.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             label9.ForeColor = Color.White;
             label9.Location = new Point(15, 13);
             label9.Name = "label9";
@@ -1360,7 +1374,7 @@
             // chbComprasAlmacenar
             // 
             chbComprasAlmacenar.AutoSize = true;
-            chbComprasAlmacenar.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chbComprasAlmacenar.Font = new Font("Montserrat", 9F);
             chbComprasAlmacenar.ForeColor = Color.White;
             chbComprasAlmacenar.Location = new Point(15, 48);
             chbComprasAlmacenar.Name = "chbComprasAlmacenar";
@@ -1372,7 +1386,7 @@
             // cbUsuariosEspeciales
             // 
             cbUsuariosEspeciales.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbUsuariosEspeciales.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            cbUsuariosEspeciales.Font = new Font("Montserrat", 15F);
             cbUsuariosEspeciales.FormattingEnabled = true;
             cbUsuariosEspeciales.Location = new Point(140, 34);
             cbUsuariosEspeciales.Name = "cbUsuariosEspeciales";
@@ -1385,7 +1399,7 @@
             // 
             label8.AutoSize = true;
             label8.BackColor = Color.Transparent;
-            label8.Font = new Font("Montserrat", 15F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.Font = new Font("Montserrat", 15F, FontStyle.Bold);
             label8.ForeColor = Color.White;
             label8.Location = new Point(26, 37);
             label8.Name = "label8";
@@ -1544,5 +1558,6 @@
         private CheckBox chbAdminInventarioPT;
         private PictureBox pbOjoCerrado;
         private PictureBox pbOjoAbierto;
+        private CheckBox chbPendientesSistemas;
     }
 }

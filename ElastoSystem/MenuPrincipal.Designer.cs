@@ -57,6 +57,7 @@
             btnBuscarCotizacion = new Button();
             btnVentas = new Button();
             panelSubMenu4 = new Panel();
+            btnPendientesSistemas = new Button();
             btnPermisos = new Button();
             btnSistemasReq = new Button();
             button1 = new Button();
@@ -86,9 +87,9 @@
             panelLogo = new Panel();
             pictureBox1 = new PictureBox();
             panelPrincipal = new Panel();
+            dgvProductos = new DataGridView();
             dgv = new DataGridView();
             labelid = new Label();
-            dgvProductos = new DataGridView();
             PBarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PBNaranja).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PBAzul).BeginInit();
@@ -107,8 +108,8 @@
             panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panelPrincipal.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
             // PBarraTitulo
@@ -130,7 +131,7 @@
             // 
             lblModoPruebaMenu.AutoSize = true;
             lblModoPruebaMenu.BackColor = Color.Transparent;
-            lblModoPruebaMenu.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            lblModoPruebaMenu.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             lblModoPruebaMenu.ForeColor = SystemColors.ButtonHighlight;
             lblModoPruebaMenu.Location = new Point(15, 5);
             lblModoPruebaMenu.Name = "lblModoPruebaMenu";
@@ -226,7 +227,7 @@
             sbmMantenimiento.Controls.Add(btnPendientesMtto);
             sbmMantenimiento.Controls.Add(btnSolicitudMantenimiento);
             sbmMantenimiento.Dock = DockStyle.Top;
-            sbmMantenimiento.Location = new Point(0, 1369);
+            sbmMantenimiento.Location = new Point(0, 1403);
             sbmMantenimiento.Name = "sbmMantenimiento";
             sbmMantenimiento.Size = new Size(187, 153);
             sbmMantenimiento.TabIndex = 17;
@@ -237,7 +238,7 @@
             btnInventarioMaquinas.Enabled = false;
             btnInventarioMaquinas.FlatAppearance.BorderSize = 0;
             btnInventarioMaquinas.FlatStyle = FlatStyle.Flat;
-            btnInventarioMaquinas.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnInventarioMaquinas.Font = new Font("Montserrat", 10F);
             btnInventarioMaquinas.ForeColor = Color.White;
             btnInventarioMaquinas.Location = new Point(0, 108);
             btnInventarioMaquinas.Name = "btnInventarioMaquinas";
@@ -256,7 +257,7 @@
             btnHistoricoMtto.Enabled = false;
             btnHistoricoMtto.FlatAppearance.BorderSize = 0;
             btnHistoricoMtto.FlatStyle = FlatStyle.Flat;
-            btnHistoricoMtto.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnHistoricoMtto.Font = new Font("Montserrat", 10F);
             btnHistoricoMtto.ForeColor = Color.White;
             btnHistoricoMtto.Location = new Point(0, 72);
             btnHistoricoMtto.Name = "btnHistoricoMtto";
@@ -275,7 +276,7 @@
             btnPendientesMtto.Enabled = false;
             btnPendientesMtto.FlatAppearance.BorderSize = 0;
             btnPendientesMtto.FlatStyle = FlatStyle.Flat;
-            btnPendientesMtto.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnPendientesMtto.Font = new Font("Montserrat", 10F);
             btnPendientesMtto.ForeColor = Color.White;
             btnPendientesMtto.Location = new Point(0, 36);
             btnPendientesMtto.Name = "btnPendientesMtto";
@@ -294,7 +295,7 @@
             btnSolicitudMantenimiento.Enabled = false;
             btnSolicitudMantenimiento.FlatAppearance.BorderSize = 0;
             btnSolicitudMantenimiento.FlatStyle = FlatStyle.Flat;
-            btnSolicitudMantenimiento.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSolicitudMantenimiento.Font = new Font("Montserrat", 10F);
             btnSolicitudMantenimiento.ForeColor = Color.White;
             btnSolicitudMantenimiento.Location = new Point(0, 0);
             btnSolicitudMantenimiento.Name = "btnSolicitudMantenimiento";
@@ -313,9 +314,9 @@
             btnMantenimiento.Enabled = false;
             btnMantenimiento.FlatAppearance.BorderSize = 0;
             btnMantenimiento.FlatStyle = FlatStyle.Flat;
-            btnMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnMantenimiento.ForeColor = Color.White;
-            btnMantenimiento.Location = new Point(0, 1333);
+            btnMantenimiento.Location = new Point(0, 1367);
             btnMantenimiento.Name = "btnMantenimiento";
             btnMantenimiento.Padding = new Padding(10, 0, 0, 0);
             btnMantenimiento.Size = new Size(187, 36);
@@ -333,7 +334,7 @@
             sbmMaquinado.Controls.Add(btnPendientesMaquinado);
             sbmMaquinado.Controls.Add(btnSolicitudMquinado);
             sbmMaquinado.Dock = DockStyle.Top;
-            sbmMaquinado.Location = new Point(0, 1209);
+            sbmMaquinado.Location = new Point(0, 1243);
             sbmMaquinado.Name = "sbmMaquinado";
             sbmMaquinado.Size = new Size(187, 124);
             sbmMaquinado.TabIndex = 15;
@@ -344,7 +345,7 @@
             btnHistoricoMaquinado.Enabled = false;
             btnHistoricoMaquinado.FlatAppearance.BorderSize = 0;
             btnHistoricoMaquinado.FlatStyle = FlatStyle.Flat;
-            btnHistoricoMaquinado.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnHistoricoMaquinado.Font = new Font("Montserrat", 10F);
             btnHistoricoMaquinado.ForeColor = Color.White;
             btnHistoricoMaquinado.Location = new Point(0, 72);
             btnHistoricoMaquinado.Name = "btnHistoricoMaquinado";
@@ -363,7 +364,7 @@
             btnPendientesMaquinado.Enabled = false;
             btnPendientesMaquinado.FlatAppearance.BorderSize = 0;
             btnPendientesMaquinado.FlatStyle = FlatStyle.Flat;
-            btnPendientesMaquinado.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnPendientesMaquinado.Font = new Font("Montserrat", 10F);
             btnPendientesMaquinado.ForeColor = Color.White;
             btnPendientesMaquinado.Location = new Point(0, 36);
             btnPendientesMaquinado.Name = "btnPendientesMaquinado";
@@ -382,7 +383,7 @@
             btnSolicitudMquinado.Enabled = false;
             btnSolicitudMquinado.FlatAppearance.BorderSize = 0;
             btnSolicitudMquinado.FlatStyle = FlatStyle.Flat;
-            btnSolicitudMquinado.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSolicitudMquinado.Font = new Font("Montserrat", 10F);
             btnSolicitudMquinado.ForeColor = Color.White;
             btnSolicitudMquinado.Location = new Point(0, 0);
             btnSolicitudMquinado.Name = "btnSolicitudMquinado";
@@ -401,9 +402,9 @@
             btnMaquinado.Enabled = false;
             btnMaquinado.FlatAppearance.BorderSize = 0;
             btnMaquinado.FlatStyle = FlatStyle.Flat;
-            btnMaquinado.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnMaquinado.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnMaquinado.ForeColor = Color.White;
-            btnMaquinado.Location = new Point(0, 1173);
+            btnMaquinado.Location = new Point(0, 1207);
             btnMaquinado.Name = "btnMaquinado";
             btnMaquinado.Padding = new Padding(10, 0, 0, 0);
             btnMaquinado.Size = new Size(187, 36);
@@ -419,7 +420,7 @@
             sbmProduccion.BackColor = Color.FromArgb(3, 52, 92);
             sbmProduccion.Controls.Add(btnReporte);
             sbmProduccion.Dock = DockStyle.Top;
-            sbmProduccion.Location = new Point(0, 1121);
+            sbmProduccion.Location = new Point(0, 1155);
             sbmProduccion.Name = "sbmProduccion";
             sbmProduccion.Size = new Size(187, 52);
             sbmProduccion.TabIndex = 13;
@@ -430,7 +431,7 @@
             btnReporte.Enabled = false;
             btnReporte.FlatAppearance.BorderSize = 0;
             btnReporte.FlatStyle = FlatStyle.Flat;
-            btnReporte.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnReporte.Font = new Font("Montserrat", 10F);
             btnReporte.ForeColor = Color.White;
             btnReporte.Location = new Point(0, 0);
             btnReporte.Name = "btnReporte";
@@ -449,9 +450,9 @@
             btnProduccion.Enabled = false;
             btnProduccion.FlatAppearance.BorderSize = 0;
             btnProduccion.FlatStyle = FlatStyle.Flat;
-            btnProduccion.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnProduccion.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnProduccion.ForeColor = Color.White;
-            btnProduccion.Location = new Point(0, 1085);
+            btnProduccion.Location = new Point(0, 1119);
             btnProduccion.Name = "btnProduccion";
             btnProduccion.Padding = new Padding(10, 0, 0, 0);
             btnProduccion.Size = new Size(187, 36);
@@ -470,7 +471,7 @@
             sbmVentas.Controls.Add(btnCatalogoClientes);
             sbmVentas.Controls.Add(btnBuscarCotizacion);
             sbmVentas.Dock = DockStyle.Top;
-            sbmVentas.Location = new Point(0, 929);
+            sbmVentas.Location = new Point(0, 963);
             sbmVentas.Name = "sbmVentas";
             sbmVentas.Size = new Size(187, 156);
             sbmVentas.TabIndex = 11;
@@ -481,7 +482,7 @@
             btnNuevaCotizacion.Enabled = false;
             btnNuevaCotizacion.FlatAppearance.BorderSize = 0;
             btnNuevaCotizacion.FlatStyle = FlatStyle.Flat;
-            btnNuevaCotizacion.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnNuevaCotizacion.Font = new Font("Montserrat", 10F);
             btnNuevaCotizacion.ForeColor = Color.White;
             btnNuevaCotizacion.Location = new Point(0, 108);
             btnNuevaCotizacion.Name = "btnNuevaCotizacion";
@@ -500,7 +501,7 @@
             btnCatalogoProductos.Enabled = false;
             btnCatalogoProductos.FlatAppearance.BorderSize = 0;
             btnCatalogoProductos.FlatStyle = FlatStyle.Flat;
-            btnCatalogoProductos.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnCatalogoProductos.Font = new Font("Montserrat", 10F);
             btnCatalogoProductos.ForeColor = Color.White;
             btnCatalogoProductos.Location = new Point(0, 72);
             btnCatalogoProductos.Name = "btnCatalogoProductos";
@@ -519,7 +520,7 @@
             btnCatalogoClientes.Enabled = false;
             btnCatalogoClientes.FlatAppearance.BorderSize = 0;
             btnCatalogoClientes.FlatStyle = FlatStyle.Flat;
-            btnCatalogoClientes.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnCatalogoClientes.Font = new Font("Montserrat", 10F);
             btnCatalogoClientes.ForeColor = Color.White;
             btnCatalogoClientes.Location = new Point(0, 36);
             btnCatalogoClientes.Name = "btnCatalogoClientes";
@@ -538,7 +539,7 @@
             btnBuscarCotizacion.Enabled = false;
             btnBuscarCotizacion.FlatAppearance.BorderSize = 0;
             btnBuscarCotizacion.FlatStyle = FlatStyle.Flat;
-            btnBuscarCotizacion.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnBuscarCotizacion.Font = new Font("Montserrat", 10F);
             btnBuscarCotizacion.ForeColor = Color.White;
             btnBuscarCotizacion.Location = new Point(0, 0);
             btnBuscarCotizacion.Name = "btnBuscarCotizacion";
@@ -557,9 +558,9 @@
             btnVentas.Enabled = false;
             btnVentas.FlatAppearance.BorderSize = 0;
             btnVentas.FlatStyle = FlatStyle.Flat;
-            btnVentas.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnVentas.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnVentas.ForeColor = Color.White;
-            btnVentas.Location = new Point(0, 893);
+            btnVentas.Location = new Point(0, 927);
             btnVentas.Name = "btnVentas";
             btnVentas.Padding = new Padding(10, 0, 0, 0);
             btnVentas.Size = new Size(187, 36);
@@ -573,13 +574,32 @@
             // panelSubMenu4
             // 
             panelSubMenu4.BackColor = Color.FromArgb(3, 52, 92);
+            panelSubMenu4.Controls.Add(btnPendientesSistemas);
             panelSubMenu4.Controls.Add(btnPermisos);
             panelSubMenu4.Controls.Add(btnSistemasReq);
             panelSubMenu4.Dock = DockStyle.Top;
             panelSubMenu4.Location = new Point(0, 809);
             panelSubMenu4.Name = "panelSubMenu4";
-            panelSubMenu4.Size = new Size(187, 84);
+            panelSubMenu4.Size = new Size(187, 118);
             panelSubMenu4.TabIndex = 9;
+            // 
+            // btnPendientesSistemas
+            // 
+            btnPendientesSistemas.Dock = DockStyle.Top;
+            btnPendientesSistemas.Enabled = false;
+            btnPendientesSistemas.FlatAppearance.BorderSize = 0;
+            btnPendientesSistemas.FlatStyle = FlatStyle.Flat;
+            btnPendientesSistemas.Font = new Font("Montserrat", 10F);
+            btnPendientesSistemas.ForeColor = Color.White;
+            btnPendientesSistemas.Location = new Point(0, 72);
+            btnPendientesSistemas.Name = "btnPendientesSistemas";
+            btnPendientesSistemas.Padding = new Padding(20, 0, 0, 0);
+            btnPendientesSistemas.Size = new Size(187, 36);
+            btnPendientesSistemas.TabIndex = 5;
+            btnPendientesSistemas.Text = "Pendientes Sistemas";
+            btnPendientesSistemas.TextAlign = ContentAlignment.MiddleLeft;
+            btnPendientesSistemas.UseVisualStyleBackColor = true;
+            btnPendientesSistemas.Visible = false;
             // 
             // btnPermisos
             // 
@@ -587,7 +607,7 @@
             btnPermisos.Enabled = false;
             btnPermisos.FlatAppearance.BorderSize = 0;
             btnPermisos.FlatStyle = FlatStyle.Flat;
-            btnPermisos.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnPermisos.Font = new Font("Montserrat", 10F);
             btnPermisos.ForeColor = Color.White;
             btnPermisos.Location = new Point(0, 36);
             btnPermisos.Name = "btnPermisos";
@@ -606,7 +626,7 @@
             btnSistemasReq.Enabled = false;
             btnSistemasReq.FlatAppearance.BorderSize = 0;
             btnSistemasReq.FlatStyle = FlatStyle.Flat;
-            btnSistemasReq.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSistemasReq.Font = new Font("Montserrat", 10F);
             btnSistemasReq.ForeColor = Color.White;
             btnSistemasReq.Location = new Point(0, 0);
             btnSistemasReq.Name = "btnSistemasReq";
@@ -625,7 +645,7 @@
             button1.Enabled = false;
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            button1.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             button1.ForeColor = Color.White;
             button1.Location = new Point(0, 773);
             button1.Name = "button1";
@@ -642,7 +662,7 @@
             // 
             panel1.Controls.Add(btninfo);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 1522);
+            panel1.Location = new Point(0, 1556);
             panel1.Name = "panel1";
             panel1.Size = new Size(187, 56);
             panel1.TabIndex = 0;
@@ -652,7 +672,7 @@
             btninfo.Dock = DockStyle.Fill;
             btninfo.FlatAppearance.BorderSize = 0;
             btninfo.FlatStyle = FlatStyle.Flat;
-            btninfo.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            btninfo.Font = new Font("Montserrat", 14F);
             btninfo.ForeColor = Color.White;
             btninfo.Location = new Point(0, 0);
             btninfo.Name = "btninfo";
@@ -682,7 +702,7 @@
             btnCredencial.Enabled = false;
             btnCredencial.FlatAppearance.BorderSize = 0;
             btnCredencial.FlatStyle = FlatStyle.Flat;
-            btnCredencial.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnCredencial.Font = new Font("Montserrat", 10F);
             btnCredencial.ForeColor = Color.White;
             btnCredencial.Location = new Point(0, 36);
             btnCredencial.Name = "btnCredencial";
@@ -701,7 +721,7 @@
             btnRegistroTrabajador.Enabled = false;
             btnRegistroTrabajador.FlatAppearance.BorderSize = 0;
             btnRegistroTrabajador.FlatStyle = FlatStyle.Flat;
-            btnRegistroTrabajador.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnRegistroTrabajador.Font = new Font("Montserrat", 10F);
             btnRegistroTrabajador.ForeColor = Color.White;
             btnRegistroTrabajador.Location = new Point(0, 0);
             btnRegistroTrabajador.Name = "btnRegistroTrabajador";
@@ -720,7 +740,7 @@
             button11.Enabled = false;
             button11.FlatAppearance.BorderSize = 0;
             button11.FlatStyle = FlatStyle.Flat;
-            button11.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            button11.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             button11.ForeColor = Color.White;
             button11.Location = new Point(0, 656);
             button11.Name = "button11";
@@ -755,7 +775,7 @@
             btnConsultarOC.Enabled = false;
             btnConsultarOC.FlatAppearance.BorderSize = 0;
             btnConsultarOC.FlatStyle = FlatStyle.Flat;
-            btnConsultarOC.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnConsultarOC.Font = new Font("Montserrat", 10F);
             btnConsultarOC.ForeColor = Color.White;
             btnConsultarOC.Location = new Point(0, 216);
             btnConsultarOC.Name = "btnConsultarOC";
@@ -774,7 +794,7 @@
             btnIndCompras.Enabled = false;
             btnIndCompras.FlatAppearance.BorderSize = 0;
             btnIndCompras.FlatStyle = FlatStyle.Flat;
-            btnIndCompras.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnIndCompras.Font = new Font("Montserrat", 10F);
             btnIndCompras.ForeColor = Color.White;
             btnIndCompras.Location = new Point(0, 180);
             btnIndCompras.Name = "btnIndCompras";
@@ -793,7 +813,7 @@
             btnReqEnv.Enabled = false;
             btnReqEnv.FlatAppearance.BorderSize = 0;
             btnReqEnv.FlatStyle = FlatStyle.Flat;
-            btnReqEnv.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnReqEnv.Font = new Font("Montserrat", 10F);
             btnReqEnv.ForeColor = Color.White;
             btnReqEnv.Location = new Point(0, 144);
             btnReqEnv.Name = "btnReqEnv";
@@ -812,7 +832,7 @@
             btnAdmiProveedores.Enabled = false;
             btnAdmiProveedores.FlatAppearance.BorderSize = 0;
             btnAdmiProveedores.FlatStyle = FlatStyle.Flat;
-            btnAdmiProveedores.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnAdmiProveedores.Font = new Font("Montserrat", 10F);
             btnAdmiProveedores.ForeColor = Color.White;
             btnAdmiProveedores.Location = new Point(0, 108);
             btnAdmiProveedores.Name = "btnAdmiProveedores";
@@ -831,7 +851,7 @@
             btnAdmiReq.Enabled = false;
             btnAdmiReq.FlatAppearance.BorderSize = 0;
             btnAdmiReq.FlatStyle = FlatStyle.Flat;
-            btnAdmiReq.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnAdmiReq.Font = new Font("Montserrat", 10F);
             btnAdmiReq.ForeColor = Color.White;
             btnAdmiReq.Location = new Point(0, 72);
             btnAdmiReq.Name = "btnAdmiReq";
@@ -850,7 +870,7 @@
             btnReqCompra.Enabled = false;
             btnReqCompra.FlatAppearance.BorderSize = 0;
             btnReqCompra.FlatStyle = FlatStyle.Flat;
-            btnReqCompra.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnReqCompra.Font = new Font("Montserrat", 10F);
             btnReqCompra.ForeColor = Color.White;
             btnReqCompra.Location = new Point(0, 36);
             btnReqCompra.Name = "btnReqCompra";
@@ -869,7 +889,7 @@
             btnConsumibles.Enabled = false;
             btnConsumibles.FlatAppearance.BorderSize = 0;
             btnConsumibles.FlatStyle = FlatStyle.Flat;
-            btnConsumibles.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnConsumibles.Font = new Font("Montserrat", 10F);
             btnConsumibles.ForeColor = Color.White;
             btnConsumibles.Location = new Point(0, 0);
             btnConsumibles.Name = "btnConsumibles";
@@ -888,7 +908,7 @@
             button6.Enabled = false;
             button6.FlatAppearance.BorderSize = 0;
             button6.FlatStyle = FlatStyle.Flat;
-            button6.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            button6.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             button6.ForeColor = Color.White;
             button6.Location = new Point(0, 360);
             button6.Name = "button6";
@@ -922,7 +942,7 @@
             btnInventarioAlmacen.Enabled = false;
             btnInventarioAlmacen.FlatAppearance.BorderSize = 0;
             btnInventarioAlmacen.FlatStyle = FlatStyle.Flat;
-            btnInventarioAlmacen.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnInventarioAlmacen.Font = new Font("Montserrat", 10F);
             btnInventarioAlmacen.ForeColor = Color.White;
             btnInventarioAlmacen.Location = new Point(0, 180);
             btnInventarioAlmacen.Name = "btnInventarioAlmacen";
@@ -941,7 +961,7 @@
             btnAdminInventario.Enabled = false;
             btnAdminInventario.FlatAppearance.BorderSize = 0;
             btnAdminInventario.FlatStyle = FlatStyle.Flat;
-            btnAdminInventario.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnAdminInventario.Font = new Font("Montserrat", 10F);
             btnAdminInventario.ForeColor = Color.White;
             btnAdminInventario.Location = new Point(0, 144);
             btnAdminInventario.Name = "btnAdminInventario";
@@ -960,7 +980,7 @@
             btnConsultaSalidas.Enabled = false;
             btnConsultaSalidas.FlatAppearance.BorderSize = 0;
             btnConsultaSalidas.FlatStyle = FlatStyle.Flat;
-            btnConsultaSalidas.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnConsultaSalidas.Font = new Font("Montserrat", 10F);
             btnConsultaSalidas.ForeColor = Color.White;
             btnConsultaSalidas.Location = new Point(0, 108);
             btnConsultaSalidas.Name = "btnConsultaSalidas";
@@ -979,7 +999,7 @@
             btnControlAlmacen.Enabled = false;
             btnControlAlmacen.FlatAppearance.BorderSize = 0;
             btnControlAlmacen.FlatStyle = FlatStyle.Flat;
-            btnControlAlmacen.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnControlAlmacen.Font = new Font("Montserrat", 10F);
             btnControlAlmacen.ForeColor = Color.White;
             btnControlAlmacen.Location = new Point(0, 72);
             btnControlAlmacen.Name = "btnControlAlmacen";
@@ -998,7 +1018,7 @@
             btnRegistrarExistencias.Enabled = false;
             btnRegistrarExistencias.FlatAppearance.BorderSize = 0;
             btnRegistrarExistencias.FlatStyle = FlatStyle.Flat;
-            btnRegistrarExistencias.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnRegistrarExistencias.Font = new Font("Montserrat", 10F);
             btnRegistrarExistencias.ForeColor = Color.White;
             btnRegistrarExistencias.Location = new Point(0, 36);
             btnRegistrarExistencias.Name = "btnRegistrarExistencias";
@@ -1017,7 +1037,7 @@
             btnNuevoProducto.Enabled = false;
             btnNuevoProducto.FlatAppearance.BorderSize = 0;
             btnNuevoProducto.FlatStyle = FlatStyle.Flat;
-            btnNuevoProducto.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnNuevoProducto.Font = new Font("Montserrat", 10F);
             btnNuevoProducto.ForeColor = Color.White;
             btnNuevoProducto.Location = new Point(0, 0);
             btnNuevoProducto.Name = "btnNuevoProducto";
@@ -1036,7 +1056,7 @@
             btnalmacen.Enabled = false;
             btnalmacen.FlatAppearance.BorderSize = 0;
             btnalmacen.FlatStyle = FlatStyle.Flat;
-            btnalmacen.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnalmacen.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnalmacen.ForeColor = Color.White;
             btnalmacen.Location = new Point(0, 98);
             btnalmacen.Name = "btnalmacen";
@@ -1084,12 +1104,20 @@
             panelPrincipal.TabIndex = 2;
             panelPrincipal.Paint += panelPrincipal_Paint;
             // 
+            // dgvProductos
+            // 
+            dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductos.Location = new Point(55, 54);
+            dgvProductos.Name = "dgvProductos";
+            dgvProductos.Size = new Size(46, 38);
+            dgvProductos.TabIndex = 2;
+            dgvProductos.Visible = false;
+            // 
             // dgv
             // 
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Location = new Point(3, 54);
             dgv.Name = "dgv";
-            dgv.RowTemplate.Height = 25;
             dgv.Size = new Size(46, 38);
             dgv.TabIndex = 1;
             dgv.Visible = false;
@@ -1104,16 +1132,6 @@
             labelid.Text = "label1";
             labelid.Visible = false;
             labelid.TextChanged += labelrol_TextChanged;
-            // 
-            // dgvProductos
-            // 
-            dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProductos.Location = new Point(55, 54);
-            dgvProductos.Name = "dgvProductos";
-            dgvProductos.RowTemplate.Height = 25;
-            dgvProductos.Size = new Size(46, 38);
-            dgvProductos.TabIndex = 2;
-            dgvProductos.Visible = false;
             // 
             // MenuPrincipal
             // 
@@ -1151,8 +1169,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panelPrincipal.ResumeLayout(false);
             panelPrincipal.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             ResumeLayout(false);
         }
 
@@ -1220,5 +1238,6 @@
         private Button btnInventarioAlmacen;
         private Button btnAdminInventario;
         private DataGridView dgvProductos;
+        private Button btnPendientesSistemas;
     }
 }
