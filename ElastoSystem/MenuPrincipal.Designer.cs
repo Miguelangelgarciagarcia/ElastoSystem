@@ -600,6 +600,7 @@
             btnPendientesSistemas.TextAlign = ContentAlignment.MiddleLeft;
             btnPendientesSistemas.UseVisualStyleBackColor = true;
             btnPendientesSistemas.Visible = false;
+            btnPendientesSistemas.Click += btnPendientesSistemas_Click;
             // 
             // btnPermisos
             // 

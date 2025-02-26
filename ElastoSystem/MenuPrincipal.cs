@@ -186,7 +186,7 @@ namespace ElastoSystem
                             btnPermisos.Visible = true;
                         }
                         string pendientesSistemasValue = reader["Pendientes_Sistemas"].ToString();
-                        if(pendientesSistemasValue == "True")
+                        if (pendientesSistemasValue == "True")
                         {
                             btnPendientesSistemas.Enabled = true;
                             btnPendientesSistemas.Visible = true;
@@ -377,7 +377,7 @@ namespace ElastoSystem
 
                     smtpClient.Send(mailMessage);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ENVIAR EL CORREO: " + ex.Message);
                 }
@@ -796,6 +796,12 @@ namespace ElastoSystem
         private void btnInventarioAlmacen_Click(object sender, EventArgs e)
         {
             openChildForm(new Almacen_InventarioAlmacen());
+            HideSubMenu();
+        }
+
+        private void btnPendientesSistemas_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Sistemas_PendientesSistemas());
             HideSubMenu();
         }
     }
