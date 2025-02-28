@@ -29,62 +29,45 @@ namespace ElastoSystem
             MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             mySqlAdapter.Fill(dt);
-            dgv.DataSource = dt;
-            this.BeginInvoke(new Action(() =>
-            {
-                txbID.Focus();
-            }));
+            dgvAlmacen.DataSource = dt;
+            dgvAlmacen.Columns["ID_Producto"].Visible = false;
         }
 
 
         private void OrdenTab()
         {
             txbID.TabIndex = 0;
-            button1.TabIndex = 1;
-            txbProducto.TabIndex = 2;
-            txbExistencias.TabIndex = 3;
-            txbAdd.TabIndex = 4;
-            txbNotas.TabIndex = 5;
-            txbclave.TabIndex = 6;
-            button2.TabIndex = 7;
+            txbProducto.TabIndex = 1;
+            txbExistencias.TabIndex = 2;
+            txbAdd.TabIndex = 3;
+            txbNotas.TabIndex = 4;
+            button2.TabIndex = 5;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            mySqlConnection.Open();
-            String codigo = txbID.Text;
-            MySqlDataReader reader = null;
-            string sql = "SELECT Producto, Existencias FROM elastosystem_almacen WHERE ID_Producto LIKE '" + codigo + "' ";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        txbProducto.Text = reader.GetString(0);
-                        txbExistencias.Text = reader.GetString(1);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Numero de Producto invalido");
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error al encontrar datos");
-            }
-            mySqlConnection.Close();
-            txbAdd.Focus();
+
         }
 
 
         private void AlmacenRegistrarExistencias_Load(object sender, EventArgs e)
         {
             MandarALlamarAlmacen();
+            MandarALlamarHistorialRegistro();
+        }
+
+        private void MandarALlamarHistorialRegistro()
+        {
+            string tabla = "SELECT * FROM elastosystem_almacenregistrosexistencias ORDER BY ID DESC";
+            MySqlDataAdapter adaptador = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
+            DataTable dt = new DataTable();
+            adaptador.Fill(dt);
+            dgvHistorial.DataSource = dt;
+            dgvHistorial.Columns["ID"].Visible = false;
+            dgvHistorial.Columns["ID_Producto"].Visible = false;
+            dgvHistorial.Columns["EDOP"].Visible = false;
+            dgvHistorial.Columns["Autorizo"].Visible = false;
+            dgvHistorial.Columns["OC"].HeaderText = "Nota";
         }
 
         private void txbID_KeyPress(object sender, KeyPressEventArgs e)
@@ -95,126 +78,143 @@ namespace ElastoSystem
             }
         }
 
+        private void Limpiar()
+        {
+            txbID.Clear();
+            txbProducto.Clear();
+            txbExistencias.Clear();
+            txbAdd.Clear();
+            txbNotas.Clear();
+            MandarALlamarAlmacen();
+            MandarALlamarHistorialRegistro();
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txbID.Text) & !string.IsNullOrEmpty(txbProducto.Text) & !string.IsNullOrEmpty(txbExistencias.Text) & !string.IsNullOrEmpty(txbAdd.Text) & !string.IsNullOrEmpty(txbNotas.Text) & !string.IsNullOrEmpty(txbclave.Text))
+            if (!string.IsNullOrEmpty(txbID.Text))
             {
-                string query = "SELECT * FROM elastosystem_login WHERE No_Trabajador='" + txbclave.Text + "'";
-                MySqlConnection databaseConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-                MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
-                commandDatabase.CommandTimeout = 60;
-                MySqlDataReader reader;
-
-                try
+                if (!string.IsNullOrEmpty(txbAdd.Text))
                 {
-                    databaseConnection.Open();
-                    reader = commandDatabase.ExecuteReader();
+                    double resultado = 0;
+                    double existencias = 0;
+                    double agregado = 0;
 
-                    if (reader.HasRows)
+                    double.TryParse(txbExistencias.Text, out existencias);
+                    double.TryParse(txbAdd.Text, out agregado);
+
+                    DateTime saveNow = DateTime.Now;
+                    string fecha = saveNow.ToShortDateString();
+                    string hora = saveNow.ToShortTimeString();
+
+                    try
                     {
-                        while (reader.Read())
+                        using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                         {
-                            string rol = reader["Roles"].ToString();
+                            conn.Open();
 
-                            if (rol == "root")
+                            if(agregado < existencias || agregado > existencias)
                             {
-                                labelprueba.Text = "exito";
-                            }
-                            else if (rol == "calidad")
-                            {
-                                labelprueba.Text = "exito";
+                                resultado = agregado - existencias;
+
+                                using(MySqlCommand cmdInsert = new MySqlCommand("INSERT INTO elastosystem_almacenregistrosexistencias (Usuario, ID_Producto, Producto, Operacion, Fecha, Hora, OC) VALUES (@USUARIO, @IDPRODUCTO, @PRODUCTO, @OPERACION, @FECHA, @HORA, @OC)", conn))
+                                {
+                                    cmdInsert.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario);
+                                    cmdInsert.Parameters.AddWithValue("@IDPRODUCTO", txbID.Text);
+                                    cmdInsert.Parameters.AddWithValue("@PRODUCTO", txbProducto.Text);
+                                    cmdInsert.Parameters.AddWithValue("@OPERACION", resultado);
+                                    cmdInsert.Parameters.AddWithValue("@FECHA", fecha);
+                                    cmdInsert.Parameters.AddWithValue("@HORA", hora);
+                                    cmdInsert.Parameters.AddWithValue("@OC", txbNotas.Text);
+                                    cmdInsert.ExecuteNonQuery();
+                                }
+
+                                using(MySqlCommand cmdUpdate = new MySqlCommand("UPDATE elastosystem_almacen SET Existencias = @EXISTENCIAS WHERE ID_Producto = @IDPROD", conn))
+                                {
+                                    cmdUpdate.Parameters.AddWithValue("@EXISTENCIAS", txbAdd.Text);
+                                    cmdUpdate.Parameters.AddWithValue("@IDPROD", txbID.Text);
+                                    cmdUpdate.ExecuteNonQuery();
+                                }
+
+                                MessageBox.Show("EXISTENCIAS ACTUALIZADAS");
+                                Limpiar();
                             }
                             else
                             {
-                                MessageBox.Show("No tienes permisos para ingresar datos");
+                                MessageBox.Show("NO SE ACTUALIZA YA QUE ES EL MISMO VALOR INICIAL Y FINAL");
                             }
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("CLAVE INCORRECTA");
+                        MessageBox.Show("ERROR AL ACTUALIZAR EXISTENCIAS: " + ex);
                     }
-                    databaseConnection.Close();
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("NO HAS INGRESADO NADA EN LA EXISTENCIA FINAL");
                 }
-
-                try
-                {
-                    MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-                    conn.Open();
-                    MySqlCommand cmd = new MySqlCommand();
-                    if (labelprueba.Text == "exito")
-                    {
-                        int existencias = int.Parse(txbExistencias.Text);
-                        int valoragregado = int.Parse(txbAdd.Text);
-
-                        if (valoragregado > 0)
-                        {
-                            int total = existencias + valoragregado;
-                            string usuariopc = Environment.UserName;
-                            DateTime saveNow = DateTime.Now;
-                            string fecha = saveNow.ToShortDateString();
-                            string hora = saveNow.ToLongTimeString();
-                            cmd.Connection = conn;
-                            cmd.CommandText = "INSERT INTO elastosystem_almacenregistrosexistencias (Usuario, ID_Producto, Producto, Operacion, EDOP, Fecha, Hora, OC, Autorizo) VALUES( '" + usuariopc + "' , '" + txbID.Text + "', '" + txbProducto.Text + "' , '" + txbAdd.Text + "' , '" + total + "' , '" + fecha + "' , '" + hora + "', '" + txbNotas.Text + "' , '" + txbclave.Text + "');";
-                            cmd.ExecuteNonQuery();
-                            cmd.CommandText = "UPDATE elastosystem_almacen SET Existencias = '" + total + "' WHERE ID_Producto = '" + txbID.Text + "'";
-                            cmd.ExecuteNonQuery();
-                            txbProducto.Clear(); txbExistencias.Clear(); txbAdd.Clear(); txbNotas.Clear(); txbclave.Clear(); txbID.Clear();
-                            MessageBox.Show("PRODUCTO REGISTRADO CON EXITO");
-                        }
-                        else
-                        {
-                            int total = existencias + valoragregado;
-                            string usuariopc = Environment.UserName;
-                            DateTime saveNow = DateTime.Now;
-                            string fecha = saveNow.ToShortDateString();
-                            string hora = saveNow.ToLongTimeString();
-                            cmd.Connection = conn;
-                            cmd.CommandText = "INSERT INTO elastosystem_almacenregistrosexistencias (Usuario, ID_Producto, Producto, Operacion, EDOP, Fecha, Hora, OC, Autorizo) VALUES( '" + usuariopc + "' , '" + txbID.Text + "', '" + txbProducto.Text + "' , '" + txbAdd.Text + "', '" + total + "' , '" + fecha + "' , '" + hora + "', '" + txbNotas.Text + "' , '" + txbclave.Text + "');";
-                            cmd.ExecuteNonQuery();
-                            cmd.CommandText = "UPDATE elastosystem_almacen SET Existencias = '" + total + "' WHERE ID_Producto = '" + txbID.Text + "'";
-                            cmd.ExecuteNonQuery();
-                            txbProducto.Clear(); txbExistencias.Clear(); txbAdd.Clear(); txbNotas.Clear(); txbclave.Clear(); txbID.Clear();
-                            MessageBox.Show("PRODUCTO REGISTRADO CON EXITO");
-                        }
-
-                    }
-                    else
-                    {
-
-                    }
-                    conn.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("" + ex);
-                }
-
-                labelprueba.Text = "error";
             }
             else
             {
-                MessageBox.Show("DEBES DE LLENAR TODOS LOS CAMPOS");
+                MessageBox.Show("DEBES DE SELECCIONAR UN PRODUCTO");
+                return;
             }
-
-            MandarALlamarAlmacen();
-
         }
 
         private void txbclave_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                button2_Click(button2_Click, EventArgs.Empty);
-            }
+
         }
 
         private void dgv_DoubleClick(object sender, EventArgs e)
         {
+
+        }
+
+        private void txbBuscador_TextChanged(object sender, EventArgs e)
+        {
+            Buscador();
+        }
+
+        private void Buscador()
+        {
+            try
+            {
+                string valorBusqueda = txbBuscador.Text;
+
+                if (string.IsNullOrEmpty(valorBusqueda))
+                {
+                    MandarALlamarAlmacen();
+                }
+                else
+                {
+                    string consulta = "SELECT ID_Producto, Producto, Descripcion, Existencias, Unidad FROM elastosystem_almacen WHERE ID_Producto LIKE @VALORBUSQUEDA OR Producto LIKE @VALORBUSQUEDA OR Descripcion LIKE @VALORBUSQUEDA";
+                    MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
+                    adaptador.SelectCommand.Parameters.AddWithValue("@VALORBUSQUEDA", "%" + valorBusqueda + "%");
+                    DataSet data = new DataSet();
+                    adaptador.Fill(data, "Resultados");
+                    dgvAlmacen.DataSource = data.Tables["Resultados"];
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL BUSCAR PRODUCTO: " + ex);
+            }
+        }
+
+        private void txbAdd_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            VariablesGlobales.ValidarSoloNoyPunto(e, txbAdd);
+        }
+
+        private void dgvAlmacen_Click(object sender, EventArgs e)
+        {
+            txbID.Clear();
+            txbProducto.Clear();
+            txbExistencias.Clear();
+            txbAdd.Clear();
+            txbNotas.Clear();
+
             DataGridView dgv = (DataGridView)sender;
 
             if (dgv.SelectedCells.Count > 0)
