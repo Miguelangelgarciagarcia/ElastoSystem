@@ -24,174 +24,165 @@ namespace ElastoSystem
 
         private void MandarALlamarNombre()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            mySqlConnection.Open();
-            String id = txbNoTrabajador.Text;
-            string nombre = ""; string app = ""; string apm = "";
-            MySqlDataReader reader = null;
-            string sql = "SELECT Nombre, Apellido_Paterno, Apellido_Materno FROM elastosystem_rh WHERE ID ='" + id + "' ";
-            try
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
-                HashSet<string> unicos = new HashSet<string>();
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        nombre = reader.GetString(0);
-                        app = reader.GetString(1);
-                        apm = reader.GetString(2);
-                        lblNombreTrabajador.Text = nombre + " " + app + " " + apm;
+                conn.Open();
+                string id = txbNoTrabajador.Text;
+                string nombre = "", app = "", apm = "";
+                string sql = "SELECT Nombre, Apellido_Paterno, Apellido_Materno FROM elastosystem_rh WHERE ID = @ID";
 
+                try
+                {
+                    using (MySqlCommand comando = new MySqlCommand(sql, conn))
+                    {
+                        comando.Parameters.AddWithValue("@ID", id);
+                        using (MySqlDataReader reader = comando.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    nombre = reader.GetString(0);
+                                    app = reader.GetString(1);
+                                    apm = reader.GetString(2);
+                                    lblNombreTrabajador.Text = $"{nombre} {app} {apm}";
+                                }
+                            }
+                            else
+                            {
+                                Almacen_Control_UsuarioInvalido usuarioInvalido = new Almacen_Control_UsuarioInvalido();
+                                usuarioInvalido.ShowDialog();
+                                txbNoTrabajador.Clear();
+                                txbNoTrabajador.Focus();
+                                return;
+                            }
+                        }
                     }
                 }
-                else
+                catch (Exception ex)
                 {
+                    MessageBox.Show("ERROR AL LLAMAR NOMBRE DE TRABAJADOR: " + ex.Message);
+                    txbNoTrabajador.Clear();
+                    txbNoTrabajador.Focus();
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
             }
         }
         private void MandarALlamarProducto()
         {
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            mySqlConnection.Open();
-            String id = txbIDProducto.Text;
-            string producto = ""; string unidad = "";
-            MySqlDataReader reader = null;
-            string sql = "SELECT Producto, Unidad FROM elastosystem_almacen WHERE ID_Producto ='" + id + "' ";
-            try
-            {
-                HashSet<string> unicos = new HashSet<string>();
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        producto = reader.GetString(0);
-                        unidad = reader.GetString(1);
-                        lblNombreProducto.Text = producto;
-                        lblUnidad.Text = unidad;
-                    }
-                    ExistenciasYEnvioTemporal();
-
-                }
-                else
-                {
-                    MessageBox.Show("ID de Producto no encontrado");
-                    txbIDProducto.Clear();
-                    txbIDProducto.Focus();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-        }
-        private void ExistenciasYEnvioTemporal()
-        {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
                     conn.Open();
-                    string idProducto = txbIDProducto.Text;
-                    string sql = "SELECT Existencias FROM elastosystem_almacen WHERE ID_Producto = @IDProducto";
+                    string id = txbIDProducto.Text.Trim();
 
-                    using(MySqlCommand comando = new MySqlCommand(sql, conn))
+                    string sql = "SELECT Producto, Unidad FROM elastosystem_almacen WHERE ID_Producto = @IDPRODUCTO";
+                    using (MySqlCommand comando = new MySqlCommand(sql, conn))
                     {
-                        comando.Parameters.AddWithValue("@IDProducto", idProducto);
-                        object result = comando.ExecuteScalar();
+                        comando.Parameters.AddWithValue("@IDPRODUCTO", id);
 
-                        if(result != null)
+                        using (MySqlDataReader reader = comando.ExecuteReader())
                         {
-                            int existencias = Convert.ToInt32(result);
-                            int cantidad = 1;
-                            int total = existencias - cantidad;
-
-                            if(total > 0)
+                            if (reader.HasRows)
                             {
-                                string updateSql = "UPDATE elastosystem_almacen SET Existencias = @Total WHERE ID_Producto = @IDProducto";
-                                using(MySqlCommand updateCommand = new MySqlCommand(updateSql, conn))
+                                while (reader.Read())
                                 {
-                                    updateCommand.Parameters.AddWithValue("@Total", total);
-                                    updateCommand.Parameters.AddWithValue("@IDProducto", idProducto);
-                                    updateCommand.ExecuteNonQuery();
+                                    lblNombreProducto.Text = reader.GetString(0);
+                                    lblUnidad.Text = reader.GetString(1);
                                 }
-
-                                string checkSql = "SELECT COUNT(*) FROM elastosystem_almacenregistro_salidas_temp WHERE No_Trabajador = @NoTrabajador AND Producto = @Producto";
-                                using(MySqlCommand checkCommand = new MySqlCommand(checkSql, conn))
-                                {
-                                    checkCommand.Parameters.AddWithValue("@NoTrabajador", txbNoTrabajador.Text);
-                                    checkCommand.Parameters.AddWithValue("@Producto", lblNombreProducto.Text);
-
-                                    int cantidadExistente = Convert.ToInt32(checkCommand.ExecuteScalar());
-
-                                    if (cantidadExistente > 0)
-                                    {
-                                        string updateCantidadSql = "UPDATE elastosystem_almacenregistro_salidas_temp SET Cantidad = Cantidad + 1 WHERE No_Trabajador = @NoTrabajador AND Producto = @Producto";
-                                        using (MySqlCommand updateCantidadCommand = new MySqlCommand(updateCantidadSql, conn))
-                                        {
-                                            updateCantidadCommand.Parameters.AddWithValue("@NoTrabajador", txbNoTrabajador.Text);
-                                            updateCantidadCommand.Parameters.AddWithValue("@Producto", lblNombreProducto.Text);
-                                            updateCantidadCommand.ExecuteNonQuery();
-                                        }
-                                    }
-                                    else
-                                    {
-                                        string insertSql = "INSERT INTO elastosystem_almacenregistro_salidas_temp (No_Trabajador, Nombre, Producto, Cantidad, Fecha, Hora, Unidad) VALUES (@NoTrabajador, @Nombre, @Producto, 1, @Fecha, @Hora, @Unidad)";
-                                        using (MySqlCommand insertCommand = new MySqlCommand(insertSql, conn))
-                                        {
-                                            DateTime now = DateTime.Now;
-                                            insertCommand.Parameters.AddWithValue("@NoTrabajador", txbNoTrabajador.Text);
-                                            insertCommand.Parameters.AddWithValue("@Nombre", lblNombreTrabajador.Text);
-                                            insertCommand.Parameters.AddWithValue("@Producto", lblNombreProducto.Text);
-                                            insertCommand.Parameters.AddWithValue("@Fecha", now.ToShortDateString());
-                                            insertCommand.Parameters.AddWithValue("@Hora", now.ToLongTimeString());
-                                            insertCommand.Parameters.AddWithValue("@Unidad", lblUnidad.Text);
-                                            insertCommand.ExecuteNonQuery();
-                                        }
-                                    }
-                                }
-                                MandarALlamarBDTemporal();
-                                txbIDProducto.Clear();
-                                lblNombreProducto.Text = "Nombre Producto";
-                                lblUnidad.Text = "Unidad";
+                                ExistenciasYEnvioTemporal();
                             }
                             else
                             {
-                                MessageBox.Show("No tienes suficiente stock de este producto");
+                                Almacen_Control_ProductoInvalido productoInvalido = new Almacen_Control_ProductoInvalido();
+                                productoInvalido.ShowDialog();
                                 txbIDProducto.Clear();
                                 txbIDProducto.Focus();
                             }
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("ERROR: "+ex.Message);
+                    MessageBox.Show("ERROR AL LLAMAR PRODUCTO: " + ex.Message);
+                    txbIDProducto.Clear();
+                    txbIDProducto.Focus();
                 }
             }
         }
-        private void MandarALlamarBDTemporal()
+        private void ExistenciasYEnvioTemporal()
         {
-            string tabla = "SELECT Producto, Cantidad, Unidad FROM elastosystem_almacenregistro_salidas_temp";
-            MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
-            DataTable dt = new DataTable();
-            mySqlAdapter.Fill(dt);
-            dgvTemporal.DataSource = dt;
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string idProducto = txbIDProducto.Text.Trim();
+
+                    string sql = "SELECT Existencias, Producto, Unidad FROM elastosystem_almacen WHERE ID_Producto = @IDPRODUCTO";
+                    using (MySqlCommand comando = new MySqlCommand(sql, conn))
+                    {
+                        comando.Parameters.AddWithValue("@IDPRODUCTO", idProducto);
+                        using (MySqlDataReader reader = comando.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                int existencias = reader.GetInt32(0);
+                                string producto = reader.GetString(1);
+                                string unidad = reader.GetString(2);
+
+                                if (existencias <= 0)
+                                {
+                                    Almacen_Control_StockInsuficiente stockInsuficiente = new Almacen_Control_StockInsuficiente();
+                                    stockInsuficiente.ShowDialog();
+                                    txbIDProducto.Clear();
+                                    txbIDProducto.Focus();
+                                    return;
+                                }
+
+                                reader.Close();
+
+                                string updateSql = "UPDATE elastosystem_almacen SET Existencias = Existencias - 1 WHERE ID_Producto = @IDPRODUCTO";
+                                using (MySqlCommand updateCommand = new MySqlCommand(updateSql, conn))
+                                {
+                                    updateCommand.Parameters.AddWithValue("@IDPRODUCTO", idProducto);
+                                    updateCommand.ExecuteNonQuery();
+                                }
+
+                                bool productoEncontrado = false;
+                                foreach (DataGridViewRow row in dgvLista.Rows)
+                                {
+                                    if (row.Cells["ID_Producto"].Value != null && row.Cells["ID_Producto"].Value.ToString() == idProducto)
+                                    {
+                                        int cantidadActual = Convert.ToInt32(row.Cells["Cantidad"].Value);
+                                        row.Cells["Cantidad"].Value = cantidadActual + 1;
+                                        productoEncontrado = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!productoEncontrado)
+                                {
+                                    dgvLista.Rows.Add(idProducto, 1, producto, unidad);
+                                }
+
+                                txbIDProducto.Clear();
+                                txbIDProducto.Focus();
+                            }
+                            else
+                            {
+                                MessageBox.Show("ID de producto no encontrado en la base de datos");
+                                txbIDProducto.Clear();
+                                txbIDProducto.Focus();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL LLAMAR EXISTENCIAS Y ENVIAR A TEMPORAL: " + ex.Message);
+                }
+            }
         }
         private void OrdenTabuladores()
         {
@@ -205,32 +196,14 @@ namespace ElastoSystem
             txbNoTrabajador.Clear();
             txbIDProducto.Clear();
             txbNota.Clear();
-            dgvTemporal.DataSource = null;
-            dgvTemporal.Rows.Clear();
-            dgvTemporal.Columns.Clear();
+
+            dgvLista.DataSource = null;
+            dgvLista.Rows.Clear();
+
             txbNoTrabajador.Focus();
             lblNombreTrabajador.Text = string.Empty;
             lblNombreProducto.Text = string.Empty;
             lblUnidad.Text = string.Empty;
-        }
-        private void LimpiarBDTemporal()
-        {
-            try
-            {
-                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-                mySqlConnection.Open();
-                MySqlCommand comando = new MySqlCommand();
-                comando.Connection = mySqlConnection;
-                comando.CommandText = "DELETE FROM elastosystem_almacenregistro_salidas_temp";
-                comando.ExecuteNonQuery();
-                mySqlConnection.Close();
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show(ee.Message);
-                MessageBox.Show("ERROR AL LIMPIAR BASE DE DATOS TEMPORAL");
-                this.Hide();
-            }
         }
         private void MandaALlamarBDSalidas()
         {
@@ -240,10 +213,18 @@ namespace ElastoSystem
             mySqlAdapter.Fill(dt);
             dgvBD.DataSource = dt;
             dt.DefaultView.Sort = "Folio DESC";
+            dgvBD.Columns["Folio"].Visible = false;
+            dgvBD.Columns["No_Trabajador"].Visible = false;
+            dgvBD.Columns["Fecha"].Visible = false;
+            dgvBD.Columns["Hora"].Visible = false;
+            dgvBD.Columns["Fechas"].HeaderText = "Fecha";
+            dgvBD.Columns["Horas"].HeaderText = "Hora";
         }
 
         private void txbNoTrabajador_KeyPress(object sender, KeyPressEventArgs e)
         {
+            VariablesGlobales.ValidarNumeroEntero(e, txbNoTrabajador);
+
             if (e.KeyChar == (char)Keys.Enter)
             {
                 string texto = txbNoTrabajador.Text;
@@ -264,10 +245,12 @@ namespace ElastoSystem
         }
         private void txbIDProducto_KeyPress(object sender, KeyPressEventArgs e)
         {
+            VariablesGlobales.ValidarNumeroEntero(e, txbIDProducto);
+
             if (e.KeyChar == (char)Keys.Enter)
             {
                 string texto = txbIDProducto.Text;
-                if(texto.Contains(Environment.NewLine))
+                if (texto.Contains(Environment.NewLine))
                 {
                     texto = texto.Replace(Environment.NewLine, "");
                     txbIDProducto.Text = texto;
@@ -325,7 +308,6 @@ namespace ElastoSystem
 
             });
 
-            LimpiarBDTemporal();
             MandaALlamarBDSalidas();
             OrdenTabuladores();
 
@@ -460,24 +442,40 @@ namespace ElastoSystem
         {
             try
             {
-                MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-                mySqlConnection.Open();
-                MySqlCommand comando = new MySqlCommand();
-                comando.Connection = mySqlConnection;
-                comando.CommandText = "INSERT INTO elastosystem_almacenregistro_salidas (No_Trabajador, Nombre, Producto, Cantidad, Fecha, Hora, Nota, Unidad) SELECT No_Trabajador, Nombre, Producto, Cantidad, Fecha, Hora, @Nota, Unidad FROM elastosystem_almacenregistro_salidas_temp;";
-                comando.Parameters.AddWithValue("@Nota", txbNota.Text);
-                comando.ExecuteNonQuery();
-                mySqlConnection.Close();
-                MessageBox.Show("Requerimiento de Trabajador No. " + txbNoTrabajador.Text + " surtido exitosamente");
+                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    foreach (DataGridViewRow row in dgvLista.Rows)
+                    {
+                        string query = @"INSERT INTO elastosystem_almacenregistro_salidas
+                                        (No_Trabajador, Nombre, Producto, Cantidad, Fechas, Horas, Nota, Unidad)
+                                        VALUES
+                                        (@NO_TRABAJADOR, @NOMBRE, @PRODUCTO, @CANTIDAD, @FECHA, @HORA, @NOTA, @UNIDAD)";
+
+                        using(MySqlCommand comando = new MySqlCommand(query, conn))
+                        {
+                            comando.Parameters.AddWithValue("@NO_TRABAJADOR", txbNoTrabajador.Text);
+                            comando.Parameters.AddWithValue("@NOMBRE", lblNombreTrabajador.Text);
+                            comando.Parameters.AddWithValue("@PRODUCTO", row.Cells["Producto"].Value.ToString());
+                            comando.Parameters.AddWithValue("@CANTIDAD", Convert.ToInt32(row.Cells["Cantidad"].Value));
+                            comando.Parameters.AddWithValue("@UNIDAD", row.Cells["Unidad"].Value.ToString());
+                            comando.Parameters.AddWithValue("@FECHA", DateTime.Now.ToString("yyyy-MM-dd"));
+                            comando.Parameters.AddWithValue("@HORA", DateTime.Now.ToString("HH:mm:ss"));
+                            comando.Parameters.AddWithValue("@NOTA", txbNota.Text);
+
+                            comando.ExecuteNonQuery();
+                        }
+                    }
+                    conn.Close();
+                    MandaALlamarBDSalidas();
+                    LimpiarYReinicar();
+                }
             }
-            catch (Exception ee)
+            catch(Exception ex)
             {
-                MessageBox.Show(ee.Message);
-                MessageBox.Show("ERROR AL SURTIR MATERIAL");
+                MessageBox.Show("ERROR AL SURTIR MATERIAL: " + ex.Message);
             }
-            LimpiarBDTemporal();
-            MandaALlamarBDSalidas();
-            LimpiarYReinicar();
         }
 
         private void txbNoTrabajador_KeyDown(object sender, KeyEventArgs e)
@@ -490,6 +488,53 @@ namespace ElastoSystem
             if (e.KeyCode == Keys.Tab)
             {
                 MandarALlamarNombre();
+            }
+        }
+
+        private void dgvLista_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || dgvLista.Rows.Count == 0) return;
+
+            DataGridViewRow fila = dgvLista.Rows[e.RowIndex];
+
+            string idProducto = fila.Cells["ID_Producto"].Value?.ToString();
+            if (string.IsNullOrEmpty(idProducto)) return;
+
+            int cantidadActual = Convert.ToInt32(fila.Cells["Cantidad"].Value);
+
+            cantidadActual--;
+
+            if (cantidadActual == 0)
+            {
+                dgvLista.Rows.RemoveAt(e.RowIndex);
+            }
+            else
+            {
+                fila.Cells["Cantidad"].Value = cantidadActual;
+            }
+
+            ActualizarExistencia(idProducto);
+        }
+
+        private void ActualizarExistencia(string idProducto)
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string updateSql = "UPDATE elastosystem_almacen SET Existencias = Existencias + 1 WHERE ID_Producto = @IDPRODUCTO";
+
+                    using (MySqlCommand updateCommand = new MySqlCommand(updateSql, conn))
+                    {
+                        updateCommand.Parameters.AddWithValue("@IDPRODUCTO", idProducto);
+                        updateCommand.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ACTUALIZAR EXISTENCIAS: " + ex.Message);
+                }
             }
         }
     }
