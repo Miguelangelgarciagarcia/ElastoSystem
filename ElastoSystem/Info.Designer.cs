@@ -91,7 +91,7 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Montserrat", 27F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Montserrat", 27F, FontStyle.Bold);
             label1.ForeColor = Color.White;
             label1.Location = new Point(12, 53);
             label1.Name = "label1";
@@ -114,19 +114,19 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Font = new Font("Montserrat", 9F);
             label2.ForeColor = Color.White;
             label2.Location = new Point(24, 131);
             label2.Name = "label2";
-            label2.Size = new Size(157, 16);
+            label2.Size = new Size(164, 16);
             label2.TabIndex = 3;
-            label2.Text = "Elasto System Version 4.1";
+            label2.Text = "Elasto System Version 4.1.1";
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.Font = new Font("Montserrat", 9F);
             label3.ForeColor = Color.White;
             label3.Location = new Point(24, 176);
             label3.Name = "label3";
@@ -138,7 +138,7 @@
             // 
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Font = new Font("Montserrat", 9F);
             label4.ForeColor = Color.White;
             label4.Location = new Point(24, 192);
             label4.Name = "label4";
@@ -150,7 +150,7 @@
             // 
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
-            label5.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Font = new Font("Montserrat", 9F);
             label5.ForeColor = Color.White;
             label5.Location = new Point(24, 208);
             label5.Name = "label5";
@@ -162,7 +162,7 @@
             // 
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label6.Font = new Font("Montserrat", 9F);
             label6.ForeColor = Color.White;
             label6.Location = new Point(24, 224);
             label6.Name = "label6";
@@ -175,7 +175,7 @@
             // 
             label7.AutoSize = true;
             label7.BackColor = Color.Transparent;
-            label7.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label7.Font = new Font("Montserrat", 9F);
             label7.ForeColor = Color.White;
             label7.Location = new Point(24, 240);
             label7.Name = "label7";
@@ -187,19 +187,19 @@
             // 
             label8.AutoSize = true;
             label8.BackColor = Color.Transparent;
-            label8.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label8.Font = new Font("Montserrat", 9F);
             label8.ForeColor = Color.White;
             label8.Location = new Point(24, 147);
             label8.Name = "label8";
-            label8.Size = new Size(183, 16);
+            label8.Size = new Size(185, 16);
             label8.TabIndex = 9;
-            label8.Text = "Última actualización 07/02/25";
+            label8.Text = "Última actualización 04/03/25";
             // 
             // lblConexion
             // 
             lblConexion.AutoSize = true;
             lblConexion.BackColor = Color.Transparent;
-            lblConexion.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            lblConexion.Font = new Font("Montserrat", 9F);
             lblConexion.ForeColor = Color.White;
             lblConexion.Location = new Point(24, 103);
             lblConexion.Name = "lblConexion";
