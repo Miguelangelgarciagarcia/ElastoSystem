@@ -30,16 +30,13 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            label1 = new Label();
-            cbApellidoPaterno = new ComboBox();
             Nombre = new Label();
-            cbNombre = new ComboBox();
             label2 = new Label();
-            txtbNoTrabajador = new TextBox();
-            checkBox1 = new CheckBox();
+            txbNoTrabajador = new TextBox();
+            chbTodosTrabajadores = new CheckBox();
             label3 = new Label();
             cbProducto = new ComboBox();
-            checkBox2 = new CheckBox();
+            chbTodosProductos = new CheckBox();
             label4 = new Label();
             label5 = new Label();
             txtbFechaInicio = new TextBox();
@@ -54,6 +51,7 @@
             Calendario2 = new MonthCalendar();
             pbCalendario2Cerrar = new PictureBox();
             button1 = new Button();
+            cbNombreCompleto = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbCalendario1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbCalendario2).BeginInit();
@@ -61,90 +59,59 @@
             ((System.ComponentModel.ISupportInitialize)pbCalendario2Cerrar).BeginInit();
             SuspendLayout();
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(36, 32);
-            label1.Name = "label1";
-            label1.Size = new Size(172, 26);
-            label1.TabIndex = 0;
-            label1.Text = "Apellido Paterno";
-            // 
-            // cbApellidoPaterno
-            // 
-            cbApellidoPaterno.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            cbApellidoPaterno.FormattingEnabled = true;
-            cbApellidoPaterno.Location = new Point(36, 61);
-            cbApellidoPaterno.Name = "cbApellidoPaterno";
-            cbApellidoPaterno.Size = new Size(280, 34);
-            cbApellidoPaterno.TabIndex = 1;
-            cbApellidoPaterno.SelectedIndexChanged += cbApellidoPaterno_SelectedIndexChanged;
-            // 
             // Nombre
             // 
             Nombre.AutoSize = true;
             Nombre.BackColor = Color.Transparent;
-            Nombre.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            Nombre.Font = new Font("Montserrat", 14F);
             Nombre.ForeColor = Color.White;
-            Nombre.Location = new Point(386, 32);
+            Nombre.Location = new Point(36, 32);
             Nombre.Name = "Nombre";
             Nombre.Size = new Size(91, 26);
             Nombre.TabIndex = 2;
             Nombre.Text = "Nombre";
             // 
-            // cbNombre
-            // 
-            cbNombre.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            cbNombre.FormattingEnabled = true;
-            cbNombre.Location = new Point(386, 60);
-            cbNombre.Name = "cbNombre";
-            cbNombre.Size = new Size(280, 34);
-            cbNombre.TabIndex = 3;
-            cbNombre.SelectedIndexChanged += cbNombre_SelectedIndexChanged;
-            // 
             // label2
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Font = new Font("Montserrat", 14F);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(746, 32);
+            label2.Location = new Point(622, 32);
             label2.Name = "label2";
             label2.Size = new Size(150, 26);
             label2.TabIndex = 4;
             label2.Text = "No. Trabajador";
             // 
-            // txtbNoTrabajador
+            // txbNoTrabajador
             // 
-            txtbNoTrabajador.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            txtbNoTrabajador.Location = new Point(746, 61);
-            txtbNoTrabajador.Name = "txtbNoTrabajador";
-            txtbNoTrabajador.Size = new Size(280, 30);
-            txtbNoTrabajador.TabIndex = 5;
+            txbNoTrabajador.Font = new Font("Montserrat", 14F);
+            txbNoTrabajador.Location = new Point(622, 61);
+            txbNoTrabajador.Name = "txbNoTrabajador";
+            txbNoTrabajador.ReadOnly = true;
+            txbNoTrabajador.Size = new Size(165, 30);
+            txbNoTrabajador.TabIndex = 5;
             // 
-            // checkBox1
+            // chbTodosTrabajadores
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.BackColor = Color.Transparent;
-            checkBox1.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
-            checkBox1.ForeColor = Color.White;
-            checkBox1.Location = new Point(36, 101);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(261, 30);
-            checkBox1.TabIndex = 6;
-            checkBox1.Text = "Todos Los Trabajadores";
-            checkBox1.UseVisualStyleBackColor = false;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-            checkBox1.CheckStateChanged += checkBox1_CheckStateChanged;
+            chbTodosTrabajadores.AutoSize = true;
+            chbTodosTrabajadores.BackColor = Color.Transparent;
+            chbTodosTrabajadores.Font = new Font("Montserrat", 14F, FontStyle.Bold);
+            chbTodosTrabajadores.ForeColor = Color.White;
+            chbTodosTrabajadores.Location = new Point(36, 101);
+            chbTodosTrabajadores.Name = "chbTodosTrabajadores";
+            chbTodosTrabajadores.Size = new Size(261, 30);
+            chbTodosTrabajadores.TabIndex = 6;
+            chbTodosTrabajadores.Text = "Todos Los Trabajadores";
+            chbTodosTrabajadores.UseVisualStyleBackColor = false;
+            chbTodosTrabajadores.CheckedChanged += checkBox1_CheckedChanged;
+            chbTodosTrabajadores.CheckStateChanged += checkBox1_CheckStateChanged;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.Font = new Font("Montserrat", 14F);
             label3.ForeColor = Color.White;
             label3.Location = new Point(36, 137);
             label3.Name = "label3";
@@ -154,32 +121,33 @@
             // 
             // cbProducto
             // 
-            cbProducto.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            cbProducto.Font = new Font("Montserrat", 14F);
             cbProducto.FormattingEnabled = true;
             cbProducto.Location = new Point(36, 166);
             cbProducto.Name = "cbProducto";
             cbProducto.Size = new Size(280, 34);
             cbProducto.TabIndex = 8;
+            cbProducto.TextChanged += cbProducto_TextChanged;
             // 
-            // checkBox2
+            // chbTodosProductos
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.BackColor = Color.Transparent;
-            checkBox2.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
-            checkBox2.ForeColor = Color.White;
-            checkBox2.Location = new Point(36, 206);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(233, 30);
-            checkBox2.TabIndex = 9;
-            checkBox2.Text = "Todos Los Productos";
-            checkBox2.UseVisualStyleBackColor = false;
-            checkBox2.CheckedChanged += checkBox2_CheckedChanged;
+            chbTodosProductos.AutoSize = true;
+            chbTodosProductos.BackColor = Color.Transparent;
+            chbTodosProductos.Font = new Font("Montserrat", 14F, FontStyle.Bold);
+            chbTodosProductos.ForeColor = Color.White;
+            chbTodosProductos.Location = new Point(36, 206);
+            chbTodosProductos.Name = "chbTodosProductos";
+            chbTodosProductos.Size = new Size(233, 30);
+            chbTodosProductos.TabIndex = 9;
+            chbTodosProductos.Text = "Todos Los Productos";
+            chbTodosProductos.UseVisualStyleBackColor = false;
+            chbTodosProductos.CheckedChanged += checkBox2_CheckedChanged;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Font = new Font("Montserrat", 14F);
             label4.ForeColor = Color.White;
             label4.Location = new Point(386, 137);
             label4.Name = "label4";
@@ -191,7 +159,7 @@
             // 
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
-            label5.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Font = new Font("Montserrat", 14F);
             label5.ForeColor = Color.White;
             label5.Location = new Point(746, 137);
             label5.Name = "label5";
@@ -201,7 +169,8 @@
             // 
             // txtbFechaInicio
             // 
-            txtbFechaInicio.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            txtbFechaInicio.Enabled = false;
+            txtbFechaInicio.Font = new Font("Montserrat", 14F);
             txtbFechaInicio.Location = new Point(386, 170);
             txtbFechaInicio.Name = "txtbFechaInicio";
             txtbFechaInicio.Size = new Size(280, 30);
@@ -209,7 +178,8 @@
             // 
             // txtbFechaTermino
             // 
-            txtbFechaTermino.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            txtbFechaTermino.Enabled = false;
+            txtbFechaTermino.Font = new Font("Montserrat", 14F);
             txtbFechaTermino.Location = new Point(746, 170);
             txtbFechaTermino.Name = "txtbFechaTermino";
             txtbFechaTermino.Size = new Size(280, 30);
@@ -219,7 +189,7 @@
             // 
             checkBox3.AutoSize = true;
             checkBox3.BackColor = Color.Transparent;
-            checkBox3.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            checkBox3.Font = new Font("Montserrat", 14F, FontStyle.Bold);
             checkBox3.ForeColor = Color.White;
             checkBox3.Location = new Point(637, 206);
             checkBox3.Name = "checkBox3";
@@ -231,11 +201,12 @@
             // 
             // dgv
             // 
+            dgv.AllowUserToAddRows = false;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv.BackgroundColor = Color.White;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
@@ -247,12 +218,11 @@
             dgv.RowHeadersVisible = false;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Montserrat", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.Font = new Font("Montserrat", 8.999999F);
             dataGridViewCellStyle2.ForeColor = Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
             dataGridViewCellStyle2.SelectionForeColor = Color.White;
             dgv.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            dgv.RowTemplate.Height = 25;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.Size = new Size(1260, 489);
             dgv.TabIndex = 15;
@@ -262,7 +232,7 @@
             btnbuscar.BackColor = Color.FromArgb(255, 102, 0);
             btnbuscar.FlatAppearance.BorderSize = 0;
             btnbuscar.FlatStyle = FlatStyle.Flat;
-            btnbuscar.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            btnbuscar.Font = new Font("Montserrat", 14F, FontStyle.Bold);
             btnbuscar.ForeColor = Color.White;
             btnbuscar.Location = new Point(1104, 161);
             btnbuscar.Name = "btnbuscar";
@@ -300,7 +270,7 @@
             // 
             // Calendario1
             // 
-            Calendario1.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            Calendario1.Font = new Font("Montserrat", 14F);
             Calendario1.Location = new Point(408, 205);
             Calendario1.Name = "Calendario1";
             Calendario1.TabIndex = 23;
@@ -321,7 +291,7 @@
             // 
             // Calendario2
             // 
-            Calendario2.Font = new Font("Montserrat", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            Calendario2.Font = new Font("Montserrat", 14F);
             Calendario2.Location = new Point(769, 205);
             Calendario2.Name = "Calendario2";
             Calendario2.TabIndex = 25;
@@ -345,7 +315,7 @@
             button1.BackColor = Color.FromArgb(255, 102, 0);
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            button1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             button1.ForeColor = Color.White;
             button1.Location = new Point(1073, 770);
             button1.Name = "button1";
@@ -355,16 +325,28 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click_1;
             // 
+            // cbNombreCompleto
+            // 
+            cbNombreCompleto.Font = new Font("Montserrat", 14F);
+            cbNombreCompleto.FormattingEnabled = true;
+            cbNombreCompleto.Location = new Point(36, 61);
+            cbNombreCompleto.Name = "cbNombreCompleto";
+            cbNombreCompleto.Size = new Size(536, 34);
+            cbNombreCompleto.TabIndex = 28;
+            cbNombreCompleto.SelectedIndexChanged += cbNombreCompleto_SelectedIndexChanged;
+            cbNombreCompleto.TextChanged += cbNombreCompleto_TextChanged;
+            // 
             // AlmacenBuscadorRegistrosTrabajadores
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
-            Controls.Add(button1);
             Controls.Add(pbCalendario2Cerrar);
-            Controls.Add(Calendario2);
             Controls.Add(pbCalendario1Cerrar);
+            Controls.Add(cbNombreCompleto);
+            Controls.Add(button1);
+            Controls.Add(Calendario2);
             Controls.Add(Calendario1);
             Controls.Add(pbCalendario2);
             Controls.Add(pbCalendario1);
@@ -375,16 +357,13 @@
             Controls.Add(txtbFechaInicio);
             Controls.Add(label5);
             Controls.Add(label4);
-            Controls.Add(checkBox2);
+            Controls.Add(chbTodosProductos);
             Controls.Add(cbProducto);
             Controls.Add(label3);
-            Controls.Add(checkBox1);
-            Controls.Add(txtbNoTrabajador);
+            Controls.Add(chbTodosTrabajadores);
+            Controls.Add(txbNoTrabajador);
             Controls.Add(label2);
-            Controls.Add(cbNombre);
             Controls.Add(Nombre);
-            Controls.Add(cbApellidoPaterno);
-            Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "AlmacenBuscadorRegistrosTrabajadores";
             Text = "AlmacenBuscadorRegistrosTrabajadores";
@@ -405,17 +384,13 @@
         }
 
         #endregion
-
-        private Label label1;
-        private ComboBox cbApellidoPaterno;
         private Label Nombre;
-        private ComboBox cbNombre;
         private Label label2;
-        private TextBox txtbNoTrabajador;
-        private CheckBox checkBox1;
+        private TextBox txbNoTrabajador;
+        private CheckBox chbTodosTrabajadores;
         private Label label3;
         private ComboBox cbProducto;
-        private CheckBox checkBox2;
+        private CheckBox chbTodosProductos;
         private Label label4;
         private Label label5;
         private TextBox txtbFechaInicio;
@@ -430,5 +405,6 @@
         private MonthCalendar Calendario2;
         private PictureBox pbCalendario2Cerrar;
         private Button button1;
+        private ComboBox cbNombreCompleto;
     }
 }

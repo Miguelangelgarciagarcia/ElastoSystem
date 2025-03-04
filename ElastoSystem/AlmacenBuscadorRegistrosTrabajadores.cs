@@ -16,6 +16,7 @@ using System.Drawing.Text;
 using SpreadsheetLight;
 using System.Net.Mail;
 using System.Net;
+using DocumentFormat.OpenXml.Math;
 
 namespace ElastoSystem
 {
@@ -27,142 +28,44 @@ namespace ElastoSystem
         {
             InitializeComponent();
         }
-        private void MandarALlamarApellido()
+        
+        private void MandarALlamarProductos()
         {
-            cbNombre.Items.Clear(); txtbNoTrabajador.Clear();
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            string sql = "SELECT Apellido_Paterno FROM elastosystem_rh";
             try
             {
-                HashSet<string> unicos = new HashSet<string>();
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                 {
-                    while (reader.Read())
+                    conn.Open();
+                    string sql = "SELECT Producto FROM elastosystem_almacen";
+
+                    using (MySqlCommand comando = new MySqlCommand(sql, conn))
+                    using (MySqlDataReader reader = comando.ExecuteReader())
                     {
-                        string apellidopat = reader["Apellido_Paterno"].ToString();
+                        AutoCompleteStringCollection autoCompleteCollection = new AutoCompleteStringCollection();
 
-                        if (!unicos.Contains(apellidopat))
+                        while (reader.Read())
                         {
-                            cbApellidoPaterno.Items.Add(apellidopat);
-                            unicos.Add(apellidopat);
+                            string producto = reader["Producto"].ToString();
+                            cbProducto.Items.Add(producto);
+                            autoCompleteCollection.Add(producto);
                         }
-                        else
-                        {
 
-                        }
-                        cbApellidoPaterno.Sorted = true;
+                        cbProducto.Sorted = true;
 
-
+                        cbProducto.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        cbProducto.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        cbProducto.AutoCompleteCustomSource = autoCompleteCollection;
                     }
-
-                }
-                else
-                {
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("ERROR AL CARGAR PRODUCTOS: " + ex.Message);
             }
-            mySqlConnection.Close();
-        }
-        private void MandarALlamarNombre()
-        {
-            txtbNoTrabajador.Clear(); cbNombre.Items.Clear();
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            mySqlConnection.Open();
-            String Nombre = cbApellidoPaterno.Text;
-            MySqlDataReader reader = null;
-            string sql = "SELECT Nombre FROM elastosystem_rh WHERE Apellido_Paterno LIKE '" + Nombre + "' ";
-            try
-            {
-                HashSet<string> unicos = new HashSet<string>();
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        cbNombre.Items.Add(reader["Nombre"].ToString());
-
-
-                    }
-                    cbNombre.Sorted = true;
-                }
-                else
-                {
-                }
-            }
-            catch
-            {
-            }
-            mySqlConnection.Close();
-        }
-        private void MandarALlamarNoTrabajador()
-        {
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            mySqlConnection.Open();
-            String nombre = cbNombre.Text;
-            String apellido_paterno = cbApellidoPaterno.Text;
-            MySqlDataReader reader = null;
-            string sql = "SELECT ID FROM elastosystem_rh WHERE Nombre ='" + nombre + "' AND Apellido_Paterno ='" + apellido_paterno + "'  ";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        txtbNoTrabajador.Text = reader.GetString(0);
-
-                    }
-
-                }
-                else
-                {
-                }
-            }
-            catch
-            {
-            }
-            mySqlConnection.Close();
-        }
-        private void MandarALlamarProductos()
-        {
-            MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            mySqlConnection.Open();
-            MySqlDataReader reader = null;
-            string sql = "SELECT Producto FROM elastosystem_almacen";
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(sql, mySqlConnection);
-                reader = comando.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        cbProducto.Items.Add(reader["Producto"].ToString());
-                    }
-                    cbProducto.Sorted = true;
-
-                }
-                else
-                {
-                }
-            }
-            catch
-            {
-            }
-            mySqlConnection.Close();
         }
         private void AlmacenBuscadorRegistrosTrabajadores_Load(object sender, EventArgs e)
         {
-            MandarALlamarApellido();
+            MandarALlamarNombreCompleto();
             MandarALlamarProductos();
             Calendario1.Visible = false;
             Calendario2.Visible = false;
@@ -170,14 +73,55 @@ namespace ElastoSystem
             pbCalendario2Cerrar.Visible = false;
         }
 
+        private Dictionary<int, string> empleadosDict = new Dictionary<int, string>();
+        private void MandarALlamarNombreCompleto()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = "SELECT ID, Nombre, Apellido_Paterno, Apellido_Materno FROM elastosystem_rh";
+
+                    using (MySqlCommand comando = new MySqlCommand(query, conn))
+                    using (MySqlDataReader reader = comando.ExecuteReader())
+                    {
+                        empleadosDict.Clear();
+                        cbNombreCompleto.Items.Clear();
+
+                        List<string> nombresOrtdenados = new List<string>();
+
+                        while (reader.Read())
+                        {
+                            int id = reader.GetInt32("ID");
+                            string nombreCompleto = $"{reader.GetString("Nombre")} {reader.GetString("Apellido_Paterno")} {reader.GetString("Apellido_Materno")}";
+
+                            empleadosDict[id] = nombreCompleto;
+                            nombresOrtdenados.Add(nombreCompleto);
+                        }
+                        nombresOrtdenados.Sort();
+                        cbNombreCompleto.Items.AddRange(nombresOrtdenados.ToArray());
+                    }
+                }
+
+                cbNombreCompleto.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbNombreCompleto.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL CARGAR EMPLEADOS: " + ex.Message);
+            }
+        }
+
         private void cbApellidoPaterno_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MandarALlamarNombre();
+
         }
 
         private void cbNombre_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MandarALlamarNoTrabajador();
+
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -229,26 +173,37 @@ namespace ElastoSystem
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            cbApellidoPaterno.Text = string.Empty;
-            cbNombre.Text = string.Empty;
-            txtbNoTrabajador.Text = string.Empty;
-            cbApellidoPaterno.Enabled = !checkBox1.Checked;
-            cbNombre.Enabled = !checkBox1.Checked;
-            txtbNoTrabajador.Enabled = !checkBox1.Checked;
+            if (chbTodosTrabajadores.Checked)
+            {
+                txbNoTrabajador.Text = string.Empty;
+                cbNombreCompleto.Text = string.Empty;
+                cbNombreCompleto.Enabled = false;
+            }
+            else
+            {
+                cbNombreCompleto.Enabled = true;
+            }
+
+                
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            cbProducto.Text = string.Empty;
-            cbProducto.Enabled = !checkBox2.Checked;
+            if (chbTodosProductos.Checked)
+            {
+                cbProducto.Text = string.Empty;
+                cbProducto.Enabled = false;
+            }
+            else
+            {
+                cbProducto.Enabled = true;
+            }
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
             txtbFechaInicio.Text = string.Empty;
             txtbFechaTermino.Text = string.Empty;
-            txtbFechaInicio.Enabled = !checkBox3.Checked;
-            txtbFechaTermino.Enabled = !checkBox3.Checked;
             pbCalendario1.Enabled = !checkBox3.Checked;
             pbCalendario1Cerrar.Enabled = !checkBox3.Checked;
             pbCalendario2.Enabled = !checkBox3.Checked;
@@ -258,94 +213,138 @@ namespace ElastoSystem
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             Calendario1.Visible = false;
             Calendario2.Visible = false;
             MySqlConnection mySqlConnection = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             mySqlConnection.Open();
-            if (checkBox1.Checked & checkBox2.Checked & checkBox3.Checked)
+            if (chbTodosTrabajadores.Checked & chbTodosProductos.Checked & checkBox3.Checked)
             {
-                string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas";
+                string tabla = "SELECT Folio, No_Trabajador, Nombre, Producto, Cantidad, Unidad, Nota, Fechas, Horas FROM elastosystem_almacenregistro_salidas";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
+                dgv.Columns["Folio"].Visible = false;
+                dgv.Columns["No_Trabajador"].Visible = false;
+                dgv.Columns["Fechas"].HeaderText = "Fecha";
+                dgv.Columns["Horas"].HeaderText = "Hora";
             }
-            else if (!string.IsNullOrEmpty(txtbNoTrabajador.Text) & checkBox2.Checked & checkBox3.Checked)
+            else if (!string.IsNullOrEmpty(txbNoTrabajador.Text) & chbTodosProductos.Checked & checkBox3.Checked)
             {
-                String no_traba = txtbNoTrabajador.Text;
-                string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE No_Trabajador = '" + no_traba + "'";
+                String no_traba = txbNoTrabajador.Text;
+                string tabla = "SELECT Folio, No_Trabajador, Nombre, Producto, Cantidad, Unidad, Nota, Fechas, Horas FROM elastosystem_almacenregistro_salidas WHERE No_Trabajador = '" + no_traba + "'";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
+                dgv.Columns["Folio"].Visible = false;
+                dgv.Columns["No_Trabajador"].Visible = false;
+                dgv.Columns["Fechas"].HeaderText = "Fecha";
+                dgv.Columns["Horas"].HeaderText = "Hora";
             }
-            else if (cbProducto.SelectedIndex != -1 & !string.IsNullOrEmpty(txtbNoTrabajador.Text) & checkBox3.Checked)
+            else if (cbProducto.SelectedIndex != -1 & !string.IsNullOrEmpty(txbNoTrabajador.Text) & checkBox3.Checked)
             {
-                String no_traba = txtbNoTrabajador.Text;
+                String no_traba = txbNoTrabajador.Text;
                 string producto = cbProducto.Text;
-                string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE No_Trabajador = '" + no_traba + "'AND Producto = '" + producto + "'";
+                string tabla = "SELECT Folio, No_Trabajador, Nombre, Producto, Cantidad, Unidad, Nota, Fechas, Horas FROM elastosystem_almacenregistro_salidas WHERE No_Trabajador = '" + no_traba + "'AND Producto = '" + producto + "'";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
+                dgv.Columns["Folio"].Visible = false;
+                dgv.Columns["No_Trabajador"].Visible = false;
+                dgv.Columns["Fechas"].HeaderText = "Fecha";
+                dgv.Columns["Horas"].HeaderText = "Hora";
             }
-            else if (checkBox1.Checked & cbProducto.SelectedIndex != -1 & checkBox3.Checked)
+            else if (chbTodosTrabajadores.Checked & cbProducto.SelectedIndex != -1 & checkBox3.Checked)
             {
                 string producto = cbProducto.Text;
-                string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE Producto = '" + producto + "'";
+                string tabla = "SELECT Folio, No_Trabajador, Nombre, Producto, Cantidad, Unidad, Nota, Fechas, Horas FROM elastosystem_almacenregistro_salidas WHERE Producto = '" + producto + "'";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
+                dgv.Columns["Folio"].Visible = false;
+                dgv.Columns["No_Trabajador"].Visible = false;
+                dgv.Columns["Fechas"].HeaderText = "Fecha";
+                dgv.Columns["Horas"].HeaderText = "Hora";
 
             }
-            else if (checkBox1.Checked & checkBox2.Checked & !string.IsNullOrEmpty(txtbFechaInicio.Text) & !string.IsNullOrEmpty(txtbFechaTermino.Text))
+            //////////////////////////////////////////////////////////
+            else if (chbTodosTrabajadores.Checked & chbTodosProductos.Checked & !string.IsNullOrEmpty(txtbFechaInicio.Text) & !string.IsNullOrEmpty(txtbFechaTermino.Text))
             {
-                string fechaini = txtbFechaInicio.Text;
-                string fechafin = txtbFechaTermino.Text;
+                DateTime fechaInicio = DateTime.ParseExact(txtbFechaInicio.Text, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                DateTime fechaFin = DateTime.ParseExact(txtbFechaTermino.Text, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
-                string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE Fecha >= '" + fechaini + "' AND Fecha <= '" + fechafin + "'";
+                string fechaini = fechaInicio.ToString("yyyy-MM-dd");
+                string fechafin = fechaFin.ToString("yyyy-MM-dd");
+
+                string tabla = "SELECT Folio, No_Trabajador, Nombre, Producto, Cantidad, Unidad, Nota, Fechas, Horas FROM elastosystem_almacenregistro_salidas WHERE Fechas >= '" + fechaini + "' AND Fechas <= '" + fechafin + "'";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
+                dgv.Columns["Folio"].Visible = false;
+                dgv.Columns["No_Trabajador"].Visible = false;
+                dgv.Columns["Fechas"].HeaderText = "Fecha";
+                dgv.Columns["Horas"].HeaderText = "Hora";
 
 
             }
-            else if (!string.IsNullOrEmpty(txtbNoTrabajador.Text) & checkBox2.Checked & !string.IsNullOrEmpty(txtbFechaInicio.Text) & !string.IsNullOrEmpty(txtbFechaTermino.Text))
+            else if (!string.IsNullOrEmpty(txbNoTrabajador.Text) & chbTodosProductos.Checked & !string.IsNullOrEmpty(txtbFechaInicio.Text) & !string.IsNullOrEmpty(txtbFechaTermino.Text))
             {
-                string no_traba = txtbNoTrabajador.Text;
-                string fechaini = txtbFechaInicio.Text;
-                string fechafin = txtbFechaTermino.Text;
-                string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE Fecha >= '" + fechaini + "' AND Fecha <= '" + fechafin + "' AND No_Trabajador = '" + no_traba + "'";
+                DateTime fechaInicio = DateTime.ParseExact(txtbFechaInicio.Text, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                DateTime fechaFin = DateTime.ParseExact(txtbFechaTermino.Text, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+
+                string fechaini = fechaInicio.ToString("yyyy-MM-dd");
+                string fechafin = fechaFin.ToString("yyyy-MM-dd");
+                string no_traba = txbNoTrabajador.Text;
+                string tabla = "SELECT Folio, No_Trabajador, Nombre, Producto, Cantidad, Unidad, Nota, Fechas, Horas FROM elastosystem_almacenregistro_salidas WHERE Fechas >= '" + fechaini + "' AND Fechas <= '" + fechafin + "' AND No_Trabajador = '" + no_traba + "'";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
+                dgv.Columns["Folio"].Visible = false;
+                dgv.Columns["No_Trabajador"].Visible = false;
+                dgv.Columns["Fechas"].HeaderText = "Fecha";
+                dgv.Columns["Horas"].HeaderText = "Hora";
             }
-            else if (checkBox1.Checked & cbProducto.SelectedIndex != -1 & !string.IsNullOrEmpty(txtbFechaInicio.Text) & !string.IsNullOrEmpty(txtbFechaTermino.Text))
+            else if (chbTodosTrabajadores.Checked & cbProducto.SelectedIndex != -1 & !string.IsNullOrEmpty(txtbFechaInicio.Text) & !string.IsNullOrEmpty(txtbFechaTermino.Text))
             {
+                DateTime fechaInicio = DateTime.ParseExact(txtbFechaInicio.Text, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                DateTime fechaFin = DateTime.ParseExact(txtbFechaTermino.Text, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+
+                string fechaini = fechaInicio.ToString("yyyy-MM-dd");
+                string fechafin = fechaFin.ToString("yyyy-MM-dd");
                 string product = cbProducto.Text;
-                string fechaini = txtbFechaInicio.Text;
-                string fechafin = txtbFechaTermino.Text;
-                string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE Fecha >= '" + fechaini + "' AND Fecha <= '" + fechafin + "' AND Producto = '" + product + "'";
+                string tabla = "SELECT Folio, No_Trabajador, Nombre, Producto, Cantidad, Unidad, Nota, Fechas, Horas FROM elastosystem_almacenregistro_salidas WHERE Fechas >= '" + fechaini + "' AND Fechas <= '" + fechafin + "' AND Producto = '" + product + "'";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
+                dgv.Columns["Folio"].Visible = false;
+                dgv.Columns["No_Trabajador"].Visible = false;
+                dgv.Columns["Fechas"].HeaderText = "Fecha";
+                dgv.Columns["Horas"].HeaderText = "Hora";
             }
-            else if (!string.IsNullOrEmpty(txtbNoTrabajador.Text) & cbProducto.SelectedIndex != -1 & !string.IsNullOrEmpty(txtbFechaInicio.Text) & !string.IsNullOrEmpty(txtbFechaTermino.Text))
+            else if (!string.IsNullOrEmpty(txbNoTrabajador.Text) & cbProducto.SelectedIndex != -1 & !string.IsNullOrEmpty(txtbFechaInicio.Text) & !string.IsNullOrEmpty(txtbFechaTermino.Text))
             {
-                string not = txtbNoTrabajador.Text;
+                DateTime fechaInicio = DateTime.ParseExact(txtbFechaInicio.Text, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                DateTime fechaFin = DateTime.ParseExact(txtbFechaTermino.Text, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+
+                string fechaini = fechaInicio.ToString("yyyy-MM-dd");
+                string fechafin = fechaFin.ToString("yyyy-MM-dd");
+                string not = txbNoTrabajador.Text;
                 string product = cbProducto.Text;
-                string fechaini = txtbFechaInicio.Text;
-                string fechafin = txtbFechaTermino.Text;
-                string tabla = "SELECT * FROM elastosystem_almacenregistro_salidas WHERE Fecha >= '" + fechaini + "' AND Fecha <= '" + fechafin + "' AND Producto = '" + product + "' AND No_Trabajador = '" + not + "'";
+                string tabla = "SELECT Folio, No_Trabajador, Nombre, Producto, Cantidad, Unidad, Nota, Fechas, Horas FROM elastosystem_almacenregistro_salidas WHERE Fechas >= '" + fechaini + "' AND Fechas <= '" + fechafin + "' AND Producto = '" + product + "' AND No_Trabajador = '" + not + "'";
                 MySqlDataAdapter mySqlAdapter = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 mySqlAdapter.Fill(dt);
                 dgv.DataSource = dt;
+                dgv.Columns["Folio"].Visible = false;
+                dgv.Columns["No_Trabajador"].Visible = false;
+                dgv.Columns["Fechas"].HeaderText = "Fecha";
+                dgv.Columns["Horas"].HeaderText = "Hora";
             }
             else
             {
@@ -379,39 +378,34 @@ namespace ElastoSystem
                 using (SaveFileDialog saveFileDialog = new SaveFileDialog())
                 {
                     saveFileDialog.Filter = "Archivos de Excel (*.xlsx)|*.xlsx";
-                    saveFileDialog.Title = "Guardar archivo de Excel";
-                    saveFileDialog.FileName = ".xlsx";
+                    saveFileDialog.Title = "Guardar reporte como";
+                    saveFileDialog.FileName = "Reporte_Consumibles.xlsx";
 
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        string rutaArchivo = saveFileDialog.FileName;
-
-                        SLDocument sl = new SLDocument();
-
-                        // Obtener datos del DataGridView
-                        DataTable dt = new DataTable();
-                        for (int i = 0; i < dataGridView.Columns.Count; i++)
+                        using (var workbook = new ClosedXML.Excel.XLWorkbook())
                         {
-                            dt.Columns.Add(dataGridView.Columns[i].HeaderText);
-                        }
+                            var worksheet = workbook.Worksheets.Add("Reporte");
 
-                        foreach (DataGridViewRow dgvRow in dataGridView.Rows)
-                        {
-                            DataRow dataRow = dt.NewRow();
-                            for (int j = 0; j < dataGridView.Columns.Count; j++)
+                            for (int i = 0; i < dataGridView.Columns.Count; i++)
                             {
-                                dataRow[j] = dgvRow.Cells[j].Value;
+                                worksheet.Cell(1, i + 1).Value = dataGridView.Columns[i].HeaderText;
                             }
-                            dt.Rows.Add(dataRow);
+
+                            for (int i = 0; i < dataGridView.Rows.Count; i++)
+                            {
+                                for (int j = 0; j < dataGridView.Columns.Count; j++)
+                                {
+                                    worksheet.Cell(i + 2, j + 1).Value = dataGridView.Rows[i].Cells[j].Value?.ToString() ?? string.Empty;
+                                }
+                            }
+                            worksheet.Columns().AdjustToContents();
+
+                            workbook.SaveAs(saveFileDialog.FileName);
+
+                            MessageBox.Show("Exportación exitosa");
+                            System.Diagnostics.Process.Start("explorer.exe", saveFileDialog.FileName);
                         }
-
-                        // Agregar datos al documento de Excel
-                        sl.ImportDataTable(1, 1, dt, true);
-
-                        // Guardar el archivo Excel
-                        sl.SaveAs(rutaArchivo);
-
-                        MessageBox.Show("Exportación exitosa");
                     }
                 }
             }
@@ -423,56 +417,29 @@ namespace ElastoSystem
 
         private void button3_Click(object sender, EventArgs e)
         {
-            /*if (dgv.Rows.Count > 0)
-            {
-                EnvioDeCorreos();
-            }
-            else
-            {
-                MessageBox.Show("No hay nada por enviar");
-            }*/
+
         }
-        /*private void EnvioDeCorreos()
+
+        private void cbNombreCompleto_TextChanged(object sender, EventArgs e)
         {
-            SmtpClient smtpClient = new SmtpClient("smtp.ionos.mx");
-            smtpClient.Port = 587;
-            smtpClient.Credentials = new NetworkCredential("almacen@elastotecnica.com.mx", "El@sto2023:");
-            smtpClient.EnableSsl = true;
 
-            // Crear el mensaje de correo
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("compras@elastotecnica.com.mx");
-            mailMessage.To.Add("miguel_tec_programador@outlook.com");
-            mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
-            mailMessage.Subject = "REPORTE DE TRABAJADORES";
-            StringBuilder cuerpoCorreo = new StringBuilder();
-            cuerpoCorreo.AppendLine("TABLA DEL REPORTE:");
-            cuerpoCorreo.AppendLine("FOLIO / NO_TRABAJADOR / NOMBRE / PRODUCTO / CANTIDAD / FECHA / HORA / NOTA / UNIDAD");
+        }
 
-            foreach (DataGridViewRow fila in dgv.Rows)
+        private void cbNombreCompleto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbNombreCompleto.SelectedItem != null)
             {
-                foreach (DataGridViewCell celda in fila.Cells)
-                {
-                    string valorCelda = (celda.Value != null) ? celda.Value.ToString() : "";
+                string seleccionado = cbNombreCompleto.SelectedItem.ToString();
 
-                    cuerpoCorreo.Append(valorCelda);
-                    cuerpoCorreo.Append("\t");
-                }
-                cuerpoCorreo.AppendLine();
-            }
+                int idEmpleado = empleadosDict.FirstOrDefault(x => x.Value == seleccionado).Key;
 
-            mailMessage.Body = cuerpoCorreo.ToString();
+                txbNoTrabajador.Text = idEmpleado.ToString();
+            }
+        }
 
-            try
-            {
-                // Enviar el correo
-                smtpClient.Send(mailMessage);
-                MessageBox.Show("ENIVIADO CON EXITO");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("ERROR" + ex.Message);
-            }
-        }*/
+        private void cbProducto_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
