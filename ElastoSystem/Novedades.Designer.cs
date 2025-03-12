@@ -48,7 +48,7 @@
             // 
             lblhora.AutoSize = true;
             lblhora.BackColor = Color.Transparent;
-            lblhora.Font = new Font("Montserrat", 30F, FontStyle.Bold, GraphicsUnit.Point);
+            lblhora.Font = new Font("Montserrat", 30F, FontStyle.Bold);
             lblhora.ForeColor = Color.White;
             lblhora.Location = new Point(1045, 723);
             lblhora.Name = "lblhora";
@@ -60,7 +60,7 @@
             // 
             lblfecha.AutoSize = true;
             lblfecha.BackColor = Color.Transparent;
-            lblfecha.Font = new Font("Montserrat SemiBold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lblfecha.Font = new Font("Montserrat SemiBold", 14.25F, FontStyle.Bold);
             lblfecha.ForeColor = Color.White;
             lblfecha.Location = new Point(952, 774);
             lblfecha.Name = "lblfecha";
@@ -78,7 +78,7 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Montserrat", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Montserrat", 18F, FontStyle.Bold);
             label1.ForeColor = Color.White;
             label1.Location = new Point(543, 45);
             label1.Name = "label1";
@@ -90,31 +90,31 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Montserrat", 12F, FontStyle.Italic, GraphicsUnit.Point);
+            label2.Font = new Font("Montserrat", 12F, FontStyle.Italic);
             label2.ForeColor = Color.White;
             label2.Location = new Point(47, 78);
             label2.Name = "label2";
-            label2.Size = new Size(1250, 22);
+            label2.Size = new Size(1226, 22);
             label2.TabIndex = 3;
-            label2.Text = "En elastotecnica S.A. de C.V. estamos comprometidos a lograr la plena satisfacción del cliente en todos nuestros productos, basados en una mejora conti-";
+            label2.Text = "En Elastotecnica fabricamos conectores eléctricos con los más altos estándares de calidad. Nuestro compromiso es lograr la satisfacción del cliente en";
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 12F, FontStyle.Italic, GraphicsUnit.Point);
+            label3.Font = new Font("Montserrat", 12F, FontStyle.Italic);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(357, 99);
+            label3.Location = new Point(125, 100);
             label3.Name = "label3";
-            label3.Size = new Size(597, 22);
+            label3.Size = new Size(1039, 22);
             label3.TabIndex = 4;
-            label3.Text = "nua como organización, mediante la participación de nuestro personal.  ";
+            label3.Text = "todos nuestros productos, basados en una mejora continua como organización, mediante la participación de nuestro personal.";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Montserrat", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.Font = new Font("Montserrat", 18F, FontStyle.Bold);
             label4.ForeColor = Color.White;
             label4.Location = new Point(27, 730);
             label4.Name = "label4";
@@ -126,7 +126,7 @@
             // 
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
-            label5.Font = new Font("Montserrat", 12F, FontStyle.Italic, GraphicsUnit.Point);
+            label5.Font = new Font("Montserrat", 12F, FontStyle.Italic);
             label5.ForeColor = Color.White;
             label5.Location = new Point(27, 763);
             label5.Name = "label5";
@@ -138,13 +138,13 @@
             // 
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Montserrat", 12F, FontStyle.Italic, GraphicsUnit.Point);
+            label6.Font = new Font("Montserrat", 12F, FontStyle.Italic);
             label6.ForeColor = Color.White;
             label6.Location = new Point(27, 784);
             label6.Name = "label6";
-            label6.Size = new Size(327, 22);
+            label6.Size = new Size(286, 22);
             label6.TabIndex = 7;
-            label6.Text = "b.\tLograr la satisfacción total del cliente.";
+            label6.Text = "b.\tLograr la satisfacción del cliente.";
             // 
             // pbSlide
             // 
