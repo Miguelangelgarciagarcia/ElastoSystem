@@ -120,7 +120,12 @@ namespace ElastoSystem
                 {
                     conn.Open();
                     string query = @"
-                            SELECT Folio, Folio_ALT, TipoReq, FechaInicio, HoraInicio, FechaTermino, HoraTermino, Descripcion, Solicitante, Prioridad, Asignado_a
+                            SELECT Folio, Folio_ALT, TipoReq, 
+                            COALESCE(FechaInicio, '0000-00-00') AS FechaInicio,
+                            COALESCE(HoraInicio, '00:00:00') AS HoraInicio,
+                            COALESCE(FechaTermino, '0000-00-00') AS FechaTermino, 
+                            COALESCE(HoraTermino, '00:00:00') AS HoraTermino,
+                            Descripcion, Solicitante, Prioridad, Asignado_a
                             FROM elastosystem_sistemas_req
                             WHERE Estatus = 'FINALIZADO'
                             ORDER BY FechaInicio DESC";
