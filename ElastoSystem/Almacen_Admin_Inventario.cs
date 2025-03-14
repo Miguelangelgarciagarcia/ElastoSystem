@@ -804,10 +804,12 @@ namespace ElastoSystem
                 {
                     double sumaAnual = sumasPorAnioYMes[anio].Values.Sum();
                     int cantidadMeses = sumasPorAnioYMes[anio].Count;
+                    double promedioMensualCompleto = sumaAnual / 12;
                     double promedioMensualAnio = cantidadMeses > 0 ? sumaAnual / cantidadMeses : 0;
 
                     doc.Add(new iTextSharp.text.Paragraph($"\nTotal {anio} = {sumaAnual:F2}", contenidoFont));
-                    doc.Add(new iTextSharp.text.Paragraph($"Promedio mensual {anio} = {promedioMensualAnio:F2}", contenidoFont));
+                    doc.Add(new iTextSharp.text.Paragraph($"Promedio mensual {anio} = {promedioMensualCompleto:F2}", contenidoFont));
+                    doc.Add(new iTextSharp.text.Paragraph($"Promedio mensual {anio} entre meses encontrados = {promedioMensualAnio:F2}", contenidoFont));
 
                     int mesMayor = sumasPorAnioYMes[anio].OrderByDescending(m => m.Value).First().Key;
 
