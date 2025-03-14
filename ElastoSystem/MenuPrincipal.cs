@@ -38,7 +38,7 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Almacen, Nuevo_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Admin_Inventario, Inventario_Almacen, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Pendientes_Sistemas, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @idmenu";
+                string query = "SELECT Almacen, Nuevo_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Admin_Inventario, Inventario_Almacen, Almacen_Fabricacion, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Pendientes_Sistemas, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @idmenu";
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@idmenu", idmenu);
 
@@ -90,6 +90,13 @@ namespace ElastoSystem
                         {
                             btnInventarioAlmacen.Enabled = true;
                             btnInventarioAlmacen.Visible = true;
+                        }
+
+                        string almacenFabricacionValue = reader["Almacen_Fabricacion"].ToString();
+                        if(almacenFabricacionValue == "True")
+                        {
+                            btnSolicitudFabricacion.Enabled = true;
+                            btnSolicitudFabricacion.Visible = true;
                         }
                     }
 
@@ -802,6 +809,12 @@ namespace ElastoSystem
         private void btnPendientesSistemas_Click(object sender, EventArgs e)
         {
             openChildForm(new Sistemas_PendientesSistemas());
+            HideSubMenu();
+        }
+
+        private void button2_Click_2(object sender, EventArgs e)
+        {
+            openChildForm(new Almacen_Fabricacion());
             HideSubMenu();
         }
     }

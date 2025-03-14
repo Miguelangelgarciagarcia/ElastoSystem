@@ -35,6 +35,7 @@
             label2 = new Label();
             cbUsuarios = new ComboBox();
             panel1 = new Panel();
+            chbSolicitudFabricacion = new CheckBox();
             chbInventarioAlmacenPT = new CheckBox();
             chbAdminInventarioPT = new CheckBox();
             chbConsultaSalidas = new CheckBox();
@@ -190,6 +191,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
+            panel1.Controls.Add(chbSolicitudFabricacion);
             panel1.Controls.Add(chbInventarioAlmacenPT);
             panel1.Controls.Add(chbAdminInventarioPT);
             panel1.Controls.Add(chbConsultaSalidas);
@@ -198,10 +200,23 @@
             panel1.Controls.Add(chbEditarProducto);
             panel1.Controls.Add(chbNuevoProducto);
             panel1.Controls.Add(chbAlmacen);
-            panel1.Location = new Point(15, 95);
+            panel1.Location = new Point(15, 75);
             panel1.Name = "panel1";
-            panel1.Size = new Size(240, 240);
+            panel1.Size = new Size(240, 267);
             panel1.TabIndex = 3;
+            // 
+            // chbSolicitudFabricacion
+            // 
+            chbSolicitudFabricacion.AutoSize = true;
+            chbSolicitudFabricacion.Font = new Font("Montserrat", 9F);
+            chbSolicitudFabricacion.ForeColor = Color.White;
+            chbSolicitudFabricacion.Location = new Point(15, 230);
+            chbSolicitudFabricacion.Name = "chbSolicitudFabricacion";
+            chbSolicitudFabricacion.Size = new Size(170, 20);
+            chbSolicitudFabricacion.TabIndex = 8;
+            chbSolicitudFabricacion.Text = "Solicitud de Fabricacion";
+            chbSolicitudFabricacion.UseVisualStyleBackColor = true;
+            chbSolicitudFabricacion.CheckedChanged += chbSolicitudFabricacion_CheckedChanged;
             // 
             // chbInventarioAlmacenPT
             // 
@@ -311,7 +326,7 @@
             // 
             lblNumeroTemp.AutoSize = true;
             lblNumeroTemp.BackColor = Color.Transparent;
-            lblNumeroTemp.Location = new Point(10, 77);
+            lblNumeroTemp.Location = new Point(453, 21);
             lblNumeroTemp.Name = "lblNumeroTemp";
             lblNumeroTemp.Size = new Size(80, 15);
             lblNumeroTemp.TabIndex = 4;
@@ -329,9 +344,9 @@
             panel2.Controls.Add(chbConsumiblesAlmacen);
             panel2.Controls.Add(chbIndicadorCompras);
             panel2.Controls.Add(chbCompras);
-            panel2.Location = new Point(265, 95);
+            panel2.Location = new Point(265, 75);
             panel2.Name = "panel2";
-            panel2.Size = new Size(240, 240);
+            panel2.Size = new Size(240, 267);
             panel2.TabIndex = 5;
             // 
             // chbConsultarOCs
@@ -444,9 +459,9 @@
             panel3.Controls.Add(chbGenerarCredencial);
             panel3.Controls.Add(chbRegistroTrabajador);
             panel3.Controls.Add(chbRecursosHumanos);
-            panel3.Location = new Point(15, 352);
+            panel3.Location = new Point(15, 349);
             panel3.Name = "panel3";
-            panel3.Size = new Size(240, 240);
+            panel3.Size = new Size(240, 267);
             panel3.TabIndex = 6;
             // 
             // chbGenerarCredencial
@@ -495,9 +510,9 @@
             panel4.Controls.Add(chbPermisos);
             panel4.Controls.Add(chbRequisicion);
             panel4.Controls.Add(chbSistemas);
-            panel4.Location = new Point(265, 352);
+            panel4.Location = new Point(265, 349);
             panel4.Name = "panel4";
-            panel4.Size = new Size(240, 240);
+            panel4.Size = new Size(240, 267);
             panel4.TabIndex = 7;
             // 
             // chbPendientesSistemas
@@ -560,7 +575,7 @@
             btnactualizar.FlatStyle = FlatStyle.Flat;
             btnactualizar.Font = new Font("Montserrat", 14.25F, FontStyle.Bold);
             btnactualizar.ForeColor = Color.White;
-            btnactualizar.Location = new Point(837, 383);
+            btnactualizar.Location = new Point(837, 380);
             btnactualizar.Name = "btnactualizar";
             btnactualizar.Size = new Size(318, 47);
             btnactualizar.TabIndex = 8;
@@ -576,9 +591,9 @@
             panel5.Controls.Add(chbNuevaCotizacion);
             panel5.Controls.Add(chbClientes);
             panel5.Controls.Add(chbVentas);
-            panel5.Location = new Point(519, 352);
+            panel5.Location = new Point(519, 349);
             panel5.Name = "panel5";
-            panel5.Size = new Size(240, 240);
+            panel5.Size = new Size(240, 267);
             panel5.TabIndex = 9;
             // 
             // chbBuscarCotizacion
@@ -651,9 +666,9 @@
             panel6.BackColor = Color.FromArgb(3, 42, 76);
             panel6.Controls.Add(chbReporteProduccion);
             panel6.Controls.Add(chbProduccion);
-            panel6.Location = new Point(1011, 95);
+            panel6.Location = new Point(1011, 75);
             panel6.Name = "panel6";
-            panel6.Size = new Size(240, 240);
+            panel6.Size = new Size(240, 267);
             panel6.TabIndex = 10;
             // 
             // chbReporteProduccion
@@ -689,9 +704,9 @@
             panel7.Controls.Add(chbPendientesMaquinado);
             panel7.Controls.Add(chbSolicitudMaquinado);
             panel7.Controls.Add(chbMaquinado);
-            panel7.Location = new Point(765, 95);
+            panel7.Location = new Point(765, 75);
             panel7.Name = "panel7";
-            panel7.Size = new Size(240, 240);
+            panel7.Size = new Size(240, 267);
             panel7.TabIndex = 11;
             // 
             // chbHistorialMaquinado
@@ -1154,9 +1169,9 @@
             panel8.Controls.Add(chbPendientesMtto);
             panel8.Controls.Add(chbSolicitudMtto);
             panel8.Controls.Add(chbMantenimiento);
-            panel8.Location = new Point(519, 95);
+            panel8.Location = new Point(519, 75);
             panel8.Name = "panel8";
-            panel8.Size = new Size(240, 240);
+            panel8.Size = new Size(240, 267);
             panel8.TabIndex = 12;
             // 
             // chbInventarioMaquinas
@@ -1559,5 +1574,6 @@
         private PictureBox pbOjoCerrado;
         private PictureBox pbOjoAbierto;
         private CheckBox chbPendientesSistemas;
+        private CheckBox chbSolicitudFabricacion;
     }
 }
