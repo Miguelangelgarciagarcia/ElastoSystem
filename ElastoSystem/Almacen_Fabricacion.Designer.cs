@@ -28,16 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             pnlAlmacen = new Panel();
+            lblSincronizacion = new Label();
+            dgvProductosSAE2 = new DataGridView();
             btnCerrar = new Button();
             dgvProductosSAE = new DataGridView();
             label9 = new Label();
             btnAbrir = new Button();
+            bSAspelSAE = new BindingSource(components);
             pnlAlmacen.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProductosSAE2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductosSAE).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bSAspelSAE).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -55,6 +61,8 @@
             // pnlAlmacen
             // 
             pnlAlmacen.BackColor = Color.FromArgb(3, 42, 76);
+            pnlAlmacen.Controls.Add(lblSincronizacion);
+            pnlAlmacen.Controls.Add(dgvProductosSAE2);
             pnlAlmacen.Controls.Add(btnCerrar);
             pnlAlmacen.Controls.Add(dgvProductosSAE);
             pnlAlmacen.Controls.Add(label9);
@@ -63,6 +71,29 @@
             pnlAlmacen.Size = new Size(1277, 705);
             pnlAlmacen.TabIndex = 19;
             pnlAlmacen.Visible = false;
+            // 
+            // lblSincronizacion
+            // 
+            lblSincronizacion.AutoSize = true;
+            lblSincronizacion.BackColor = Color.Transparent;
+            lblSincronizacion.Font = new Font("Montserrat", 9F);
+            lblSincronizacion.ForeColor = Color.White;
+            lblSincronizacion.Location = new Point(975, 673);
+            lblSincronizacion.Name = "lblSincronizacion";
+            lblSincronizacion.Size = new Size(10, 16);
+            lblSincronizacion.TabIndex = 60;
+            lblSincronizacion.Text = ".";
+            lblSincronizacion.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // dgvProductosSAE2
+            // 
+            dgvProductosSAE2.AllowUserToAddRows = false;
+            dgvProductosSAE2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductosSAE2.Location = new Point(303, 23);
+            dgvProductosSAE2.Name = "dgvProductosSAE2";
+            dgvProductosSAE2.Size = new Size(21, 24);
+            dgvProductosSAE2.TabIndex = 59;
+            dgvProductosSAE2.Visible = false;
             // 
             // btnCerrar
             // 
@@ -105,7 +136,7 @@
             dataGridViewCellStyle2.SelectionForeColor = Color.White;
             dgvProductosSAE.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvProductosSAE.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvProductosSAE.Size = new Size(1222, 624);
+            dgvProductosSAE.Size = new Size(1222, 600);
             dgvProductosSAE.TabIndex = 18;
             // 
             // label9
@@ -151,7 +182,9 @@
             Load += Almacen_Fabricacion_Load;
             pnlAlmacen.ResumeLayout(false);
             pnlAlmacen.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProductosSAE2).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductosSAE).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bSAspelSAE).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -164,5 +197,8 @@
         private Label label9;
         private Button btnCerrar;
         private Button btnAbrir;
+        private DataGridView dgvProductosSAE2;
+        private BindingSource bSAspelSAE;
+        private Label lblSincronizacion;
     }
 }

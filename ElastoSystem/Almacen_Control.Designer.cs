@@ -64,6 +64,7 @@
             lblHora = new Label();
             horayfecha = new System.Windows.Forms.Timer(components);
             pnlCargando = new Panel();
+            dgvProductosSAE = new DataGridView();
             dgvProductos = new DataGridView();
             label2 = new Label();
             progressBar1 = new ProgressBar();
@@ -74,6 +75,7 @@
             Cantidad = new DataGridViewTextBoxColumn();
             Producto = new DataGridViewTextBoxColumn();
             Unidad = new DataGridViewTextBoxColumn();
+            bSAspelSAE = new BindingSource(components);
             paneltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -82,10 +84,12 @@
             ((System.ComponentModel.ISupportInitialize)dgvTemporal).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvBD).BeginInit();
             pnlCargando.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProductosSAE).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvLista).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bSAspelSAE).BeginInit();
             SuspendLayout();
             // 
             // paneltop
@@ -420,6 +424,7 @@
             // pnlCargando
             // 
             pnlCargando.BackColor = Color.FromArgb(3, 42, 76);
+            pnlCargando.Controls.Add(dgvProductosSAE);
             pnlCargando.Controls.Add(dgvProductos);
             pnlCargando.Controls.Add(label2);
             pnlCargando.Controls.Add(progressBar1);
@@ -427,6 +432,16 @@
             pnlCargando.Name = "pnlCargando";
             pnlCargando.Size = new Size(1852, 1010);
             pnlCargando.TabIndex = 57;
+            // 
+            // dgvProductosSAE
+            // 
+            dgvProductosSAE.AllowUserToAddRows = false;
+            dgvProductosSAE.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductosSAE.Location = new Point(145, 300);
+            dgvProductosSAE.Name = "dgvProductosSAE";
+            dgvProductosSAE.Size = new Size(21, 24);
+            dgvProductosSAE.TabIndex = 60;
+            dgvProductosSAE.Visible = false;
             // 
             // dgvProductos
             // 
@@ -569,10 +584,12 @@
             ((System.ComponentModel.ISupportInitialize)dgvBD).EndInit();
             pnlCargando.ResumeLayout(false);
             pnlCargando.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProductosSAE).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource2).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvLista).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bSAspelSAE).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -611,5 +628,7 @@
         private DataGridViewTextBoxColumn Cantidad;
         private DataGridViewTextBoxColumn Producto;
         private DataGridViewTextBoxColumn Unidad;
+        private DataGridView dgvProductosSAE;
+        private BindingSource bSAspelSAE;
     }
 }

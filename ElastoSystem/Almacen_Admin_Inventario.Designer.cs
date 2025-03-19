@@ -66,6 +66,8 @@
             pnlCargando = new Panel();
             label6 = new Label();
             btnDescargarPDF = new Button();
+            dgvProductosSAE = new DataGridView();
+            bSAspelSAE = new BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)dgvFacturasSAE).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvPartidasFacturaSAE).BeginInit();
@@ -76,6 +78,8 @@
             ((System.ComponentModel.ISupportInitialize)bindingSource3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource4).BeginInit();
             pnlCargando.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProductosSAE).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bSAspelSAE).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -419,9 +423,9 @@
             pnlCargando.BackColor = Color.FromArgb(3, 42, 76);
             pnlCargando.Controls.Add(label6);
             pnlCargando.Controls.Add(progressBar1);
-            pnlCargando.Location = new Point(26, 93);
+            pnlCargando.Location = new Point(26, 74);
             pnlCargando.Name = "pnlCargando";
-            pnlCargando.Size = new Size(1286, 711);
+            pnlCargando.Size = new Size(1286, 725);
             pnlCargando.TabIndex = 56;
             // 
             // label6
@@ -453,12 +457,23 @@
             btnDescargarPDF.Visible = false;
             btnDescargarPDF.Click += btnDescargarPDF_Click;
             // 
+            // dgvProductosSAE
+            // 
+            dgvProductosSAE.AllowUserToAddRows = false;
+            dgvProductosSAE.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductosSAE.Location = new Point(449, 44);
+            dgvProductosSAE.Name = "dgvProductosSAE";
+            dgvProductosSAE.Size = new Size(21, 24);
+            dgvProductosSAE.TabIndex = 58;
+            dgvProductosSAE.Visible = false;
+            // 
             // Almacen_Admin_Inventario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(dgvProductosSAE);
             Controls.Add(pnlCargando);
             Controls.Add(txbMaxOC);
             Controls.Add(label5);
@@ -496,6 +511,8 @@
             ((System.ComponentModel.ISupportInitialize)bindingSource4).EndInit();
             pnlCargando.ResumeLayout(false);
             pnlCargando.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProductosSAE).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bSAspelSAE).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -531,5 +548,7 @@
         private Panel pnlCargando;
         private Button btnDescargarPDF;
         private Label label6;
+        private DataGridView dgvProductosSAE;
+        private BindingSource bSAspelSAE;
     }
 }

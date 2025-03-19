@@ -222,12 +222,17 @@ namespace ElastoSystem
                     }
                     conn.Close();
                 }
+
+                VariablesGlobales.UltimaActualizacion();
+
             }
             catch(Exception ex)
             {
                 MessageBox.Show("HUBO UN ERROR AL ACTUALIZAR EXISTENCIAS DE SAE EN BD: " + ex.Message);
             }
         }
+
+        
 
         private void MandarALlamarIP()
         {

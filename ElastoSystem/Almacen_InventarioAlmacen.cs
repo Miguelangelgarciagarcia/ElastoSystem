@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using FirebirdSql.Data.FirebirdClient;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +21,123 @@ namespace ElastoSystem
 
         private void Almacen_InventarioAlmacen_Load(object sender, EventArgs e)
         {
+            CargarSAE();
             MandarALlamarProductos();
+            Sincronizacion();
+        }
+
+        private void Sincronizacion()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = "SELECT Actualizacion FROM elastosystem_sae_actualizacion_productos LIMIT 1";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        if (result != null)
+                        {
+                            DateTime actualizacion = Convert.ToDateTime(result);
+                            lblSincronizacion.Text = "Última sincronización: " + actualizacion.ToString("dd/MM/yyyy HH:mm:ss");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL MANDAR A LLAMAR ULTIMA SINCRONIZACION: " + ex.Message);
+            }
+        }
+
+        private void CargarSAE()
+        {
+            try
+            {
+                dgvProductosSAE2.AutoGenerateColumns = true;
+
+                FbConnectionStringBuilder cadena = new FbConnectionStringBuilder();
+                cadena.UserID = "SYSDBA";
+                cadena.Password = "masterkey";
+                cadena.Database = VariablesGlobales.DireccionBDSAE;
+                cadena.DataSource = VariablesGlobales.IPSAE;
+                cadena.Port = 3050;
+
+                FbConnection conn = new FbConnection(cadena.ConnectionString);
+                FbCommand comando = new FbCommand();
+                FbDataAdapter adaptador = new FbDataAdapter();
+                DataSet datos = new DataSet();
+                string sql = "SELECT CVE_ART, EXIST FROM mult01 WHERE CVE_ALM = 1";
+
+                comando.Connection = conn;
+                comando.CommandText = sql;
+                adaptador.SelectCommand = comando;
+
+                conn.Open();
+                adaptador.Fill(datos);
+                conn.Close();
+
+                bSAspelSAE.DataSource = datos.Tables[0];
+                dgvProductosSAE2.DataSource = bSAspelSAE;
+
+                ActualizarBDProductosSAE();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL CARGAR LOS PRODUCTOS DE ASPEL SAE: " + ex.Message);
+            }
+        }
+
+        private void ActualizarBDProductosSAE()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    foreach (DataGridViewRow row in dgvProductosSAE2.Rows)
+                    {
+                        if (!row.IsNewRow)
+                        {
+                            string cveArt = row.Cells["CVE_ART"].Value.ToString();
+                            string existencia = row.Cells["EXIST"].Value.ToString();
+
+                            string checkQuery = "SELECT COUNT(*) FROM elastosystem_sae_productos WHERE Producto = @CVE_ART";
+                            MySqlCommand cmd = new MySqlCommand(checkQuery, conn);
+                            cmd.Parameters.AddWithValue("@CVE_ART", cveArt);
+                            int count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                            if (count > 0)
+                            {
+                                string updateQuery = "UPDATE elastosystem_sae_productos SET Existencia = @EXISTENCIA WHERE Producto = @CVE_ART";
+                                MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn);
+                                updateCmd.Parameters.AddWithValue("@EXISTENCIA", existencia);
+                                updateCmd.Parameters.AddWithValue("@CVE_ART", cveArt);
+                                updateCmd.ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                string insertQuery = "INSERT INTO elastosystem_sae_productos (Producto, Existencia) VALUES (@CVE_ART, @EXISTENCIAS)";
+                                MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn);
+                                insertCmd.Parameters.AddWithValue("@CVE_ART", cveArt);
+                                insertCmd.Parameters.AddWithValue("@EXISTENCIAS", existencia);
+                                insertCmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                    conn.Close();
+                }
+
+                VariablesGlobales.UltimaActualizacion();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("HUBO UN ERROR AL ACTUALIZAR EXISTENCIAS DE SAE EN BD: " + ex.Message);
+            }
         }
 
         private void MandarALlamarProductos()

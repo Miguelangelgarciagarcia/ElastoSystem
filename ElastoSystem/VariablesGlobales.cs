@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,27 @@ namespace ElastoSystem
         //public static string DireccionBDSAE = @"C:\Databases\SAE90EMPRE01.FDB";
         public static string DireccionBDSAE = @"C:\Program Files (x86)\Common Files\Aspel\Sistemas Aspel\SAE9.00\Empresa01\Datos\SAE90EMPRE01.FDB";
         public static Dictionary<string, string> ClientesSAE = new Dictionary<string, string>();
+
+        public static void UltimaActualizacion()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = "UPDATE elastosystem_sae_actualizacion_productos SET Actualizacion = @ACTUALIZACION";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ACTUALIZACION", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR al actualizar la fecha de ultima actualizacion: " + ex.Message);
+            }
+        }
 
         public static void ValidarSoloNoyPunto(KeyPressEventArgs e, TextBox textBox)
         {
