@@ -20,15 +20,32 @@ namespace ElastoSystem
             InitializeComponent();
         }
 
-        private void Almacen_Fabricacion_Load(object sender, EventArgs e)
+        private async void Almacen_Fabricacion_Load(object sender, EventArgs e)
         {
-            CargarSAE();
-            MandarALlamarProductos();
-            Sincronizacion();
-            CargarClaveProductos();
+            progressBar1.Value = 0;
+            progressBar1.Maximum = 100;
+
+            await Task.Run(() =>
+            {
+                CargarSAE();
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 70));
+                MandarALlamarProductos();
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 80));
+                Sincronizacion();
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 85));
+                CargarClaveProductoInicio();
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 90));
+
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 95));
+            });
+
+            pnlCarga.Visible = false;
+            CargarSolicitudesEnviadas();
+            CargarSolicitudesEnProceso();
+            CargarSolicitudesFinalizadas();
             Folio();
             Fecha();
-            CargarSolicitudesEnviadas();
+            btnAbrir.Visible = true;
         }
 
         private void CargarSolicitudesEnviadas()
@@ -43,11 +60,11 @@ namespace ElastoSystem
                             Folio_ALT,
                             IFNULL(Fecha, '0000-00-00') AS Fecha,
                             Solicitante,
-                            Estatus,
                             Clave,
                             Cantidad,
                             Notas
                         FROM elastosystem_almacen_solicitud_fabricacion
+                        WHERE Estatus = 'Enviada'
                         ORDER BY Folio_ALT DESC";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -65,6 +82,83 @@ namespace ElastoSystem
             catch (Exception ex)
             {
                 MessageBox.Show("ERROR AL CARGAR LAS SOLICITUDES ENVIADAS: " + ex.Message);
+            }
+        }
+
+        private void CargarSolicitudesEnProceso()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT
+                            Folio_ALT,
+                            IFNULL(Fecha, '0000-00-00') AS Fecha,
+                            Clave,
+                            Cantidad,
+                            OP,
+                            Cantidad_Produccion
+                        FROM elastosystem_almacen_solicitud_fabricacion
+                        WHERE Estatus = 'En Proceso'
+                        ORDER BY Folio_ALT DESC";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        using (MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adaptador.Fill(dt);
+                            dgvEnProceso.DataSource = dt;
+                            dgvEnProceso.Columns["Folio_ALT"].HeaderText = "Folio";
+                            dgvEnProceso.Columns["Cantidad_Produccion"].HeaderText = "Produciendo";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL CARGAR LAS SOLICITUDES EN PROCESO: " + ex.Message);
+            }
+        }
+
+        private void CargarSolicitudesFinalizadas()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT
+                            Folio_ALT,
+                            IFNULL(Fecha, '0000-00-00') AS Fecha,
+                            Clave,
+                            Cantidad,
+                            OP,
+                            Cantidad_Produccion,
+                            IFNULL(Finalizado, '0000-00-00') AS Finalizado
+                        FROM elastosystem_almacen_solicitud_fabricacion
+                        WHERE Estatus = 'Finalizada'
+                        ORDER BY Folio_ALT DESC";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        using (MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adaptador.Fill(dt);
+                            dgvFinalizadas.DataSource = dt;
+                            dgvFinalizadas.Columns["Folio_ALT"].HeaderText = "Folio";
+                            dgvFinalizadas.Columns["Cantidad_Produccion"].HeaderText = "Producido";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL CARGAR LAS SOLICITUDES FINALIZADAS: " + ex.Message);
             }
         }
 
@@ -114,9 +208,9 @@ namespace ElastoSystem
             }
         }
 
-        private void CargarClaveProductos()
+        private void CargarClaveProductoInicio()
         {
-            cbProductos.Items.Clear();
+            List<string> productos = new List<string>();
             AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
             MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
 
@@ -124,8 +218,6 @@ namespace ElastoSystem
             {
                 conn.Open();
                 string sql = "SELECT Producto FROM elastosystem_sae_productos";
-
-                List<string> productos = new List<string>();
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -140,10 +232,6 @@ namespace ElastoSystem
                         }
                     }
                 }
-                productos.Sort();
-                cbProductos.Items.AddRange(productos.ToArray());
-                autoComplete.AddRange(productos.ToArray());
-                cbProductos.AutoCompleteCustomSource = autoComplete;
             }
             catch (Exception ex)
             {
@@ -154,6 +242,23 @@ namespace ElastoSystem
                 conn.Close();
             }
 
+            if (cbProductos.InvokeRequired)
+            {
+                cbProductos.Invoke(new Action(() =>
+                {
+                    cbProductos.Items.Clear();
+                    cbProductos.Items.AddRange(productos.ToArray());
+                    cbProductos.AutoCompleteCustomSource = new AutoCompleteStringCollection();
+                    cbProductos.AutoCompleteCustomSource.AddRange(productos.ToArray());
+                }));
+            }
+            else
+            {
+                cbProductos.Items.Clear();
+                cbProductos.Items.AddRange(productos.ToArray());
+                cbProductos.AutoCompleteCustomSource = new AutoCompleteStringCollection();
+                cbProductos.AutoCompleteCustomSource.AddRange(productos.ToArray());
+            }
         }
         private void MandarALlamarProductos()
         {
@@ -213,11 +318,13 @@ namespace ElastoSystem
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             pnlAlmacen.Visible = false;
+            btnAbrir.Visible = true;
         }
 
         private void btnAbrir_Click(object sender, EventArgs e)
         {
             pnlAlmacen.Visible = true;
+            btnAbrir.Visible = false;
         }
 
         private void Sincronizacion()
@@ -471,26 +578,7 @@ namespace ElastoSystem
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            AgregarADgv();
-        }
 
-        private void AgregarADgv()
-        {
-            if (string.IsNullOrEmpty(cbProductos.Text) || string.IsNullOrEmpty(txbCantidad.Text))
-            {
-                MessageBox.Show("DEBES DE LLENAR TODOS LOS CAMPOS");
-                return;
-            }
-
-            string clave = cbProductos.Text;
-            string cantidad = txbCantidad.Text;
-            string notas = txbNotas.Text;
-
-            dgvPartidas.Rows.Add(clave, cantidad, notas);
-
-            cbProductos.Text = null;
-            txbCantidad.Clear();
-            txbNotas.Clear();
         }
 
         private void txbCantidad_KeyPress(object sender, KeyPressEventArgs e)
@@ -500,41 +588,12 @@ namespace ElastoSystem
 
         private void dgvPartidas_DoubleClick(object sender, EventArgs e)
         {
-            btnEliminar.Visible = true;
-            btnActualizar.Visible = true;
-            btnNuevo.Visible = true;
-            btnAgregar.Visible = false;
 
-            DataGridView dgv = (DataGridView)sender;
-
-            if (dgv.SelectedCells.Count > 0)
-            {
-                int rowIndex = dgv.SelectedCells[0].RowIndex;
-
-                string clave = dgv.Rows[rowIndex].Cells[0].Value.ToString();
-                cbProductos.Text = clave;
-
-                string cantidad = dgv.Rows[rowIndex].Cells[1].Value.ToString();
-                txbCantidad.Text = cantidad;
-
-                string notas = dgv.Rows[rowIndex].Cells[2].Value.ToString();
-                txbNotas.Text = notas;
-            }
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            ActualizarPartida();
-        }
 
-        private void ActualizarPartida()
-        {
-            foreach (DataGridViewRow row in dgvPartidas.SelectedRows)
-            {
-                dgvPartidas.Rows.Remove(row);
-            }
-            AgregarADgv();
-            btnNuevo.PerformClick();
         }
 
         private void btnNuevo_Click(object sender, EventArgs e)
@@ -542,61 +601,90 @@ namespace ElastoSystem
             cbProductos.Text = null;
             txbCantidad.Clear();
             txbNotas.Clear();
-            btnNuevo.Visible = false;
-            btnActualizar.Visible = false;
-            btnEliminar.Visible = false;
-            btnAgregar.Visible = true;
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            EliminarPartida();
-        }
 
-        private void EliminarPartida()
-        {
-            foreach (DataGridViewRow row in dgvPartidas.SelectedRows)
-            {
-                dgvPartidas.Rows.Remove(row);
-            }
-            btnNuevo.PerformClick();
         }
 
         private void btnEnviarSolicitud_Click(object sender, EventArgs e)
         {
-            if(dgvPartidas.Rows.Count == 0)
+            if (ExisteSolicitudEnviada(cbProductos.Text))
             {
-                MessageBox.Show("NO PUEDES ENVIAR UNA SOLICITUD DE FABRICACION SIN PARTIDAS");
+                MessageBox.Show("YA EXISTE UNA SOLICITUD DE FABRICACION PARA ESTE PRODUCTO");
                 return;
             }
-            EnviarSolicitudFabricacion();
+
+            if (string.IsNullOrEmpty(cbProductos.Text) || string.IsNullOrEmpty(txbCantidad.Text))
+            {
+                MessageBox.Show("NO PUEDES ENVIAR UNA SOLICITUD DE FABRICACION VACIA");
+                return;
+            }
+            if (txbCantidad.Text == "0")
+            {
+                MessageBox.Show("NO PUEDES ENVIAR UNA SOLICITUD DE FABRICACION CON CANTIDAD 0");
+                return;
+            }
+
+            int cantidadActual = int.TryParse(lblCantidadActual.Text, out int actual) ? actual : 0;
+            int cantidad4Meses = int.TryParse(lbl4Meses.Text, out int cuatroMeses) ? cuatroMeses : 0;
+            int cantidad = int.TryParse(txbCantidad.Text, out int txb) ? txb : 0;
+
+            if (cantidadActual + cantidad >= cantidad4Meses)
+            {
+                Almacen_SobreInventario2 sobreInventario = new Almacen_SobreInventario2();
+                if(sobreInventario.ShowDialog() == DialogResult.OK)
+                {
+                    EnviarSolicitudFabricacion();
+                }
+            }
+            else
+            {
+                EnviarSolicitudFabricacion();
+            }
+        }
+
+        private bool ExisteSolicitudEnviada(string claveProducto)
+        {
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                conn.Open();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "SELECT COUNT(*) FROM elastosystem_almacen_solicitud_fabricacion WHERE Estatus = 'Enviada' AND Clave = @CLAVE";
+                    cmd.Parameters.AddWithValue("@CLAVE", claveProducto);
+
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count > 0;
+                }
+            }
         }
 
         private void EnviarSolicitudFabricacion()
         {
-            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand();
-            try
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
-                cmd.Connection = conn;
-                cmd.CommandText = "SELECT COUNT(*) FROM elastosystem_almacen_solicitud_fabricacion WHERE Folio = @FOLIO";
-                cmd.Parameters.AddWithValue("@FOLIO", lblFolioOriginal.Text);
+                conn.Open();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "SELECT COUNT(*) FROM elastosystem_almacen_solicitud_fabricacion WHERE Folio = @FOLIO";
+                    cmd.Parameters.AddWithValue("@FOLIO", lblFolioOriginal.Text);
 
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                if (count > 0)
-                {
-                    Folio();
-                    EnviarSolicitudFabricacion();
-                }
-                else
-                {
-                    int filas = dgvPartidas.Rows.Count;
-                    for(int i = 0; i < filas; i++)
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    if (count > 0)
                     {
-                        string clave = dgvPartidas.Rows[i].Cells[0].Value.ToString();
-                        string cantidad = dgvPartidas.Rows[i].Cells[1].Value.ToString();
-                        string notas = dgvPartidas.Rows[i].Cells[2].Value.ToString();
+                        Folio();
+                        EnviarSolicitudFabricacion();
+                    }
+                    else
+                    {
+                        string clave = cbProductos.Text;
+                        string cantidad = txbCantidad.Text;
+                        string notas = txbNotas.Text;
+
                         cmd.CommandText = @"
                             INSERT INTO elastosystem_almacen_solicitud_fabricacion
                             (Folio, Folio_ALT, Fecha, Hora, Solicitante, Estatus, Clave, Cantidad, Notas)
@@ -605,29 +693,24 @@ namespace ElastoSystem
                         cmd.Parameters.Clear();
                         cmd.Parameters.AddWithValue("@FOLIO", lblFolioOriginal.Text);
                         cmd.Parameters.AddWithValue("@FOLIO_ALT", lblFolio.Text);
-                        cmd.Parameters.AddWithValue("@FECHA", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@FECHA", DateTime.Now.ToString("yyyy-MM-dd"));
                         cmd.Parameters.AddWithValue("@HORA", DateTime.Now.ToString("HH:mm:ss"));
                         cmd.Parameters.AddWithValue("@SOLICITANTE", VariablesGlobales.Usuario);
                         cmd.Parameters.AddWithValue("@ESTATUS", "Enviada");
                         cmd.Parameters.AddWithValue("@CLAVE", clave);
                         cmd.Parameters.AddWithValue("@CANTIDAD", cantidad);
                         cmd.Parameters.AddWithValue("@NOTAS", notas);
-                        cmd.ExecuteNonQuery();
-                    }
 
-                    MessageBox.Show("SOLICITUD DE FABRICACION ENVIADA CORRECTAMENTE");
-                    Limpiar();
-                    CargarSolicitudesEnviadas();
-                    Folio();
+                        cmd.ExecuteNonQuery();
+
+                        MessageBox.Show("SOLICITUD DE FABRICACION ENVIADA CORRECTAMENTE");
+                        Limpiar();
+                        CargarSolicitudesEnviadas();
+                        CargarSolicitudesEnProceso();
+                        CargarSolicitudesFinalizadas();
+                        Folio();
+                    }
                 }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("ERROR AL ENVIAR LA SOLICITUD DE FABRICACION: " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
             }
         }
 
@@ -636,11 +719,12 @@ namespace ElastoSystem
             cbProductos.Text = null;
             txbCantidad.Clear();
             txbNotas.Clear();
-            btnNuevo.Visible = false;
-            btnActualizar.Visible = false;
-            btnEliminar.Visible = false;
-            btnAgregar.Visible = true;
-            dgvPartidas.Rows.Clear();
         }
+
+        private void txbCantidad_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

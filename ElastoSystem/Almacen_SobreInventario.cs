@@ -31,5 +31,10 @@ namespace ElastoSystem
         {
             this.Close();
         }
+
+        private void Almacen_SobreInventario_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

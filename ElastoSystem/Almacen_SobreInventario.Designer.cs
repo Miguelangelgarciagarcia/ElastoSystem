@@ -128,6 +128,7 @@
             Name = "Almacen_SobreInventario";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Almacen_SobreInventario";
+            Load += Almacen_SobreInventario_Load;
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
