@@ -38,7 +38,7 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Almacen, Nuevo_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Admin_Inventario, Inventario_Almacen, Almacen_Fabricacion, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Pendientes_Sistemas, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @idmenu";
+                string query = "SELECT Almacen, Nuevo_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Admin_Inventario, Inventario_Almacen, Almacen_Fabricacion, Admin_SolicitudFabr, Compras, Consumibles_Almacen, ComprasReq, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Indicador_Compras, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Pendientes_Sistemas, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @idmenu";
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@idmenu", idmenu);
 
@@ -93,10 +93,17 @@ namespace ElastoSystem
                         }
 
                         string almacenFabricacionValue = reader["Almacen_Fabricacion"].ToString();
-                        if(almacenFabricacionValue == "True")
+                        if (almacenFabricacionValue == "True")
                         {
                             btnSolicitudFabricacion.Enabled = true;
                             btnSolicitudFabricacion.Visible = true;
+                        }
+
+                        string adminSolicitudFabrValue = reader["Admin_SolicitudFabr"].ToString();
+                        if (adminSolicitudFabrValue == "True")
+                        {
+                            btnAdministarSolicitudes.Enabled = true;
+                            btnAdministarSolicitudes.Visible = true;
                         }
                     }
 
@@ -199,6 +206,7 @@ namespace ElastoSystem
                             btnPendientesSistemas.Visible = true;
                         }
                     }
+
                     string ventasValue = reader["Ventas"].ToString();
                     if (ventasValue == "True")
                     {
@@ -229,6 +237,7 @@ namespace ElastoSystem
                             btnNuevaCotizacion.Visible = true;
                         }
                     }
+
                     string produccionValue = reader["Produccion"].ToString();
                     if (produccionValue == "True")
                     {
@@ -241,6 +250,7 @@ namespace ElastoSystem
                             btnReporte.Visible = true;
                         }
                     }
+
                     string maquinadoValue = reader["Maquinado"].ToString();
                     if (maquinadoValue == "True")
                     {
@@ -265,6 +275,7 @@ namespace ElastoSystem
                             btnHistoricoMaquinado.Visible = true;
                         }
                     }
+
                     string mantenimientoValue = reader["Mantenimiento"].ToString();
                     if (mantenimientoValue == "True")
                     {
@@ -815,6 +826,12 @@ namespace ElastoSystem
         private void button2_Click_2(object sender, EventArgs e)
         {
             openChildForm(new Almacen_Fabricacion());
+            HideSubMenu();
+        }
+
+        private void btnAdministarSolicitudes_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Almacen_AdministrarSolicitudes());
             HideSubMenu();
         }
     }

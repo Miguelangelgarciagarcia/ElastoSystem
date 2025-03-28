@@ -35,6 +35,7 @@
             label2 = new Label();
             cbUsuarios = new ComboBox();
             panel1 = new Panel();
+            chbAdminSolFab = new CheckBox();
             chbSolicitudFabricacion = new CheckBox();
             chbInventarioAlmacenPT = new CheckBox();
             chbAdminInventarioPT = new CheckBox();
@@ -191,6 +192,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
+            panel1.Controls.Add(chbAdminSolFab);
             panel1.Controls.Add(chbSolicitudFabricacion);
             panel1.Controls.Add(chbInventarioAlmacenPT);
             panel1.Controls.Add(chbAdminInventarioPT);
@@ -202,8 +204,21 @@
             panel1.Controls.Add(chbAlmacen);
             panel1.Location = new Point(15, 75);
             panel1.Name = "panel1";
-            panel1.Size = new Size(240, 267);
+            panel1.Size = new Size(240, 291);
             panel1.TabIndex = 3;
+            // 
+            // chbAdminSolFab
+            // 
+            chbAdminSolFab.AutoSize = true;
+            chbAdminSolFab.Font = new Font("Montserrat", 9F);
+            chbAdminSolFab.ForeColor = Color.White;
+            chbAdminSolFab.Location = new Point(15, 256);
+            chbAdminSolFab.Name = "chbAdminSolFab";
+            chbAdminSolFab.Size = new Size(212, 20);
+            chbAdminSolFab.TabIndex = 9;
+            chbAdminSolFab.Text = "Admin. Solicitudes Fabricacion";
+            chbAdminSolFab.UseVisualStyleBackColor = true;
+            chbAdminSolFab.CheckedChanged += chbAdminSolFab_CheckedChanged;
             // 
             // chbSolicitudFabricacion
             // 
@@ -346,7 +361,7 @@
             panel2.Controls.Add(chbCompras);
             panel2.Location = new Point(265, 75);
             panel2.Name = "panel2";
-            panel2.Size = new Size(240, 267);
+            panel2.Size = new Size(240, 291);
             panel2.TabIndex = 5;
             // 
             // chbConsultarOCs
@@ -459,7 +474,7 @@
             panel3.Controls.Add(chbGenerarCredencial);
             panel3.Controls.Add(chbRegistroTrabajador);
             panel3.Controls.Add(chbRecursosHumanos);
-            panel3.Location = new Point(15, 349);
+            panel3.Location = new Point(15, 372);
             panel3.Name = "panel3";
             panel3.Size = new Size(240, 267);
             panel3.TabIndex = 6;
@@ -510,7 +525,7 @@
             panel4.Controls.Add(chbPermisos);
             panel4.Controls.Add(chbRequisicion);
             panel4.Controls.Add(chbSistemas);
-            panel4.Location = new Point(265, 349);
+            panel4.Location = new Point(265, 372);
             panel4.Name = "panel4";
             panel4.Size = new Size(240, 267);
             panel4.TabIndex = 7;
@@ -575,7 +590,7 @@
             btnactualizar.FlatStyle = FlatStyle.Flat;
             btnactualizar.Font = new Font("Montserrat", 14.25F, FontStyle.Bold);
             btnactualizar.ForeColor = Color.White;
-            btnactualizar.Location = new Point(837, 380);
+            btnactualizar.Location = new Point(837, 403);
             btnactualizar.Name = "btnactualizar";
             btnactualizar.Size = new Size(318, 47);
             btnactualizar.TabIndex = 8;
@@ -591,7 +606,7 @@
             panel5.Controls.Add(chbNuevaCotizacion);
             panel5.Controls.Add(chbClientes);
             panel5.Controls.Add(chbVentas);
-            panel5.Location = new Point(519, 349);
+            panel5.Location = new Point(519, 372);
             panel5.Name = "panel5";
             panel5.Size = new Size(240, 267);
             panel5.TabIndex = 9;
@@ -668,7 +683,7 @@
             panel6.Controls.Add(chbProduccion);
             panel6.Location = new Point(1011, 75);
             panel6.Name = "panel6";
-            panel6.Size = new Size(240, 267);
+            panel6.Size = new Size(240, 291);
             panel6.TabIndex = 10;
             // 
             // chbReporteProduccion
@@ -706,7 +721,7 @@
             panel7.Controls.Add(chbMaquinado);
             panel7.Location = new Point(765, 75);
             panel7.Name = "panel7";
-            panel7.Size = new Size(240, 267);
+            panel7.Size = new Size(240, 291);
             panel7.TabIndex = 11;
             // 
             // chbHistorialMaquinado
@@ -769,7 +784,7 @@
             tabControl1.Location = new Point(29, 88);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1281, 665);
+            tabControl1.Size = new Size(1281, 708);
             tabControl1.TabIndex = 12;
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
@@ -807,7 +822,7 @@
             tabGestionUsuarios.Location = new Point(4, 24);
             tabGestionUsuarios.Name = "tabGestionUsuarios";
             tabGestionUsuarios.Padding = new Padding(3);
-            tabGestionUsuarios.Size = new Size(1273, 637);
+            tabGestionUsuarios.Size = new Size(1273, 680);
             tabGestionUsuarios.TabIndex = 0;
             tabGestionUsuarios.Text = "Gestion de Usuarios";
             tabGestionUsuarios.UseVisualStyleBackColor = true;
@@ -1156,7 +1171,7 @@
             tabPermisosUsuarios.Location = new Point(4, 24);
             tabPermisosUsuarios.Name = "tabPermisosUsuarios";
             tabPermisosUsuarios.Padding = new Padding(3);
-            tabPermisosUsuarios.Size = new Size(1273, 637);
+            tabPermisosUsuarios.Size = new Size(1273, 680);
             tabPermisosUsuarios.TabIndex = 1;
             tabPermisosUsuarios.Text = "Permisos de Usuarios";
             tabPermisosUsuarios.UseVisualStyleBackColor = true;
@@ -1171,7 +1186,7 @@
             panel8.Controls.Add(chbMantenimiento);
             panel8.Location = new Point(519, 75);
             panel8.Name = "panel8";
-            panel8.Size = new Size(240, 267);
+            panel8.Size = new Size(240, 291);
             panel8.TabIndex = 12;
             // 
             // chbInventarioMaquinas
@@ -1251,7 +1266,7 @@
             tabPage1.Controls.Add(label8);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
-            tabPage1.Size = new Size(1273, 637);
+            tabPage1.Size = new Size(1273, 680);
             tabPage1.TabIndex = 2;
             tabPage1.Text = "Permisos Especiales";
             tabPage1.UseVisualStyleBackColor = true;
@@ -1575,5 +1590,6 @@
         private PictureBox pbOjoAbierto;
         private CheckBox chbPendientesSistemas;
         private CheckBox chbSolicitudFabricacion;
+        private CheckBox chbAdminSolFab;
     }
 }

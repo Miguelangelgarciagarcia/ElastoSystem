@@ -77,6 +77,7 @@
             btnConsumibles = new Button();
             button6 = new Button();
             panelSubMenuAlmacen = new Panel();
+            btnAdministarSolicitudes = new Button();
             btnSolicitudFabricacion = new Button();
             btnInventarioAlmacen = new Button();
             btnAdminInventario = new Button();
@@ -228,7 +229,7 @@
             sbmMantenimiento.Controls.Add(btnPendientesMtto);
             sbmMantenimiento.Controls.Add(btnSolicitudMantenimiento);
             sbmMantenimiento.Dock = DockStyle.Top;
-            sbmMantenimiento.Location = new Point(0, 1440);
+            sbmMantenimiento.Location = new Point(0, 1478);
             sbmMantenimiento.Name = "sbmMantenimiento";
             sbmMantenimiento.Size = new Size(187, 153);
             sbmMantenimiento.TabIndex = 17;
@@ -317,7 +318,7 @@
             btnMantenimiento.FlatStyle = FlatStyle.Flat;
             btnMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnMantenimiento.ForeColor = Color.White;
-            btnMantenimiento.Location = new Point(0, 1404);
+            btnMantenimiento.Location = new Point(0, 1442);
             btnMantenimiento.Name = "btnMantenimiento";
             btnMantenimiento.Padding = new Padding(10, 0, 0, 0);
             btnMantenimiento.Size = new Size(187, 36);
@@ -335,7 +336,7 @@
             sbmMaquinado.Controls.Add(btnPendientesMaquinado);
             sbmMaquinado.Controls.Add(btnSolicitudMquinado);
             sbmMaquinado.Dock = DockStyle.Top;
-            sbmMaquinado.Location = new Point(0, 1280);
+            sbmMaquinado.Location = new Point(0, 1318);
             sbmMaquinado.Name = "sbmMaquinado";
             sbmMaquinado.Size = new Size(187, 124);
             sbmMaquinado.TabIndex = 15;
@@ -405,7 +406,7 @@
             btnMaquinado.FlatStyle = FlatStyle.Flat;
             btnMaquinado.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnMaquinado.ForeColor = Color.White;
-            btnMaquinado.Location = new Point(0, 1244);
+            btnMaquinado.Location = new Point(0, 1282);
             btnMaquinado.Name = "btnMaquinado";
             btnMaquinado.Padding = new Padding(10, 0, 0, 0);
             btnMaquinado.Size = new Size(187, 36);
@@ -421,7 +422,7 @@
             sbmProduccion.BackColor = Color.FromArgb(3, 52, 92);
             sbmProduccion.Controls.Add(btnReporte);
             sbmProduccion.Dock = DockStyle.Top;
-            sbmProduccion.Location = new Point(0, 1192);
+            sbmProduccion.Location = new Point(0, 1230);
             sbmProduccion.Name = "sbmProduccion";
             sbmProduccion.Size = new Size(187, 52);
             sbmProduccion.TabIndex = 13;
@@ -453,7 +454,7 @@
             btnProduccion.FlatStyle = FlatStyle.Flat;
             btnProduccion.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnProduccion.ForeColor = Color.White;
-            btnProduccion.Location = new Point(0, 1156);
+            btnProduccion.Location = new Point(0, 1194);
             btnProduccion.Name = "btnProduccion";
             btnProduccion.Padding = new Padding(10, 0, 0, 0);
             btnProduccion.Size = new Size(187, 36);
@@ -472,7 +473,7 @@
             sbmVentas.Controls.Add(btnCatalogoClientes);
             sbmVentas.Controls.Add(btnBuscarCotizacion);
             sbmVentas.Dock = DockStyle.Top;
-            sbmVentas.Location = new Point(0, 1000);
+            sbmVentas.Location = new Point(0, 1038);
             sbmVentas.Name = "sbmVentas";
             sbmVentas.Size = new Size(187, 156);
             sbmVentas.TabIndex = 11;
@@ -561,7 +562,7 @@
             btnVentas.FlatStyle = FlatStyle.Flat;
             btnVentas.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnVentas.ForeColor = Color.White;
-            btnVentas.Location = new Point(0, 964);
+            btnVentas.Location = new Point(0, 1002);
             btnVentas.Name = "btnVentas";
             btnVentas.Padding = new Padding(10, 0, 0, 0);
             btnVentas.Size = new Size(187, 36);
@@ -579,7 +580,7 @@
             panelSubMenu4.Controls.Add(btnPermisos);
             panelSubMenu4.Controls.Add(btnSistemasReq);
             panelSubMenu4.Dock = DockStyle.Top;
-            panelSubMenu4.Location = new Point(0, 846);
+            panelSubMenu4.Location = new Point(0, 884);
             panelSubMenu4.Name = "panelSubMenu4";
             panelSubMenu4.Size = new Size(187, 118);
             panelSubMenu4.TabIndex = 9;
@@ -649,7 +650,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(0, 810);
+            button1.Location = new Point(0, 848);
             button1.Name = "button1";
             button1.Padding = new Padding(10, 0, 0, 0);
             button1.Size = new Size(187, 36);
@@ -664,7 +665,7 @@
             // 
             panel1.Controls.Add(btninfo);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 1593);
+            panel1.Location = new Point(0, 1631);
             panel1.Name = "panel1";
             panel1.Size = new Size(187, 56);
             panel1.TabIndex = 0;
@@ -692,7 +693,7 @@
             panelSubMenu3.Controls.Add(btnCredencial);
             panelSubMenu3.Controls.Add(btnRegistroTrabajador);
             panelSubMenu3.Dock = DockStyle.Top;
-            panelSubMenu3.Location = new Point(0, 729);
+            panelSubMenu3.Location = new Point(0, 767);
             panelSubMenu3.Name = "panelSubMenu3";
             panelSubMenu3.Size = new Size(187, 81);
             panelSubMenu3.TabIndex = 7;
@@ -744,7 +745,7 @@
             button11.FlatStyle = FlatStyle.Flat;
             button11.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             button11.ForeColor = Color.White;
-            button11.Location = new Point(0, 693);
+            button11.Location = new Point(0, 731);
             button11.Name = "button11";
             button11.Padding = new Padding(10, 0, 0, 0);
             button11.Size = new Size(187, 36);
@@ -766,7 +767,7 @@
             panelSubMenu2.Controls.Add(btnReqCompra);
             panelSubMenu2.Controls.Add(btnConsumibles);
             panelSubMenu2.Dock = DockStyle.Top;
-            panelSubMenu2.Location = new Point(0, 433);
+            panelSubMenu2.Location = new Point(0, 471);
             panelSubMenu2.Name = "panelSubMenu2";
             panelSubMenu2.Size = new Size(187, 260);
             panelSubMenu2.TabIndex = 5;
@@ -912,7 +913,7 @@
             button6.FlatStyle = FlatStyle.Flat;
             button6.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             button6.ForeColor = Color.White;
-            button6.Location = new Point(0, 397);
+            button6.Location = new Point(0, 435);
             button6.Name = "button6";
             button6.Padding = new Padding(10, 0, 0, 0);
             button6.Size = new Size(187, 36);
@@ -926,6 +927,7 @@
             // panelSubMenuAlmacen
             // 
             panelSubMenuAlmacen.BackColor = Color.FromArgb(3, 52, 92);
+            panelSubMenuAlmacen.Controls.Add(btnAdministarSolicitudes);
             panelSubMenuAlmacen.Controls.Add(btnSolicitudFabricacion);
             panelSubMenuAlmacen.Controls.Add(btnInventarioAlmacen);
             panelSubMenuAlmacen.Controls.Add(btnAdminInventario);
@@ -936,8 +938,27 @@
             panelSubMenuAlmacen.Dock = DockStyle.Top;
             panelSubMenuAlmacen.Location = new Point(0, 134);
             panelSubMenuAlmacen.Name = "panelSubMenuAlmacen";
-            panelSubMenuAlmacen.Size = new Size(187, 263);
+            panelSubMenuAlmacen.Size = new Size(187, 301);
             panelSubMenuAlmacen.TabIndex = 3;
+            // 
+            // btnAdministarSolicitudes
+            // 
+            btnAdministarSolicitudes.Dock = DockStyle.Top;
+            btnAdministarSolicitudes.Enabled = false;
+            btnAdministarSolicitudes.FlatAppearance.BorderSize = 0;
+            btnAdministarSolicitudes.FlatStyle = FlatStyle.Flat;
+            btnAdministarSolicitudes.Font = new Font("Montserrat", 10F);
+            btnAdministarSolicitudes.ForeColor = Color.White;
+            btnAdministarSolicitudes.Location = new Point(0, 252);
+            btnAdministarSolicitudes.Name = "btnAdministarSolicitudes";
+            btnAdministarSolicitudes.Padding = new Padding(20, 0, 0, 0);
+            btnAdministarSolicitudes.Size = new Size(187, 36);
+            btnAdministarSolicitudes.TabIndex = 11;
+            btnAdministarSolicitudes.Text = "Administrar Solicitudes";
+            btnAdministarSolicitudes.TextAlign = ContentAlignment.MiddleLeft;
+            btnAdministarSolicitudes.UseVisualStyleBackColor = true;
+            btnAdministarSolicitudes.Visible = false;
+            btnAdministarSolicitudes.Click += btnAdministarSolicitudes_Click;
             // 
             // btnSolicitudFabricacion
             // 
@@ -1262,5 +1283,6 @@
         private DataGridView dgvProductos;
         private Button btnPendientesSistemas;
         private Button btnSolicitudFabricacion;
+        private Button btnAdministarSolicitudes;
     }
 }
