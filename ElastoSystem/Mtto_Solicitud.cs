@@ -6,6 +6,8 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -269,6 +271,7 @@ namespace ElastoSystem
                 cmd.Parameters.AddWithValue("@REFACCIONES", txbRefacciones.Text);
                 cmd.Parameters.AddWithValue("@ESTATUS", estatus);
                 cmd.ExecuteNonQuery();
+                EnviarCorreo();
                 MessageBox.Show("Orden: " + lblFolio.Text + " enviada con exito");
                 Limpiar();
                 Folio();
@@ -280,6 +283,54 @@ namespace ElastoSystem
             finally
             {
                 conn.Close();
+            }
+        }
+
+        private void EnviarCorreo()
+        {
+            try
+            {
+                SmtpClient smtpClient = new SmtpClient("smtp.ionos.mx");
+                smtpClient.Port = 587;
+                smtpClient.Credentials = new NetworkCredential("notificaciones.elastosystem@elastotecnica.com.mx", "El@st0Sys25.");
+                smtpClient.EnableSsl = true;
+
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress("notificaciones.elastosystem@elastotecnica.com.mx");
+                mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
+                //mailMessage.To.Add("imedinaa@elastotecnica.com");
+                //mailMessage.To.Add("mhernandez@elastotecnica.com");
+                mailMessage.Subject = "REQUERIMIENTO DE MANTENIMIENTO: " + lblFolio.Text;
+
+                StringBuilder cuerpoCorreo = new StringBuilder();
+                cuerpoCorreo.AppendLine("<html><body style='font-family: Arial, sans-serif;'>");
+                cuerpoCorreo.AppendLine($"<h2 style='color: #2E86C1;'>Detalles del Requerimiento {lblFolio.Text}</h2>");
+                cuerpoCorreo.AppendLine($"<h5>Solicitante: {VariablesGlobales.Usuario}</h5><br><br>");
+
+                cuerpoCorreo.AppendLine("<h3 style='color: #2E86C1;'>Detalles de la Falla</h3>");
+                cuerpoCorreo.AppendLine($"<p><strong>Prioridad:</strong> {cbPrioridad.Text}</p>");
+                cuerpoCorreo.AppendLine($"<p><strong>Tipo de Falla:</strong> {cbTipoFalla.Text}</p>");
+                cuerpoCorreo.AppendLine($"<p><strong>Descripcion:</strong> {txbDescripcion.Text}</p><br><br>");
+
+                cuerpoCorreo.AppendLine("<h3 style='color: #2E86C1;'>Datos del Equipo</h3>");
+                cuerpoCorreo.AppendLine($"<p><strong>Mantenimiento:</strong> {cbTipoReq.Text}</p>");
+                cuerpoCorreo.AppendLine($"<p><strong>Ubicacion:</strong> {cbUbicacion.Text}</p>");
+                cuerpoCorreo.AppendLine($"<p><strong>Maquina:</strong> {cbMaquinas.Text}</p><br><br>");
+
+                cuerpoCorreo.AppendLine("<h3 style='color: #2E86C1;'>Apoyo y Accesorios</h3>");
+                cuerpoCorreo.AppendLine($"<p><strong>Recomendaciones / Sugerencias:</strong> {txbRecSug.Text}</p>");
+                cuerpoCorreo.AppendLine($"<p><strong>Refacciones:</strong> {txbRefacciones.Text}</p>");
+
+                cuerpoCorreo.AppendLine("</body></html>");
+
+                mailMessage.IsBodyHtml = true;
+                mailMessage.Body = cuerpoCorreo.ToString();
+
+                smtpClient.Send(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL ENVIAR CORREO: " + ex.Message);
             }
         }
 
