@@ -140,7 +140,7 @@ namespace ElastoSystem
                             Cantidad_Produccion,
                             IFNULL(Finalizado, '0000-00-00') AS Finalizado
                         FROM elastosystem_almacen_solicitud_fabricacion
-                        WHERE Estatus = 'Finalizada'
+                        WHERE Estatus = 'Finalizada' OR Estatus = 'Cancelada'
                         ORDER BY Folio_ALT DESC";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
