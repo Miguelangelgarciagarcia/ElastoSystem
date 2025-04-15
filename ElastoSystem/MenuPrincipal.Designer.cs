@@ -48,6 +48,7 @@
             btnSolicitudMquinado = new Button();
             btnMaquinado = new Button();
             sbmProduccion = new Panel();
+            btnAdministrarProcesos = new Button();
             btnReporte = new Button();
             btnProduccion = new Button();
             sbmVentas = new Panel();
@@ -229,7 +230,7 @@
             sbmMantenimiento.Controls.Add(btnPendientesMtto);
             sbmMantenimiento.Controls.Add(btnSolicitudMantenimiento);
             sbmMantenimiento.Dock = DockStyle.Top;
-            sbmMantenimiento.Location = new Point(0, 1478);
+            sbmMantenimiento.Location = new Point(0, 1511);
             sbmMantenimiento.Name = "sbmMantenimiento";
             sbmMantenimiento.Size = new Size(187, 153);
             sbmMantenimiento.TabIndex = 17;
@@ -318,7 +319,7 @@
             btnMantenimiento.FlatStyle = FlatStyle.Flat;
             btnMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnMantenimiento.ForeColor = Color.White;
-            btnMantenimiento.Location = new Point(0, 1442);
+            btnMantenimiento.Location = new Point(0, 1475);
             btnMantenimiento.Name = "btnMantenimiento";
             btnMantenimiento.Padding = new Padding(10, 0, 0, 0);
             btnMantenimiento.Size = new Size(187, 36);
@@ -336,7 +337,7 @@
             sbmMaquinado.Controls.Add(btnPendientesMaquinado);
             sbmMaquinado.Controls.Add(btnSolicitudMquinado);
             sbmMaquinado.Dock = DockStyle.Top;
-            sbmMaquinado.Location = new Point(0, 1318);
+            sbmMaquinado.Location = new Point(0, 1351);
             sbmMaquinado.Name = "sbmMaquinado";
             sbmMaquinado.Size = new Size(187, 124);
             sbmMaquinado.TabIndex = 15;
@@ -406,7 +407,7 @@
             btnMaquinado.FlatStyle = FlatStyle.Flat;
             btnMaquinado.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnMaquinado.ForeColor = Color.White;
-            btnMaquinado.Location = new Point(0, 1282);
+            btnMaquinado.Location = new Point(0, 1315);
             btnMaquinado.Name = "btnMaquinado";
             btnMaquinado.Padding = new Padding(10, 0, 0, 0);
             btnMaquinado.Size = new Size(187, 36);
@@ -420,12 +421,32 @@
             // sbmProduccion
             // 
             sbmProduccion.BackColor = Color.FromArgb(3, 52, 92);
+            sbmProduccion.Controls.Add(btnAdministrarProcesos);
             sbmProduccion.Controls.Add(btnReporte);
             sbmProduccion.Dock = DockStyle.Top;
             sbmProduccion.Location = new Point(0, 1230);
             sbmProduccion.Name = "sbmProduccion";
-            sbmProduccion.Size = new Size(187, 52);
+            sbmProduccion.Size = new Size(187, 85);
             sbmProduccion.TabIndex = 13;
+            // 
+            // btnAdministrarProcesos
+            // 
+            btnAdministrarProcesos.Dock = DockStyle.Top;
+            btnAdministrarProcesos.Enabled = false;
+            btnAdministrarProcesos.FlatAppearance.BorderSize = 0;
+            btnAdministrarProcesos.FlatStyle = FlatStyle.Flat;
+            btnAdministrarProcesos.Font = new Font("Montserrat", 10F);
+            btnAdministrarProcesos.ForeColor = Color.White;
+            btnAdministrarProcesos.Location = new Point(0, 36);
+            btnAdministrarProcesos.Name = "btnAdministrarProcesos";
+            btnAdministrarProcesos.Padding = new Padding(20, 0, 0, 0);
+            btnAdministrarProcesos.Size = new Size(187, 36);
+            btnAdministrarProcesos.TabIndex = 4;
+            btnAdministrarProcesos.Text = "Administrar Procesos";
+            btnAdministrarProcesos.TextAlign = ContentAlignment.MiddleLeft;
+            btnAdministrarProcesos.UseVisualStyleBackColor = true;
+            btnAdministrarProcesos.Visible = false;
+            btnAdministrarProcesos.Click += btnAdministrarProcesos_Click;
             // 
             // btnReporte
             // 
@@ -665,7 +686,7 @@
             // 
             panel1.Controls.Add(btninfo);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 1631);
+            panel1.Location = new Point(0, 1664);
             panel1.Name = "panel1";
             panel1.Size = new Size(187, 56);
             panel1.TabIndex = 0;
@@ -1284,5 +1305,6 @@
         private Button btnPendientesSistemas;
         private Button btnSolicitudFabricacion;
         private Button btnAdministarSolicitudes;
+        private Button btnAdministrarProcesos;
     }
 }

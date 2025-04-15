@@ -101,7 +101,24 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Almacen, Nuevo_Producto, Editar_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Admin_Inventario, Inventario_Almacen, Almacen_Fabricacion, Admin_SolicitudFabr, Compras, ComprasReq, Indicador_Compras, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Consumibles_Almacen, Consumibles_Almacen, Compras_ConsultarOCs, Recursos_Humanos, Registro_Trabajador, Generar_Credencial, Sistemas, Requisicion, Permisos, Pendientes_Sistemas, Ventas, BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, Produccion, Reporte, Maquinado, Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, Mantenimiento, SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas FROM elastosystem_permisos_menu WHERE ID = @id";
+                string query = @"SELECT 
+                                Almacen, 
+                                    Nuevo_Producto, Editar_Producto, Registrar_Existencias, Control_Almacen, Consulta_Salidas, Admin_Inventario, Inventario_Almacen, Almacen_Fabricacion, Admin_SolicitudFabr, 
+                                Compras, 
+                                    ComprasReq, Indicador_Compras, ComprasAdmiReq, ComprasAdmiPro, ComprasReqEnviadas, Consumibles_Almacen, Consumibles_Almacen, Compras_ConsultarOCs, 
+                                Recursos_Humanos, 
+                                    Registro_Trabajador, Generar_Credencial, 
+                                Sistemas, 
+                                    Requisicion, Permisos, Pendientes_Sistemas, 
+                                Ventas, 
+                                    BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, 
+                                Produccion, 
+                                    Reporte, Administrar_Procesos,
+                                Maquinado, 
+                                    Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, 
+                                Mantenimiento, 
+                                    SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas 
+                                FROM elastosystem_permisos_menu WHERE ID = @id";
 
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@id", id);
@@ -297,6 +314,11 @@ namespace ElastoSystem
                         {
                             chbReporteProduccion.Checked = true;
                         }
+                        string administrarprocesosValue = reader["Administrar_Procesos"].ToString();
+                        if (administrarprocesosValue == "True")
+                        {
+                            chbAdministrarProcesos.Checked = true;
+                        }
 
                     }
 
@@ -378,6 +400,7 @@ namespace ElastoSystem
             chbInventarioAlmacenPT.Checked = false;
             chbSolicitudFabricacion.Checked = false;
             chbAdminSolFab.Checked = false;
+
             chbCompras.Checked = false;
             chbConsumiblesAlmacen.Checked = false;
             chbReqCompra.Checked = false;
@@ -387,24 +410,31 @@ namespace ElastoSystem
             chbIndicadorCompras.Checked = false;
             chbConsumiblesAlmacen.Checked = false;
             chbConsultarOCs.Checked = false;
+
             chbRecursosHumanos.Checked = false;
             chbRegistroTrabajador.Checked = false;
             chbGenerarCredencial.Checked = false;
+
             chbSistemas.Checked = false;
             chbRequisicion.Checked = false;
             chbPermisos.Checked = false;
             chbPendientesSistemas.Checked = false;
+
             chbVentas.Checked = false;
             chbBuscarCotizacion.Checked = false;
             chbClientes.Checked = false;
             chbCatalogoProductos.Checked = false;
             chbNuevaCotizacion.Checked = false;
+
             chbProduccion.Checked = false;
             chbReporteProduccion.Checked = false;
+            chbAdministrarProcesos.Checked = false;
+
             chbMaquinado.Checked = false;
             chbSolicitudMaquinado.Checked = false;
             chbPendientesMaquinado.Checked = false;
             chbHistorialMaquinado.Checked = false;
+
             chbMantenimiento.Checked = false;
             chbSolicitudMtto.Checked = false;
             chbPendientesMtto.Checked = false;
@@ -451,6 +481,7 @@ namespace ElastoSystem
 
             bool boolProduccion = chbProduccion.Checked;
             bool boolReporte = chbReporteProduccion.Checked;
+            bool boolAdministrarProcesos = chbAdministrarProcesos.Checked;
 
             bool boolMaquinado = chbMaquinado.Checked;
             bool boolSolicitud_Maquinado = chbSolicitudMaquinado.Checked;
@@ -469,7 +500,7 @@ namespace ElastoSystem
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Almacen = " + boolAlmacen + ", Nuevo_Producto = " + boolNuevoProducto + ", Editar_Producto = " + boolEditarProducto + ", Registrar_Existencias = " + boolRegistrarExistencias + ", Control_Almacen = " + boolControlAlmacen + ", Consulta_Salidas = " + boolConsultaSalidas + ", Admin_Inventario = " + boolAdminInventarioPT + ", Inventario_Almacen = " + boolInventarioAlmacenPT + ", Almacen_Fabricacion = " + boolSolicitudFabricacion + ", Admin_SolicitudFabr = " + boolAdminSolFab + ", Compras = " + boolCompras + ", ComprasReq = " + boolRequerimientosCompras + ", Indicador_Compras = " + boolIndicadorCompras + ", ComprasAdmiReq = " + boolAdministrarReq + ", ComprasAdmiPro = " + boolAdmiProvee + ", ComprasReqEnviadas = " + boolReqEnviadas + ", Consumibles_Almacen = " + boolConsumiblesAlmacen + ", Compras_ConsultarOCs = " + boolConsultarOCs + ", Recursos_Humanos = " + boolRecursosHumanos + ", Registro_Trabajador = " + boolRegistroTrabajador + ", Generar_Credencial = " + boolGenerarCredencial + ", Sistemas = " + boolSistemas + ", Requisicion = " + boolRequisicion + ", Pendientes_Sistemas = " + boolPendientesSistemas + " , Permisos = " + boolPermisos + ", Ventas = " + boolVentas + ", BuscarCotizacion = " + boolBuscarCotizacion + ", Clientes = " + boolClientes + ", CatalogoProductos = " + boolCatalogoProductos + ", NuevaCotizacion = " + boolNuevaCotizacion + ", Produccion = " + boolProduccion + ", Reporte = " + boolReporte + ", Maquinado = " + boolMaquinado + ", Solicitud_Maquinado = " + boolSolicitud_Maquinado + ", Pendientes_Maquinado = " + boolPendientes_Maquinado + ", Historial_Maquinado = " + boolHistorial_Maquinado + ", Mantenimiento = " + boolMantenimiento + ", SolicitudMtto = " + boolSolicitudMtto + ", PendientesMtto = " + boolPendientesMtto + ", HistoricoMtto = " + boolHistorialMtto + ", InventarioMaquinas = " + boolInventarioMaquinas + "   WHERE ID = '" + lblNumeroTemp.Text + "'";
+                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Almacen = " + boolAlmacen + ", Nuevo_Producto = " + boolNuevoProducto + ", Editar_Producto = " + boolEditarProducto + ", Registrar_Existencias = " + boolRegistrarExistencias + ", Control_Almacen = " + boolControlAlmacen + ", Consulta_Salidas = " + boolConsultaSalidas + ", Admin_Inventario = " + boolAdminInventarioPT + ", Inventario_Almacen = " + boolInventarioAlmacenPT + ", Almacen_Fabricacion = " + boolSolicitudFabricacion + ", Admin_SolicitudFabr = " + boolAdminSolFab + ", Compras = " + boolCompras + ", ComprasReq = " + boolRequerimientosCompras + ", Indicador_Compras = " + boolIndicadorCompras + ", ComprasAdmiReq = " + boolAdministrarReq + ", ComprasAdmiPro = " + boolAdmiProvee + ", ComprasReqEnviadas = " + boolReqEnviadas + ", Consumibles_Almacen = " + boolConsumiblesAlmacen + ", Compras_ConsultarOCs = " + boolConsultarOCs + ", Recursos_Humanos = " + boolRecursosHumanos + ", Registro_Trabajador = " + boolRegistroTrabajador + ", Generar_Credencial = " + boolGenerarCredencial + ", Sistemas = " + boolSistemas + ", Requisicion = " + boolRequisicion + ", Pendientes_Sistemas = " + boolPendientesSistemas + " , Permisos = " + boolPermisos + ", Ventas = " + boolVentas + ", BuscarCotizacion = " + boolBuscarCotizacion + ", Clientes = " + boolClientes + ", CatalogoProductos = " + boolCatalogoProductos + ", NuevaCotizacion = " + boolNuevaCotizacion + ", Produccion = " + boolProduccion + ", Reporte = " + boolReporte + ", Administrar_Procesos = " + boolAdministrarProcesos + ", Maquinado = " + boolMaquinado + ", Solicitud_Maquinado = " + boolSolicitud_Maquinado + ", Pendientes_Maquinado = " + boolPendientes_Maquinado + ", Historial_Maquinado = " + boolHistorial_Maquinado + ", Mantenimiento = " + boolMantenimiento + ", SolicitudMtto = " + boolSolicitudMtto + ", PendientesMtto = " + boolPendientesMtto + ", HistoricoMtto = " + boolHistorialMtto + ", InventarioMaquinas = " + boolInventarioMaquinas + "   WHERE ID = '" + lblNumeroTemp.Text + "'";
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("DATOS ACTUALIZADOS CON EXITO");
                 LimpiarCheckBox();
@@ -757,6 +788,7 @@ namespace ElastoSystem
             if (chbProduccion.Checked == false)
             {
                 chbReporteProduccion.Checked = false;
+                chbAdministrarProcesos.Checked = false;
             }
         }
 
@@ -1400,9 +1432,17 @@ namespace ElastoSystem
 
         private void chbAdminSolFab_CheckedChanged(object sender, EventArgs e)
         {
-            if(chbAdminSolFab.Checked == true)
+            if (chbAdminSolFab.Checked == true)
             {
                 chbAlmacen.Checked = true;
+            }
+        }
+
+        private void chbAdministrarProcesos_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chbAdministrarProcesos.Checked == true)
+            {
+                chbProduccion.Checked = true;
             }
         }
     }
