@@ -20,8 +20,7 @@ namespace ElastoSystem
 
         private void Produccion_AdministrarProcesos_Load(object sender, EventArgs e)
         {
-            CargarFamilias();
-            CargarAreas();
+
         }
 
         private void CargarFamilias()
@@ -46,7 +45,7 @@ namespace ElastoSystem
         {
             try
             {
-                string query = "SELECT Area FROM elastosystem_produccion_area";
+                string query = "SELECT Area, Nave FROM elastosystem_produccion_area";
                 MySqlDataAdapter adaptador = new MySqlDataAdapter(query, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 adaptador.Fill(dt);
@@ -57,6 +56,24 @@ namespace ElastoSystem
             catch (Exception ex)
             {
                 MessageBox.Show("ERROR AL CARGAR AREAS: " + ex.Message);
+            }
+        }
+
+        private void CargarHules()
+        {
+            try
+            {
+                string query = "SELECT Hule FROM elastosystem_produccion_hules";
+                MySqlDataAdapter adaptador = new MySqlDataAdapter(query, VariablesGlobales.ConexionBDElastotecnica);
+                DataTable dt = new DataTable();
+                adaptador.Fill(dt);
+                dgvHules.DataSource = dt;
+                dgvHules.ColumnHeadersVisible = false;
+                dt.DefaultView.Sort = "Hule ASC";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL CARGAR HULES: " + ex.Message);
             }
         }
 
@@ -130,6 +147,11 @@ namespace ElastoSystem
 
         private void btnAgregarAreas_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txbAreas.Text) || string.IsNullOrWhiteSpace(cbNaveAreas.Text))
+            {
+                MessageBox.Show("No puedes dejar las casillas vacia.");
+                return;
+            }
             AgregarAreas();
         }
 
@@ -153,10 +175,11 @@ namespace ElastoSystem
                         return;
                     }
 
-                    string insertQuery = "INSERT INTO elastosystem_produccion_area (Area) VALUES (@AREA)";
+                    string insertQuery = "INSERT INTO elastosystem_produccion_area (Area, Nave) VALUES (@AREA, @NAVE)";
                     MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn);
 
                     insertCmd.Parameters.AddWithValue("@AREA", txbAreas.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("@NAVE", cbNaveAreas.Text.Trim());
 
                     int rowsAffected = insertCmd.ExecuteNonQuery();
 
@@ -231,12 +254,14 @@ namespace ElastoSystem
             btnAgregarAreas.Visible = false;
 
             txbAreas.Clear();
+            cbNaveAreas.SelectedIndex = -1;
 
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dgvAreas.Rows[e.RowIndex];
                 txbAreas.Text = row.Cells[0].Value.ToString();
                 txbAreasOriginal.Text = row.Cells[0].Value.ToString();
+                cbNaveAreas.Text = row.Cells[1].Value.ToString();
             }
         }
 
@@ -262,6 +287,7 @@ namespace ElastoSystem
 
             txbAreas.Clear();
             txbAreasOriginal.Clear();
+            cbNaveAreas.SelectedIndex = -1;
 
             CargarAreas();
         }
@@ -323,9 +349,9 @@ namespace ElastoSystem
 
         private void btnEditarAreas_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txbAreas.Text))
+            if (string.IsNullOrWhiteSpace(txbAreas.Text) || string.IsNullOrWhiteSpace(cbNaveAreas.Text))
             {
-                MessageBox.Show("No puedes dejar la casilla vacia.");
+                MessageBox.Show("No puedes dejar las casillas vacia.");
                 return;
             }
             ActualizarArea();
@@ -353,10 +379,11 @@ namespace ElastoSystem
                         return;
                     }
 
-                    string updateQuery = "UPDATE elastosystem_produccion_area SET Area = @AREA WHERE Area = @AREA_ORIGINAL";
+                    string updateQuery = "UPDATE elastosystem_produccion_area SET Area = @AREA, Nave = @NAVE WHERE Area = @AREA_ORIGINAL";
 
                     MySqlCommand cmd = new MySqlCommand();
                     cmd.Parameters.AddWithValue("@AREA", txbAreas.Text.Trim());
+                    cmd.Parameters.AddWithValue("@NAVE", cbNaveAreas.Text.Trim());
                     cmd.Parameters.AddWithValue("@AREA_ORIGINAL", txbAreasOriginal.Text.Trim());
                     cmd.Connection = conn;
                     cmd.CommandText = updateQuery;
@@ -457,6 +484,209 @@ namespace ElastoSystem
         private void txbAreas_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.KeyChar = char.ToUpper(e.KeyChar);
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 2)
+            {
+                CargarFamilias();
+                CargarAreas();
+                CargarHules();
+            }
+        }
+
+        private void btnAgregarHules_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txbHule.Text))
+            {
+                MessageBox.Show("Por favor, ingrese un hule.");
+                return;
+            }
+            AgregarHule();
+        }
+
+        private void AgregarHule()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string check = "SELECT COUNT(*) FROM elastosystem_produccion_hules WHERE Hule = @HULE";
+                    MySqlCommand cmd = new MySqlCommand(check, conn);
+                    cmd.Parameters.AddWithValue("@HULE", txbHule.Text.Trim());
+                    int huleCount = Convert.ToInt32(cmd.ExecuteScalar());
+                    if (huleCount > 0)
+                    {
+                        MessageBox.Show("El hule ya existe.");
+                        return;
+                    }
+                    string insertQuery = "INSERT INTO elastosystem_produccion_hules (Hule) VALUES (@HULE)";
+                    MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn);
+                    insertCmd.Parameters.AddWithValue("@HULE", txbHule.Text.Trim());
+                    int rowsAffected = insertCmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Hule agregado correctamente.");
+                        txbHule.Clear();
+                        CargarHules();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo agregar el hule.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL AGREGAR EL HULE: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void txbHule_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                btnAgregarHules.PerformClick();
+            }
+        }
+
+        private void txbHule_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.KeyChar = char.ToUpper(e.KeyChar);
+        }
+
+        private void dgvHules_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnNuevoHules.Visible = true;
+            btnEliminarHules.Visible = true;
+            btnEditarHules.Visible = true;
+            btnAgregarHules.Visible = false;
+
+            txbHule.Clear();
+
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvHules.Rows[e.RowIndex];
+                txbHule.Text = row.Cells[0].Value.ToString();
+                txbHuleOriginal.Text = row.Cells[0].Value.ToString();
+            }
+        }
+
+        private void btnNuevoHules_Click(object sender, EventArgs e)
+        {
+            btnNuevoHules.Visible = false;
+            btnEliminarHules.Visible = false;
+            btnEditarHules.Visible = false;
+            btnAgregarHules.Visible = true;
+
+            txbHule.Clear();
+            txbHuleOriginal.Clear();
+
+            CargarHules();
+        }
+
+        private void btnEditarHules_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txbHule.Text))
+            {
+                MessageBox.Show("No puedes dejar la casilla vacia.");
+                return;
+            }
+            ActualizarHule();
+        }
+
+        private void ActualizarHule()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string checkQuery = "SELECT COUNT(*) FROM elastosystem_produccion_hules WHERE Hule = @NUEVO_HULE AND Hule != @HULE_ORIGINAL";
+
+                    MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn);
+                    checkCmd.Parameters.AddWithValue("@NUEVO_HULE", txbHule.Text.Trim());
+                    checkCmd.Parameters.AddWithValue("@HULE_ORIGINAL", txbHuleOriginal.Text.Trim());
+
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (count > 0)
+                    {
+                        MessageBox.Show("El hule ya existe.");
+                        return;
+                    }
+
+                    string updateQuery = "UPDATE elastosystem_produccion_hules SET Hule = @HULE WHERE Hule = @HULE_ORIGINAL";
+
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Parameters.AddWithValue("@HULE", txbHule.Text.Trim());
+                    cmd.Parameters.AddWithValue("@HULE_ORIGINAL", txbHuleOriginal.Text.Trim());
+                    cmd.Connection = conn;
+                    cmd.CommandText = updateQuery;
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Hule actualizado correctamente.");
+                    btnNuevoHules.PerformClick();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ACTUALIZAR HULE: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void tabHojaRuta_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnEliminarHules_Click(object sender, EventArgs e)
+        {
+            EliminarHule();
+        }
+
+        private void EliminarHule()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string deleteQuery = "DELETE FROM elastosystem_produccion_hules WHERE Hule = @HULE";
+                    MySqlCommand cmd = new MySqlCommand(deleteQuery, conn);
+
+                    cmd.Parameters.AddWithValue("@HULE", txbHuleOriginal.Text.Trim());
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("HULE ELIMINADO CORRECTAMENTE");
+                        btnNuevoHules.PerformClick();
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ELIMINAR HULE: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
     }
 }
