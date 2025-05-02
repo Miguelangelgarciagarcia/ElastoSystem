@@ -18,9 +18,13 @@ namespace ElastoSystem
             InitializeComponent();
         }
 
+        bool status = false;
         private void Produccion_AdministrarProcesos_Load(object sender, EventArgs e)
         {
-
+            LimpiarHojaRuta();
+            HRCargarFamilias();
+            HRCargarAreas();
+            HRCargarHules();
         }
 
         private void CargarFamilias()
@@ -488,6 +492,19 @@ namespace ElastoSystem
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (tabControl1.SelectedIndex == 0)
+            {
+                LimpiarHojaRuta();
+                HRCargarFamilias();
+                HRCargarAreas();
+                HRCargarHules();
+            }
+            if (tabControl1.SelectedIndex == 1)
+            {
+                LimpiarCamposEncabezado();
+                CargarFamiliasAdmin();
+                CargarEncabezados();
+            }
             if (tabControl1.SelectedIndex == 2)
             {
                 CargarFamilias();
@@ -496,6 +513,170 @@ namespace ElastoSystem
             }
         }
 
+        private void CargarEncabezados()
+        {
+            string query = "SELECT * FROM elastosystem_produccion_encabezado";
+            MySqlDataAdapter adaptador = new MySqlDataAdapter(query, VariablesGlobales.ConexionBDElastotecnica);
+            DataTable dt = new DataTable();
+            adaptador.Fill(dt);
+            dgvEncabezados.DataSource = dt;
+            dgvEncabezados.Columns["ID"].Visible = false;
+            dgvEncabezados.Columns["Imagen"].Visible = false;
+        }
+
+        private void CargarFamiliasAdmin()
+        {
+            cbFamiliaAdministrar.Items.Clear();
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT Familia
+                        FROM elastosystem_produccion_familia
+                        ORDER BY Familia ASC";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string familia = reader["Familia"].ToString();
+                        cbFamiliaAdministrar.Items.Add(familia);
+                    }
+
+                    cbFamiliaAdministrar.SelectedIndex = -1;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR FAMILIAS: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void HRCargarFamilias()
+        {
+            cbFamilia.Items.Clear();
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT Familia FROM elastosystem_produccion_familia ORDER BY Familia ASC";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string familia = reader["Familia"].ToString();
+                        cbFamilia.Items.Add(familia);
+                    }
+
+                    cbFamilia.SelectedIndex = -1;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR FAMILIAS: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void LimpiarHojaRuta()
+        {
+            cbFamilia.SelectedIndex = -1;
+            txbNoOperacion.Clear();
+            cbArea.SelectedIndex = -1;
+            txbNave.Clear();
+            txbDescripcion.Clear();
+            txbTipoMaquina.Clear();
+            txbPreparacion.Clear();
+            txbTiempoPreparacion.Clear();
+            txbTiempoOperacion.Clear();
+            txbInsumos.Clear();
+            chbCritico.Checked = false;
+            dgvHojaRuta.DataSource = null;
+            pbCampos.Visible = false;
+            lblCamposObligatorios.Visible = false;
+            pbNoOperacion.Visible = false;
+            pbArea.Visible = false;
+            pbNave.Visible = false;
+            pbDescripcion.Visible = false;
+        }
+
+        private void HRCargarAreas()
+        {
+            cbArea.Items.Clear();
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT Area FROM elastosystem_produccion_area ORDER BY Area ASC";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string area = reader["Area"].ToString();
+                        cbArea.Items.Add(area);
+                    }
+
+                    cbArea.SelectedIndex = -1;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR AREAS: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void HRCargarHules()
+        {
+            cbHule.Items.Clear();
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT Hule FROM elastosystem_produccion_hules ORDER BY Hule ASC";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string hule = reader["Hule"].ToString();
+                        cbHule.Items.Add(hule);
+                    }
+
+                    cbHule.SelectedIndex = -1;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR HULES: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
         private void btnAgregarHules_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txbHule.Text))
@@ -678,9 +859,935 @@ namespace ElastoSystem
                         btnNuevoHules.PerformClick();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ELIMINAR HULE: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void cbArea_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbArea.SelectedIndex != -1)
+            {
+                string areaSeleccionada = cbArea.SelectedItem.ToString();
+                ObtenerNaveDeArea(areaSeleccionada);
+            }
+        }
+
+        private void ObtenerNaveDeArea(string areaSeleccionada)
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT Nave FROM elastosystem_produccion_area WHERE Area = @AREA LIMIT 1";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@AREA", areaSeleccionada);
+
+                    object result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        txbNave.Text = result.ToString();
+                    }
+                    else
+                    {
+                        txbNave.Clear();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL OBTENER NAVE DE AREA: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void cbFamilia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbFamilia.SelectedIndex != -1)
+            {
+                txbID.Clear();
+                txbNoOperacion.Clear();
+                cbArea.SelectedIndex = -1;
+                txbNave.Clear();
+                txbDescripcion.Clear();
+                txbTipoMaquina.Clear();
+                txbPreparacion.Clear();
+                txbTiempoPreparacion.Clear();
+                txbTiempoOperacion.Clear();
+                txbInsumos.Clear();
+                chbCritico.Checked = false;
+                dgvHojaRuta.DataSource = null;
+
+                MandarALlamarHojaRuta();
+                btnExportarPDF.Visible = true;
+                btnAgregarProceso.Visible = true;
+                btnNuevo.Visible = false;
+                btnEliminarProceso.Visible = false;
+                btnActualizarProceso.Visible = false;
+
+                lblCamposObligatorios.Visible = false;
+                pbCampos.Visible = false;
+                pbNoOperacion.Visible = false;
+                pbArea.Visible = false;
+                pbNave.Visible = false;
+                pbDescripcion.Visible = false;
+            }
+        }
+
+        private void MandarALlamarHojaRuta()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT * FROM elastosystem_produccion_hoja_ruta WHERE Familia = @FAMILIA ORDER BY NoOperacion ASC";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
+
+                    MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd);
+                    DataTable tablaHojaRuta = new DataTable();
+                    adaptador.Fill(tablaHojaRuta);
+
+                    dgvHojaRuta.DataSource = tablaHojaRuta;
+
+                    dgvHojaRuta.Columns["ID"].Visible = false;
+                    dgvHojaRuta.Columns["Familia"].Visible = false;
+                    dgvHojaRuta.Columns["NoOperacion"].HeaderText = "Operación";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR HOJA DE RUTA: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void btnAgregarProceso_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txbNoOperacion.Text) || string.IsNullOrWhiteSpace(cbArea.Text) || string.IsNullOrWhiteSpace(txbNave.Text) || string.IsNullOrWhiteSpace(txbDescripcion.Text))
+            {
+                MessageBox.Show("Por favor, complete los campos obligatorios.");
+                lblCamposObligatorios.Visible = true; pbCampos.Visible = true; pbNoOperacion.Visible = true; pbArea.Visible = true; pbNave.Visible = true; pbDescripcion.Visible = true;
+                return;
+            }
+            lblCamposObligatorios.Visible = false; pbCampos.Visible = false; pbNoOperacion.Visible = false; pbArea.Visible = false; pbNave.Visible = false; pbDescripcion.Visible = false;
+            AgregarProceso();
+        }
+
+        private void txbNoOperacion_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+        private void AgregarProceso()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string check = "SELECT COUNT(*) FROM elastosystem_produccion_hoja_ruta WHERE NoOperacion = @NO_OPERACION AND Familia = @FAMILIA";
+                    MySqlCommand cmd = new MySqlCommand(check, conn);
+                    cmd.Parameters.AddWithValue("@NO_OPERACION", txbNoOperacion.Text.Trim());
+                    cmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
+
+                    int procesoCount = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    if (procesoCount > 0)
+                    {
+                        MessageBox.Show("El Número de proceso ya existe.");
+                        return;
+                    }
+
+                    string hule = cbHule.Text.Trim();
+                    string insumos = txbInsumos.Text.Trim();
+                    string insumosFinal = "";
+
+                    if (!string.IsNullOrWhiteSpace(hule))
+                    {
+                        insumosFinal = hule + " //";
+                        if (!string.IsNullOrWhiteSpace(insumos))
+                        {
+                            insumosFinal += " " + insumos;
+                        }
+                    }
+                    else
+                    {
+                        insumosFinal = insumos;
+                    }
+
+                    string insertQuery = "INSERT INTO elastosystem_produccion_hoja_ruta (Familia, NoOperacion, Area, Nave, Descripcion, TipoMaquina, Preparacion, TiempoPreparacion, TiempoOperacion, Insumos, Critico) VALUES (@FAMILIA, @NO_OPERACION, @AREA, @NAVE, @DESCRIPCION, @TIPOMAQUINA, @PREPARACION, @TIEMPO_PREPARACION, @TIEMPO_OPERACION, @INSUMOS, @CRITICO)";
+                    MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn);
+
+                    insertCmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
+                    insertCmd.Parameters.AddWithValue("@NO_OPERACION", txbNoOperacion.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("@AREA", cbArea.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("@NAVE", txbNave.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("@DESCRIPCION", txbDescripcion.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("@TIPOMAQUINA", txbTipoMaquina.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("@PREPARACION", txbPreparacion.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("@TIEMPO_PREPARACION", txbTiempoPreparacion.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("@TIEMPO_OPERACION", txbTiempoOperacion.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("@INSUMOS", insumosFinal);
+                    insertCmd.Parameters.AddWithValue("@CRITICO", chbCritico.Checked ? 1 : 0);
+
+                    int rowsAffected = insertCmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MandarALlamarHojaRuta();
+                        RevisarHule();
+                        txbNoOperacion.Clear();
+                        cbArea.SelectedIndex = -1;
+                        txbNave.Clear();
+                        txbDescripcion.Clear();
+                        txbTipoMaquina.Clear();
+                        txbPreparacion.Clear();
+                        txbTiempoPreparacion.Clear();
+                        txbTiempoOperacion.Clear();
+                        txbInsumos.Clear();
+                        chbCritico.Checked = false;
+                        cbHule.SelectedIndex = -1;
+                        btnExportarPDF.Visible = true;
+                        btnAgregarProceso.Visible = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo agregar el proceso.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL AGREGAR PROCESO: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void RevisarHule()
+        {
+            string familiaSeleccionada = cbFamilia.Text.Trim();
+
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"SELECT COUNT(*) FROM elastosystem_produccion_encabezado
+                                    WHERE Familia = @FAMILIA";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FAMILIA", familiaSeleccionada);
+
+                        int cantidad = Convert.ToInt32(cmd.ExecuteScalar());
+
+                        if (cantidad > 0)
+                        {
+                            string hojaRutaQuery = "SELECT Insumos FROM elastosystem_produccion_hoja_ruta WHERE Familia = @FAMILIA";
+                            using(MySqlCommand hojaRutaCmd = new MySqlCommand(hojaRutaQuery, conn))
+                            {
+                                hojaRutaCmd.Parameters.AddWithValue("@FAMILIA", familiaSeleccionada);
+
+                                using (MySqlDataReader reader = hojaRutaCmd.ExecuteReader())
+                                {
+                                    List<string> listaHules = new List<string>();
+
+                                    while (reader.Read())
+                                    {
+                                        string insumos = reader["Insumos"]?.ToString();
+
+                                        if(!string.IsNullOrEmpty(insumos) && insumos.Contains("//"))
+                                        {
+                                            string[] partes = insumos.Split(new string[] { "//" }, StringSplitOptions.None);
+                                            string antesDeDiagonal = partes[0].Trim();
+
+                                            if (!string.IsNullOrEmpty(antesDeDiagonal))
+                                            {
+                                                listaHules.Add(antesDeDiagonal);
+                                            }
+                                        }
+                                    }
+
+                                    reader.Close();
+
+                                    if(listaHules.Count > 0)
+                                    {
+                                        string nuevosHules = string.Join(", ", listaHules.Distinct());
+
+                                        string selectMateriales = "SELECT ID, Material FROM elastosystem_produccion_encabezado WHERE Familia = @FAMILIA";
+                                        using (MySqlCommand selectCmd = new MySqlCommand(selectMateriales, conn))
+                                        {
+                                            selectCmd.Parameters.AddWithValue("@FAMILIA", familiaSeleccionada);
+
+                                            using (MySqlDataReader materialReader = selectCmd.ExecuteReader())
+                                            {
+                                                List<(int id, string nuevoMaterial)> actualizaciones = new List<(int, string)>();
+
+                                                while (materialReader.Read())
+                                                {
+                                                    int id = Convert.ToInt32(materialReader["ID"]);
+                                                    string materialActual = materialReader["Material"]?.ToString() ?? "";
+
+                                                    string nuevoMaterial = "";
+
+                                                    if (materialActual.Contains("//"))
+                                                    {
+                                                        string despuesDeDiagonal = materialActual.Substring(materialActual.IndexOf("//"));
+                                                        nuevoMaterial = nuevosHules + " " + despuesDeDiagonal;
+                                                    }
+                                                    else
+                                                    {
+                                                        nuevoMaterial = nuevosHules + " // " + materialActual;
+                                                    }
+                                                    actualizaciones.Add((id, nuevoMaterial));
+                                                }
+
+                                                materialReader.Close();
+
+                                                foreach(var item in actualizaciones)
+                                                {
+                                                    string updateQuery  = "UPDATE elastosystem_produccion_encabezado SET Material = @MATERIAL WHERE ID = @ID";
+                                                    using(MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn))
+                                                    {
+                                                        updateCmd.Parameters.AddWithValue("@MATERIAL", item.nuevoMaterial);
+                                                        updateCmd.Parameters.AddWithValue("@ID", item.id);
+                                                        updateCmd.ExecuteNonQuery();
+                                                    }
+                                                }
+
+                                            }
+                                        }
+
+                                        
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL REVISAR SI EXISTE LA FAMILIA EN ENCABEZADOS: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void txbTiempoPreparacion_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txbTiempoOperacion_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void dgvHojaRuta_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnNuevo.Visible = true;
+            btnEliminarProceso.Visible = true;
+            btnActualizarProceso.Visible = true;
+            btnAgregarProceso.Visible = false;
+
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvHojaRuta.Rows[e.RowIndex];
+                txbID.Text = row.Cells[0].Value.ToString();
+                txbNoOperacion.Text = row.Cells[2].Value.ToString();
+                cbArea.Text = row.Cells[3].Value.ToString();
+                txbNave.Text = row.Cells[4].Value.ToString();
+                txbDescripcion.Text = row.Cells[5].Value.ToString();
+                txbTipoMaquina.Text = row.Cells[6].Value.ToString();
+                txbPreparacion.Text = row.Cells[7].Value.ToString();
+                txbTiempoPreparacion.Text = row.Cells[8].Value.ToString();
+                txbTiempoOperacion.Text = row.Cells[9].Value.ToString();
+
+                string insumos = row.Cells[10].Value.ToString().Trim();
+                cbHule.SelectedIndex = -1;
+                txbInsumos.Clear();
+
+                if (insumos.Contains("//"))
+                {
+                    string[] partes = insumos.Split(new string[] { "//" }, StringSplitOptions.None);
+
+                    cbHule.Text = partes[0].Trim();
+
+                    if (partes.Length > 1)
+                        txbInsumos.Text = partes[1].Trim();
+                }
+                else
+                {
+                    cbHule.SelectedIndex = -1;
+                    txbInsumos.Text = insumos;
+                }
+                chbCritico.Checked = Convert.ToBoolean(row.Cells[11].Value);
+            }
+        }
+
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+            lblCamposObligatorios.Visible = false; pbCampos.Visible = false; pbNoOperacion.Visible = false; pbArea.Visible = false; pbNave.Visible = false; pbDescripcion.Visible = false;
+            btnNuevo.Visible = false;
+            btnEliminarProceso.Visible = false;
+            btnActualizarProceso.Visible = false;
+            btnAgregarProceso.Visible = true;
+
+            txbID.Clear();
+            txbNoOperacion.Clear();
+            cbArea.SelectedIndex = -1;
+            txbNave.Clear();
+            txbDescripcion.Clear();
+            txbTipoMaquina.Clear();
+            txbPreparacion.Clear();
+            txbTiempoPreparacion.Clear();
+            txbTiempoOperacion.Clear();
+            txbInsumos.Clear();
+            chbCritico.Checked = false;
+
+            MandarALlamarHojaRuta();
+        }
+
+        private void btnEliminarProceso_Click(object sender, EventArgs e)
+        {
+            EliminarProceso();
+        }
+
+        private void EliminarProceso()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string deleteQuery = "DELETE FROM elastosystem_produccion_hoja_ruta WHERE ID = @ID";
+                    MySqlCommand cmd = new MySqlCommand(deleteQuery, conn);
+
+                    cmd.Parameters.AddWithValue("@ID", txbID.Text.Trim());
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        btnNuevo.PerformClick();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo eliminar el proceso.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ELIMINAR PROCESO: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void btnActualizarProceso_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txbNoOperacion.Text) || string.IsNullOrWhiteSpace(cbArea.Text) || string.IsNullOrWhiteSpace(txbNave.Text) || string.IsNullOrWhiteSpace(txbDescripcion.Text))
+            {
+                MessageBox.Show("Por favor, complete los campos obligatorios.");
+                lblCamposObligatorios.Visible = true; pbCampos.Visible = true; pbNoOperacion.Visible = true; pbArea.Visible = true; pbNave.Visible = true; pbDescripcion.Visible = true;
+                return;
+            }
+            lblCamposObligatorios.Visible = false; pbCampos.Visible = false; pbNoOperacion.Visible = false; pbArea.Visible = false; pbNave.Visible = false; pbDescripcion.Visible = false;
+            ActualizarProceso();
+        }
+
+        private void ActualizarProceso()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string checkQuery = "SELECT COUNT(*) FROM elastosystem_produccion_hoja_ruta WHERE NoOperacion = @NO_OPERACION AND Familia = @FAMILIA AND ID != @ID";
+
+                    MySqlCommand cmd = new MySqlCommand(checkQuery, conn);
+                    cmd.Parameters.AddWithValue("@NO_OPERACION", txbNoOperacion.Text.Trim());
+                    cmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
+                    cmd.Parameters.AddWithValue("@ID", txbID.Text.Trim());
+
+                    int procesoCount = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    if (procesoCount > 0)
+                    {
+                        MessageBox.Show("Ya existe un proceso con ese número de operación en la misma familia.");
+                        return;
+                    }
+
+                    string insumos = "";
+                    bool hayHule = !string.IsNullOrWhiteSpace(cbHule.Text.Trim());
+                    bool hayInsumo = !string.IsNullOrWhiteSpace(txbInsumos.Text.Trim());
+
+                    if (hayHule && hayInsumo)
+                        insumos = cbHule.Text.Trim() + " // " + txbInsumos.Text.Trim();
+                    else if (hayHule && !hayInsumo)
+                        insumos = cbHule.Text.Trim() + " //";
+                    else
+                        insumos = txbInsumos.Text.Trim();
+
+                    string updateQuery = "UPDATE elastosystem_produccion_hoja_ruta SET NoOperacion = @NO_OPERACION, Area = @AREA, Nave = @NAVE, Descripcion = @DESCRIPCION, TipoMaquina = @TIPOMAQUINA, Preparacion = @PREPARACION, TiempoPreparacion = @TIEMPO_PREPARACION, TiempoOperacion = @TIEMPO_OPERACION, Insumos = @INSUMOS, Critico = @CRITICO WHERE ID = @ID";
+                    MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn);
+
+                    updateCmd.Parameters.AddWithValue("@NO_OPERACION", txbNoOperacion.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@AREA", cbArea.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@NAVE", txbNave.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@DESCRIPCION", txbDescripcion.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@TIPOMAQUINA", txbTipoMaquina.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@PREPARACION", txbPreparacion.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@TIEMPO_PREPARACION", txbTiempoPreparacion.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@TIEMPO_OPERACION", txbTiempoOperacion.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@INSUMOS", insumos);
+                    updateCmd.Parameters.AddWithValue("@CRITICO", chbCritico.Checked ? 1 : 0);
+                    updateCmd.Parameters.AddWithValue("@ID", txbID.Text.Trim());
+
+                    int rowsAffected = updateCmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Proceso actualizado correctamente.");
+                        btnNuevo.PerformClick();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo actualizar el proceso.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ACTUALIZAR PROCESO: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void cbFamiliaAdministrar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbFamiliaAdministrar.SelectedIndex != -1 && status == false)
+            {
+                LimpiarCamposEncabezado();
+                CargarTodosHulesHR();
+            }
+        }
+
+        private void LimpiarCamposEncabezado()
+        {
+            cbLinea.SelectedIndex = -1;
+            txbNombreEncabezado.Clear();
+            txbMaterialEncabezado.Clear();
+            txbCalibreEncabezado.Clear();
+            txbSubensamble.Clear();
+            txbDibujo.Clear();
+            pbImagen.Image = null;
+            txbIDAdministrar.Clear();
+
+            lblCamposAdmin.Visible = false; pbCamposAdmin.Visible = false; pbFamiliaAdmin.Visible = false; pbLineaAdmin.Visible = false; pbNombreAdmin.Visible = false; pbMaterialAdmin.Visible = false; pbCalibreAdmin.Visible = false; pbSubensambleAdmin.Visible = false; pbDibujoAdmin.Visible = false;
+
+            btnNuevoEncabezado.Visible = false;
+            btnEliminarEncabezado.Visible = false;
+            btnActualizarEncabezado.Visible = false;
+
+            btnAgregarEncabezado.Visible = true;
+        }
+
+        private void CargarTodosHulesHR()
+        {
+            string familiaSeleccionada = cbFamiliaAdministrar.SelectedItem?.ToString();
+
+            List<string> hules = new List<string>();
+
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT Insumos
+                        FROM elastosystem_produccion_hoja_ruta
+                        WHERE Familia = @FAMILIA";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@FAMILIA", familiaSeleccionada);
+
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string insumos = reader["Insumos"].ToString();
+
+                        if (insumos.Contains("//"))
+                        {
+                            string hule = insumos.Split(new[] { "//" }, StringSplitOptions.None)[0].Trim();
+                            if (!string.IsNullOrEmpty(hule))
+                                hules.Add(hule);
+                        }
+                    }
+
+                    var hulesUnicos = hules.Distinct().ToList();
+
+                    txbMaterialEncabezado.Text = hulesUnicos.Count > 0 ? string.Join(", ", hulesUnicos) + " // " : "";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR HULES DE LA FAMILIA: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void btnNuevoEncabezado_Click(object sender, EventArgs e)
+        {
+            cbFamiliaAdministrar.Enabled = true;
+            cbLinea.Enabled = true;
+            status = false;
+            LimpiarCamposEncabezado();
+            cbFamiliaAdministrar.SelectedIndex = -1;
+        }
+
+        private void btnAgregarEncabezado_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(cbLinea.Text) || string.IsNullOrWhiteSpace(txbNombreEncabezado.Text) || string.IsNullOrWhiteSpace(txbMaterialEncabezado.Text) || string.IsNullOrWhiteSpace(txbCalibreEncabezado.Text) || string.IsNullOrWhiteSpace(txbSubensamble.Text) || string.IsNullOrWhiteSpace(txbDibujo.Text))
+            {
+                MessageBox.Show("Por favor, complete los campos obligatorios.");
+                pbCamposAdmin.Visible = true; lblCamposAdmin.Visible = true; pbFamiliaAdmin.Visible = true; pbLineaAdmin.Visible = true;
+                pbNombreAdmin.Visible = true; pbMaterialAdmin.Visible = true; pbCalibreAdmin.Visible = true; pbSubensambleAdmin.Visible = true; pbDibujoAdmin.Visible = true;
+                return;
+            }
+            if (pbImagen.Image == null)
+            {
+                MessageBox.Show("Por favor, cargar una imagen.");
+                return;
+            }
+
+            pbCamposAdmin.Visible = false; lblCamposAdmin.Visible = false; pbFamiliaAdmin.Visible = false; pbLineaAdmin.Visible = false;
+            pbNombreAdmin.Visible = false; pbMaterialAdmin.Visible = false; pbCalibreAdmin.Visible = false; pbSubensambleAdmin.Visible = false; pbDibujoAdmin.Visible = false;
+
+            AgregarEncabezado();
+        }
+
+        private void AgregarEncabezado()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string checkQuery = "SELECT COUNT(*) FROM elastosystem_produccion_encabezado WHERE Familia = @FAMILIA AND Linea = @LINEA";
+                    using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@FAMILIA", cbFamiliaAdministrar.SelectedItem.ToString());
+                        checkCmd.Parameters.AddWithValue("@LINEA", cbLinea.Text.Trim());
+
+                        int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                        if (count > 0)
+                        {
+                            MessageBox.Show("Ya existe un encabezado con esa familia y línea.");
+                            return;
+                        }
+                    }
+
+                    string query = "INSERT INTO elastosystem_produccion_encabezado (Familia, Linea, Nombre, Material, Calibre, Subensamble, DibIng, Imagen) VALUES (@FAMILIA, @LINEA, @NOMBRE, @MATERIAL, @CALIBRE, @SUBENSAMBLE, @DIBING, @IMAGEN)";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FAMILIA", cbFamiliaAdministrar.SelectedItem.ToString());
+                        cmd.Parameters.AddWithValue("@LINEA", cbLinea.Text.Trim());
+                        cmd.Parameters.AddWithValue("@NOMBRE", txbNombreEncabezado.Text.Trim());
+                        cmd.Parameters.AddWithValue("@MATERIAL", txbMaterialEncabezado.Text.Trim());
+                        cmd.Parameters.AddWithValue("@CALIBRE", txbCalibreEncabezado.Text.Trim());
+                        cmd.Parameters.AddWithValue("@SUBENSAMBLE", txbSubensamble.Text.Trim());
+                        cmd.Parameters.AddWithValue("@DIBING", txbDibujo.Text.Trim());
+                        byte[] bytesFoto;
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            pbImagen.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            bytesFoto = ms.ToArray();
+                        }
+                        cmd.Parameters.AddWithValue("@IMAGEN", bytesFoto);
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Encabezado agregado correctamente.");
+                        status = false;
+                        CargarEncabezados();
+                        LimpiarAdministrar();
+                        btnNuevo.Visible = false; btnEliminarProceso.Visible = false; btnActualizarProceso.Visible = false; btnAgregarProceso.Visible = true;
+                        CargarFamiliasAdmin();
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL AGREGAR ENCABEZADO: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void LimpiarAdministrar()
+        {
+            cbFamiliaAdministrar.SelectedIndex = -1;
+            cbLinea.SelectedIndex = -1;
+            txbNombreEncabezado.Clear();
+            txbMaterialEncabezado.Clear();
+            txbCalibreEncabezado.Clear();
+            txbSubensamble.Clear();
+            txbDibujo.Clear();
+            pbImagen.Image = null;
+            txbIDAdministrar.Clear();
+        }
+
+        private void btnCargarImagen_Click(object sender, EventArgs e)
+        {
+            CargarImagen();
+        }
+
+        private void CargarImagen()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Archivos de imagen|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Todos los archivos|*.*";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string rutaImagen = openFileDialog.FileName;
+
+                try
+                {
+                    using(var imgTemp = Image.FromFile(rutaImagen))
+                    {
+                        pbImagen.Image = new Bitmap(imgTemp);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR IMAGEN: " + ex.Message);
+                }
+            }
+        }
+
+        private void txbSubensamble_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void dgvEncabezados_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnNuevoEncabezado.Visible = true;
+            btnEliminarEncabezado.Visible = true;
+            btnActualizarEncabezado.Visible = true;
+            btnAgregarEncabezado.Visible = false;
+
+            status = true;
+
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvEncabezados.Rows[e.RowIndex];
+                txbIDAdministrar.Text = row.Cells[0].Value.ToString();
+                cbFamiliaAdministrar.Text = row.Cells[1].Value.ToString();
+                cbLinea.Text = row.Cells[2].Value.ToString();
+                txbNombreEncabezado.Text = row.Cells[3].Value.ToString();
+                txbMaterialEncabezado.Text = row.Cells[4].Value.ToString();
+                txbCalibreEncabezado.Text = row.Cells[5].Value.ToString();
+                txbSubensamble.Text = row.Cells[6].Value.ToString();
+                txbDibujo.Text = row.Cells[7].Value.ToString();
+
+                byte[] imagenBytes = (byte[])row.Cells[8].Value;
+
+                if (imagenBytes != null && imagenBytes.Length > 0)
+                {
+                    using (MemoryStream ms = new MemoryStream(imagenBytes))
+                    {
+                        using(var imgTemp = Image.FromStream(ms))
+                        {
+                            pbImagen.Image = new Bitmap(imgTemp);
+                        }
+                    }
+                }
+                else
+                {
+                    pbImagen.Image = null;
+                }
+
+                cbFamiliaAdministrar.Enabled = false;
+                cbLinea.Enabled = false;
+            }
+        }
+
+        private void btnEliminarEncabezado_Click(object sender, EventArgs e)
+        {
+            EliminarEncabezado();
+        }
+
+        private void EliminarEncabezado()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string deleteQuery = "DELETE FROM elastosystem_produccion_encabezado WHERE ID = @ID";
+
+                    using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", txbIDAdministrar.Text);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Encabezado eliminado correctamente.");
+                            LimpiarAdministrar();
+                            status = false;
+                            btnNuevoEncabezado.Visible = false; btnEliminarEncabezado.Visible = false; btnActualizarEncabezado.Visible = false; btnAgregarEncabezado.Visible = true;
+                            CargarEncabezados();
+                            cbFamiliaAdministrar.Enabled = true;
+                            cbLinea.Enabled = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo eliminar el encabezado.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ELIMINAR ENCABEZADO: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void btnActualizarEncabezado_Click(object sender, EventArgs e)
+        {
+            if(string.IsNullOrWhiteSpace(cbLinea.Text) || string.IsNullOrWhiteSpace(txbNombreEncabezado.Text) ||
+                string.IsNullOrWhiteSpace(txbMaterialEncabezado.Text) || string.IsNullOrWhiteSpace(txbCalibreEncabezado.Text) ||
+                string.IsNullOrWhiteSpace(txbSubensamble.Text) || string.IsNullOrWhiteSpace(txbDibujo.Text))
+            {
+                MessageBox.Show("Por favor, complete los campos obligatorios.");
+                pbCamposAdmin.Visible = true; lblCamposAdmin.Visible = true; pbFamiliaAdmin.Visible = true; pbLineaAdmin.Visible = true;
+                pbNombreAdmin.Visible = true; pbMaterialAdmin.Visible = true; pbCalibreAdmin.Visible = true; pbSubensambleAdmin.Visible = true; pbDibujoAdmin.Visible = true;
+                return;
+            }
+
+            pbCamposAdmin.Visible = false; lblCamposAdmin.Visible = false; pbFamiliaAdmin.Visible = false; pbLineaAdmin.Visible = false;
+            pbNombreAdmin.Visible = false; pbMaterialAdmin.Visible = false; pbCalibreAdmin.Visible = false; pbSubensambleAdmin.Visible = false; pbDibujoAdmin.Visible = false;
+
+            if (pbImagen.Image == null)
+            {
+                MessageBox.Show("Por favor, cargar una imagen.");
+                return;
+            }
+
+            ActualizarEncabezado();
+        }
+
+        private void ActualizarEncabezado()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"UPDATE elastosystem_produccion_encabezado
+                                        SET Nombre = @NOMBRE,
+                                        Material = @MATERIAL, Calibre = @CALIBRE, Subensamble = @SUBENSAMBLE,
+                                        DibIng = @DIBING, Imagen = @IMAGEN
+                                    WHERE ID = @ID";
+
+                    using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(txbIDAdministrar.Text));
+                        cmd.Parameters.AddWithValue("@NOMBRE", txbNombreEncabezado.Text.Trim());
+                        cmd.Parameters.AddWithValue("@MATERIAL", txbMaterialEncabezado.Text.Trim());
+                        cmd.Parameters.AddWithValue("@CALIBRE", txbCalibreEncabezado.Text.Trim());
+                        cmd.Parameters.AddWithValue("@SUBENSAMBLE", txbSubensamble.Text.Trim());
+                        cmd.Parameters.AddWithValue("@DIBING", txbDibujo.Text.Trim());
+
+                        byte[] imagenBytes;
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            pbImagen.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            imagenBytes = ms.ToArray();
+                        }
+                        cmd.Parameters.AddWithValue("@IMAGEN", imagenBytes);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if(rowsAffected > 0)
+                        {
+                            MessageBox.Show("Encabezado actualizado correctamente.");
+                            CargarEncabezados();
+                            LimpiarAdministrar();
+                            btnNuevoEncabezado.Visible = false; btnEliminarEncabezado.Visible = false; btnActualizarEncabezado.Visible = false; btnAgregarEncabezado.Visible = true;
+                            cbFamiliaAdministrar.Enabled = true;
+                            cbLinea.Enabled = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo actualizar el encabezado.");
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ACTUALIZAR ENCABEZADO: " + ex.Message);
                 }
                 finally
                 {
