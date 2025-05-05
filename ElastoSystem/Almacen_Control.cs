@@ -443,7 +443,7 @@ namespace ElastoSystem
 
         private void MandarCorreoPrioridadesAlmacen()
         {
-            string table = "SELECT Producto, Existencia, Estatus, Meses " +
+            string table = "SELECT Producto, Existencia, Estatus, Meses, `3M`, `4M` " +
                             "FROM elastosystem_sae_productos " +
                             "WHERE Estatus = 'Critico' OR Estatus = 'Resurtir' OR Estatus = 'Programar' " +
                             "ORDER BY CASE " +
@@ -454,6 +454,20 @@ namespace ElastoSystem
             MySqlDataAdapter adapatador = new MySqlDataAdapter(table, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             adapatador.Fill(dt);
+
+            dt.Columns.Add("A Reponer", typeof(int));
+            foreach(DataRow row in dt.Rows)
+            {
+                int existencia = Convert.ToInt32(row["Existencia"]);
+                int m3 = Convert.ToInt32(row["3M"]);
+                int m4 = Convert.ToInt32(row["4M"]);
+                int promedio = (m3 + m4) / 2;
+                int aReponer = promedio - existencia;
+                row["A Reponer"] = aReponer < 0 ? 0 : aReponer;
+            }
+
+            dt.Columns.Remove("3M");
+            dt.Columns.Remove("4M");
 
             dgvProductos.DataSource = dt;
             try
@@ -477,7 +491,7 @@ namespace ElastoSystem
                 //mailMessage.To.Add("mario.lopez@elastotecnica.com.mx");
                 mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
                 //mailMessage.To.Add("almacen@elastotecnica.com");
-
+                
                 smtpClient.Send(mailMessage);
             }
             catch (Exception ex)
