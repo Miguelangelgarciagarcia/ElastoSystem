@@ -19,6 +19,7 @@ using System.Drawing.Imaging;
 using Gma.QrCodeNet.Encoding.Windows.Render;
 using Gma.QrCodeNet.Encoding;
 using DocumentFormat.OpenXml.Bibliography;
+using System.Runtime.InteropServices;
 namespace ElastoSystem
 {
     public partial class RH_Credencial : Form
@@ -55,9 +56,9 @@ namespace ElastoSystem
                     pAtras.BackgroundImage = System.Drawing.Image.FromFile(ruta1);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(""+ex.Message);
+                MessageBox.Show("" + ex.Message);
             }
         }
         private void MandarALlamarNoTrabajadores()
@@ -144,11 +145,11 @@ namespace ElastoSystem
                         }
                         else
                         {
-                            panel1.Visible=false;
-                            panel2.Visible=false;
-                            
-                            pFrente.Visible = true; 
-                            pAtras.Visible =true;
+                            panel1.Visible = false;
+                            panel2.Visible = false;
+
+                            pFrente.Visible = true;
+                            pAtras.Visible = true;
                             label5.Visible = true;
                             pictureBox1.Visible = true;
 
@@ -170,7 +171,7 @@ namespace ElastoSystem
                             lblNoTr.Text = "No. " + cbClave.Text;
                             lblDepartamentotemp.Text = departamento;
                         }
-                        
+
                     }
                 }
                 else
@@ -196,7 +197,7 @@ namespace ElastoSystem
 
         private void btnExportar_Click(object sender, EventArgs e)
         {
-            if(lblDepartamentotemp.Text == "ADMINISTRATIVO" || lblDepartamentotemp.Text == "VENTAS" || lblDepartamentotemp.Text == "COMPRAS")
+            if (lblDepartamentotemp.Text == "ADMINISTRATIVO" || lblDepartamentotemp.Text == "VENTAS" || lblDepartamentotemp.Text == "COMPRAS")
             {
                 ExportarPanelAImagen(panel1);
                 ExportarPanelAImagenTras(panel2);
@@ -206,7 +207,7 @@ namespace ElastoSystem
                 ExportarPanelAImagen(pFrente);
                 ExportarPanelAImagenTras(pAtras);
             }
-            
+
         }
 
         private void ExportarPanelAImagen(Panel panel)
@@ -332,6 +333,17 @@ namespace ElastoSystem
         private void PBIconoMin_MouseLeave(object sender, EventArgs e)
         {
             PBAzul.Visible = true;
+        }
+
+        [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]
+        private extern static void ReleaseCapture();
+        [DllImport("user32.dll", EntryPoint = "SendMessage")]
+        private extern static void SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
+
+        private void PBarraTitulo_MouseDown(object sender, MouseEventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
     }
 }

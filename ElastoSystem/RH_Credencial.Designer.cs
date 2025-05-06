@@ -97,7 +97,7 @@
             // lblNoTr
             // 
             lblNoTr.BackColor = Color.Transparent;
-            lblNoTr.Font = new Font("Montserrat Black", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            lblNoTr.Font = new Font("Montserrat Black", 28F, FontStyle.Bold);
             lblNoTr.ForeColor = Color.Black;
             lblNoTr.Location = new Point(191, 911);
             lblNoTr.Name = "lblNoTr";
@@ -118,7 +118,7 @@
             // lblDepartamento
             // 
             lblDepartamento.BackColor = Color.FromArgb(0, 68, 109);
-            lblDepartamento.Font = new Font("Montserrat SemiBold", 17F, FontStyle.Bold, GraphicsUnit.Point);
+            lblDepartamento.Font = new Font("Montserrat SemiBold", 17F, FontStyle.Bold);
             lblDepartamento.ForeColor = Color.White;
             lblDepartamento.Location = new Point(17, 194);
             lblDepartamento.Name = "lblDepartamento";
@@ -131,7 +131,7 @@
             // lblAp
             // 
             lblAp.BackColor = Color.Transparent;
-            lblAp.Font = new Font("Montserrat SemiBold", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            lblAp.Font = new Font("Montserrat SemiBold", 28F, FontStyle.Bold);
             lblAp.ForeColor = Color.Black;
             lblAp.Location = new Point(191, 832);
             lblAp.Name = "lblAp";
@@ -143,7 +143,7 @@
             // lblNom
             // 
             lblNom.BackColor = Color.Transparent;
-            lblNom.Font = new Font("Montserrat SemiBold", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            lblNom.Font = new Font("Montserrat SemiBold", 28F, FontStyle.Bold);
             lblNom.ForeColor = Color.Black;
             lblNom.Location = new Point(191, 775);
             lblNom.Name = "lblNom";
@@ -187,7 +187,7 @@
             // lblNo
             // 
             lblNo.BackColor = Color.Transparent;
-            lblNo.Font = new Font("Montserrat Black", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            lblNo.Font = new Font("Montserrat Black", 28F, FontStyle.Bold);
             lblNo.ForeColor = Color.White;
             lblNo.Location = new Point(96, 880);
             lblNo.Name = "lblNo";
@@ -199,7 +199,7 @@
             // lblApellidos
             // 
             lblApellidos.BackColor = Color.Transparent;
-            lblApellidos.Font = new Font("Montserrat SemiBold", 22F, FontStyle.Regular, GraphicsUnit.Point);
+            lblApellidos.Font = new Font("Montserrat SemiBold", 22F);
             lblApellidos.ForeColor = Color.White;
             lblApellidos.Location = new Point(96, 830);
             lblApellidos.Name = "lblApellidos";
@@ -211,7 +211,7 @@
             // lblnombres
             // 
             lblnombres.BackColor = Color.Transparent;
-            lblnombres.Font = new Font("Montserrat SemiBold", 22F, FontStyle.Regular, GraphicsUnit.Point);
+            lblnombres.Font = new Font("Montserrat SemiBold", 22F);
             lblnombres.ForeColor = Color.White;
             lblnombres.Location = new Point(96, 794);
             lblnombres.Name = "lblnombres";
@@ -223,7 +223,7 @@
             // lbldepartamentoa
             // 
             lbldepartamentoa.BackColor = Color.Transparent;
-            lbldepartamentoa.Font = new Font("Montserrat", 30F, FontStyle.Bold, GraphicsUnit.Point);
+            lbldepartamentoa.Font = new Font("Montserrat", 30F, FontStyle.Bold);
             lbldepartamentoa.ForeColor = Color.White;
             lbldepartamentoa.Location = new Point(96, 719);
             lbldepartamentoa.Name = "lbldepartamentoa";
@@ -235,7 +235,7 @@
             // label4
             // 
             label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Montserrat Black", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.Font = new Font("Montserrat Black", 28F, FontStyle.Bold);
             label4.ForeColor = Color.Black;
             label4.Location = new Point(191, 911);
             label4.Name = "label4";
@@ -256,7 +256,7 @@
             // label5
             // 
             label5.BackColor = Color.FromArgb(0, 68, 109);
-            label5.Font = new Font("Montserrat SemiBold", 17F, FontStyle.Bold, GraphicsUnit.Point);
+            label5.Font = new Font("Montserrat SemiBold", 17F, FontStyle.Bold);
             label5.ForeColor = Color.White;
             label5.Location = new Point(17, 194);
             label5.Name = "label5";
@@ -268,7 +268,7 @@
             // label6
             // 
             label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Montserrat SemiBold", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Font = new Font("Montserrat SemiBold", 28F, FontStyle.Bold);
             label6.ForeColor = Color.Black;
             label6.Location = new Point(191, 832);
             label6.Name = "label6";
@@ -280,7 +280,7 @@
             // label7
             // 
             label7.BackColor = Color.Transparent;
-            label7.Font = new Font("Montserrat SemiBold", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.Font = new Font("Montserrat SemiBold", 28F, FontStyle.Bold);
             label7.ForeColor = Color.Black;
             label7.Location = new Point(191, 775);
             label7.Name = "label7";
@@ -291,9 +291,12 @@
             // 
             // cbClave
             // 
-            cbClave.Font = new Font("Montserrat", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            cbClave.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbClave.Font = new Font("Montserrat", 18F, FontStyle.Bold);
             cbClave.FormattingEnabled = true;
-            cbClave.Location = new Point(167, 147);
+            cbClave.IntegralHeight = false;
+            cbClave.Location = new Point(168, 147);
+            cbClave.MaxDropDownItems = 6;
             cbClave.Name = "cbClave";
             cbClave.Size = new Size(262, 41);
             cbClave.TabIndex = 1;
@@ -303,7 +306,7 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Montserrat", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Font = new Font("Montserrat", 18F);
             label1.ForeColor = Color.White;
             label1.Location = new Point(57, 150);
             label1.Name = "label1";
@@ -317,7 +320,7 @@
             btnExportar.Cursor = Cursors.Hand;
             btnExportar.FlatAppearance.BorderSize = 0;
             btnExportar.FlatStyle = FlatStyle.Flat;
-            btnExportar.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnExportar.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnExportar.ForeColor = Color.White;
             btnExportar.Location = new Point(114, 228);
             btnExportar.Name = "btnExportar";
@@ -372,6 +375,7 @@
             PBarraTitulo.Name = "PBarraTitulo";
             PBarraTitulo.Size = new Size(525, 30);
             PBarraTitulo.TabIndex = 11;
+            PBarraTitulo.MouseDown += PBarraTitulo_MouseDown;
             // 
             // PBNaranja
             // 
@@ -427,7 +431,7 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Montserrat", 19F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Font = new Font("Montserrat", 19F, FontStyle.Bold);
             label2.ForeColor = Color.White;
             label2.Location = new Point(36, 63);
             label2.Name = "label2";
