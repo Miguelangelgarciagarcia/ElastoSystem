@@ -507,10 +507,58 @@ namespace ElastoSystem
             }
             if (tabControl1.SelectedIndex == 2)
             {
+                CargarFamiliasRelacion();
+                CargarProductosRelacion();
+                txbFamiliaOrig.Clear();
+                txbProducto.Clear();
+                txbBuscador.Clear();
+            }
+            if (tabControl1.SelectedIndex == 3)
+            {
                 CargarFamilias();
                 CargarAreas();
                 CargarHules();
             }
+        }
+
+        private void CargarFamiliasRelacion()
+        {
+            cbFamiliaRelacion.Items.Clear();
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT Familia FROM elastosystem_produccion_familia ORDER BY Familia ASC";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string familia = reader["Familia"].ToString();
+                        cbFamiliaRelacion.Items.Add(familia);
+                    }
+                    cbFamiliaRelacion.SelectedIndex = -1;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR FAMILIAS: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void CargarProductosRelacion()
+        {
+            string tabla = "SELECT Producto, Familia FROM elastosystem_sae_productos ORDER BY Producto";
+            MySqlDataAdapter adaptador = new MySqlDataAdapter(tabla, VariablesGlobales.ConexionBDElastotecnica);
+            DataTable dt = new DataTable();
+            adaptador.Fill(dt);
+            dgvProductosFamilias.DataSource = dt;
         }
 
         private void CargarEncabezados()
@@ -989,6 +1037,7 @@ namespace ElastoSystem
             }
             lblCamposObligatorios.Visible = false; pbCampos.Visible = false; pbNoOperacion.Visible = false; pbArea.Visible = false; pbNave.Visible = false; pbDescripcion.Visible = false;
             AgregarProceso();
+            
         }
 
         private void txbNoOperacion_KeyPress(object sender, KeyPressEventArgs e)
@@ -1055,8 +1104,11 @@ namespace ElastoSystem
 
                     if (rowsAffected > 0)
                     {
+                        SincronizarHojaProductoDesdeHojaRuta(cbFamilia.SelectedItem.ToString());
+
                         MandarALlamarHojaRuta();
                         RevisarHule();
+
                         txbNoOperacion.Clear();
                         cbArea.SelectedIndex = -1;
                         txbNave.Clear();
@@ -1070,6 +1122,8 @@ namespace ElastoSystem
                         cbHule.SelectedIndex = -1;
                         btnExportarPDF.Visible = true;
                         btnAgregarProceso.Visible = true;
+
+                        
                     }
                     else
                     {
@@ -1087,11 +1141,104 @@ namespace ElastoSystem
             }
         }
 
+        private void SincronizarHojaProductoDesdeHojaRuta(string familia)
+        {
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    List <string> productos = new List<string>();
+                    string queryProductos = "SELECT Producto FROM elastosystem_sae_productos WHERE Familia = @FAMILIA";
+
+                    using (MySqlCommand cmdProductos = new MySqlCommand(queryProductos, conn))
+                    {
+                        cmdProductos.Parameters.AddWithValue("@FAMILIA", familia);
+                        using (var reader = cmdProductos.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                productos.Add(reader.GetString("Producto"));
+                            }
+                        }
+                    }
+
+                    if (productos.Count == 0)
+                        return;
+
+
+                    var procesos = new List<Dictionary<string, object>>();
+                    string queryProcesos = "SELECT * FROM elastosystem_produccion_hoja_ruta WHERE Familia = @FAMILIA";
+                    using (MySqlCommand cmdProcesos = new MySqlCommand(queryProcesos, conn))
+                    {
+                        cmdProcesos.Parameters.AddWithValue("@FAMILIA", familia);
+                        using(var reader = cmdProcesos.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var proceso = new Dictionary<string, object>()
+                                {
+                                    ["NoOperacion"] = reader["NoOperacion"],
+                                    ["Nave"] = reader["Nave"],
+                                    ["Area"] = reader["Area"],
+                                    ["Descripcion"] = reader["Descripcion"]
+                                };
+                                procesos.Add(proceso);
+                            }
+                        }
+                    }
+
+                    foreach (var producto in productos)
+                    {
+                        foreach(var proceso in procesos)
+                        {
+                            string checkQuery = @"SELECT COUNT(*) FROM elastosystem_produccion_hoja_producto
+                                                WHERE Producto = @PRODUCTO AND NoOperacion = @NO_OPERACION";
+                            using(MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
+                            {
+                                checkCmd.Parameters.AddWithValue("@PRODUCTO", producto);
+                                checkCmd.Parameters.AddWithValue("@NO_OPERACION", proceso["NoOperacion"]);
+
+                                int exists = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                                if(exists == 0)
+                                {
+                                    string insertHojaProducto = @"INSERT INTO elastosystem_produccion_hoja_producto
+                                                (Producto, Familia, Nave, NoOperacion, Area, Descripcion)
+                                                VALUES (@PRODUCTO, @FAMILIA, @NAVE, @NO_OPERACION, @AREA, @DESCRIPCION)";
+                                    using(MySqlCommand insertCmd = new MySqlCommand(insertHojaProducto, conn))
+                                    {
+                                        insertCmd.Parameters.AddWithValue("@PRODUCTO", producto);
+                                        insertCmd.Parameters.AddWithValue("@FAMILIA", familia);
+                                        insertCmd.Parameters.AddWithValue("@NAVE", proceso["Nave"]);
+                                        insertCmd.Parameters.AddWithValue("@NO_OPERACION", proceso["NoOperacion"]);
+                                        insertCmd.Parameters.AddWithValue("@AREA", proceso["Area"]);
+                                        insertCmd.Parameters.AddWithValue("@DESCRIPCION", proceso["Descripcion"]);
+
+                                        insertCmd.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL SINCORNIZAR EL NUEVO PROCESO CON LAS HOJAS DE RUTA DE LOS PRODUCTO EXISTENTES: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
         private void RevisarHule()
         {
             string familiaSeleccionada = cbFamilia.Text.Trim();
 
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -1109,7 +1256,7 @@ namespace ElastoSystem
                         if (cantidad > 0)
                         {
                             string hojaRutaQuery = "SELECT Insumos FROM elastosystem_produccion_hoja_ruta WHERE Familia = @FAMILIA";
-                            using(MySqlCommand hojaRutaCmd = new MySqlCommand(hojaRutaQuery, conn))
+                            using (MySqlCommand hojaRutaCmd = new MySqlCommand(hojaRutaQuery, conn))
                             {
                                 hojaRutaCmd.Parameters.AddWithValue("@FAMILIA", familiaSeleccionada);
 
@@ -1121,7 +1268,7 @@ namespace ElastoSystem
                                     {
                                         string insumos = reader["Insumos"]?.ToString();
 
-                                        if(!string.IsNullOrEmpty(insumos) && insumos.Contains("//"))
+                                        if (!string.IsNullOrEmpty(insumos) && insumos.Contains("//"))
                                         {
                                             string[] partes = insumos.Split(new string[] { "//" }, StringSplitOptions.None);
                                             string antesDeDiagonal = partes[0].Trim();
@@ -1135,7 +1282,7 @@ namespace ElastoSystem
 
                                     reader.Close();
 
-                                    if(listaHules.Count > 0)
+                                    if (listaHules.Count > 0)
                                     {
                                         string nuevosHules = string.Join(", ", listaHules.Distinct());
 
@@ -1169,10 +1316,10 @@ namespace ElastoSystem
 
                                                 materialReader.Close();
 
-                                                foreach(var item in actualizaciones)
+                                                foreach (var item in actualizaciones)
                                                 {
-                                                    string updateQuery  = "UPDATE elastosystem_produccion_encabezado SET Material = @MATERIAL WHERE ID = @ID";
-                                                    using(MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn))
+                                                    string updateQuery = "UPDATE elastosystem_produccion_encabezado SET Material = @MATERIAL WHERE ID = @ID";
+                                                    using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn))
                                                     {
                                                         updateCmd.Parameters.AddWithValue("@MATERIAL", item.nuevoMaterial);
                                                         updateCmd.Parameters.AddWithValue("@ID", item.id);
@@ -1183,7 +1330,7 @@ namespace ElastoSystem
                                             }
                                         }
 
-                                        
+
                                     }
 
                                 }
@@ -1191,7 +1338,7 @@ namespace ElastoSystem
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL REVISAR SI EXISTE LA FAMILIA EN ENCABEZADOS: " + ex.Message);
                 }
@@ -1279,6 +1426,7 @@ namespace ElastoSystem
             txbTiempoOperacion.Clear();
             txbInsumos.Clear();
             chbCritico.Checked = false;
+            cbHule.SelectedIndex = -1;
 
             MandarALlamarHojaRuta();
         }
@@ -1296,25 +1444,80 @@ namespace ElastoSystem
                 {
                     conn.Open();
 
-                    string deleteQuery = "DELETE FROM elastosystem_produccion_hoja_ruta WHERE ID = @ID";
-                    MySqlCommand cmd = new MySqlCommand(deleteQuery, conn);
+                    string selectQuery = "SELECT NoOperacion, Familia FROM elastosystem_produccion_hoja_ruta WHERE ID = @ID";
+                    string noOperacion = "";
+                    string familia = "";
 
-                    cmd.Parameters.AddWithValue("@ID", txbID.Text.Trim());
-
-                    int rowsAffected = cmd.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
+                    using (MySqlCommand selectCmd = new MySqlCommand(selectQuery, conn))
                     {
-                        btnNuevo.PerformClick();
+                        selectCmd.Parameters.AddWithValue("@ID", txbID.Text.Trim());
+
+                        using (var reader = selectCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                noOperacion = reader["NoOperacion"].ToString();
+                                familia = reader["Familia"].ToString();
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se encontró el proceso con ese ID.");
+                                return;
+                            }
+                        }
                     }
-                    else
+
+                    EliminarProcesoDeHojaProducto(noOperacion, familia);
+
+                    string deleteQuery = "DELETE FROM elastosystem_produccion_hoja_ruta WHERE ID = @ID";
+                    using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
                     {
-                        MessageBox.Show("No se pudo eliminar el proceso.");
+                        cmd.Parameters.AddWithValue("@ID", txbID.Text.Trim());
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if(rowsAffected > 0)
+                        {
+                            RevisarHule();
+                            btnNuevo.PerformClick();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo eliminar el proceso.");
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ELIMINAR PROCESO: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void EliminarProcesoDeHojaProducto(string noOperacion, string familia)
+        {
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string deleteQuery = @"DELETE FROM elastosystem_produccion_hoja_producto
+                                            WHERE NoOperacion = @NO_OPERACION AND Familia = @FAMILIA";
+                    using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@NO_OPERACION", noOperacion);
+                        cmd.Parameters.AddWithValue("@FAMILIA", familia);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ELIMINAR EL PROCESO EN elastosystem_produccion_hoja_producto: " + ex.Message);
                 }
                 finally
                 {
@@ -1343,13 +1546,32 @@ namespace ElastoSystem
                 {
                     conn.Open();
 
+                    string id = txbID.Text.Trim();
+                    string nuevaNoOperacion = txbNoOperacion.Text.Trim();
+                    string nuevaDescripcion = txbDescripcion.Text.Trim();
+                    string nuevaArea = cbArea.Text.Trim();
+                    string nuevaNave = txbNave.Text.Trim();
+
+                    string oldNoOperacion = "", familia = "";
+                    string selectQuery = "SELECT NoOperacion, Familia FROM elastosystem_produccion_hoja_ruta WHERE ID = @ID";
+                    using (MySqlCommand selectCmd = new MySqlCommand(selectQuery, conn))
+                    {
+                        selectCmd.Parameters.AddWithValue("@ID", id);
+                        using (var reader = selectCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                oldNoOperacion = reader["NoOperacion"].ToString();
+                                familia = reader["Familia"].ToString();
+                            }
+                        }
+                    }
+
                     string checkQuery = "SELECT COUNT(*) FROM elastosystem_produccion_hoja_ruta WHERE NoOperacion = @NO_OPERACION AND Familia = @FAMILIA AND ID != @ID";
-
                     MySqlCommand cmd = new MySqlCommand(checkQuery, conn);
-                    cmd.Parameters.AddWithValue("@NO_OPERACION", txbNoOperacion.Text.Trim());
-                    cmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
-                    cmd.Parameters.AddWithValue("@ID", txbID.Text.Trim());
-
+                    cmd.Parameters.AddWithValue("@NO_OPERACION", nuevaNoOperacion);
+                    cmd.Parameters.AddWithValue("@FAMILIA", familia);
+                    cmd.Parameters.AddWithValue("@ID", id);
                     int procesoCount = Convert.ToInt32(cmd.ExecuteScalar());
 
                     if (procesoCount > 0)
@@ -1369,26 +1591,47 @@ namespace ElastoSystem
                     else
                         insumos = txbInsumos.Text.Trim();
 
-                    string updateQuery = "UPDATE elastosystem_produccion_hoja_ruta SET NoOperacion = @NO_OPERACION, Area = @AREA, Nave = @NAVE, Descripcion = @DESCRIPCION, TipoMaquina = @TIPOMAQUINA, Preparacion = @PREPARACION, TiempoPreparacion = @TIEMPO_PREPARACION, TiempoOperacion = @TIEMPO_OPERACION, Insumos = @INSUMOS, Critico = @CRITICO WHERE ID = @ID";
+                    string updateQuery = @"UPDATE elastosystem_produccion_hoja_ruta 
+                                            SET NoOperacion = @NO_OPERACION, Area = @AREA, Nave = @NAVE, Descripcion = @DESCRIPCION, 
+                                                TipoMaquina = @TIPOMAQUINA, Preparacion = @PREPARACION, TiempoPreparacion = @TIEMPO_PREPARACION, 
+                                                TiempoOperacion = @TIEMPO_OPERACION, Insumos = @INSUMOS, Critico = @CRITICO 
+                                            WHERE ID = @ID";
+                    
                     MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn);
-
-                    updateCmd.Parameters.AddWithValue("@NO_OPERACION", txbNoOperacion.Text.Trim());
-                    updateCmd.Parameters.AddWithValue("@AREA", cbArea.Text.Trim());
-                    updateCmd.Parameters.AddWithValue("@NAVE", txbNave.Text.Trim());
-                    updateCmd.Parameters.AddWithValue("@DESCRIPCION", txbDescripcion.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@NO_OPERACION", nuevaNoOperacion);
+                    updateCmd.Parameters.AddWithValue("@AREA", nuevaArea);
+                    updateCmd.Parameters.AddWithValue("@NAVE", nuevaNave);
+                    updateCmd.Parameters.AddWithValue("@DESCRIPCION", nuevaDescripcion);
                     updateCmd.Parameters.AddWithValue("@TIPOMAQUINA", txbTipoMaquina.Text.Trim());
                     updateCmd.Parameters.AddWithValue("@PREPARACION", txbPreparacion.Text.Trim());
                     updateCmd.Parameters.AddWithValue("@TIEMPO_PREPARACION", txbTiempoPreparacion.Text.Trim());
                     updateCmd.Parameters.AddWithValue("@TIEMPO_OPERACION", txbTiempoOperacion.Text.Trim());
                     updateCmd.Parameters.AddWithValue("@INSUMOS", insumos);
                     updateCmd.Parameters.AddWithValue("@CRITICO", chbCritico.Checked ? 1 : 0);
-                    updateCmd.Parameters.AddWithValue("@ID", txbID.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@ID", id);
 
                     int rowsAffected = updateCmd.ExecuteNonQuery();
 
                     if (rowsAffected > 0)
                     {
+                        string updateProductoQuery  = @"UPDATE elastosystem_produccion_hoja_producto
+                                                        SET NoOperacion = @NUEVO_NO_OPERACION, Descripcion = @DESCRIPCION, Area = @AREA, Nave = @NAVE 
+                                                        WHERE NoOperacion = @OLD_NO_OPERACION AND Familia = @FAMILIA";
+
+                        using (MySqlCommand updateProdCmd = new MySqlCommand(updateProductoQuery, conn))
+                        {
+                            updateProdCmd.Parameters.AddWithValue("@NUEVO_NO_OPERACION", nuevaNoOperacion);
+                            updateProdCmd.Parameters.AddWithValue("@DESCRIPCION", nuevaDescripcion);
+                            updateProdCmd.Parameters.AddWithValue("@AREA", nuevaArea);
+                            updateProdCmd.Parameters.AddWithValue("@NAVE", nuevaNave);
+                            updateProdCmd.Parameters.AddWithValue("@OLD_NO_OPERACION", oldNoOperacion);
+                            updateProdCmd.Parameters.AddWithValue("@FAMILIA", familia);
+
+                            updateProdCmd.ExecuteNonQuery();
+                        }
+
                         MessageBox.Show("Proceso actualizado correctamente.");
+                        RevisarHule();
                         btnNuevo.PerformClick();
                     }
                     else
@@ -1406,6 +1649,7 @@ namespace ElastoSystem
                 }
             }
         }
+
 
         private void cbFamiliaAdministrar_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1605,7 +1849,7 @@ namespace ElastoSystem
 
                 try
                 {
-                    using(var imgTemp = Image.FromFile(rutaImagen))
+                    using (var imgTemp = Image.FromFile(rutaImagen))
                     {
                         pbImagen.Image = new Bitmap(imgTemp);
                     }
@@ -1652,7 +1896,7 @@ namespace ElastoSystem
                 {
                     using (MemoryStream ms = new MemoryStream(imagenBytes))
                     {
-                        using(var imgTemp = Image.FromStream(ms))
+                        using (var imgTemp = Image.FromStream(ms))
                         {
                             pbImagen.Image = new Bitmap(imgTemp);
                         }
@@ -1716,7 +1960,7 @@ namespace ElastoSystem
 
         private void btnActualizarEncabezado_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(cbLinea.Text) || string.IsNullOrWhiteSpace(txbNombreEncabezado.Text) ||
+            if (string.IsNullOrWhiteSpace(cbLinea.Text) || string.IsNullOrWhiteSpace(txbNombreEncabezado.Text) ||
                 string.IsNullOrWhiteSpace(txbMaterialEncabezado.Text) || string.IsNullOrWhiteSpace(txbCalibreEncabezado.Text) ||
                 string.IsNullOrWhiteSpace(txbSubensamble.Text) || string.IsNullOrWhiteSpace(txbDibujo.Text))
             {
@@ -1752,7 +1996,7 @@ namespace ElastoSystem
                                         DibIng = @DIBING, Imagen = @IMAGEN
                                     WHERE ID = @ID";
 
-                    using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(txbIDAdministrar.Text));
                         cmd.Parameters.AddWithValue("@NOMBRE", txbNombreEncabezado.Text.Trim());
@@ -1770,7 +2014,7 @@ namespace ElastoSystem
                         cmd.Parameters.AddWithValue("@IMAGEN", imagenBytes);
 
                         int rowsAffected = cmd.ExecuteNonQuery();
-                        if(rowsAffected > 0)
+                        if (rowsAffected > 0)
                         {
                             MessageBox.Show("Encabezado actualizado correctamente.");
                             CargarEncabezados();
@@ -1785,9 +2029,253 @@ namespace ElastoSystem
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ACTUALIZAR ENCABEZADO: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void txbBuscador_TextChanged(object sender, EventArgs e)
+        {
+            Buscador();
+        }
+
+        private void Buscador()
+        {
+            try
+            {
+                string valorBusqueda = txbBuscador.Text.Trim();
+
+                if (string.IsNullOrEmpty(valorBusqueda))
+                {
+                    CargarProductosRelacion();
+                }
+                else
+                {
+                    string consulta = "SELECT Producto, Familia FROM elastosystem_sae_productos WHERE Producto LIKE @VALORBUSQUEDA OR Familia LIKE @VALORBUSQUEDA";
+
+                    MySqlDataAdapter adapatador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
+
+                    adapatador.SelectCommand.Parameters.AddWithValue("@VALORBUSQUEDA", "%" + valorBusqueda + "%");
+
+                    DataSet datos = new DataSet();
+
+                    adapatador.Fill(datos, "Resultados");
+
+                    dgvProductosFamilias.DataSource = datos.Tables["Resultados"];
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL BUSCAR: " + ex.Message);
+            }
+        }
+
+        private void dgvProductosFamilias_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            txbProducto.Clear();
+            txbFamiliaOrig.Clear();
+            cbFamiliaRelacion.SelectedIndex = -1;
+
+            DataGridView dgvBD = (DataGridView)sender;
+
+            if (dgvBD.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgvBD.SelectedCells[0].RowIndex;
+
+                string producto = dgvBD.Rows[rowIndex].Cells[0].Value.ToString();
+                txbProducto.Text = producto;
+
+                string familia = dgvBD.Rows[rowIndex].Cells[1].Value.ToString();
+                cbFamiliaRelacion.Text = familia;
+                txbFamiliaOrig.Text = familia;
+            }
+        }
+
+        private void btnActualizarProducto_Click(object sender, EventArgs e)
+        {
+            if(string.IsNullOrWhiteSpace(txbProducto.Text) && string.IsNullOrWhiteSpace(cbFamiliaRelacion.Text))
+            {
+                MessageBox.Show("No existe nada por actualizar");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txbProducto.Text))
+            {
+                MessageBox.Show("No existe producto para actualizar.");
+                return;
+            }
+            if(string.IsNullOrWhiteSpace(cbFamiliaRelacion.Text))
+            {
+                MessageBox.Show("No existe familia para el producto.");
+                return;
+            }
+
+            ActualizarProducto();
+
+        }
+
+        private void ActualizarProducto()
+        {
+
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string selectQuery = "SELECT Familia FROM elastosystem_sae_productos WHERE Producto = @PRODUCTO";
+                    MySqlCommand selectCmd = new MySqlCommand(selectQuery, conn);
+                    selectCmd.Parameters.AddWithValue("@PRODUCTO", txbProducto.Text.Trim());
+
+                    object currentFamiliaObj = selectCmd.ExecuteScalar();
+                    string currentFamilia = currentFamiliaObj != null ? currentFamiliaObj.ToString() : "";
+
+                    if(currentFamilia.Equals(cbFamiliaRelacion.Text.Trim(), StringComparison.OrdinalIgnoreCase))
+                    {
+                        MessageBox.Show("No se han realizado cambios en la familia del producto.");
+                        return;
+                    }
+
+                    string updateQuery = "UPDATE elastosystem_sae_productos SET Familia = @FAMILIA WHERE Producto = @PRODUCTO";
+                    MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn);
+                    updateCmd.Parameters.AddWithValue("@FAMILIA", cbFamiliaRelacion.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@PRODUCTO", txbProducto.Text.Trim());
+
+                    int rowsAffected = updateCmd.ExecuteNonQuery();
+
+                    if(rowsAffected > 0)
+                    {
+                        if (string.IsNullOrWhiteSpace(currentFamilia))
+                        {
+                            AgregarHojaProducto();
+                        }
+                        else
+                        {
+                            EliminaryAgregarHojaProducto();
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL RELACIONAR EL PRODUCTO: "+ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            } 
+        }
+
+        private void AgregarHojaProducto()
+        {
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string checkQuery = "SELECT COUNT(*) FROM elastosystem_produccion_hoja_ruta WHERE Familia = @FAMILIA";
+                    MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn);
+                    checkCmd.Parameters.AddWithValue("@FAMILIA", cbFamiliaRelacion.Text.Trim());
+
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                    if (count == 0)
+                    {
+                        txbBuscador.Clear();
+                        txbProducto.Clear();
+                        txbFamiliaOrig.Clear();
+                        cbFamiliaRelacion.SelectedIndex = -1;
+                        CargarFamiliasRelacion();
+                        CargarProductosRelacion();
+                        return;
+                    }
+
+                    List<(string Nave, string NoOperacion, string Area, string Descripcion)> registros = new List<(string, string, string, string)>();
+
+                    string selectQuery = "SELECT Nave, NoOperacion, Area, Descripcion FROM elastosystem_produccion_hoja_ruta WHERE Familia = @FAMILIA";
+                    MySqlCommand selectCmd = new MySqlCommand(selectQuery, conn);
+                    selectCmd.Parameters.AddWithValue("@FAMILIA", cbFamiliaRelacion.Text.Trim());
+
+                    using(MySqlDataReader reader = selectCmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            registros.Add((
+                                reader["Nave"].ToString(),
+                                reader["NoOperacion"].ToString(),
+                                reader["Area"].ToString(),
+                                reader["Descripcion"].ToString()
+                            ));
+                        }
+                    }
+
+                    foreach(var reg in registros)
+                    {
+                        string insertQuery = @"INSERT INTO elastosystem_produccion_hoja_producto
+                                                (Producto, Familia, Nave, NoOperacion, Area, Descripcion, NombreArea, ProduccionEstandar, CantidadUnidad)
+                                                VALUES(@PRODUCTO, @FAMILIA, @NAVE, @NOOPERACION, @AREA, @DESCRIPCION, '', '', '')";
+
+                        using(MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn))
+                        {
+                            insertCmd.Parameters.AddWithValue("@PRODUCTO", txbProducto.Text.Trim());
+                            insertCmd.Parameters.AddWithValue("@FAMILIA", cbFamiliaRelacion.Text.Trim());
+                            insertCmd.Parameters.AddWithValue("@NAVE", reg.Nave);
+                            insertCmd.Parameters.AddWithValue("@NOOPERACION", reg.NoOperacion);
+                            insertCmd.Parameters.AddWithValue("@AREA", reg.Area);
+                            insertCmd.Parameters.AddWithValue("@DESCRIPCION", reg.Descripcion);
+
+                            insertCmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    txbBuscador.Clear();
+                    txbProducto.Clear();
+                    txbFamiliaOrig.Clear();
+                    cbFamiliaRelacion.SelectedIndex = -1;
+                    CargarFamiliasRelacion();
+                    CargarProductosRelacion();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL AGREGAR A produccion_hoja_producto: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void EliminaryAgregarHojaProducto()
+        {
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string deleteQuery = @"DELETE FROM elastosystem_produccion_hoja_producto
+                                            WHERE Producto = @PRODUCTO AND Familia = @FAMILIA";
+
+                    using (MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, conn))
+                    {
+                        deleteCmd.Parameters.AddWithValue("@PRODUCTO", txbProducto.Text.Trim());
+                        deleteCmd.Parameters.AddWithValue("@FAMILIA", txbFamiliaOrig.Text.Trim());
+
+                        deleteCmd.ExecuteNonQuery();
+                    }
+
+                    AgregarHojaProducto();
+
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ELIMINAR Y AGREGAR A produccion_hoja_producto: " + ex.Message);
                 }
                 finally
                 {
