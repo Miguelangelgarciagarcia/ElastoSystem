@@ -337,12 +337,56 @@ namespace ElastoSystem
                     cmd.CommandText = updateQuery;
                     cmd.ExecuteNonQuery();
 
+                    ActualizarTodoRegistroFamilia();
+
                     MessageBox.Show("Familia actualizada correctamente.");
                     btnNuevoFamilias.PerformClick();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ACTUALIZAR FAMILIA: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void ActualizarTodoRegistroFamilia()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string familiaOriginal = txbFamiliaOriginal.Text.Trim();
+                    string nuevaFamilia = txbFamilia.Text.Trim();
+
+                    List<string> tablas = new List<string>
+                    {
+                        "elastosystem_sae_productos",
+                        "elastosystem_produccion_encabezado",
+                        "elastosystem_produccion_hoja_producto",
+                        "elastosystem_produccion_hoja_ruta"
+                    };
+
+                    foreach (string tabla in tablas)
+                    {
+                        string updateQuery = $"UPDATE {tabla} SET Familia = @NUEVA_FAMILIA WHERE Familia = @FAMILIA_ORIGINAL";
+
+                        using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@NUEVA_FAMILIA", nuevaFamilia);
+                            cmd.Parameters.AddWithValue("@FAMILIA_ORIGINAL", familiaOriginal);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ACTUALIZAR TODOS LOS REGISTROS DONDE SE ENCONTRO LA FAMILIA: " + ex.Message);
                 }
                 finally
                 {
@@ -393,12 +437,56 @@ namespace ElastoSystem
                     cmd.CommandText = updateQuery;
                     cmd.ExecuteNonQuery();
 
+                    ActualizarTodasLasAreas();
+
                     MessageBox.Show("Área actualizada correctamente.");
                     btnNuevoAreas.PerformClick();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ACTUALIZAR AREA: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void ActualizarTodasLasAreas()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string areaOriginal = txbAreasOriginal.Text.Trim();
+                    string nuevaArea = txbAreas.Text.Trim();
+                    string nuevaNave = cbNaveAreas.Text.Trim();
+
+                    List<string> tablas = new List<string>
+                    {
+                        "elastosystem_produccion_hoja_producto",
+                        "elastosystem_produccion_hoja_ruta"
+                    };
+
+                    foreach(string tabla in tablas)
+                    {
+                        string updateQuery = $"UPDATE {tabla} SET Area = @NUEVA_AREA, Nave = @NUEVA_NAVE WHERE Area = @AREA_ORIGINAL";
+
+                        using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@NUEVA_AREA", nuevaArea);
+                            cmd.Parameters.AddWithValue("@NUEVA_NAVE", nuevaNave);
+                            cmd.Parameters.AddWithValue("@AREA_ORIGINAL", areaOriginal);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ACTUALIZAR TODOS LOS REGISTROS DONDE SE ENCONTRO EL AREA: " + ex.Message);
                 }
                 finally
                 {
@@ -862,6 +950,8 @@ namespace ElastoSystem
                     cmd.CommandText = updateQuery;
                     cmd.ExecuteNonQuery();
 
+                    ActualizarGeneralHules();
+
                     MessageBox.Show("Hule actualizado correctamente.");
                     btnNuevoHules.PerformClick();
                 }
@@ -874,6 +964,55 @@ namespace ElastoSystem
                     conn.Close();
                 }
             }
+        }
+
+        private void ActualizarGeneralHules()
+        {
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string huleOriginal = txbHuleOriginal.Text.Trim();
+                    string nuevoHule = txbHule.Text.Trim();
+
+                    string updateMaterialQuery = @"
+                        UPDATE elastosystem_produccion_encabezado
+                        SET Material = REPLACE(Material, @HULE_ORIGINAL, @NUEVO_HULE)
+                        WHERE Material LIKE CONCAT('%', @HULE_ORIGINAL, '%')";
+
+                    using (MySqlCommand cmdMaterial = new MySqlCommand(updateMaterialQuery, conn))
+                    {
+                        cmdMaterial.Parameters.AddWithValue("@HULE_ORIGINAL", huleOriginal);
+                        cmdMaterial.Parameters.AddWithValue("@NUEVO_HULE", nuevoHule);
+                        cmdMaterial.ExecuteNonQuery();
+                    }
+
+                    string updateInsumosQuery = @"
+                        UPDATE elastosystem_produccion_hoja_ruta
+                        SET Insumos = REPLACE(Insumos, @HULE_ORIGINAL, @NUEVO_HULE)
+                        WHERE Insumos LIKE CONCAT('%', @HULE_ORIGINAL, '%')";
+
+                    using (MySqlCommand cmdInsumos = new MySqlCommand(updateInsumosQuery, conn))
+                    {
+                        cmdInsumos.Parameters.AddWithValue("@HULE_ORIGINAL", huleOriginal);
+                        cmdInsumos.Parameters.AddWithValue("@NUEVO_HULE", nuevoHule);
+                        cmdInsumos.ExecuteNonQuery();
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ACTUALIZAR HULES EN TODOS LOS REGISTROS: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            //elastosystem_produccion_encabezado Material
+            //elastosystem_produccion_hoja_ruta Insumos
         }
 
         private void tabHojaRuta_Click(object sender, EventArgs e)
