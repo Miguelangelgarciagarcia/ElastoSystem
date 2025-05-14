@@ -471,7 +471,7 @@ namespace ElastoSystem
                         "elastosystem_produccion_hoja_ruta"
                     };
 
-                    foreach(string tabla in tablas)
+                    foreach (string tabla in tablas)
                     {
                         string updateQuery = $"UPDATE {tabla} SET Area = @NUEVA_AREA, Nave = @NUEVA_NAVE WHERE Area = @AREA_ORIGINAL";
 
@@ -597,6 +597,7 @@ namespace ElastoSystem
             {
                 CargarFamiliasRelacion();
                 CargarProductosRelacion();
+                CargarHojasRuta();
                 txbFamiliaOrig.Clear();
                 txbProducto.Clear();
                 txbBuscador.Clear();
@@ -607,6 +608,20 @@ namespace ElastoSystem
                 CargarAreas();
                 CargarHules();
             }
+        }
+
+        private void CargarHojasRuta()
+        {
+            string query = "SELECT * FROM elastosystem_produccion_hoja_producto ORDER BY Producto ASC, NoOperacion ASC";
+            MySqlDataAdapter adaptador = new MySqlDataAdapter(query, VariablesGlobales.ConexionBDElastotecnica);
+            DataTable dt = new DataTable();
+            adaptador.Fill(dt);
+            dgvHojasRuta.DataSource = dt;
+            dgvHojasRuta.Columns["ID"].Visible = false;
+            dgvHojasRuta.Columns["Nave"].Width = 70;
+            dgvHojasRuta.Columns["NoOperacion"].Width = 100;
+            dgvHojasRuta.Columns["CantidadUnidad"].HeaderText = "C/U";
+            dgvHojasRuta.Columns["CantidadUnidad"].Width = 40;
         }
 
         private void CargarFamiliasRelacion()
@@ -968,7 +983,7 @@ namespace ElastoSystem
 
         private void ActualizarGeneralHules()
         {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -1001,7 +1016,7 @@ namespace ElastoSystem
                         cmdInsumos.ExecuteNonQuery();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ACTUALIZAR HULES EN TODOS LOS REGISTROS: " + ex.Message);
                 }
@@ -1176,7 +1191,7 @@ namespace ElastoSystem
             }
             lblCamposObligatorios.Visible = false; pbCampos.Visible = false; pbNoOperacion.Visible = false; pbArea.Visible = false; pbNave.Visible = false; pbDescripcion.Visible = false;
             AgregarProceso();
-            
+
         }
 
         private void txbNoOperacion_KeyPress(object sender, KeyPressEventArgs e)
@@ -1262,7 +1277,7 @@ namespace ElastoSystem
                         btnExportarPDF.Visible = true;
                         btnAgregarProceso.Visible = true;
 
-                        
+
                     }
                     else
                     {
@@ -1282,13 +1297,13 @@ namespace ElastoSystem
 
         private void SincronizarHojaProductoDesdeHojaRuta(string familia)
         {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
                     conn.Open();
 
-                    List <string> productos = new List<string>();
+                    List<string> productos = new List<string>();
                     string queryProductos = "SELECT Producto FROM elastosystem_sae_productos WHERE Familia = @FAMILIA";
 
                     using (MySqlCommand cmdProductos = new MySqlCommand(queryProductos, conn))
@@ -1312,7 +1327,7 @@ namespace ElastoSystem
                     using (MySqlCommand cmdProcesos = new MySqlCommand(queryProcesos, conn))
                     {
                         cmdProcesos.Parameters.AddWithValue("@FAMILIA", familia);
-                        using(var reader = cmdProcesos.ExecuteReader())
+                        using (var reader = cmdProcesos.ExecuteReader())
                         {
                             while (reader.Read())
                             {
@@ -1330,23 +1345,23 @@ namespace ElastoSystem
 
                     foreach (var producto in productos)
                     {
-                        foreach(var proceso in procesos)
+                        foreach (var proceso in procesos)
                         {
                             string checkQuery = @"SELECT COUNT(*) FROM elastosystem_produccion_hoja_producto
                                                 WHERE Producto = @PRODUCTO AND NoOperacion = @NO_OPERACION";
-                            using(MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
+                            using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
                             {
                                 checkCmd.Parameters.AddWithValue("@PRODUCTO", producto);
                                 checkCmd.Parameters.AddWithValue("@NO_OPERACION", proceso["NoOperacion"]);
 
                                 int exists = Convert.ToInt32(checkCmd.ExecuteScalar());
 
-                                if(exists == 0)
+                                if (exists == 0)
                                 {
                                     string insertHojaProducto = @"INSERT INTO elastosystem_produccion_hoja_producto
                                                 (Producto, Familia, Nave, NoOperacion, Area, Descripcion)
                                                 VALUES (@PRODUCTO, @FAMILIA, @NAVE, @NO_OPERACION, @AREA, @DESCRIPCION)";
-                                    using(MySqlCommand insertCmd = new MySqlCommand(insertHojaProducto, conn))
+                                    using (MySqlCommand insertCmd = new MySqlCommand(insertHojaProducto, conn))
                                     {
                                         insertCmd.Parameters.AddWithValue("@PRODUCTO", producto);
                                         insertCmd.Parameters.AddWithValue("@FAMILIA", familia);
@@ -1362,7 +1377,7 @@ namespace ElastoSystem
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL SINCORNIZAR EL NUEVO PROCESO CON LAS HOJAS DE RUTA DE LOS PRODUCTO EXISTENTES: " + ex.Message);
                 }
@@ -1614,7 +1629,7 @@ namespace ElastoSystem
                         cmd.Parameters.AddWithValue("@ID", txbID.Text.Trim());
                         int rowsAffected = cmd.ExecuteNonQuery();
 
-                        if(rowsAffected > 0)
+                        if (rowsAffected > 0)
                         {
                             RevisarHule();
                             btnNuevo.PerformClick();
@@ -1638,7 +1653,7 @@ namespace ElastoSystem
 
         private void EliminarProcesoDeHojaProducto(string noOperacion, string familia)
         {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -1654,7 +1669,7 @@ namespace ElastoSystem
                         cmd.ExecuteNonQuery();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ELIMINAR EL PROCESO EN elastosystem_produccion_hoja_producto: " + ex.Message);
                 }
@@ -1735,7 +1750,7 @@ namespace ElastoSystem
                                                 TipoMaquina = @TIPOMAQUINA, Preparacion = @PREPARACION, TiempoPreparacion = @TIEMPO_PREPARACION, 
                                                 TiempoOperacion = @TIEMPO_OPERACION, Insumos = @INSUMOS, Critico = @CRITICO 
                                             WHERE ID = @ID";
-                    
+
                     MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn);
                     updateCmd.Parameters.AddWithValue("@NO_OPERACION", nuevaNoOperacion);
                     updateCmd.Parameters.AddWithValue("@AREA", nuevaArea);
@@ -1753,7 +1768,7 @@ namespace ElastoSystem
 
                     if (rowsAffected > 0)
                     {
-                        string updateProductoQuery  = @"UPDATE elastosystem_produccion_hoja_producto
+                        string updateProductoQuery = @"UPDATE elastosystem_produccion_hoja_producto
                                                         SET NoOperacion = @NUEVO_NO_OPERACION, Descripcion = @DESCRIPCION, Area = @AREA, Nave = @NAVE 
                                                         WHERE NoOperacion = @OLD_NO_OPERACION AND Familia = @FAMILIA";
 
@@ -2238,7 +2253,7 @@ namespace ElastoSystem
 
         private void btnActualizarProducto_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(txbProducto.Text) && string.IsNullOrWhiteSpace(cbFamiliaRelacion.Text))
+            if (string.IsNullOrWhiteSpace(txbProducto.Text) && string.IsNullOrWhiteSpace(cbFamiliaRelacion.Text))
             {
                 MessageBox.Show("No existe nada por actualizar");
                 return;
@@ -2248,7 +2263,7 @@ namespace ElastoSystem
                 MessageBox.Show("No existe producto para actualizar.");
                 return;
             }
-            if(string.IsNullOrWhiteSpace(cbFamiliaRelacion.Text))
+            if (string.IsNullOrWhiteSpace(cbFamiliaRelacion.Text))
             {
                 MessageBox.Show("No existe familia para el producto.");
                 return;
@@ -2261,7 +2276,7 @@ namespace ElastoSystem
         private void ActualizarProducto()
         {
 
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -2274,7 +2289,7 @@ namespace ElastoSystem
                     object currentFamiliaObj = selectCmd.ExecuteScalar();
                     string currentFamilia = currentFamiliaObj != null ? currentFamiliaObj.ToString() : "";
 
-                    if(currentFamilia.Equals(cbFamiliaRelacion.Text.Trim(), StringComparison.OrdinalIgnoreCase))
+                    if (currentFamilia.Equals(cbFamiliaRelacion.Text.Trim(), StringComparison.OrdinalIgnoreCase))
                     {
                         MessageBox.Show("No se han realizado cambios en la familia del producto.");
                         return;
@@ -2287,7 +2302,7 @@ namespace ElastoSystem
 
                     int rowsAffected = updateCmd.ExecuteNonQuery();
 
-                    if(rowsAffected > 0)
+                    if (rowsAffected > 0)
                     {
                         if (string.IsNullOrWhiteSpace(currentFamilia))
                         {
@@ -2299,20 +2314,20 @@ namespace ElastoSystem
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("ERROR AL RELACIONAR EL PRODUCTO: "+ex.Message);
+                    MessageBox.Show("ERROR AL RELACIONAR EL PRODUCTO: " + ex.Message);
                 }
                 finally
                 {
                     conn.Close();
                 }
-            } 
+            }
         }
 
         private void AgregarHojaProducto()
         {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -2340,7 +2355,7 @@ namespace ElastoSystem
                     MySqlCommand selectCmd = new MySqlCommand(selectQuery, conn);
                     selectCmd.Parameters.AddWithValue("@FAMILIA", cbFamiliaRelacion.Text.Trim());
 
-                    using(MySqlDataReader reader = selectCmd.ExecuteReader())
+                    using (MySqlDataReader reader = selectCmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -2353,13 +2368,13 @@ namespace ElastoSystem
                         }
                     }
 
-                    foreach(var reg in registros)
+                    foreach (var reg in registros)
                     {
                         string insertQuery = @"INSERT INTO elastosystem_produccion_hoja_producto
                                                 (Producto, Familia, Nave, NoOperacion, Area, Descripcion, NombreArea, ProduccionEstandar, CantidadUnidad)
                                                 VALUES(@PRODUCTO, @FAMILIA, @NAVE, @NOOPERACION, @AREA, @DESCRIPCION, '', '', '')";
 
-                        using(MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn))
+                        using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn))
                         {
                             insertCmd.Parameters.AddWithValue("@PRODUCTO", txbProducto.Text.Trim());
                             insertCmd.Parameters.AddWithValue("@FAMILIA", cbFamiliaRelacion.Text.Trim());
@@ -2379,7 +2394,7 @@ namespace ElastoSystem
                     CargarFamiliasRelacion();
                     CargarProductosRelacion();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL AGREGAR A produccion_hoja_producto: " + ex.Message);
                 }
@@ -2392,7 +2407,7 @@ namespace ElastoSystem
 
         private void EliminaryAgregarHojaProducto()
         {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -2412,13 +2427,74 @@ namespace ElastoSystem
                     AgregarHojaProducto();
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ELIMINAR Y AGREGAR A produccion_hoja_producto: " + ex.Message);
                 }
                 finally
                 {
                     conn.Close();
+                }
+            }
+        }
+
+        private void txbBuscadorHR_TextChanged(object sender, EventArgs e)
+        {
+            BuscadorHR();
+        }
+
+        private void BuscadorHR()
+        {
+            try
+            {
+                String valorBusqueda = txbBuscadorHR.Text.Trim();
+
+                if (string.IsNullOrEmpty(valorBusqueda))
+                {
+                    CargarHojasRuta();
+                }
+                else
+                {
+                    string consulta = "SELECT * FROM elastosystem_produccion_hoja_producto WHERE Producto LIKE @VALORBUSQUEDA OR Familia LIKE @VALORBUSQUEDA OR Descripcion LIKE @VALORBUSQUEDA ORDER BY Producto ASC, NoOperacion ASC";
+
+                    MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
+
+                    adaptador.SelectCommand.Parameters.AddWithValue("@VALORBUSQUEDA", "%" + valorBusqueda + "%");
+
+                    DataSet datos = new DataSet();
+
+                    adaptador.Fill(datos, "Resultados");
+
+                    dgvHojasRuta.DataSource = datos.Tables["Resultados"];
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL BUSCAR: " + ex.Message);
+            }
+        }
+
+        private void dgvHojasRuta_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex >= 0)
+            {
+                DataGridViewRow fila = dgvHojasRuta.Rows[e.RowIndex];
+
+                string familia = fila.Cells["Familia"].Value.ToString();
+                string producto = fila.Cells["Producto"].Value.ToString();
+                string nave = fila.Cells["Nave"].Value.ToString();
+                string noOperacion = fila.Cells["NoOperacion"].Value.ToString();
+                string area = fila.Cells["Area"].Value.ToString();
+                string descripcion = fila.Cells["Descripcion"].Value.ToString();
+                string produccion= fila.Cells["ProduccionEstandar"].Value.ToString();
+                string nombreArea = fila.Cells["NombreArea"].Value.ToString();
+                string cantidadUnidad = fila.Cells["CantidadUnidad"].Value.ToString();
+
+                Produccion_ActualizarHR ventana = new Produccion_ActualizarHR(familia, producto, nave, noOperacion, area, descripcion, produccion, nombreArea, cantidadUnidad);
+                DialogResult resultado = ventana.ShowDialog();
+                if(resultado == DialogResult.OK)
+                {
+                    CargarHojasRuta();
                 }
             }
         }
