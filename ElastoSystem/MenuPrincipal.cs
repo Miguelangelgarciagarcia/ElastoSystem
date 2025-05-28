@@ -50,7 +50,7 @@ namespace ElastoSystem
                                 Ventas, 
                                     BuscarCotizacion, Clientes, CatalogoProductos, NuevaCotizacion, 
                                 Produccion, 
-                                    Reporte, Administrar_Procesos,
+                                    Reporte, Administrar_Procesos, Orden_Produccion,
                                 Maquinado, 
                                     Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, 
                                 Mantenimiento, 
@@ -271,6 +271,12 @@ namespace ElastoSystem
                         {
                             btnAdministrarProcesos.Enabled = true;
                             btnAdministrarProcesos.Visible = true;
+                        }
+                        string ordenproduccionValue = reader["Orden_Produccion"].ToString();
+                        if (ordenproduccionValue == "True")
+                        {
+                            btnOrdenProduccion.Enabled = true;
+                            btnOrdenProduccion.Visible = true;
                         }
                     }
 
@@ -861,6 +867,12 @@ namespace ElastoSystem
         private void btnAdministrarProcesos_Click(object sender, EventArgs e)
         {
             openChildForm(new Produccion_AdministrarProcesos());
+            HideSubMenu();
+        }
+
+        private void btnOrdenProduccion_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Produccion_OrdenProduccion());
             HideSubMenu();
         }
     }

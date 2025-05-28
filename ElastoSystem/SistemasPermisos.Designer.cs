@@ -72,6 +72,7 @@
             chbClientes = new CheckBox();
             chbVentas = new CheckBox();
             panel6 = new Panel();
+            chbOrdenProduccion = new CheckBox();
             chbAdministrarProcesos = new CheckBox();
             chbReporteProduccion = new CheckBox();
             chbProduccion = new CheckBox();
@@ -680,6 +681,7 @@
             // panel6
             // 
             panel6.BackColor = Color.FromArgb(3, 42, 76);
+            panel6.Controls.Add(chbOrdenProduccion);
             panel6.Controls.Add(chbAdministrarProcesos);
             panel6.Controls.Add(chbReporteProduccion);
             panel6.Controls.Add(chbProduccion);
@@ -687,6 +689,19 @@
             panel6.Name = "panel6";
             panel6.Size = new Size(240, 291);
             panel6.TabIndex = 10;
+            // 
+            // chbOrdenProduccion
+            // 
+            chbOrdenProduccion.AutoSize = true;
+            chbOrdenProduccion.Font = new Font("Montserrat", 9F);
+            chbOrdenProduccion.ForeColor = Color.White;
+            chbOrdenProduccion.Location = new Point(15, 100);
+            chbOrdenProduccion.Name = "chbOrdenProduccion";
+            chbOrdenProduccion.Size = new Size(138, 20);
+            chbOrdenProduccion.TabIndex = 3;
+            chbOrdenProduccion.Text = "Orden Produccion";
+            chbOrdenProduccion.UseVisualStyleBackColor = true;
+            chbOrdenProduccion.CheckedChanged += chbOrdenProduccion_CheckedChanged;
             // 
             // chbAdministrarProcesos
             // 
@@ -1607,5 +1622,6 @@
         private CheckBox chbSolicitudFabricacion;
         private CheckBox chbAdminSolFab;
         private CheckBox chbAdministrarProcesos;
+        private CheckBox chbOrdenProduccion;
     }
 }

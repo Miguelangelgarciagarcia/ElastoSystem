@@ -48,6 +48,7 @@
             btnSolicitudMquinado = new Button();
             btnMaquinado = new Button();
             sbmProduccion = new Panel();
+            btnOrdenProduccion = new Button();
             btnAdministrarProcesos = new Button();
             btnReporte = new Button();
             btnProduccion = new Button();
@@ -230,7 +231,7 @@
             sbmMantenimiento.Controls.Add(btnPendientesMtto);
             sbmMantenimiento.Controls.Add(btnSolicitudMantenimiento);
             sbmMantenimiento.Dock = DockStyle.Top;
-            sbmMantenimiento.Location = new Point(0, 1511);
+            sbmMantenimiento.Location = new Point(0, 1547);
             sbmMantenimiento.Name = "sbmMantenimiento";
             sbmMantenimiento.Size = new Size(187, 153);
             sbmMantenimiento.TabIndex = 17;
@@ -319,7 +320,7 @@
             btnMantenimiento.FlatStyle = FlatStyle.Flat;
             btnMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnMantenimiento.ForeColor = Color.White;
-            btnMantenimiento.Location = new Point(0, 1475);
+            btnMantenimiento.Location = new Point(0, 1511);
             btnMantenimiento.Name = "btnMantenimiento";
             btnMantenimiento.Padding = new Padding(10, 0, 0, 0);
             btnMantenimiento.Size = new Size(187, 36);
@@ -337,7 +338,7 @@
             sbmMaquinado.Controls.Add(btnPendientesMaquinado);
             sbmMaquinado.Controls.Add(btnSolicitudMquinado);
             sbmMaquinado.Dock = DockStyle.Top;
-            sbmMaquinado.Location = new Point(0, 1351);
+            sbmMaquinado.Location = new Point(0, 1387);
             sbmMaquinado.Name = "sbmMaquinado";
             sbmMaquinado.Size = new Size(187, 124);
             sbmMaquinado.TabIndex = 15;
@@ -407,7 +408,7 @@
             btnMaquinado.FlatStyle = FlatStyle.Flat;
             btnMaquinado.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             btnMaquinado.ForeColor = Color.White;
-            btnMaquinado.Location = new Point(0, 1315);
+            btnMaquinado.Location = new Point(0, 1351);
             btnMaquinado.Name = "btnMaquinado";
             btnMaquinado.Padding = new Padding(10, 0, 0, 0);
             btnMaquinado.Size = new Size(187, 36);
@@ -421,13 +422,33 @@
             // sbmProduccion
             // 
             sbmProduccion.BackColor = Color.FromArgb(3, 52, 92);
+            sbmProduccion.Controls.Add(btnOrdenProduccion);
             sbmProduccion.Controls.Add(btnAdministrarProcesos);
             sbmProduccion.Controls.Add(btnReporte);
             sbmProduccion.Dock = DockStyle.Top;
             sbmProduccion.Location = new Point(0, 1230);
             sbmProduccion.Name = "sbmProduccion";
-            sbmProduccion.Size = new Size(187, 85);
+            sbmProduccion.Size = new Size(187, 121);
             sbmProduccion.TabIndex = 13;
+            // 
+            // btnOrdenProduccion
+            // 
+            btnOrdenProduccion.Dock = DockStyle.Top;
+            btnOrdenProduccion.Enabled = false;
+            btnOrdenProduccion.FlatAppearance.BorderSize = 0;
+            btnOrdenProduccion.FlatStyle = FlatStyle.Flat;
+            btnOrdenProduccion.Font = new Font("Montserrat", 10F);
+            btnOrdenProduccion.ForeColor = Color.White;
+            btnOrdenProduccion.Location = new Point(0, 72);
+            btnOrdenProduccion.Name = "btnOrdenProduccion";
+            btnOrdenProduccion.Padding = new Padding(20, 0, 0, 0);
+            btnOrdenProduccion.Size = new Size(187, 36);
+            btnOrdenProduccion.TabIndex = 5;
+            btnOrdenProduccion.Text = "Orden de Producción";
+            btnOrdenProduccion.TextAlign = ContentAlignment.MiddleLeft;
+            btnOrdenProduccion.UseVisualStyleBackColor = true;
+            btnOrdenProduccion.Visible = false;
+            btnOrdenProduccion.Click += btnOrdenProduccion_Click;
             // 
             // btnAdministrarProcesos
             // 
@@ -686,7 +707,7 @@
             // 
             panel1.Controls.Add(btninfo);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 1664);
+            panel1.Location = new Point(0, 1700);
             panel1.Name = "panel1";
             panel1.Size = new Size(187, 56);
             panel1.TabIndex = 0;
@@ -1306,5 +1327,6 @@
         private Button btnSolicitudFabricacion;
         private Button btnAdministarSolicitudes;
         private Button btnAdministrarProcesos;
+        private Button btnOrdenProduccion;
     }
 }
