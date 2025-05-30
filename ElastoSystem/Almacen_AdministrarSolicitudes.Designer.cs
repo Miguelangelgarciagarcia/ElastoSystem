@@ -112,6 +112,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1288, 708);
             panel1.TabIndex = 52;
+            panel1.Paint += panel1_Paint;
             // 
             // btnCancelarSolicitud
             // 

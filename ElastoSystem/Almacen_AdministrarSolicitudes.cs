@@ -307,7 +307,7 @@ namespace ElastoSystem
 
         private void btnActualizarSolicitud_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(txbCantidad.Text) || txbCantidad.Text == "0")
+            if (string.IsNullOrEmpty(txbCantidad.Text) || txbCantidad.Text == "0")
             {
                 MessageBox.Show("NO PUEDES ACTUALIZAR UNA SOLICITUD DE FABRICACION CON CANTIDAD EN 0");
                 return;
@@ -317,10 +317,10 @@ namespace ElastoSystem
             int cantidad4Meses = int.TryParse(lbl4Meses.Text, out int cuatroMeses) ? cuatroMeses : 0;
             int cantidad = int.TryParse(txbCantidad.Text, out int txb) ? txb : 0;
 
-            if(cantidadActual + cantidad >= cantidad4Meses)
+            if (cantidadActual + cantidad >= cantidad4Meses)
             {
                 Almacen_SobreInventario2 sobreInventario = new Almacen_SobreInventario2();
-                if(sobreInventario.ShowDialog() == DialogResult.OK)
+                if (sobreInventario.ShowDialog() == DialogResult.OK)
                 {
                     ActualizarSolicitud();
                 }
@@ -328,12 +328,12 @@ namespace ElastoSystem
             else
             {
                 ActualizarSolicitud();
-            }   
+            }
         }
 
         private void ActualizarSolicitud()
         {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -364,6 +364,11 @@ namespace ElastoSystem
                     conn.Close();
                 }
             }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
