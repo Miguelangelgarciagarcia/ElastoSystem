@@ -222,13 +222,80 @@ namespace ElastoSystem
                     }
                     conn.Close();
                 }
-
+                CargarDescripciones();
                 VariablesGlobales.UltimaActualizacion();
 
             }
             catch(Exception ex)
             {
                 MessageBox.Show("HUBO UN ERROR AL ACTUALIZAR EXISTENCIAS DE SAE EN BD: " + ex.Message);
+            }
+        }
+
+        private void CargarDescripciones()
+        {
+            try
+            {
+                FbConnectionStringBuilder cadenaFB = new FbConnectionStringBuilder();
+                cadenaFB.UserID = "SYSDBA";
+                cadenaFB.Password = "masterkey";
+                cadenaFB.Database = VariablesGlobales.DireccionBDSAE;
+                cadenaFB.DataSource = VariablesGlobales.IPSAE;
+                cadenaFB.Port = 3050;
+
+                using (FbConnection connFB = new FbConnection(cadenaFB.ConnectionString))
+                {
+                    connFB.Open();
+                    string sqlFB = "SELECT CVE_ART, DESCR FROM inve01";
+                    FbCommand cmdFB = new FbCommand(sqlFB, connFB);
+                    FbDataReader reader = cmdFB.ExecuteReader();
+
+                    using(MySqlConnection connMySQL = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                    {
+                        connMySQL.Open();
+
+                        while (reader.Read())
+                        {
+                            string cveArt = reader["CVE_ART"].ToString().Trim();
+                            string descrSAE = reader["DESCR"].ToString().Trim();
+
+                            string selectQuery = "SELECT Descripcion FROM elastosystem_sae_productos WHERE Producto = @CVE_ART";
+                            MySqlCommand selectCmd = new MySqlCommand(selectQuery, connMySQL);
+                            selectCmd.Parameters.AddWithValue("@CVE_ART", cveArt);
+                            object result = selectCmd.ExecuteScalar();
+
+                            if(result != null)
+                            {
+                                string descrMySQL = result.ToString().Trim();
+
+                                if(descrSAE != descrMySQL)
+                                {
+                                    string updateQuery = "UPDATE elastosystem_sae_productos SET Descripcion = @DESCR WHERE Producto = @CVE_ART";
+                                    MySqlCommand updateCmd = new MySqlCommand(updateQuery, connMySQL);
+                                    updateCmd.Parameters.AddWithValue("@DESCR", descrSAE);
+                                    updateCmd.Parameters.AddWithValue("@CVE_ART", cveArt);
+                                    updateCmd.ExecuteNonQuery();
+                                }
+                            }
+                            else
+                            {
+                                string insertQuery = "INSERT INTO elastosystem_sae_productos (Producto, Descripcion) VALUES (@CVE_ART, @DESCR)";
+                                MySqlCommand insertCmd = new MySqlCommand(insertQuery, connMySQL);
+                                insertCmd.Parameters.AddWithValue("@CVE_ART", cveArt);
+                                insertCmd.Parameters.AddWithValue("@DESCR", descrSAE);
+                                insertCmd.ExecuteNonQuery();
+                            }
+                        }
+                        connMySQL.Close();
+                    }
+
+                    reader.Close();
+                    connFB.Close();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("ERROR AL CARGAR DESCRIPCIONES DE PRODUCTOS DE SAE: " + ex.Message);
             }
         }
 
