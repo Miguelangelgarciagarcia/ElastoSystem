@@ -23,74 +23,10 @@ namespace ElastoSystem
         {
             CargarSolicitudesFabricacion();
             CargarOrdenesProduccion();
-            CargarDescripciones();
-        }
-
-        private void CargarDescripciones()
-        {
-            try
-            {
-                FbConnectionStringBuilder cadenaFB = new FbConnectionStringBuilder();
-                cadenaFB.UserID = "SYSDBA";
-                cadenaFB.Password = "masterkey";
-                cadenaFB.Database = VariablesGlobales.DireccionBDSAE;
-                cadenaFB.DataSource = VariablesGlobales.IPSAE;
-                cadenaFB.Port = 3050;
-
-                using (FbConnection connFB = new FbConnection(cadenaFB.ConnectionString))
-                {
-                    connFB.Open();
-                    string sqlFB = "SELECT CVE_ART, DESCR FROM inve01";
-                    FbCommand cmdFB = new FbCommand(sqlFB, connFB);
-                    FbDataReader reader = cmdFB.ExecuteReader();
-
-                    using (MySqlConnection connMySQL = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
-                    {
-                        connMySQL.Open();
-
-                        while (reader.Read())
-                        {
-                            string cveArt = reader["CVE_ART"].ToString().Trim();
-                            string descrSAE = reader["DESCR"].ToString().Trim();
-
-                            string selectQuery = "SELECT Descripcion FROM elastosystem_sae_productos WHERE Producto = @CVE_ART";
-                            MySqlCommand selectCmd = new MySqlCommand(selectQuery, connMySQL);
-                            selectCmd.Parameters.AddWithValue("@CVE_ART", cveArt);
-                            object result = selectCmd.ExecuteScalar();
-
-                            if (result != null)
-                            {
-                                string descrMySQL = result.ToString().Trim();
-
-                                if (descrSAE != descrMySQL)
-                                {
-                                    string updateQuery = "UPDATE elastosystem_sae_productos SET Descripcion = @DESCR WHERE Producto = @CVE_ART";
-                                    MySqlCommand updateCmd = new MySqlCommand(updateQuery, connMySQL);
-                                    updateCmd.Parameters.AddWithValue("@DESCR", descrSAE);
-                                    updateCmd.Parameters.AddWithValue("@CVE_ART", cveArt);
-                                    updateCmd.ExecuteNonQuery();
-                                }
-                            }
-                            else
-                            {
-                                string insertQuery = "INSERT INTO elastosystem_sae_productos (Producto, Descripcion) VALUES (@CVE_ART, @DESCR)";
-                                MySqlCommand insertCmd = new MySqlCommand(insertQuery, connMySQL);
-                                insertCmd.Parameters.AddWithValue("@CVE_ART", cveArt);
-                                insertCmd.Parameters.AddWithValue("@DESCR", descrSAE);
-                                insertCmd.ExecuteNonQuery();
-                            }
-                        }
-                        connMySQL.Close();
-                    }
-
-                    reader.Close();
-                    connFB.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("ERROR AL CARGAR DESCRIPCIONES DE PRODUCTOS DE SAE: " + ex.Message);
-            }
+            dtpFechaEntrega.MinDate = DateTime.Now.AddDays(1);
+            dgvProcesosCriticos.Columns["Operacion"].ReadOnly = true;
+            dgvProcesosCriticos.Columns["Descripcion"].ReadOnly = true;
+            dgvProcesosCriticos.Columns["OT"].ReadOnly = true;
         }
 
         private void CargarSolicitudesFabricacion()
@@ -132,11 +68,78 @@ namespace ElastoSystem
 
         private void CargarOrdenesProduccion()
         {
+            try
+            {
+                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT
+                            Folio_ALT,
+                            SolicitudFabricacion,
+                            Clave,
+                            Firma
+                        FROM elastosystem_produccion_orden_produccion
+                        WHERE Estatus = 'Activa'
+                        ORDER BY Folio_ALT ASC";
 
+                    using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        using(MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adaptador.Fill(dt);
+                            dgvOrdenesActivas.DataSource = dt;
+                            dgvOrdenesActivas.Columns["Folio_ALT"].HeaderText = "Folio";
+                            dgvOrdenesActivas.Columns["SolicitudFabricacion"].HeaderText = "Solicitud de Fabricación";
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL CARGAR ORDENES DE PRODUCCION ACTIVAS: " + ex.Message);
+            }
+
+            try
+            {
+                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT
+                            Folio_ALT,
+                            SolicitudFabricacion,
+                            Clave,
+                            Firma
+                        FROM elastosystem_produccion_orden_produccion
+                        WHERE Estatus = 'Finalizada'
+                        ORDER BY Folio_ALT ASC";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        using (MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adaptador.Fill(dt);
+                            dgvOrdenesFinalizadas.DataSource = dt;
+                            dgvOrdenesFinalizadas.Columns["Folio_ALT"].HeaderText = "Folio";
+                            dgvOrdenesFinalizadas.Columns["SolicitudFabricacion"].HeaderText = "Solicitud de Fabricación";
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("ERROR AL CARGAR ORDENES DE PRODUCCION FINALIZADAS: " + ex.Message);
+            }
         }
 
         private void dgvSolicitudesFabricacion_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            dtpFechaEntrega.Value = DateTime.Now.AddDays(1);
+
             pnlInicio.Visible = false;
             btnRegresar.Visible = true;
 
@@ -145,6 +148,20 @@ namespace ElastoSystem
             lblClave.Text = "ERROR";
             lblCantidad.Text = "ERROR";
             txbNotas.Clear();
+
+            lblFolio.Text = "ERROR";
+            lblFolioOriginal.Text = "ERROR";
+            lblClave2.Text = "ERROR";
+            lblDescripcion.Text = "ERROR";
+            txbCantidad.Clear();
+            chbLinea.Checked = true;
+            chbProdEspecial.Checked = false;
+            txbCliente.Clear();
+            txbOC.Clear();
+            txbEspecificacion.Clear();
+            dgvProcesosCriticos.DataSource = null;
+
+            AsignarFolio();
 
             DataGridView dgv = (DataGridView)sender;
             if (dgv.SelectedCells.Count > 0)
@@ -167,6 +184,141 @@ namespace ElastoSystem
                 string notas = dgv.Rows[rowIndex].Cells[5].Value.ToString();
                 txbNotas.Text = notas;
             }
+
+            MandarALlamarDescripcion();
+            CargarCriticos();
+            dgvProcesosCriticos.ClearSelection();
+        }
+
+        private void CargarCriticos()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT
+                            hp.NoOperacion AS Operacion,
+                            hp.Descripcion,
+                            hp.CantidadUnidad
+                        FROM elastosystem_produccion_hoja_producto hp
+                        INNER JOIN elastosystem_produccion_hoja_ruta hr
+                            ON hp.Familia = hr.Familia AND hp.NoOperacion = hr.NoOperacion
+                        WHERE
+                            hp.Producto = @CLAVE
+                            AND hr.Critico = 1
+                        ORDER BY hp.NoOperacion;";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@CLAVE", lblClave.Text);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        dgvProcesosCriticos.Rows.Clear();
+
+                        while (reader.Read())
+                        {
+                            string operacion = reader["Operacion"].ToString();
+                            string descripcion = reader["Descripcion"].ToString();
+                            string cantidadUnidad = reader["CantidadUnidad"].ToString();
+
+                            string otPersonalizado = $"OT-{lblFolioOriginal.Text}-{operacion}";
+                            string valorCero = "0";
+
+                            dgvProcesosCriticos.Rows.Add(
+                                operacion,
+                                descripcion,
+                                cantidadUnidad,
+                                otPersonalizado,
+                                valorCero
+                            );
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR OPERACIONES CRITICAS: " + ex.Message);
+                }
+            }
+        }
+
+        private void AsignarFolio()
+        {
+            MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
+            conn.Open();
+            MySqlDataReader reader = null;
+            string sql = "SELECT Folio FROM elastosystem_produccion_orden_produccion";
+
+            try
+            {
+                int ultimoFolio = 0;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        string folioString = reader["Folio"].ToString();
+                        if (int.TryParse(folioString, out int folio))
+                        {
+                            ultimoFolio = folio;
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    ultimoFolio = ultimoFolio + 1;
+                    lblFolio.Text = "OP-" + ultimoFolio.ToString();
+                    lblFolioOriginal.Text = ultimoFolio.ToString();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL ASIGNAR FOLIO A LA OP: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void MandarALlamarDescripcion()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    MySqlCommand cmd = new MySqlCommand();
+                    string query = "SELECT Descripcion FROM elastosystem_sae_productos WHERE Producto = @CLAVE";
+                    cmd.Parameters.AddWithValue("@CLAVE", lblClave.Text);
+                    cmd.Connection = conn;
+                    cmd.CommandText = query;
+
+                    object resultado = cmd.ExecuteScalar();
+                    if (resultado != null)
+                    {
+                        lblDescripcion.Text = resultado.ToString();
+                    }
+                    else
+                    {
+                        lblDescripcion.Text = "PRODUCTO SIN DESCRIPCION";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL OBTENER LA DESCRIPCION DE PRODUCTO: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
 
         private void btnRegresar_Click(object sender, EventArgs e)
@@ -179,9 +331,12 @@ namespace ElastoSystem
 
         private void chbLinea_CheckedChanged(object sender, EventArgs e)
         {
-            if(chbLinea.Checked == true)
+            if (chbLinea.Checked == true)
             {
                 chbProdEspecial.Checked = false;
+                txbCliente.Clear();
+                txbOC.Clear();
+                txbEspecificacion.Clear();
             }
         }
 
@@ -190,13 +345,274 @@ namespace ElastoSystem
             if (chbProdEspecial.Checked == true)
             {
                 chbLinea.Checked = false;
-                //CargarInfo();
+                CargarInfo();
             }
         }
 
         private void CargarInfo()
         {
+            using (var formProdEspecial = new Produccion_ProdEspecial())
+            {
+                if (!string.IsNullOrWhiteSpace(txbCliente.Text))
+                    formProdEspecial.Cliente = txbCliente.Text;
 
+                if (!string.IsNullOrWhiteSpace(txbOC.Text))
+                    formProdEspecial.OC = txbOC.Text;
+
+                if (!string.IsNullOrWhiteSpace(txbEspecificacion.Text))
+                    formProdEspecial.Especificacion = txbEspecificacion.Text;
+
+                var resultado = formProdEspecial.ShowDialog();
+
+                if (resultado == DialogResult.OK)
+                {
+                    txbCliente.Text = formProdEspecial.Cliente;
+                    txbOC.Text = formProdEspecial.OC;
+                    txbEspecificacion.Text = formProdEspecial.Especificacion;
+                }
+                else
+                {
+                    chbLinea.Checked = true;
+                    chbProdEspecial.Checked = false;
+                    txbCliente.Clear();
+                    txbOC.Clear();
+                    txbEspecificacion.Clear();
+                }
+            }
+        }
+
+        private void txbCantidad_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            VariablesGlobales.ValidarNumeroEntero(e, txbCantidad);
+        }
+
+        private void CalcularCantidadesCriticas()
+        {
+            int cantidad = 0;
+
+            if (!string.IsNullOrWhiteSpace(txbCantidad.Text))
+            {
+                if (!int.TryParse(txbCantidad.Text, out cantidad))
+                {
+                    MessageBox.Show("Por favor, ingresa un número entero válido.");
+                    return;
+                }
+            }
+
+            foreach (DataGridViewRow row in dgvProcesosCriticos.Rows)
+            {
+                if (row.Cells[2].Value != null)
+                {
+                    if (int.TryParse(row.Cells[2].Value.ToString(), out int cantidadUnidad))
+                    {
+                        int resultado = cantidad * cantidadUnidad;
+                        row.Cells[4].Value = resultado.ToString();
+                    }
+                    else
+                    {
+                        row.Cells[4].Value = "0";
+                    }
+                }
+                else
+                {
+                    row.Cells[4].Value = "0";
+                }
+            }
+        }
+
+        private void txbCantidad_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                CalcularCantidadesCriticas();
+            }
+        }
+
+        private void txbCantidad_Leave(object sender, EventArgs e)
+        {
+            CalcularCantidadesCriticas();
+        }
+
+        private void btnFirmar_Click(object sender, EventArgs e)
+        {
+            if(dgvProcesosCriticos.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Por favor, selecciona al menos una operación crítica para firmar.");
+                return;
+            }
+
+            if(txbCantidad.Text == "")
+            {
+                MessageBox.Show("Por favor, ingresa una cantidad válida.");
+                return;
+            }
+
+            int cantidadSF = int.Parse(lblCantidad.Text);
+            int cantidadOP = int.Parse(txbCantidad.Text);
+
+            if(cantidadOP < cantidadSF)
+            {
+                Produccion_OPMenor opMenor = new Produccion_OPMenor();
+                if(opMenor.ShowDialog() == DialogResult.OK)
+                {
+                    FirmarOrdenProduccion();
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                FirmarOrdenProduccion();
+            }
+
+        }
+
+        private void FirmarOrdenProduccion()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "SELECT COUNT(*) FROM elastosystem_produccion_orden_produccion WHERE Folio = @FOLIO";
+                        cmd.Parameters.AddWithValue("@FOLIO", lblFolioOriginal.Text);
+
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        if (count > 0)
+                        {
+                            AsignarFolio();
+                            FirmarOrdenProduccion();
+                        }
+                        else
+                        {
+                            cmd.CommandText = "SELECT COUNT(*) FROM elastosystem_produccion_orden_produccion WHERE SolicitudFabricacion = @SOLICITUDF";
+                            cmd.Parameters.AddWithValue("@SOLICITUDF", lblSolicitudFabricacion.Text);
+                            count = Convert.ToInt32(cmd.ExecuteScalar());
+                            if (count > 0)
+                            {
+                                MessageBox.Show("Ya existe una orden de producción para esta solicitud de fabricación.");
+                                return;
+                            }
+                            else
+                            {
+                                cmd.CommandText = @"
+                                INSERT INTO elastosystem_produccion_orden_produccion
+                                (Folio, Folio_ALT, Firma, SolicitudFabricacion, Tipo, FechaInicio, FechaEntrega, Clave, CantidadSolicitada, Estatus, Cliente, OC, Especificacion)
+                                VALUES
+                                (@FOLIO, @FOLIO_ALT, @FIRMA, @SOLICITUDFABRICACION, @TIPO, @FECHAINICIO, @FECHAENTREGA, @CLAVE, @CANTIDADSOLICITADA, @ESTATUS, @CLIENTE, @OC, @ESPECIFICACION)";
+                                cmd.Parameters.Clear();
+                                cmd.Parameters.AddWithValue("@FOLIO", lblFolioOriginal.Text);
+                                cmd.Parameters.AddWithValue("@FOLIO_ALT", lblFolio.Text);
+                                cmd.Parameters.AddWithValue("@FIRMA", VariablesGlobales.Usuario);
+                                cmd.Parameters.AddWithValue("@SOLICITUDFABRICACION", lblSolicitudFabricacion.Text);
+                                cmd.Parameters.AddWithValue("@TIPO", chbLinea.Checked ? "Linea" : "Especial");
+                                cmd.Parameters.AddWithValue("@FECHAINICIO", DateTime.Now.ToString("yyyy-MM-dd"));
+                                cmd.Parameters.AddWithValue("@FECHAENTREGA", dtpFechaEntrega.Value);
+                                cmd.Parameters.AddWithValue("@CLAVE", lblClave.Text);
+                                cmd.Parameters.AddWithValue("@CANTIDADSOLICITADA", txbCantidad.Text);
+                                cmd.Parameters.AddWithValue("@ESTATUS", "Activa");
+                                cmd.Parameters.AddWithValue("@CLIENTE", txbCliente.Text);
+                                cmd.Parameters.AddWithValue("@OC", txbOC.Text);
+                                cmd.Parameters.AddWithValue("@ESPECIFICACION", txbEspecificacion.Text);
+
+                                cmd.ExecuteNonQuery();
+
+                                CrearOTPrevias();
+                                enProcesoSolicitudFabricacion();
+                                MessageBox.Show("ORDEN DE PRODUCCION FIRMADA CORRECTAMENTE.");
+                                Limpiar();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL FIRMAR LA ORDEN DE PRODUCCIÓN: " + ex.Message);
+                return;
+            }
+        }
+
+        private void CrearOTPrevias()
+        {
+            try
+            {
+                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    foreach (DataGridViewRow fila in dgvProcesosCriticos.Rows)
+                    {
+                        if (fila.IsNewRow) continue;
+
+                        string operacion = fila.Cells["Operacion"].Value?.ToString() ?? "";
+                        string descripcion = fila.Cells["Descripcion"].Value?.ToString() ?? "";
+                        string cantidad = fila.Cells["Cantidad"].Value?.ToString() ?? "0";
+                        string estatus = fila.Selected ? "Activa" : "Inactiva";
+
+                        using (MySqlCommand cmd = new MySqlCommand())
+                        {
+                            cmd.Connection = conn;
+                            cmd.CommandText = @"
+                                INSERT INTO elastosystem_produccion_ot_precreadas
+                                (OP, Operacion, Descripcion, Cantidad, Estatus)
+                                VALUES
+                                (@OP, @OPERACION, @DESCRIPCION, @CANTIDAD, @ESTATUS)";
+                            cmd.Parameters.AddWithValue("@OP", lblFolio.Text);
+                            cmd.Parameters.AddWithValue("@OPERACION", operacion);
+                            cmd.Parameters.AddWithValue("@DESCRIPCION", descripcion);
+                            cmd.Parameters.AddWithValue("@CANTIDAD", cantidad);
+                            cmd.Parameters.AddWithValue("@ESTATUS", estatus);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("ERROR AL CREAR LAS OT PREVIAS: " + ex.Message);
+            }
+        }
+
+        private void enProcesoSolicitudFabricacion()
+        {
+            try
+            {
+                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    string enProceso = "En Proceso";
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand();
+                    string query = "UPDATE elastosystem_almacen_solicitud_fabricacion SET Estatus = @ESTATUS, OP = @OP, Cantidad_Produccion = @CANTIDADPRODUCCION WHERE Folio_ALT = @FOLIO_ALT";
+                    cmd.Parameters.AddWithValue("@ESTATUS", enProceso);
+                    cmd.Parameters.AddWithValue("@OP", lblFolio.Text);
+                    cmd.Parameters.AddWithValue("@CANTIDADPRODUCCION", txbCantidad.Text);
+                    cmd.Parameters.AddWithValue("@FOLIO_ALT", lblSolicitudFabricacion.Text);
+                    cmd.Connection = conn;
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("ERROR AL CERRAR SOLICITUD DE FABRICACION: " + ex.Message);
+            }
+        }
+
+        private void Limpiar()
+        {
+            pnlInicio.Visible = true;
+            btnRegresar.Visible = false;
+            CargarSolicitudesFabricacion();
+            CargarOrdenesProduccion();
         }
     }
 }
