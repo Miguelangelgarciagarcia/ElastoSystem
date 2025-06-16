@@ -131,6 +131,9 @@
             chbComprasAlmacenar = new CheckBox();
             cbUsuariosEspeciales = new ComboBox();
             label8 = new Label();
+            panel12 = new Panel();
+            label13 = new Label();
+            chbAjustes = new CheckBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -154,6 +157,7 @@
             panel11.SuspendLayout();
             panel10.SuspendLayout();
             panel9.SuspendLayout();
+            panel12.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -1287,6 +1291,7 @@
             // tabPage1
             // 
             tabPage1.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabPage1.Controls.Add(panel12);
             tabPage1.Controls.Add(panel11);
             tabPage1.Controls.Add(panel10);
             tabPage1.Controls.Add(lblNumeroEspecial);
@@ -1467,6 +1472,40 @@
             label8.TabIndex = 3;
             label8.Text = "Usuario:";
             // 
+            // panel12
+            // 
+            panel12.BackColor = Color.FromArgb(3, 42, 76);
+            panel12.Controls.Add(label13);
+            panel12.Controls.Add(chbAjustes);
+            panel12.Location = new Point(764, 93);
+            panel12.Name = "panel12";
+            panel12.Size = new Size(240, 240);
+            panel12.TabIndex = 14;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.BackColor = Color.Transparent;
+            label13.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            label13.ForeColor = Color.White;
+            label13.Location = new Point(15, 13);
+            label13.Name = "label13";
+            label13.Size = new Size(85, 22);
+            label13.TabIndex = 8;
+            label13.Text = "AJUSTES";
+            // 
+            // chbAjustes
+            // 
+            chbAjustes.AutoSize = true;
+            chbAjustes.Font = new Font("Montserrat", 9F);
+            chbAjustes.ForeColor = Color.White;
+            chbAjustes.Location = new Point(15, 48);
+            chbAjustes.Name = "chbAjustes";
+            chbAjustes.Size = new Size(70, 20);
+            chbAjustes.TabIndex = 2;
+            chbAjustes.Text = "Ajustes";
+            chbAjustes.UseVisualStyleBackColor = true;
+            // 
             // SistemasPermisos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1517,6 +1556,8 @@
             panel10.PerformLayout();
             panel9.ResumeLayout(false);
             panel9.PerformLayout();
+            panel12.ResumeLayout(false);
+            panel12.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1623,5 +1664,8 @@
         private CheckBox chbAdminSolFab;
         private CheckBox chbAdministrarProcesos;
         private CheckBox chbOrdenProduccion;
+        private Panel panel12;
+        private Label label13;
+        private CheckBox chbAjustes;
     }
 }

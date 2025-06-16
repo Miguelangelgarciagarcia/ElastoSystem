@@ -1247,6 +1247,8 @@ namespace ElastoSystem
             chbMantenimientoVG.Checked = false;
 
             chbMaquinadoVG.Checked = false;
+
+            chbAjustes.Checked = false;
         }
 
         private void MandarALlamarNoEspecial()
@@ -1294,7 +1296,7 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Compras_AlmacenarREQ, Compras_VG, Mantenimiento_VG, Maquinado_VG FROM elastosystem_permisos_menu WHERE ID = @ID";
+                string query = "SELECT Compras_AlmacenarREQ, Compras_VG, Mantenimiento_VG, Maquinado_VG, Ajustes FROM elastosystem_permisos_menu WHERE ID = @ID";
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@ID", id);
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -1323,6 +1325,12 @@ namespace ElastoSystem
                     {
                         chbMaquinadoVG.Checked = true;
                     }
+
+                    string ajustesValue = reader["Ajustes"].ToString();
+                    if (ajustesValue == "True")
+                    {
+                        chbAjustes.Checked = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -1349,13 +1357,15 @@ namespace ElastoSystem
 
             bool boolMaquinadoVG = chbMaquinadoVG.Checked;
 
+            bool boolAjustes = chbAjustes.Checked;
+
             MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand();
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Compras_AlmacenarREQ = " + boolAlmacenarReq + ", Compras_VG = " + boolComprasVG + ", Maquinado_VG = " + boolMaquinadoVG + ", Mantenimiento_VG = " + boolMantenimientoVG + " WHERE ID = '" + lblNumeroEspecial.Text + "'";
+                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Compras_AlmacenarREQ = " + boolAlmacenarReq + ", Compras_VG = " + boolComprasVG + ", Maquinado_VG = " + boolMaquinadoVG + ", Mantenimiento_VG = " + boolMantenimientoVG + ", Ajustes = " + boolAjustes + " WHERE ID = '" + lblNumeroEspecial.Text + "'";
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Permisos Especiales Actualizados");
                 LimpiarCHBEscpeciales();

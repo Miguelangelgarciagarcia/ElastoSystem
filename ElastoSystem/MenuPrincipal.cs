@@ -54,7 +54,8 @@ namespace ElastoSystem
                                 Maquinado, 
                                     Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, 
                                 Mantenimiento, 
-                                    SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas 
+                                    SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas,
+                                Ajustes
                                 FROM elastosystem_permisos_menu WHERE ID = @idmenu";
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@idmenu", idmenu);
@@ -334,6 +335,13 @@ namespace ElastoSystem
                             btnInventarioMaquinas.Enabled = true;
                             btnInventarioMaquinas.Visible = true;
                         }
+                    }
+
+                    string ajustesValue = reader["Ajustes"].ToString();
+                    if (ajustesValue == "True")
+                    {
+                        btnAjustes.Enabled = true;
+                        btnAjustes.Visible = true;
                     }
                 }
             }
@@ -873,6 +881,12 @@ namespace ElastoSystem
         private void btnOrdenProduccion_Click(object sender, EventArgs e)
         {
             openChildForm(new Produccion_OrdenProduccion());
+            HideSubMenu();
+        }
+
+        private void btnAjustes_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Ajustes());
             HideSubMenu();
         }
     }

@@ -36,6 +36,7 @@
             PBICerrar = new PictureBox();
             PBIconoMin = new PictureBox();
             panelSideMenu = new Panel();
+            btnAjustes = new Button();
             sbmMantenimiento = new Panel();
             btnInventarioMaquinas = new Button();
             btnHistoricoMtto = new Button();
@@ -198,6 +199,7 @@
             // 
             panelSideMenu.AutoScroll = true;
             panelSideMenu.BackColor = Color.FromArgb(0, 33, 64);
+            panelSideMenu.Controls.Add(btnAjustes);
             panelSideMenu.Controls.Add(sbmMantenimiento);
             panelSideMenu.Controls.Add(btnMantenimiento);
             panelSideMenu.Controls.Add(sbmMaquinado);
@@ -222,6 +224,25 @@
             panelSideMenu.Size = new Size(204, 831);
             panelSideMenu.TabIndex = 1;
             panelSideMenu.Paint += panelSideMenu_Paint;
+            // 
+            // btnAjustes
+            // 
+            btnAjustes.Dock = DockStyle.Bottom;
+            btnAjustes.Enabled = false;
+            btnAjustes.FlatAppearance.BorderSize = 0;
+            btnAjustes.FlatStyle = FlatStyle.Flat;
+            btnAjustes.Font = new Font("Montserrat", 14F);
+            btnAjustes.ForeColor = Color.White;
+            btnAjustes.Location = new Point(0, 1700);
+            btnAjustes.Name = "btnAjustes";
+            btnAjustes.Padding = new Padding(50, 0, 0, 0);
+            btnAjustes.Size = new Size(187, 56);
+            btnAjustes.TabIndex = 18;
+            btnAjustes.Text = "Ajustes";
+            btnAjustes.TextAlign = ContentAlignment.MiddleLeft;
+            btnAjustes.UseVisualStyleBackColor = true;
+            btnAjustes.Visible = false;
+            btnAjustes.Click += btnAjustes_Click;
             // 
             // sbmMantenimiento
             // 
@@ -707,7 +728,7 @@
             // 
             panel1.Controls.Add(btninfo);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 1700);
+            panel1.Location = new Point(0, 1756);
             panel1.Name = "panel1";
             panel1.Size = new Size(187, 56);
             panel1.TabIndex = 0;
@@ -1328,5 +1349,6 @@
         private Button btnAdministarSolicitudes;
         private Button btnAdministrarProcesos;
         private Button btnOrdenProduccion;
+        private Button btnAjustes;
     }
 }
