@@ -451,6 +451,7 @@ namespace ElastoSystem
                             "WHEN Estatus = 'Resurtir' THEN 2 " +
                             "WHEN Estatus = 'Programar' THEN 3 " +
                             "ELSE 4 END, Meses ASC";
+
             MySqlDataAdapter adapatador = new MySqlDataAdapter(table, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             adapatador.Fill(dt);
@@ -470,8 +471,32 @@ namespace ElastoSystem
             dt.Columns.Remove("4M");
 
             dgvProductos.DataSource = dt;
+
             try
             {
+                List<string> correosDestino = new List<string>();
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = "SELECT Correo FROM elastosystem_ajustes_correos WHERE Area = @AREA";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@AREA", "Prioridades del Almacen");
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            correosDestino.Add(reader.GetString("Correo"));
+                        }
+                    }
+                }
+
+                if(correosDestino.Count == 0)
+                {
+                    MessageBox.Show("No se encontraron correos configurados para enviar las prioridades del almacén.");
+                    return;
+                }
+
                 SmtpClient smtpClient = new SmtpClient("smtp.ionos.mx")
                 {
                     Port = 587,
@@ -487,10 +512,10 @@ namespace ElastoSystem
                     Body = ConstruirCuerpoCorreoHTMLPrioridades(dt)
                 };
 
-                //mailMessage.To.Add("imedinaa@elastotecnica.com");
-                //mailMessage.To.Add("mario.lopez@elastotecnica.com.mx");
-                mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
-                //mailMessage.To.Add("almacen@elastotecnica.com");
+                foreach (string correo in correosDestino)
+                {
+                    mailMessage.To.Add(correo);
+                }
                 
                 smtpClient.Send(mailMessage);
             }
@@ -505,7 +530,7 @@ namespace ElastoSystem
             StringBuilder cuerpoCorreo = new StringBuilder();
 
             cuerpoCorreo.AppendLine("<html><body>");
-            cuerpoCorreo.AppendLine("<h2>PRIORIDADES PARA PRODUCCIÓN:</h2>");
+            cuerpoCorreo.AppendLine("<h2>PRIORIDADES DE ALMACEN:</h2>");
             cuerpoCorreo.AppendLine("<table border='1' style='border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;'>");
 
             cuerpoCorreo.AppendLine("<tr style='background-color: #f2f2f2;'>");
