@@ -410,6 +410,29 @@ namespace ElastoSystem
             {
                 try
                 {
+                    List<string> correosDestino = new List<string>();
+                    using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                    {
+                        conn.Open();
+                        string query = "SELECT Correo FROM elastosystem_ajustes_correos WHERE Area = @AREA";
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@AREA", "Insumos del Almacen");
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                correosDestino.Add(reader.GetString("Correo"));
+                            }
+                        }
+                    }
+
+                    if(correosDestino.Count == 0)
+                    {
+                        MessageBox.Show("No hay correos configurados para enviar notificacion de insumos del almacen.");
+                        return;
+                    }
+
                     SmtpClient smtpClient = new SmtpClient("smtp.ionos.mx")
                     {
                         Port = 587,
@@ -425,10 +448,10 @@ namespace ElastoSystem
                         Body = ConstruirCuerpoCorreoHTML(dt)
                     };
 
-                    //mailMessage.To.Add("dmedina@elastotecnica.com");
-                    //mailMessage.To.Add("ini.medina@gmail.com");
-                    //mailMessage.To.Add("compras@elastotecnica.com.mx");
-                    mailMessage.To.Add("miguel.garcia@elastotecnnica.com.mx");
+                    foreach(string correo in correosDestino)
+                    {
+                        mailMessage.To.Add(correo);
+                    }
 
                     smtpClient.Send(mailMessage);
                 }
