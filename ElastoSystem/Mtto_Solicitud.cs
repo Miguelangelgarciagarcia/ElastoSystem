@@ -290,6 +290,29 @@ namespace ElastoSystem
         {
             try
             {
+                List<string> correosDestino = new List<string>();
+                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = "SELECT Correo FROM elastosystem_ajustes_correos WHERE Area = @AREA";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@AREA", "Requisicion de Mantenimiento");
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            correosDestino.Add(reader.GetString("Correo"));
+                        }
+                    }
+                }
+
+                if(correosDestino.Count == 0)
+                {
+                    MessageBox.Show("No se encontraron correos de destino para enviar la notificación.");
+                    return;
+                }
+
                 SmtpClient smtpClient = new SmtpClient("smtp.ionos.mx");
                 smtpClient.Port = 587;
                 smtpClient.Credentials = new NetworkCredential("notificaciones.elastosystem@elastotecnica.com.mx", "El@st0Sys25.");
@@ -297,9 +320,12 @@ namespace ElastoSystem
 
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress("notificaciones.elastosystem@elastotecnica.com.mx");
-                mailMessage.To.Add("miguel.garcia@elastotecnica.com.mx");
-                //mailMessage.To.Add("imedinaa@elastotecnica.com");
-                //mailMessage.To.Add("mhernandez@elastotecnica.com");
+                
+                foreach (string correo in correosDestino)
+                {
+                    mailMessage.To.Add(correo);
+                }
+
                 mailMessage.Subject = "REQUERIMIENTO DE MANTENIMIENTO: " + lblFolio.Text;
 
                 StringBuilder cuerpoCorreo = new StringBuilder();
