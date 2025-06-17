@@ -76,7 +76,7 @@
             btnlogin.Cursor = Cursors.Hand;
             btnlogin.FlatAppearance.BorderSize = 0;
             btnlogin.FlatStyle = FlatStyle.Flat;
-            btnlogin.Font = new Font("Montserrat", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnlogin.Font = new Font("Montserrat", 14.25F, FontStyle.Bold);
             btnlogin.ForeColor = Color.White;
             btnlogin.Location = new Point(240, 468);
             btnlogin.Name = "btnlogin";
@@ -89,7 +89,7 @@
             // tbpassword
             // 
             tbpassword.BorderStyle = BorderStyle.None;
-            tbpassword.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            tbpassword.Font = new Font("Montserrat", 15F);
             tbpassword.ForeColor = Color.DimGray;
             tbpassword.Location = new Point(38, 3);
             tbpassword.Name = "tbpassword";
@@ -105,7 +105,7 @@
             // tbusuario
             // 
             tbusuario.BorderStyle = BorderStyle.None;
-            tbusuario.Font = new Font("Montserrat", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            tbusuario.Font = new Font("Montserrat", 15F);
             tbusuario.ForeColor = Color.DimGray;
             tbusuario.Location = new Point(40, 1);
             tbusuario.Multiline = true;
@@ -123,7 +123,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Cursor = Cursors.Hand;
-            label1.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Montserrat", 9F, FontStyle.Bold);
             label1.ForeColor = SystemColors.AppWorkspace;
             label1.Location = new Point(360, 412);
             label1.Name = "label1";
@@ -136,7 +136,7 @@
             chbRecordarme.AutoSize = true;
             chbRecordarme.BackColor = Color.Transparent;
             chbRecordarme.FlatStyle = FlatStyle.Flat;
-            chbRecordarme.Font = new Font("Montserrat", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            chbRecordarme.Font = new Font("Montserrat", 9F, FontStyle.Bold);
             chbRecordarme.ForeColor = SystemColors.AppWorkspace;
             chbRecordarme.Location = new Point(160, 410);
             chbRecordarme.Name = "chbRecordarme";
@@ -298,7 +298,7 @@
             lblModoPrueba.AutoSize = true;
             lblModoPrueba.BackColor = Color.Transparent;
             lblModoPrueba.Cursor = Cursors.Hand;
-            lblModoPrueba.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            lblModoPrueba.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             lblModoPrueba.ForeColor = SystemColors.ButtonHighlight;
             lblModoPrueba.Location = new Point(12, 5);
             lblModoPrueba.Name = "lblModoPrueba";
@@ -338,7 +338,7 @@
             lblIP.AutoSize = true;
             lblIP.BackColor = Color.Transparent;
             lblIP.Cursor = Cursors.Hand;
-            lblIP.Font = new Font("Montserrat", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            lblIP.Font = new Font("Montserrat", 9F);
             lblIP.ForeColor = SystemColors.AppWorkspace;
             lblIP.Location = new Point(594, 628);
             lblIP.Name = "lblIP";
@@ -352,7 +352,6 @@
             dgvProductosSAE.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductosSAE.Location = new Point(24, 52);
             dgvProductosSAE.Name = "dgvProductosSAE";
-            dgvProductosSAE.RowTemplate.Height = 25;
             dgvProductosSAE.Size = new Size(21, 24);
             dgvProductosSAE.TabIndex = 26;
             dgvProductosSAE.Visible = false;

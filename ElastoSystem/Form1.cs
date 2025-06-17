@@ -434,7 +434,7 @@ namespace ElastoSystem
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            IndicadorCompras temporal = new();
+            Contabilidad_DescargaMasiva temporal = new();
             temporal.Show();
             this.Hide();
         }
