@@ -704,5 +704,24 @@ namespace ElastoSystem
         {
             CargarInfo();
         }
+
+        private void dgvOrdenesActivas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(dgvOrdenesActivas.SelectedRows.Count > 0)
+            {
+                DataGridViewRow fila = dgvOrdenesActivas.SelectedRows[0];
+
+                string folio = fila.Cells["Folio_ALT"].Value?.ToString() ?? "";
+                string solicitud = fila.Cells["SolicitudFabricacion"].Value?.ToString() ?? "";
+
+                Produccion_OP formOP = new Produccion_OP(folio, solicitud);
+                formOP.Show();
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona una orden de producción activa para ver sus detalles.");
+                return;
+            }
+        }
     }
 }

@@ -117,9 +117,9 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(25, 31);
             label1.Name = "label1";
-            label1.Size = new Size(442, 44);
+            label1.Size = new Size(568, 44);
             label1.TabIndex = 3;
-            label1.Text = "ORDEN DE PRODUCCIÓN";
+            label1.Text = "CREAR ORDEN DE PRODUCCIÓN";
             // 
             // pnlInicio
             // 
@@ -248,6 +248,7 @@
             dgvOrdenesActivas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvOrdenesActivas.Size = new Size(1198, 299);
             dgvOrdenesActivas.TabIndex = 42;
+            dgvOrdenesActivas.CellDoubleClick += dgvOrdenesActivas_CellDoubleClick;
             dgvOrdenesActivas.MouseClick += dgvOrdenesActivas_MouseClick;
             // 
             // tabFinalizadas
