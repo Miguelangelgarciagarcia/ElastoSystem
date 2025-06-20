@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SistemasPermisos));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             label2 = new Label();
             cbUsuarios = new ComboBox();
@@ -117,6 +117,9 @@
             chbSolicitudMtto = new CheckBox();
             chbMantenimiento = new CheckBox();
             tabPage1 = new TabPage();
+            panel12 = new Panel();
+            label13 = new Label();
+            chbAjustes = new CheckBox();
             panel11 = new Panel();
             label12 = new Label();
             chbMaquinadoVG = new CheckBox();
@@ -131,9 +134,9 @@
             chbComprasAlmacenar = new CheckBox();
             cbUsuariosEspeciales = new ComboBox();
             label8 = new Label();
-            panel12 = new Panel();
-            label13 = new Label();
-            chbAjustes = new CheckBox();
+            panel13 = new Panel();
+            label14 = new Label();
+            chbAdminOP = new CheckBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -154,10 +157,11 @@
             tabPermisosUsuarios.SuspendLayout();
             panel8.SuspendLayout();
             tabPage1.SuspendLayout();
+            panel12.SuspendLayout();
             panel11.SuspendLayout();
             panel10.SuspendLayout();
             panel9.SuspendLayout();
-            panel12.SuspendLayout();
+            panel13.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -1160,26 +1164,26 @@
             dgvUsuarioyPassword.AllowUserToAddRows = false;
             dgvUsuarioyPassword.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvUsuarioyPassword.BackgroundColor = Color.White;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvUsuarioyPassword.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvUsuarioyPassword.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvUsuarioyPassword.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsuarioyPassword.Location = new Point(24, 325);
             dgvUsuarioyPassword.Name = "dgvUsuarioyPassword";
             dgvUsuarioyPassword.ReadOnly = true;
             dgvUsuarioyPassword.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dgvUsuarioyPassword.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvUsuarioyPassword.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvUsuarioyPassword.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvUsuarioyPassword.Size = new Size(1207, 275);
             dgvUsuarioyPassword.TabIndex = 19;
@@ -1291,6 +1295,7 @@
             // tabPage1
             // 
             tabPage1.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabPage1.Controls.Add(panel13);
             tabPage1.Controls.Add(panel12);
             tabPage1.Controls.Add(panel11);
             tabPage1.Controls.Add(panel10);
@@ -1305,6 +1310,40 @@
             tabPage1.TabIndex = 2;
             tabPage1.Text = "Permisos Especiales";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // panel12
+            // 
+            panel12.BackColor = Color.FromArgb(3, 42, 76);
+            panel12.Controls.Add(label13);
+            panel12.Controls.Add(chbAjustes);
+            panel12.Location = new Point(764, 93);
+            panel12.Name = "panel12";
+            panel12.Size = new Size(240, 240);
+            panel12.TabIndex = 14;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.BackColor = Color.Transparent;
+            label13.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            label13.ForeColor = Color.White;
+            label13.Location = new Point(15, 13);
+            label13.Name = "label13";
+            label13.Size = new Size(85, 22);
+            label13.TabIndex = 8;
+            label13.Text = "AJUSTES";
+            // 
+            // chbAjustes
+            // 
+            chbAjustes.AutoSize = true;
+            chbAjustes.Font = new Font("Montserrat", 9F);
+            chbAjustes.ForeColor = Color.White;
+            chbAjustes.Location = new Point(15, 48);
+            chbAjustes.Name = "chbAjustes";
+            chbAjustes.Size = new Size(70, 20);
+            chbAjustes.TabIndex = 2;
+            chbAjustes.Text = "Ajustes";
+            chbAjustes.UseVisualStyleBackColor = true;
             // 
             // panel11
             // 
@@ -1472,39 +1511,39 @@
             label8.TabIndex = 3;
             label8.Text = "Usuario:";
             // 
-            // panel12
+            // panel13
             // 
-            panel12.BackColor = Color.FromArgb(3, 42, 76);
-            panel12.Controls.Add(label13);
-            panel12.Controls.Add(chbAjustes);
-            panel12.Location = new Point(764, 93);
-            panel12.Name = "panel12";
-            panel12.Size = new Size(240, 240);
-            panel12.TabIndex = 14;
+            panel13.BackColor = Color.FromArgb(3, 42, 76);
+            panel13.Controls.Add(label14);
+            panel13.Controls.Add(chbAdminOP);
+            panel13.Location = new Point(1010, 93);
+            panel13.Name = "panel13";
+            panel13.Size = new Size(240, 240);
+            panel13.TabIndex = 15;
             // 
-            // label13
+            // label14
             // 
-            label13.AutoSize = true;
-            label13.BackColor = Color.Transparent;
-            label13.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            label13.ForeColor = Color.White;
-            label13.Location = new Point(15, 13);
-            label13.Name = "label13";
-            label13.Size = new Size(85, 22);
-            label13.TabIndex = 8;
-            label13.Text = "AJUSTES";
+            label14.AutoSize = true;
+            label14.BackColor = Color.Transparent;
+            label14.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            label14.ForeColor = Color.White;
+            label14.Location = new Point(15, 13);
+            label14.Name = "label14";
+            label14.Size = new Size(130, 22);
+            label14.TabIndex = 8;
+            label14.Text = "PRODUCCIÓN";
             // 
-            // chbAjustes
+            // chbAdminOP
             // 
-            chbAjustes.AutoSize = true;
-            chbAjustes.Font = new Font("Montserrat", 9F);
-            chbAjustes.ForeColor = Color.White;
-            chbAjustes.Location = new Point(15, 48);
-            chbAjustes.Name = "chbAjustes";
-            chbAjustes.Size = new Size(70, 20);
-            chbAjustes.TabIndex = 2;
-            chbAjustes.Text = "Ajustes";
-            chbAjustes.UseVisualStyleBackColor = true;
+            chbAdminOP.AutoSize = true;
+            chbAdminOP.Font = new Font("Montserrat", 9F);
+            chbAdminOP.ForeColor = Color.White;
+            chbAdminOP.Location = new Point(15, 48);
+            chbAdminOP.Name = "chbAdminOP";
+            chbAdminOP.Size = new Size(216, 20);
+            chbAdminOP.TabIndex = 2;
+            chbAdminOP.Text = "Admin. Ordenes de Producción";
+            chbAdminOP.UseVisualStyleBackColor = true;
             // 
             // SistemasPermisos
             // 
@@ -1550,14 +1589,16 @@
             panel8.PerformLayout();
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
+            panel12.ResumeLayout(false);
+            panel12.PerformLayout();
             panel11.ResumeLayout(false);
             panel11.PerformLayout();
             panel10.ResumeLayout(false);
             panel10.PerformLayout();
             panel9.ResumeLayout(false);
             panel9.PerformLayout();
-            panel12.ResumeLayout(false);
-            panel12.PerformLayout();
+            panel13.ResumeLayout(false);
+            panel13.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1667,5 +1708,8 @@
         private Panel panel12;
         private Label label13;
         private CheckBox chbAjustes;
+        private Panel panel13;
+        private Label label14;
+        private CheckBox chbAdminOP;
     }
 }

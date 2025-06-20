@@ -50,7 +50,14 @@ namespace ElastoSystem
 
         private void pictureBox6_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if (!string.IsNullOrWhiteSpace(txbCliente.Text) && !string.IsNullOrWhiteSpace(txbOC.Text)  && !string.IsNullOrWhiteSpace(txbEspecificacion.Text))
+            {
+                btnAceptar.PerformClick();
+            }
+            else
+            {
+                this.Close();
+            }
         }
         //CODIGO PARA MOVER PANEL SUPERIOR
         [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]

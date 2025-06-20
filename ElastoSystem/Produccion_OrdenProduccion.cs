@@ -70,7 +70,7 @@ namespace ElastoSystem
         {
             try
             {
-                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                 {
                     conn.Open();
                     string query = @"
@@ -83,9 +83,9 @@ namespace ElastoSystem
                         WHERE Estatus = 'Activa'
                         ORDER BY Folio_ALT ASC";
 
-                    using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        using(MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
+                        using (MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
                         {
                             DataTable dt = new DataTable();
                             adaptador.Fill(dt);
@@ -104,7 +104,7 @@ namespace ElastoSystem
 
             try
             {
-                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                 {
                     conn.Open();
                     string query = @"
@@ -130,7 +130,7 @@ namespace ElastoSystem
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("ERROR AL CARGAR ORDENES DE PRODUCCION FINALIZADAS: " + ex.Message);
             }
@@ -160,6 +160,7 @@ namespace ElastoSystem
             txbOC.Clear();
             txbEspecificacion.Clear();
             dgvProcesosCriticos.DataSource = null;
+            btnDatosProdEspecial.Visible = false;
 
             AsignarFolio();
 
@@ -369,6 +370,7 @@ namespace ElastoSystem
                     txbCliente.Text = formProdEspecial.Cliente;
                     txbOC.Text = formProdEspecial.OC;
                     txbEspecificacion.Text = formProdEspecial.Especificacion;
+                    btnDatosProdEspecial.Visible = true;
                 }
                 else
                 {
@@ -377,6 +379,7 @@ namespace ElastoSystem
                     txbCliente.Clear();
                     txbOC.Clear();
                     txbEspecificacion.Clear();
+                    btnDatosProdEspecial.Visible = false;
                 }
             }
         }
@@ -437,13 +440,13 @@ namespace ElastoSystem
 
         private void btnFirmar_Click(object sender, EventArgs e)
         {
-            if(dgvProcesosCriticos.SelectedRows.Count == 0)
+            if (dgvProcesosCriticos.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Por favor, selecciona al menos una operación crítica para firmar.");
                 return;
             }
 
-            if(txbCantidad.Text == "")
+            if (txbCantidad.Text == "")
             {
                 MessageBox.Show("Por favor, ingresa una cantidad válida.");
                 return;
@@ -452,10 +455,10 @@ namespace ElastoSystem
             int cantidadSF = int.Parse(lblCantidad.Text);
             int cantidadOP = int.Parse(txbCantidad.Text);
 
-            if(cantidadOP < cantidadSF)
+            if (cantidadOP < cantidadSF)
             {
                 Produccion_OPMenor opMenor = new Produccion_OPMenor();
-                if(opMenor.ShowDialog() == DialogResult.OK)
+                if (opMenor.ShowDialog() == DialogResult.OK)
                 {
                     FirmarOrdenProduccion();
                 }
@@ -544,7 +547,7 @@ namespace ElastoSystem
         {
             try
             {
-                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                 {
                     conn.Open();
 
@@ -576,7 +579,7 @@ namespace ElastoSystem
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("ERROR AL CREAR LAS OT PREVIAS: " + ex.Message);
             }
@@ -586,7 +589,7 @@ namespace ElastoSystem
         {
             try
             {
-                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                 {
                     string enProceso = "En Proceso";
                     conn.Open();
@@ -601,7 +604,7 @@ namespace ElastoSystem
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("ERROR AL CERRAR SOLICITUD DE FABRICACION: " + ex.Message);
             }
@@ -613,6 +616,93 @@ namespace ElastoSystem
             btnRegresar.Visible = false;
             CargarSolicitudesFabricacion();
             CargarOrdenesProduccion();
+        }
+
+        private void dgvOrdenesActivas_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hit = dgvOrdenesActivas.HitTest(e.X, e.Y);
+
+                if (hit.RowIndex >= 0)
+                {
+                    DataGridViewRow fila = dgvOrdenesActivas.Rows[hit.RowIndex];
+                    string valorFirma = fila.Cells["Firma"].Value?.ToString();
+
+                    if (string.IsNullOrEmpty(valorFirma))
+                        return;
+
+                    bool tienePermiso = false;
+
+                    using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                    {
+                        try
+                        {
+                            conn.Open();
+                            string queryID = "SELECT ID FROM elastosystem_login WHERE Usuario = @USUARIO";
+                            MySqlCommand cmdID = new MySqlCommand(queryID, conn);
+                            cmdID.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario);
+
+                            object idObj = cmdID.ExecuteScalar();
+
+                            if (idObj != null)
+                            {
+                                int idUsuario = Convert.ToInt32(idObj);
+
+                                string queryPermiso = "SELECT AdminOP FROM elastosystem_permisos_menu WHERE ID = @ID";
+                                MySqlCommand cmdPermiso = new MySqlCommand(queryPermiso, conn);
+                                cmdPermiso.Parameters.AddWithValue("@ID", idUsuario);
+
+                                object permisoObj = cmdPermiso.ExecuteScalar();
+                                if (permisoObj != null && permisoObj != DBNull.Value)
+                                {
+                                    tienePermiso = Convert.ToBoolean(permisoObj);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("ERROR AL VERIFICAR PERMISOS: " + ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+
+                    if (tienePermiso)
+                    {
+                        dgvOrdenesActivas.ClearSelection();
+                        fila.Selected = true;
+
+                        cmsOP.Show(dgvOrdenesActivas, e.Location);
+                    }
+                }
+            }
+        }
+
+        private void AdminOP_Click(object sender, EventArgs e)
+        {
+            if (dgvOrdenesActivas.SelectedRows.Count > 0)
+            {
+                DataGridViewRow fila = dgvOrdenesActivas.SelectedRows[0];
+
+                string folio = fila.Cells["Folio_ALT"].Value?.ToString() ?? "";
+                string solicitud = fila.Cells["SolicitudFabricacion"].Value?.ToString() ?? "";
+
+                Produccion_AdministrarOP formOP = new Produccion_AdministrarOP(folio, solicitud);
+                formOP.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona una orden de producción activa para administrar.");
+                return;
+            }
+        }
+
+        private void btnDatosProdEspecial_Click(object sender, EventArgs e)
+        {
+            CargarInfo();
         }
     }
 }
