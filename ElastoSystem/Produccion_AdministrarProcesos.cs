@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Diagnostics;
 
 namespace ElastoSystem
 {
@@ -89,6 +91,7 @@ namespace ElastoSystem
                 return;
             }
             AgregarFamilia();
+            CargarFamiliaAV();
         }
 
         private void AgregarFamilia()
@@ -304,6 +307,7 @@ namespace ElastoSystem
                 return;
             }
             ActualizarFamilia();
+            CargarFamiliaAV();
         }
 
         private void ActualizarFamilia()
@@ -369,7 +373,8 @@ namespace ElastoSystem
                         "elastosystem_sae_productos",
                         "elastosystem_produccion_encabezado",
                         "elastosystem_produccion_hoja_producto",
-                        "elastosystem_produccion_hoja_ruta"
+                        "elastosystem_produccion_hoja_ruta",
+                        "elastosystem_produccion_av"
                     };
 
                     foreach (string tabla in tablas)
@@ -383,6 +388,8 @@ namespace ElastoSystem
                             cmd.ExecuteNonQuery();
                         }
                     }
+
+                    CargarFamiliaAV();
                 }
                 catch (Exception ex)
                 {
@@ -498,6 +505,7 @@ namespace ElastoSystem
         private void btnEliminarFamilias_Click(object sender, EventArgs e)
         {
             EliminarFamilia();
+            CargarFamiliaAV();
         }
 
         private void EliminarFamilia()
@@ -586,6 +594,8 @@ namespace ElastoSystem
                 HRCargarFamilias();
                 HRCargarAreas();
                 HRCargarHules();
+                cbAV.SelectedIndex = -1;
+                btnVerAV.Visible = false;
             }
             if (tabControl1.SelectedIndex == 1)
             {
@@ -601,12 +611,47 @@ namespace ElastoSystem
                 txbFamiliaOrig.Clear();
                 txbProducto.Clear();
                 txbBuscador.Clear();
+                txbBuscadorHR.Clear();
             }
             if (tabControl1.SelectedIndex == 3)
             {
                 CargarFamilias();
                 CargarAreas();
                 CargarHules();
+                CargarFamiliaAV();
+                dgvAV.DataSource = null;
+            }
+        }
+
+        private void CargarFamiliaAV()
+        {
+            cbFamiliaAyV.Items.Clear();
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT Familia FROM elastosystem_produccion_familia ORDER BY Familia ASC";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string familia = reader["Familia"].ToString();
+                        cbFamiliaAyV.Items.Add(familia);
+                    }
+
+                    cbFamiliaAyV.SelectedIndex = -1;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR FAMILIAS DE AYUDA VISUAL: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
             }
         }
 
@@ -1130,6 +1175,8 @@ namespace ElastoSystem
                 txbInsumos.Clear();
                 chbCritico.Checked = false;
                 dgvHojaRuta.DataSource = null;
+                cbHule.SelectedIndex = -1;
+                cbAV.SelectedIndex = -1;
 
                 MandarALlamarHojaRuta();
                 btnExportarPDF.Visible = true;
@@ -1144,7 +1191,45 @@ namespace ElastoSystem
                 pbArea.Visible = false;
                 pbNave.Visible = false;
                 pbDescripcion.Visible = false;
+
+                CargarAyudasVisuales();
             }
+        }
+
+        private void CargarAyudasVisuales()
+        {
+            cbAV.Items.Clear();
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT Nombre FROM elastosystem_produccion_av WHERE Familia = @FAMILIA ORDER BY Nombre ASC";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
+
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string nombreAV = reader["Nombre"].ToString();
+                        cbAV.Items.Add(nombreAV);
+                    }
+
+                    cbAV.SelectedIndex = -1;
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR AYUDAS VISUALES: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
         }
 
         private void MandarALlamarHojaRuta()
@@ -1239,7 +1324,7 @@ namespace ElastoSystem
                         insumosFinal = insumos;
                     }
 
-                    string insertQuery = "INSERT INTO elastosystem_produccion_hoja_ruta (Familia, NoOperacion, Area, Nave, Descripcion, TipoMaquina, Preparacion, TiempoPreparacion, TiempoOperacion, Insumos, Critico) VALUES (@FAMILIA, @NO_OPERACION, @AREA, @NAVE, @DESCRIPCION, @TIPOMAQUINA, @PREPARACION, @TIEMPO_PREPARACION, @TIEMPO_OPERACION, @INSUMOS, @CRITICO)";
+                    string insertQuery = "INSERT INTO elastosystem_produccion_hoja_ruta (Familia, NoOperacion, Area, Nave, Descripcion, TipoMaquina, Preparacion, TiempoPreparacion, TiempoOperacion, Insumos, Critico, AyudaVisual) VALUES (@FAMILIA, @NO_OPERACION, @AREA, @NAVE, @DESCRIPCION, @TIPOMAQUINA, @PREPARACION, @TIEMPO_PREPARACION, @TIEMPO_OPERACION, @INSUMOS, @CRITICO, @AYUDAVISUAL)";
                     MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn);
 
                     insertCmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
@@ -1253,6 +1338,7 @@ namespace ElastoSystem
                     insertCmd.Parameters.AddWithValue("@TIEMPO_OPERACION", txbTiempoOperacion.Text.Trim());
                     insertCmd.Parameters.AddWithValue("@INSUMOS", insumosFinal);
                     insertCmd.Parameters.AddWithValue("@CRITICO", chbCritico.Checked ? 1 : 0);
+                    insertCmd.Parameters.AddWithValue("@AYUDAVISUAL", cbAV.Text.Trim());
 
                     int rowsAffected = insertCmd.ExecuteNonQuery();
 
@@ -1265,6 +1351,7 @@ namespace ElastoSystem
 
                         txbNoOperacion.Clear();
                         cbArea.SelectedIndex = -1;
+                        cbAV.SelectedIndex = -1;
                         txbNave.Clear();
                         txbDescripcion.Clear();
                         txbTipoMaquina.Clear();
@@ -1276,6 +1363,7 @@ namespace ElastoSystem
                         cbHule.SelectedIndex = -1;
                         btnExportarPDF.Visible = true;
                         btnAgregarProceso.Visible = true;
+                        btnVerAV.Visible = false;
 
 
                     }
@@ -1525,6 +1613,9 @@ namespace ElastoSystem
             btnEliminarProceso.Visible = true;
             btnActualizarProceso.Visible = true;
             btnAgregarProceso.Visible = false;
+            btnVerAV.Visible = false;
+            cbHule.SelectedIndex = -1;
+            cbAV.SelectedIndex = -1;
 
             if (e.RowIndex >= 0)
             {
@@ -1558,6 +1649,7 @@ namespace ElastoSystem
                     txbInsumos.Text = insumos;
                 }
                 chbCritico.Checked = Convert.ToBoolean(row.Cells[11].Value);
+                cbAV.Text = row.Cells[12].Value.ToString();
             }
         }
 
@@ -1568,6 +1660,7 @@ namespace ElastoSystem
             btnEliminarProceso.Visible = false;
             btnActualizarProceso.Visible = false;
             btnAgregarProceso.Visible = true;
+            btnVerAV.Visible = false;
 
             txbID.Clear();
             txbNoOperacion.Clear();
@@ -1581,6 +1674,7 @@ namespace ElastoSystem
             txbInsumos.Clear();
             chbCritico.Checked = false;
             cbHule.SelectedIndex = -1;
+            cbAV.SelectedIndex = -1;
 
             MandarALlamarHojaRuta();
         }
@@ -1748,7 +1842,7 @@ namespace ElastoSystem
                     string updateQuery = @"UPDATE elastosystem_produccion_hoja_ruta 
                                             SET NoOperacion = @NO_OPERACION, Area = @AREA, Nave = @NAVE, Descripcion = @DESCRIPCION, 
                                                 TipoMaquina = @TIPOMAQUINA, Preparacion = @PREPARACION, TiempoPreparacion = @TIEMPO_PREPARACION, 
-                                                TiempoOperacion = @TIEMPO_OPERACION, Insumos = @INSUMOS, Critico = @CRITICO 
+                                                TiempoOperacion = @TIEMPO_OPERACION, Insumos = @INSUMOS, Critico = @CRITICO, AyudaVisual = @AYUDAVISUAL 
                                             WHERE ID = @ID";
 
                     MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn);
@@ -1762,6 +1856,7 @@ namespace ElastoSystem
                     updateCmd.Parameters.AddWithValue("@TIEMPO_OPERACION", txbTiempoOperacion.Text.Trim());
                     updateCmd.Parameters.AddWithValue("@INSUMOS", insumos);
                     updateCmd.Parameters.AddWithValue("@CRITICO", chbCritico.Checked ? 1 : 0);
+                    updateCmd.Parameters.AddWithValue("@AYUDAVISUAL", cbAV.Text.Trim());
                     updateCmd.Parameters.AddWithValue("@ID", id);
 
                     int rowsAffected = updateCmd.ExecuteNonQuery();
@@ -2476,7 +2571,7 @@ namespace ElastoSystem
 
         private void dgvHojasRuta_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex >= 0)
+            if (e.RowIndex >= 0)
             {
                 DataGridViewRow fila = dgvHojasRuta.Rows[e.RowIndex];
 
@@ -2486,16 +2581,437 @@ namespace ElastoSystem
                 string noOperacion = fila.Cells["NoOperacion"].Value.ToString();
                 string area = fila.Cells["Area"].Value.ToString();
                 string descripcion = fila.Cells["Descripcion"].Value.ToString();
-                string produccion= fila.Cells["ProduccionEstandar"].Value.ToString();
+                string produccion = fila.Cells["ProduccionEstandar"].Value.ToString();
                 string nombreArea = fila.Cells["NombreArea"].Value.ToString();
                 string cantidadUnidad = fila.Cells["CantidadUnidad"].Value.ToString();
 
                 Produccion_ActualizarHR ventana = new Produccion_ActualizarHR(familia, producto, nave, noOperacion, area, descripcion, produccion, nombreArea, cantidadUnidad);
                 DialogResult resultado = ventana.ShowDialog();
-                if(resultado == DialogResult.OK)
+                if (resultado == DialogResult.OK)
                 {
                     CargarHojasRuta();
                 }
+            }
+        }
+
+        private void cbFamiliaAyV_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CargarAyudasVisualesFamilia();
+            btnAgregarAV.Visible = true;
+            btnEditarAV.Visible = false;
+            btnEliminarAV.Visible = false;
+            btnNuevoAV.Visible = false;
+            txbIDAV.Clear();
+            ayudaVisualPdf = null;
+            txbArchivo.Clear();
+        }
+
+        private void CargarAyudasVisualesFamilia()
+        {
+            if (cbFamiliaAyV.SelectedIndex != -1)
+            {
+                dgvAV.DataSource = null;
+                string familia = cbFamiliaAyV.SelectedItem.ToString();
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    try
+                    {
+                        conn.Open();
+
+                        string query = "SELECT * FROM elastosystem_produccion_av WHERE Familia = @FAMILIA ORDER BY Nombre";
+
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@FAMILIA", familia);
+
+                        MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        adaptador.Fill(dt);
+
+                        dgvAV.DataSource = dt;
+
+                        dgvAV.Columns["ID"].Visible = false;
+                        dgvAV.Columns["Familia"].Visible = false;
+                        dgvAV.Columns["Archivo"].Visible = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("ERROR AL CARGAR AYUDAS VISUALES: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
+
+        private byte[] ayudaVisualPdf;
+
+        private void btnCargarArchivo_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Archivos PDF (*.pdf)|*.pdf";
+            openFileDialog.Title = "Seleccionar archivo PDF";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string rutaArchivo = openFileDialog.FileName;
+                FileInfo fileInfo = new FileInfo(rutaArchivo);
+
+                if(fileInfo.Length > 10 * 1024 * 1024)
+                {
+                    MessageBox.Show("El archivo seleccionado supera el tamaño máximo permitido de 10 MB.", "Archivo demasiado grande", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string nombreArchivoSinExtension = Path.GetFileNameWithoutExtension(rutaArchivo);
+
+                ayudaVisualPdf = File.ReadAllBytes(rutaArchivo);
+                txbArchivo.Text = nombreArchivoSinExtension;
+            }
+        }
+
+        private void btnNuevoAV_Click(object sender, EventArgs e)
+        {
+            ayudaVisualPdf = null;
+            txbArchivo.Clear();
+            btnNuevoAV.Visible = false;
+            btnEliminarAV.Visible = false;
+            btnAgregarAV.Visible = true;
+            btnEditarAV.Visible = false;
+        }
+
+        private void txbArchivo_TextChanged(object sender, EventArgs e)
+        {
+            if (ayudaVisualPdf != null)
+            {
+                btnVer.Visible = true;
+            }
+            else
+            {
+                btnVer.Visible = false;
+            }
+        }
+
+        private void btnVer_Click(object sender, EventArgs e)
+        {
+            if (ayudaVisualPdf != null)
+            {
+                string rutaTemporal = Path.Combine(Path.GetTempPath(), "tempAV.pdf");
+                File.WriteAllBytes(rutaTemporal, ayudaVisualPdf);
+
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = rutaTemporal,
+                    UseShellExecute = true
+                };
+                System.Diagnostics.Process.Start(psi);
+            }
+            else
+            {
+                MessageBox.Show("No hay archivo PDF cargado para ver.");
+            }
+        }
+
+        private void btnAgregarAV_Click(object sender, EventArgs e)
+        {
+            if (cbFamiliaAyV.SelectedIndex == -1 || ayudaVisualPdf == null || string.IsNullOrWhiteSpace(txbArchivo.Text))
+            {
+                MessageBox.Show("Debes de seleccionar una familia, cargar un archivo PDF y declarar un nombre para el archivo.");
+                return;
+            }
+
+            string familia = cbFamiliaAyV.SelectedItem.ToString();
+            string nombreArchivo = txbArchivo.Text;
+
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string queryCheck = "SELECT COUNT(*) FROM elastosystem_produccion_av WHERE Familia = @FAMILIA AND Nombre = @NOMBRE";
+                    MySqlCommand cmdCheck = new MySqlCommand(queryCheck, conn);
+                    cmdCheck.Parameters.AddWithValue("@FAMILIA", familia);
+                    cmdCheck.Parameters.AddWithValue("@NOMBRE", nombreArchivo);
+
+                    int count = Convert.ToInt32(cmdCheck.ExecuteScalar());
+                    if (count > 0)
+                    {
+                        MessageBox.Show("Ya existe una ayuda visual con ese nombre en la familia seleccionada.");
+                        return;
+                    }
+
+                    string queryInsert = "INSERT INTO elastosystem_produccion_av (Familia, Nombre, Archivo) VALUES (@FAMILIA, @NOMBRE, @ARCHIVO)";
+                    MySqlCommand cmdInsert = new MySqlCommand(queryInsert, conn);
+                    cmdInsert.Parameters.AddWithValue("@FAMILIA", familia);
+                    cmdInsert.Parameters.AddWithValue("@NOMBRE", nombreArchivo);
+                    cmdInsert.Parameters.AddWithValue("@ARCHIVO", ayudaVisualPdf);
+
+                    cmdInsert.ExecuteNonQuery();
+
+                    MessageBox.Show("Ayuda visual agregada correctamente.");
+
+                    CargarAyudasVisualesFamilia();
+                    ayudaVisualPdf = null;
+                    txbArchivo.Clear();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL AGREGAR AYUDA VISUAL: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void dgvAV_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnNuevoAV.Visible = true;
+            btnEliminarAV.Visible = true;
+            btnAgregarAV.Visible = false;
+            btnEditarAV.Visible = true;
+
+            txbArchivo.Clear();
+            txbNombreOriginal.Clear();
+            ayudaVisualPdf = null;
+            txbIDAV.Clear();
+
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvAV.Rows[e.RowIndex];
+                txbIDAV.Text = row.Cells[0].Value.ToString();
+                if (row.Cells[3].Value != DBNull.Value)
+                {
+                    ayudaVisualPdf = (byte[])row.Cells[3].Value;
+                }
+                else
+                {
+                    ayudaVisualPdf = null;
+                }
+                txbArchivo.Text = row.Cells[2].Value.ToString();
+                txbNombreOriginal.Text = row.Cells[2].Value.ToString();
+            }
+        }
+
+        private void btnEliminarAV_Click(object sender, EventArgs e)
+        {
+            EliminarAV();
+            CargarAyudasVisualesFamilia();
+        }
+
+        private void EliminarAV()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string deleteQuery = "DELETE FROM elastosystem_produccion_av WHERE ID = @ID";
+                    MySqlCommand cmd = new MySqlCommand(deleteQuery, conn);
+
+                    cmd.Parameters.AddWithValue("@ID", txbIDAV.Text.Trim());
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("AYUDA VISUAL ELIMINADA CORRECTAMENTE");
+                        EliminarRegistrosAV();
+                        btnNuevoAV.PerformClick();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ELIMINAR AYUDA VISUAL: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void EliminarRegistrosAV()
+        {
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string updateQuery = "UPDATE elastosystem_produccion_hoja_ruta SET AyudaVisual = '' WHERE AyudaVisual = @AYUDA_VISUAL";
+                    MySqlCommand cmd = new MySqlCommand(updateQuery, conn);
+                    cmd.Parameters.AddWithValue("@AYUDA_VISUAL", txbNombreOriginal.Text.Trim());
+                    cmd.ExecuteNonQuery();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL VACIAR AV EN LA HOJA DE RUTA: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void btnEditarAV_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txbArchivo.Text) || ayudaVisualPdf == null)
+            {
+                MessageBox.Show("Debes de cargar un archivo PDF y declarar un nombre para el archivo.");
+                return;
+            }
+            ActualizarAV();
+            CargarAyudasVisualesFamilia();
+        }
+
+        private void ActualizarAV()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string checkQuery = "SELECT COUNT(*) FROM elastosystem_produccion_av WHERE Nombre = @NOMBRE AND Nombre != @NOMBRE_ORIGINAL";
+
+                    MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn);
+                    checkCmd.Parameters.AddWithValue("@NOMBRE", txbArchivo.Text.Trim());
+                    checkCmd.Parameters.AddWithValue("@NOMBRE_ORIGINAL", txbNombreOriginal.Text.Trim());
+
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (count > 0)
+                    {
+                        MessageBox.Show("Ya existe una ayuda visual con ese nombre en la familia seleccionada.");
+                        return;
+                    }
+
+                    string updateQuery = "UPDATE elastosystem_produccion_av SET Nombre = @NOMBRE , Archivo = @ARCHIVO WHERE ID = @ID";
+                    MySqlCommand cmd = new MySqlCommand(updateQuery, conn);
+                    cmd.Parameters.AddWithValue("@NOMBRE", txbArchivo.Text.Trim());
+                    cmd.Parameters.AddWithValue("@ARCHIVO", ayudaVisualPdf);
+                    cmd.Parameters.AddWithValue("@ID", txbIDAV.Text.Trim());
+                    cmd.Connection = conn;
+                    cmd.CommandText = updateQuery;
+                    cmd.ExecuteNonQuery();
+
+                    ActualizarRegistrosAV();
+
+                    MessageBox.Show("Ayuda visual actualizada correctamente.");
+                    btnEliminarAV.Visible = false;
+                    btnAgregarAV.Visible = true;
+                    btnEditarAV.Visible = false;
+                    btnNuevoAV.Visible = false;
+                    ayudaVisualPdf = null;
+                    txbArchivo.Clear();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ACTUALIZAR AYUDA VISUAL: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void ActualizarRegistrosAV()
+        {
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string updateQuery = "UPDATE elastosystem_produccion_hoja_ruta SET AyudaVisual = @NUEVO WHERE AyudaVisual = @ANTERIOR";
+                    MySqlCommand cmd = new MySqlCommand(updateQuery, conn);
+                    cmd.Parameters.AddWithValue("@NUEVO", txbArchivo.Text.Trim());
+                    cmd.Parameters.AddWithValue("@ANTERIOR", txbNombreOriginal.Text.Trim());
+                    cmd.ExecuteNonQuery();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ACTUALIZAR REGISTROS EN LA HOJA DE RUTA: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void cbAV_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbAV.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            btnVerAV.Visible = true;
+            ConsultarAV();
+        }
+
+
+        private byte[] ayudaVisualPdfAV;
+        private void ConsultarAV()
+        {
+            string nombreSeleccionado = cbAV.SelectedItem.ToString();
+
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = "SELECT Archivo FROM elastosystem_produccion_av WHERE Nombre = @NOMBRE";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@NOMBRE", nombreSeleccionado);
+
+                    object resultado = cmd.ExecuteScalar();
+
+                    if (resultado != null && resultado != DBNull.Value)
+                    {
+                        ayudaVisualPdfAV = (byte[])resultado;
+                    }
+                    else
+                    {
+                        ayudaVisualPdfAV = null;
+                        MessageBox.Show("No se encontró el archivo PDF asociado a la ayuda visual seleccionada.");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ENCONTRAR LA AYUDA VISUAL: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void btnVerAV_Click(object sender, EventArgs e)
+        {
+            if(ayudaVisualPdfAV != null)
+            {
+                string rutaTemporal = Path.Combine(Path.GetTempPath(), "tempAV.pdf");
+                File.WriteAllBytes(rutaTemporal, ayudaVisualPdfAV);
+
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = rutaTemporal,
+                    UseShellExecute = true
+                };
+                System.Diagnostics.Process.Start(psi);
+            }
+            else
+            {
+                MessageBox.Show("No hay archivo PDF cargado para ver.");
             }
         }
     }
