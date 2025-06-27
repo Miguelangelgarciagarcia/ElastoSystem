@@ -33,7 +33,7 @@ namespace ElastoSystem
         {
             try
             {
-                string query = "SELECT Familia FROM elastosystem_produccion_familia";
+                string query = "SELECT Familia FROM elastosystem_produccion_familia WHERE Estatus = 'Activa'";
                 MySqlDataAdapter adaptador = new MySqlDataAdapter(query, VariablesGlobales.ConexionBDElastotecnica);
                 DataTable dt = new DataTable();
                 adaptador.Fill(dt);
@@ -102,19 +102,38 @@ namespace ElastoSystem
                 {
                     conn.Open();
 
-                    string check = "SELECT COUNT(*) FROM elastosystem_produccion_familia WHERE Familia = @FAMILIA";
+                    string check = "SELECT Estatus FROM elastosystem_produccion_familia WHERE Familia = @FAMILIA";
                     MySqlCommand cmd = new MySqlCommand(check, conn);
                     cmd.Parameters.AddWithValue("@FAMILIA", txbFamilia.Text.Trim());
 
-                    int familiaCount = Convert.ToInt32(cmd.ExecuteScalar());
+                    object result = cmd.ExecuteScalar();
 
-                    if (familiaCount > 0)
+                    if(result != null)
                     {
-                        MessageBox.Show("La familia ya existe.");
-                        return;
+                        string estatus = result.ToString();
+                        if(estatus == "Activa")
+                        {
+                            MessageBox.Show("La familia ya existe.");
+                        }
+                        else
+                        {
+                            Produccion_ActivarFamilia activarFamiliaForm = new Produccion_ActivarFamilia();
+                            DialogResult resultForm = activarFamiliaForm.ShowDialog();
+
+                            if(resultForm == DialogResult.OK)
+                            {
+                                ActivarFamilia();
+                                
+                                txbFamilia.Clear();
+                                txbFamiliaOriginal.Clear();
+                                CargarFamilias();
+                                CargarFamiliaAV();
+                            }
+                            return;
+                        }
                     }
 
-                    string insertQuery = "INSERT INTO elastosystem_produccion_familia (Familia) VALUES (@FAMILIA)";
+                    string insertQuery = "INSERT INTO elastosystem_produccion_familia (Familia, Estatus) VALUES (@FAMILIA, 'Activa')";
                     MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn);
 
                     insertCmd.Parameters.AddWithValue("@FAMILIA", txbFamilia.Text.Trim());
@@ -135,6 +154,35 @@ namespace ElastoSystem
                 catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL AGREGAR FAMILIA A LA BASE DE DATOS: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void ActivarFamilia()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string updateQuery = "UPDATE elastosystem_produccion_familia SET Estatus = 'Activa' WHERE Familia = @FAMILIA";
+
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Parameters.AddWithValue("@FAMILIA", txbFamilia.Text.Trim());
+                    cmd.Connection = conn;
+                    cmd.CommandText = updateQuery;
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Familia reactivada correctamente.");
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL RECATIVAR FAMILIA: " + ex.Message);
                 }
                 finally
                 {
@@ -239,7 +287,6 @@ namespace ElastoSystem
         private void dgvFamilias_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             btnNuevoFamilias.Visible = true;
-            btnEliminarFamilias.Visible = true;
             btnEditarFamilias.Visible = true;
             btnAgregarFamilias.Visible = false;
 
@@ -275,7 +322,6 @@ namespace ElastoSystem
         private void btnNuevoFamilias_Click(object sender, EventArgs e)
         {
             btnNuevoFamilias.Visible = false;
-            btnEliminarFamilias.Visible = false;
             btnEditarFamilias.Visible = false;
             btnAgregarFamilias.Visible = true;
 
@@ -504,40 +550,7 @@ namespace ElastoSystem
 
         private void btnEliminarFamilias_Click(object sender, EventArgs e)
         {
-            EliminarFamilia();
-            CargarFamiliaAV();
-        }
 
-        private void EliminarFamilia()
-        {
-            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
-            {
-                try
-                {
-                    conn.Open();
-
-                    string deletQuery = "DELETE FROM elastosystem_produccion_familia WHERE Familia = @FAMILIA";
-                    MySqlCommand cmd = new MySqlCommand(deletQuery, conn);
-
-                    cmd.Parameters.AddWithValue("@FAMILIA", txbFamiliaOriginal.Text.Trim());
-
-                    int rowsAffected = cmd.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("FAMILIA ELIMINADA CORRECTAMENTE");
-                        btnNuevoFamilias.PerformClick();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("ERROR AL ELIMINAR FAMILIA: " + ex.Message);
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
         }
 
         private void btnEliminarAreas_Click(object sender, EventArgs e)
@@ -632,7 +645,7 @@ namespace ElastoSystem
                 {
                     conn.Open();
 
-                    string query = "SELECT Familia FROM elastosystem_produccion_familia ORDER BY Familia ASC";
+                    string query = "SELECT Familia FROM elastosystem_produccion_familia WHERE Estatus = 'Activa' ORDER BY Familia ASC";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -678,7 +691,7 @@ namespace ElastoSystem
                 {
                     conn.Open();
 
-                    string query = "SELECT Familia FROM elastosystem_produccion_familia ORDER BY Familia ASC";
+                    string query = "SELECT Familia FROM elastosystem_produccion_familia WHERE Estatus = 'Activa' ORDER BY Familia ASC";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -711,7 +724,10 @@ namespace ElastoSystem
 
         private void CargarEncabezados()
         {
-            string query = "SELECT * FROM elastosystem_produccion_encabezado";
+            string query = @"SELECT e.* 
+                             FROM elastosystem_produccion_encabezado e
+                             JOIN elastosystem_produccion_familia f ON e.Familia = f.Familia
+                             WHERE f.Estatus = 'Activa'";
             MySqlDataAdapter adaptador = new MySqlDataAdapter(query, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             adaptador.Fill(dt);
@@ -732,6 +748,7 @@ namespace ElastoSystem
                     string query = @"
                         SELECT Familia
                         FROM elastosystem_produccion_familia
+                        WHERE Estatus = 'Activa'
                         ORDER BY Familia ASC";
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
@@ -765,7 +782,7 @@ namespace ElastoSystem
                 {
                     conn.Open();
 
-                    string query = "SELECT Familia FROM elastosystem_produccion_familia ORDER BY Familia ASC";
+                    string query = "SELECT Familia FROM elastosystem_produccion_familia WHERE Estatus = 'Activa' ORDER BY Familia ASC";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -2365,6 +2382,7 @@ namespace ElastoSystem
             }
 
             ActualizarProducto();
+            CargarHojasRuta();
 
         }
 
@@ -2658,7 +2676,7 @@ namespace ElastoSystem
                 string rutaArchivo = openFileDialog.FileName;
                 FileInfo fileInfo = new FileInfo(rutaArchivo);
 
-                if(fileInfo.Length > 10 * 1024 * 1024)
+                if (fileInfo.Length > 10 * 1024 * 1024)
                 {
                     MessageBox.Show("El archivo seleccionado supera el tamaño máximo permitido de 10 MB.", "Archivo demasiado grande", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -2837,7 +2855,7 @@ namespace ElastoSystem
 
         private void EliminarRegistrosAV()
         {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -2847,7 +2865,7 @@ namespace ElastoSystem
                     cmd.Parameters.AddWithValue("@AYUDA_VISUAL", txbNombreOriginal.Text.Trim());
                     cmd.ExecuteNonQuery();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL VACIAR AV EN LA HOJA DE RUTA: " + ex.Message);
                 }
@@ -2923,7 +2941,7 @@ namespace ElastoSystem
 
         private void ActualizarRegistrosAV()
         {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -2934,7 +2952,7 @@ namespace ElastoSystem
                     cmd.Parameters.AddWithValue("@ANTERIOR", txbNombreOriginal.Text.Trim());
                     cmd.ExecuteNonQuery();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ACTUALIZAR REGISTROS EN LA HOJA DE RUTA: " + ex.Message);
                 }
@@ -2997,7 +3015,7 @@ namespace ElastoSystem
 
         private void btnVerAV_Click(object sender, EventArgs e)
         {
-            if(ayudaVisualPdfAV != null)
+            if (ayudaVisualPdfAV != null)
             {
                 string rutaTemporal = Path.Combine(Path.GetTempPath(), "tempAV.pdf");
                 File.WriteAllBytes(rutaTemporal, ayudaVisualPdfAV);
@@ -3012,6 +3030,112 @@ namespace ElastoSystem
             else
             {
                 MessageBox.Show("No hay archivo PDF cargado para ver.");
+            }
+        }
+
+        private void dgvFamilias_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hit = dgvFamilias.HitTest(e.X, e.Y);
+
+                if (hit.RowIndex >= 0)
+                {
+                    DataGridViewRow fila = dgvFamilias.Rows[hit.RowIndex];
+
+                    bool tienePermiso = false;
+
+                    using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                    {
+                        try
+                        {
+                            conn.Open();
+                            string queryID = "SELECT ID FROM elastosystem_login WHERE Usuario = @USUARIO";
+                            MySqlCommand cmdID = new MySqlCommand(queryID, conn);
+                            cmdID.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario);
+
+                            object idObj = cmdID.ExecuteScalar();
+
+                            if (idObj != null)
+                            {
+                                int idUsuario = Convert.ToInt32(idObj);
+
+                                string queryPermiso = "SELECT EliminarFamilias FROM elastosystem_permisos_menu WHERE ID = @ID";
+                                MySqlCommand cmdPermiso = new MySqlCommand(queryPermiso, conn);
+                                cmdPermiso.Parameters.AddWithValue("@ID", idUsuario);
+
+                                object permisoObj = cmdPermiso.ExecuteScalar();
+                                if (permisoObj != null && permisoObj != DBNull.Value)
+                                {
+                                    tienePermiso = Convert.ToBoolean(permisoObj);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("ERROR AL VERIFICAR PERMISOS: " + ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+
+                    if (tienePermiso)
+                    {
+                        dgvFamilias.ClearSelection();
+                        fila.Selected = true;
+
+                        cmsFamilias.Show(dgvFamilias, e.Location);
+                    }
+
+                }
+            }
+        }
+
+        private void Eliminar_Click(object sender, EventArgs e)
+        {
+            Produccion_EliminarFamilia eliminarFamilia = new Produccion_EliminarFamilia();
+            DialogResult result = eliminarFamilia.ShowDialog();
+
+            if(result == DialogResult.OK)
+            {
+                OcultarFamilia();
+
+                txbFamilia.Clear();
+                txbFamiliaOriginal.Clear();
+                CargarFamilias();
+                CargarFamiliaAV();
+                btnNuevoFamilias.PerformClick();
+            }
+        }
+
+        private void OcultarFamilia()
+        {
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string updateQuery = "UPDATE elastosystem_produccion_familia SET Estatus = 'Inactiva' WHERE Familia = @FAMILIA";
+
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Parameters.AddWithValue("@FAMILIA", txbFamiliaOriginal.Text.Trim());
+                    cmd.Connection = conn;
+                    cmd.CommandText = updateQuery;
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Familia oculta correctamente.");
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL OCULTAR FAMILIA: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
             }
         }
     }

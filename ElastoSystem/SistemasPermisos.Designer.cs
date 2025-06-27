@@ -117,6 +117,9 @@
             chbSolicitudMtto = new CheckBox();
             chbMantenimiento = new CheckBox();
             tabPage1 = new TabPage();
+            panel13 = new Panel();
+            label14 = new Label();
+            chbAdminOP = new CheckBox();
             panel12 = new Panel();
             label13 = new Label();
             chbAjustes = new CheckBox();
@@ -134,9 +137,7 @@
             chbComprasAlmacenar = new CheckBox();
             cbUsuariosEspeciales = new ComboBox();
             label8 = new Label();
-            panel13 = new Panel();
-            label14 = new Label();
-            chbAdminOP = new CheckBox();
+            chbEliminarFamilias = new CheckBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -157,11 +158,11 @@
             tabPermisosUsuarios.SuspendLayout();
             panel8.SuspendLayout();
             tabPage1.SuspendLayout();
+            panel13.SuspendLayout();
             panel12.SuspendLayout();
             panel11.SuspendLayout();
             panel10.SuspendLayout();
             panel9.SuspendLayout();
-            panel13.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -1311,6 +1312,41 @@
             tabPage1.Text = "Permisos Especiales";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // panel13
+            // 
+            panel13.BackColor = Color.FromArgb(3, 42, 76);
+            panel13.Controls.Add(chbEliminarFamilias);
+            panel13.Controls.Add(label14);
+            panel13.Controls.Add(chbAdminOP);
+            panel13.Location = new Point(1010, 93);
+            panel13.Name = "panel13";
+            panel13.Size = new Size(240, 240);
+            panel13.TabIndex = 15;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.BackColor = Color.Transparent;
+            label14.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            label14.ForeColor = Color.White;
+            label14.Location = new Point(15, 13);
+            label14.Name = "label14";
+            label14.Size = new Size(130, 22);
+            label14.TabIndex = 8;
+            label14.Text = "PRODUCCIÓN";
+            // 
+            // chbAdminOP
+            // 
+            chbAdminOP.AutoSize = true;
+            chbAdminOP.Font = new Font("Montserrat", 9F);
+            chbAdminOP.ForeColor = Color.White;
+            chbAdminOP.Location = new Point(15, 48);
+            chbAdminOP.Name = "chbAdminOP";
+            chbAdminOP.Size = new Size(216, 20);
+            chbAdminOP.TabIndex = 2;
+            chbAdminOP.Text = "Admin. Ordenes de Producción";
+            chbAdminOP.UseVisualStyleBackColor = true;
+            // 
             // panel12
             // 
             panel12.BackColor = Color.FromArgb(3, 42, 76);
@@ -1511,39 +1547,17 @@
             label8.TabIndex = 3;
             label8.Text = "Usuario:";
             // 
-            // panel13
+            // chbEliminarFamilias
             // 
-            panel13.BackColor = Color.FromArgb(3, 42, 76);
-            panel13.Controls.Add(label14);
-            panel13.Controls.Add(chbAdminOP);
-            panel13.Location = new Point(1010, 93);
-            panel13.Name = "panel13";
-            panel13.Size = new Size(240, 240);
-            panel13.TabIndex = 15;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.BackColor = Color.Transparent;
-            label14.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            label14.ForeColor = Color.White;
-            label14.Location = new Point(15, 13);
-            label14.Name = "label14";
-            label14.Size = new Size(130, 22);
-            label14.TabIndex = 8;
-            label14.Text = "PRODUCCIÓN";
-            // 
-            // chbAdminOP
-            // 
-            chbAdminOP.AutoSize = true;
-            chbAdminOP.Font = new Font("Montserrat", 9F);
-            chbAdminOP.ForeColor = Color.White;
-            chbAdminOP.Location = new Point(15, 48);
-            chbAdminOP.Name = "chbAdminOP";
-            chbAdminOP.Size = new Size(216, 20);
-            chbAdminOP.TabIndex = 2;
-            chbAdminOP.Text = "Admin. Ordenes de Producción";
-            chbAdminOP.UseVisualStyleBackColor = true;
+            chbEliminarFamilias.AutoSize = true;
+            chbEliminarFamilias.Font = new Font("Montserrat", 9F);
+            chbEliminarFamilias.ForeColor = Color.White;
+            chbEliminarFamilias.Location = new Point(15, 74);
+            chbEliminarFamilias.Name = "chbEliminarFamilias";
+            chbEliminarFamilias.Size = new Size(129, 20);
+            chbEliminarFamilias.TabIndex = 9;
+            chbEliminarFamilias.Text = "Eliminar Familias";
+            chbEliminarFamilias.UseVisualStyleBackColor = true;
             // 
             // SistemasPermisos
             // 
@@ -1589,6 +1603,8 @@
             panel8.PerformLayout();
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
+            panel13.ResumeLayout(false);
+            panel13.PerformLayout();
             panel12.ResumeLayout(false);
             panel12.PerformLayout();
             panel11.ResumeLayout(false);
@@ -1597,8 +1613,6 @@
             panel10.PerformLayout();
             panel9.ResumeLayout(false);
             panel9.PerformLayout();
-            panel13.ResumeLayout(false);
-            panel13.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1711,5 +1725,6 @@
         private Panel panel13;
         private Label label14;
         private CheckBox chbAdminOP;
+        private CheckBox chbEliminarFamilias;
     }
 }

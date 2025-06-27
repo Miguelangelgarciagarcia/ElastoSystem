@@ -1251,6 +1251,7 @@ namespace ElastoSystem
             chbAjustes.Checked = false;
 
             chbAdminOP.Checked = false;
+            chbEliminarFamilias.Checked = false;
         }
 
         private void MandarALlamarNoEspecial()
@@ -1298,7 +1299,7 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Compras_AlmacenarREQ, Compras_VG, Mantenimiento_VG, Maquinado_VG, Ajustes, AdminOP FROM elastosystem_permisos_menu WHERE ID = @ID";
+                string query = "SELECT Compras_AlmacenarREQ, Compras_VG, Mantenimiento_VG, Maquinado_VG, Ajustes, AdminOP, EliminarFamilias FROM elastosystem_permisos_menu WHERE ID = @ID";
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@ID", id);
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -1339,6 +1340,12 @@ namespace ElastoSystem
                     {
                         chbAdminOP.Checked = true;
                     }
+
+                    string eliminarFamiliasValue = reader["EliminarFamilias"].ToString();
+                    if(eliminarFamiliasValue == "True")
+                    {
+                        chbEliminarFamilias.Checked = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -1368,6 +1375,7 @@ namespace ElastoSystem
             bool boolAjustes = chbAjustes.Checked;
 
             bool boolAdminOP = chbAdminOP.Checked;
+            bool boolEliminarFamilias = chbEliminarFamilias.Checked;
 
             MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
@@ -1375,7 +1383,7 @@ namespace ElastoSystem
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Compras_AlmacenarREQ = " + boolAlmacenarReq + ", Compras_VG = " + boolComprasVG + ", Maquinado_VG = " + boolMaquinadoVG + ", Mantenimiento_VG = " + boolMantenimientoVG + ", Ajustes = " + boolAjustes + ", AdminOP = " + boolAdminOP + " WHERE ID = '" + lblNumeroEspecial.Text + "'";
+                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Compras_AlmacenarREQ = " + boolAlmacenarReq + ", Compras_VG = " + boolComprasVG + ", Maquinado_VG = " + boolMaquinadoVG + ", Mantenimiento_VG = " + boolMantenimientoVG + ", Ajustes = " + boolAjustes + ", AdminOP = " + boolAdminOP + ", EliminarFamilias = " + boolEliminarFamilias + " WHERE ID = '" + lblNumeroEspecial.Text + "'";
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Permisos Especiales Actualizados");
                 LimpiarCHBEscpeciales();

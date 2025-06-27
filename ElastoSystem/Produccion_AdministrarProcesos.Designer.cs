@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Produccion_AdministrarProcesos));
             DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
@@ -45,14 +46,14 @@
             DataGridViewCellStyle dataGridViewCellStyle40 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle41 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle42 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle43 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle44 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle45 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle46 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle47 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle48 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
             tabControl1 = new TabControl();
             tabHojaRuta = new TabPage();
             btnVerAV = new Button();
@@ -183,7 +184,6 @@
             panel1 = new Panel();
             label15 = new Label();
             dgvFamilias = new DataGridView();
-            btnEliminarFamilias = new Button();
             txbFamiliaOriginal = new TextBox();
             txbFamilia = new TextBox();
             btnNuevoFamilias = new Button();
@@ -191,6 +191,8 @@
             label3 = new Label();
             btnEditarFamilias = new Button();
             label1 = new Label();
+            cmsFamilias = new ContextMenuStrip(components);
+            Eliminar = new ToolStripMenuItem();
             tabControl1.SuspendLayout();
             tabHojaRuta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDescripcion).BeginInit();
@@ -224,6 +226,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvAreas).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvFamilias).BeginInit();
+            cmsFamilias.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -1628,26 +1631,26 @@
             dgvAV.AllowUserToAddRows = false;
             dgvAV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvAV.BackgroundColor = Color.White;
-            dataGridViewCellStyle25.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle25.BackColor = Color.White;
-            dataGridViewCellStyle25.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            dataGridViewCellStyle25.ForeColor = Color.Black;
-            dataGridViewCellStyle25.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle25.SelectionForeColor = Color.White;
-            dataGridViewCellStyle25.WrapMode = DataGridViewTriState.True;
-            dgvAV.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle43.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle43.BackColor = Color.White;
+            dataGridViewCellStyle43.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            dataGridViewCellStyle43.ForeColor = Color.Black;
+            dataGridViewCellStyle43.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle43.SelectionForeColor = Color.White;
+            dataGridViewCellStyle43.WrapMode = DataGridViewTriState.True;
+            dgvAV.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle43;
             dgvAV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvAV.Location = new Point(21, 187);
             dgvAV.Name = "dgvAV";
             dgvAV.ReadOnly = true;
             dgvAV.RowHeadersVisible = false;
-            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle26.BackColor = Color.White;
-            dataGridViewCellStyle26.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle26.ForeColor = Color.Black;
-            dataGridViewCellStyle26.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle26.SelectionForeColor = Color.White;
-            dgvAV.RowsDefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle44.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle44.BackColor = Color.White;
+            dataGridViewCellStyle44.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle44.ForeColor = Color.Black;
+            dataGridViewCellStyle44.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle44.SelectionForeColor = Color.White;
+            dgvAV.RowsDefaultCellStyle = dataGridViewCellStyle44;
             dgvAV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvAV.Size = new Size(538, 150);
             dgvAV.TabIndex = 20;
@@ -1861,26 +1864,26 @@
             dgvHules.AllowUserToAddRows = false;
             dgvHules.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvHules.BackgroundColor = Color.White;
-            dataGridViewCellStyle43.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle43.BackColor = Color.White;
-            dataGridViewCellStyle43.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            dataGridViewCellStyle43.ForeColor = Color.Black;
-            dataGridViewCellStyle43.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle43.SelectionForeColor = Color.White;
-            dataGridViewCellStyle43.WrapMode = DataGridViewTriState.True;
-            dgvHules.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle43;
+            dataGridViewCellStyle45.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle45.BackColor = Color.White;
+            dataGridViewCellStyle45.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            dataGridViewCellStyle45.ForeColor = Color.Black;
+            dataGridViewCellStyle45.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle45.SelectionForeColor = Color.White;
+            dataGridViewCellStyle45.WrapMode = DataGridViewTriState.True;
+            dgvHules.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle45;
             dgvHules.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvHules.Location = new Point(22, 187);
             dgvHules.Name = "dgvHules";
             dgvHules.ReadOnly = true;
             dgvHules.RowHeadersVisible = false;
-            dataGridViewCellStyle44.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle44.BackColor = Color.White;
-            dataGridViewCellStyle44.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle44.ForeColor = Color.Black;
-            dataGridViewCellStyle44.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle44.SelectionForeColor = Color.White;
-            dgvHules.RowsDefaultCellStyle = dataGridViewCellStyle44;
+            dataGridViewCellStyle46.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle46.BackColor = Color.White;
+            dataGridViewCellStyle46.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle46.ForeColor = Color.Black;
+            dataGridViewCellStyle46.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle46.SelectionForeColor = Color.White;
+            dgvHules.RowsDefaultCellStyle = dataGridViewCellStyle46;
             dgvHules.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvHules.Size = new Size(361, 139);
             dgvHules.TabIndex = 21;
@@ -2043,26 +2046,26 @@
             dgvAreas.AllowUserToAddRows = false;
             dgvAreas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvAreas.BackgroundColor = Color.White;
-            dataGridViewCellStyle45.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle45.BackColor = Color.White;
-            dataGridViewCellStyle45.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            dataGridViewCellStyle45.ForeColor = Color.Black;
-            dataGridViewCellStyle45.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle45.SelectionForeColor = Color.White;
-            dataGridViewCellStyle45.WrapMode = DataGridViewTriState.True;
-            dgvAreas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle45;
+            dataGridViewCellStyle47.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle47.BackColor = Color.White;
+            dataGridViewCellStyle47.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            dataGridViewCellStyle47.ForeColor = Color.Black;
+            dataGridViewCellStyle47.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle47.SelectionForeColor = Color.White;
+            dataGridViewCellStyle47.WrapMode = DataGridViewTriState.True;
+            dgvAreas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle47;
             dgvAreas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvAreas.Location = new Point(21, 187);
             dgvAreas.Name = "dgvAreas";
             dgvAreas.ReadOnly = true;
             dgvAreas.RowHeadersVisible = false;
-            dataGridViewCellStyle46.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle46.BackColor = Color.White;
-            dataGridViewCellStyle46.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle46.ForeColor = Color.Black;
-            dataGridViewCellStyle46.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle46.SelectionForeColor = Color.White;
-            dgvAreas.RowsDefaultCellStyle = dataGridViewCellStyle46;
+            dataGridViewCellStyle48.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle48.BackColor = Color.White;
+            dataGridViewCellStyle48.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle48.ForeColor = Color.Black;
+            dataGridViewCellStyle48.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle48.SelectionForeColor = Color.White;
+            dgvAreas.RowsDefaultCellStyle = dataGridViewCellStyle48;
             dgvAreas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvAreas.Size = new Size(361, 139);
             dgvAreas.TabIndex = 21;
@@ -2086,7 +2089,6 @@
             panel1.BackColor = Color.FromArgb(3, 42, 76);
             panel1.Controls.Add(label15);
             panel1.Controls.Add(dgvFamilias);
-            panel1.Controls.Add(btnEliminarFamilias);
             panel1.Controls.Add(txbFamiliaOriginal);
             panel1.Controls.Add(txbFamilia);
             panel1.Controls.Add(btnNuevoFamilias);
@@ -2115,49 +2117,33 @@
             dgvFamilias.AllowUserToAddRows = false;
             dgvFamilias.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvFamilias.BackgroundColor = Color.White;
-            dataGridViewCellStyle47.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle47.BackColor = Color.White;
-            dataGridViewCellStyle47.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            dataGridViewCellStyle47.ForeColor = Color.Black;
-            dataGridViewCellStyle47.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle47.SelectionForeColor = Color.White;
-            dataGridViewCellStyle47.WrapMode = DataGridViewTriState.True;
-            dgvFamilias.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle47;
+            dataGridViewCellStyle25.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle25.BackColor = Color.White;
+            dataGridViewCellStyle25.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            dataGridViewCellStyle25.ForeColor = Color.Black;
+            dataGridViewCellStyle25.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle25.SelectionForeColor = Color.White;
+            dataGridViewCellStyle25.WrapMode = DataGridViewTriState.True;
+            dgvFamilias.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
             dgvFamilias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvFamilias.Location = new Point(21, 187);
             dgvFamilias.Name = "dgvFamilias";
             dgvFamilias.ReadOnly = true;
             dgvFamilias.RowHeadersVisible = false;
-            dataGridViewCellStyle48.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle48.BackColor = Color.White;
-            dataGridViewCellStyle48.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle48.ForeColor = Color.Black;
-            dataGridViewCellStyle48.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle48.SelectionForeColor = Color.White;
-            dgvFamilias.RowsDefaultCellStyle = dataGridViewCellStyle48;
+            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle26.BackColor = Color.White;
+            dataGridViewCellStyle26.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle26.ForeColor = Color.Black;
+            dataGridViewCellStyle26.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle26.SelectionForeColor = Color.White;
+            dgvFamilias.RowsDefaultCellStyle = dataGridViewCellStyle26;
             dgvFamilias.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvFamilias.Size = new Size(361, 139);
             dgvFamilias.TabIndex = 20;
             dgvFamilias.CellClick += dgvFamilias_CellClick;
             dgvFamilias.CellContentClick += dgvFamilias_CellContentClick;
             dgvFamilias.Click += dgvFamilias_Click;
-            // 
-            // btnEliminarFamilias
-            // 
-            btnEliminarFamilias.BackColor = Color.FromArgb(255, 102, 0);
-            btnEliminarFamilias.Cursor = Cursors.Hand;
-            btnEliminarFamilias.FlatAppearance.BorderSize = 0;
-            btnEliminarFamilias.FlatStyle = FlatStyle.Flat;
-            btnEliminarFamilias.Font = new Font("Montserrat", 9F, FontStyle.Bold);
-            btnEliminarFamilias.ForeColor = Color.White;
-            btnEliminarFamilias.Location = new Point(23, 141);
-            btnEliminarFamilias.Name = "btnEliminarFamilias";
-            btnEliminarFamilias.Size = new Size(98, 27);
-            btnEliminarFamilias.TabIndex = 41;
-            btnEliminarFamilias.Text = "ELIMINAR";
-            btnEliminarFamilias.UseVisualStyleBackColor = false;
-            btnEliminarFamilias.Visible = false;
-            btnEliminarFamilias.Click += btnEliminarFamilias_Click;
+            dgvFamilias.MouseClick += dgvFamilias_MouseClick;
             // 
             // txbFamiliaOriginal
             // 
@@ -2252,6 +2238,19 @@
             label1.TabIndex = 14;
             label1.Text = "ADMINISTRAR PROCESOS";
             // 
+            // cmsFamilias
+            // 
+            cmsFamilias.Items.AddRange(new ToolStripItem[] { Eliminar });
+            cmsFamilias.Name = "cmsFamilias";
+            cmsFamilias.Size = new Size(118, 26);
+            // 
+            // Eliminar
+            // 
+            Eliminar.Name = "Eliminar";
+            Eliminar.Size = new Size(117, 22);
+            Eliminar.Text = "Eliminar";
+            Eliminar.Click += Eliminar_Click;
+            // 
             // Produccion_AdministrarProcesos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -2305,6 +2304,7 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvFamilias).EndInit();
+            cmsFamilias.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -2320,7 +2320,6 @@
         private Label label2;
         private Label label3;
         private Button btnNuevoFamilias;
-        private Button btnEliminarFamilias;
         private Button btnEditarFamilias;
         private Button btnAgregarFamilias;
         private TextBox txbAreas;
@@ -2450,5 +2449,7 @@
         private ComboBox cbAV;
         private Label label35;
         private Button btnVerAV;
+        private ContextMenuStrip cmsFamilias;
+        private ToolStripMenuItem Eliminar;
     }
 }
