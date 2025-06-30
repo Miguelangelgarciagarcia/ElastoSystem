@@ -227,15 +227,92 @@ namespace ElastoSystem
                 if (!string.IsNullOrWhiteSpace(txbCliente.Text))
                     formProdEspecial.Cliente = txbCliente.Text;
 
-                if(!string.IsNullOrWhiteSpace(txbOC.Text))
+                if (!string.IsNullOrWhiteSpace(txbOC.Text))
                     formProdEspecial.OC = txbOC.Text;
 
-                if(!string.IsNullOrWhiteSpace(txbEspecificacion.Text))
+                if (!string.IsNullOrWhiteSpace(txbEspecificacion.Text))
                     formProdEspecial.Especificacion = txbEspecificacion.Text;
 
                 var resultado = formProdEspecial.ShowDialog();
 
             }
+        }
+
+        private void dgvOperaciones_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex >= 0)
+            {
+                string idSeleccionado = dgvOperaciones.Rows[e.RowIndex].Cells[0].Value.ToString();
+
+                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    try
+                    {
+                        conn.Open();
+                        string query = "SELECT Estatus FROM elastosystem_produccion_ot_precreadas WHERE OP = @OP AND ID = @ID";
+                        using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@OP", lblFolioOP.Text);
+                            cmd.Parameters.AddWithValue("@ID", idSeleccionado);
+
+                            object result = cmd.ExecuteScalar();
+
+                            if(result != null && result.ToString() == "Activa")
+                            {
+                                CrearOToRelacionar();
+                            }
+                            else
+                            {
+                                AbrirOT();
+                            }
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("ERROR AL CONSULTAR EL ESTATUS DE LA OPERACION: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
+
+        private void CrearOToRelacionar()
+        {
+            using(Produccion_CrearOToRelacionar form = new Produccion_CrearOToRelacionar())
+            {
+                int resultado = form.ShowDialogResult();
+
+                if(resultado == 0)
+                {
+                    RelacionarOT();
+                }
+                else if(resultado == 1)
+                {
+                    CrearOT();
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
+        private void RelacionarOT()
+        {
+
+        }
+
+        private void CrearOT()
+        {
+            
+        }
+
+        private void AbrirOT()
+        {
+
         }
     }
 }

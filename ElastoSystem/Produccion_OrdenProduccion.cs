@@ -236,6 +236,11 @@ namespace ElastoSystem
                                 valorCero
                             );
                         }
+                        if(dgvProcesosCriticos.Rows.Count == 0)
+                        {
+                            MessageBox.Show("No se encontraron operaciones críticas para el producto seleccionado, revisa tu Hoja de Ruta.");
+                            btnRegresar.PerformClick();
+                        }
                     }
                 }
                 catch (Exception ex)

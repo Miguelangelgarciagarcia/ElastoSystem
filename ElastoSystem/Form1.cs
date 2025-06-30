@@ -277,14 +277,6 @@ namespace ElastoSystem
                                     updateCmd.ExecuteNonQuery();
                                 }
                             }
-                            else
-                            {
-                                string insertQuery = "INSERT INTO elastosystem_sae_productos (Producto, Descripcion) VALUES (@CVE_ART, @DESCR)";
-                                MySqlCommand insertCmd = new MySqlCommand(insertQuery, connMySQL);
-                                insertCmd.Parameters.AddWithValue("@CVE_ART", cveArt);
-                                insertCmd.Parameters.AddWithValue("@DESCR", descrSAE);
-                                insertCmd.ExecuteNonQuery();
-                            }
                         }
                         connMySQL.Close();
                     }

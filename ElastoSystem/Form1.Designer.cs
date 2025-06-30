@@ -352,7 +352,7 @@
             dgvProductosSAE.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductosSAE.Location = new Point(24, 52);
             dgvProductosSAE.Name = "dgvProductosSAE";
-            dgvProductosSAE.Size = new Size(21, 24);
+            dgvProductosSAE.Size = new Size(18, 21);
             dgvProductosSAE.TabIndex = 26;
             dgvProductosSAE.Visible = false;
             // 
