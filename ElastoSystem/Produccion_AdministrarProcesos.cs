@@ -420,7 +420,8 @@ namespace ElastoSystem
                         "elastosystem_produccion_encabezado",
                         "elastosystem_produccion_hoja_producto",
                         "elastosystem_produccion_hoja_ruta",
-                        "elastosystem_produccion_av"
+                        "elastosystem_produccion_av",
+                        "elastosystem_produccion_ot_precreadas"
                     };
 
                     foreach (string tabla in tablas)
