@@ -140,6 +140,8 @@ namespace ElastoSystem
         {
             dtpFechaEntrega.Value = DateTime.Now.AddDays(1);
 
+            txbFamilia.Clear();
+
             pnlInicio.Visible = false;
             btnRegresar.Visible = true;
 
@@ -481,6 +483,7 @@ namespace ElastoSystem
 
         private void FirmarOrdenProduccion()
         {
+            ObtenerFamilia();
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
@@ -548,6 +551,38 @@ namespace ElastoSystem
             }
         }
 
+        private void ObtenerFamilia()
+        {
+            try
+            {
+                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "SELECT Familia FROM elastosystem_sae_productos WHERE Producto = @PRODUCTO";
+                        cmd.Parameters.AddWithValue("@PRODUCTO", lblClave.Text);
+
+                        object result = cmd.ExecuteScalar();
+                        if(result != null && result != DBNull.Value)
+                        {
+                            txbFamilia.Text = result.ToString();
+                        }
+                        else
+                        {
+                            txbFamilia.Clear();
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("ERROR AL OBTENER LA FAMILIA DEL PRODUCTO: " + ex.Message);
+                txbFamilia.Clear();
+            }
+        }
+
         private void CrearOTPrevias()
         {
             try
@@ -570,15 +605,15 @@ namespace ElastoSystem
                             cmd.Connection = conn;
                             cmd.CommandText = @"
                                 INSERT INTO elastosystem_produccion_ot_precreadas
-                                (OP, Operacion, Descripcion, Cantidad, Estatus)
+                                (OP, Operacion, Descripcion, Cantidad, Estatus, Familia)
                                 VALUES
-                                (@OP, @OPERACION, @DESCRIPCION, @CANTIDAD, @ESTATUS)";
+                                (@OP, @OPERACION, @DESCRIPCION, @CANTIDAD, @ESTATUS, @FAMILIA)";
                             cmd.Parameters.AddWithValue("@OP", lblFolio.Text);
                             cmd.Parameters.AddWithValue("@OPERACION", operacion);
                             cmd.Parameters.AddWithValue("@DESCRIPCION", descripcion);
                             cmd.Parameters.AddWithValue("@CANTIDAD", cantidad);
                             cmd.Parameters.AddWithValue("@ESTATUS", estatus);
-
+                            cmd.Parameters.AddWithValue("@FAMILIA", txbFamilia.Text);
                             cmd.ExecuteNonQuery();
                         }
                     }

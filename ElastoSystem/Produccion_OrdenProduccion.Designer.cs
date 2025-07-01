@@ -95,6 +95,7 @@
             Cantidad = new DataGridViewTextBoxColumn();
             cmsOP = new ContextMenuStrip(components);
             AdminOP = new ToolStripMenuItem();
+            txbFamilia = new TextBox();
             pnlInicio.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSolicitudesFabricacion).BeginInit();
             tabControl1.SuspendLayout();
@@ -823,12 +824,22 @@
             AdminOP.Text = "Administrar Orden de Producción";
             AdminOP.Click += AdminOP_Click;
             // 
+            // txbFamilia
+            // 
+            txbFamilia.Font = new Font("Montserrat", 12F);
+            txbFamilia.Location = new Point(960, 45);
+            txbFamilia.Name = "txbFamilia";
+            txbFamilia.Size = new Size(168, 27);
+            txbFamilia.TabIndex = 88;
+            txbFamilia.Visible = false;
+            // 
             // Produccion_OrdenProduccion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1338, 831);
+            Controls.Add(txbFamilia);
             Controls.Add(pnlInicio);
             Controls.Add(panel3);
             Controls.Add(panel2);
@@ -910,5 +921,6 @@
         private ContextMenuStrip cmsOP;
         private ToolStripMenuItem AdminOP;
         private Button btnDatosProdEspecial;
+        private TextBox txbFamilia;
     }
 }
