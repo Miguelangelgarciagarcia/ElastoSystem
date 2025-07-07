@@ -671,7 +671,13 @@ namespace ElastoSystem
 
         private void CargarHojasRuta()
         {
-            string query = "SELECT * FROM elastosystem_produccion_hoja_producto ORDER BY Producto ASC, NoOperacion ASC";
+            string query = @"
+                    SELECT p.*
+                    FROM elastosystem_produccion_hoja_producto p
+                    JOIN elastosystem_produccion_hoja_ruta r
+                        ON p.Familia = r.Familia AND p.NoOperacion = r.NoOperacion
+                    WHERE r.Estatus = 'ACTIVA'
+                    ORDER BY p.Producto ASC, p.NoOperacion ASC";
             MySqlDataAdapter adaptador = new MySqlDataAdapter(query, VariablesGlobales.ConexionBDElastotecnica);
             DataTable dt = new DataTable();
             adaptador.Fill(dt);
@@ -1258,7 +1264,7 @@ namespace ElastoSystem
                 {
                     conn.Open();
 
-                    string query = "SELECT * FROM elastosystem_produccion_hoja_ruta WHERE Familia = @FAMILIA ORDER BY NoOperacion ASC";
+                    string query = "SELECT * FROM elastosystem_produccion_hoja_ruta WHERE Familia = @FAMILIA AND Estatus = 'ACTIVA' ORDER BY NoOperacion ASC";
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
@@ -1272,6 +1278,7 @@ namespace ElastoSystem
                     dgvHojaRuta.Columns["ID"].Visible = false;
                     dgvHojaRuta.Columns["Familia"].Visible = false;
                     dgvHojaRuta.Columns["NoOperacion"].HeaderText = "Operación";
+                    dgvHojaRuta.Columns["Estatus"].Visible = false;
                 }
                 catch (Exception ex)
                 {
@@ -1312,17 +1319,26 @@ namespace ElastoSystem
                 {
                     conn.Open();
 
-                    string check = "SELECT COUNT(*) FROM elastosystem_produccion_hoja_ruta WHERE NoOperacion = @NO_OPERACION AND Familia = @FAMILIA";
+                    string check = "SELECT Estatus FROM elastosystem_produccion_hoja_ruta WHERE NoOperacion = @NO_OPERACION AND Familia = @FAMILIA";
                     MySqlCommand cmd = new MySqlCommand(check, conn);
                     cmd.Parameters.AddWithValue("@NO_OPERACION", txbNoOperacion.Text.Trim());
                     cmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
 
-                    int procesoCount = Convert.ToInt32(cmd.ExecuteScalar());
+                    object result = cmd.ExecuteScalar();
 
-                    if (procesoCount > 0)
+                    if(result != null)
                     {
-                        MessageBox.Show("El Número de proceso ya existe.");
-                        return;
+                        string estatus = result.ToString();
+                        if(estatus == "INACTIVA")
+                        {
+                            ReactivarOperacion();
+                            return;
+                        }
+                        else
+                        {
+                            MessageBox.Show("El Número de operación ya existe.");
+                            return;
+                        }
                     }
 
                     string hule = cbHule.Text.Trim();
@@ -1342,7 +1358,7 @@ namespace ElastoSystem
                         insumosFinal = insumos;
                     }
 
-                    string insertQuery = "INSERT INTO elastosystem_produccion_hoja_ruta (Familia, NoOperacion, Area, Nave, Descripcion, TipoMaquina, Preparacion, TiempoPreparacion, TiempoOperacion, Insumos, Critico, AyudaVisual) VALUES (@FAMILIA, @NO_OPERACION, @AREA, @NAVE, @DESCRIPCION, @TIPOMAQUINA, @PREPARACION, @TIEMPO_PREPARACION, @TIEMPO_OPERACION, @INSUMOS, @CRITICO, @AYUDAVISUAL)";
+                    string insertQuery = "INSERT INTO elastosystem_produccion_hoja_ruta (Familia, NoOperacion, Area, Nave, Descripcion, TipoMaquina, Preparacion, TiempoPreparacion, TiempoOperacion, Insumos, Critico, AyudaVisual, Estatus) VALUES (@FAMILIA, @NO_OPERACION, @AREA, @NAVE, @DESCRIPCION, @TIPOMAQUINA, @PREPARACION, @TIEMPO_PREPARACION, @TIEMPO_OPERACION, @INSUMOS, @CRITICO, @AYUDAVISUAL, @ESTATUS)";
                     MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn);
 
                     insertCmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
@@ -1357,6 +1373,7 @@ namespace ElastoSystem
                     insertCmd.Parameters.AddWithValue("@INSUMOS", insumosFinal);
                     insertCmd.Parameters.AddWithValue("@CRITICO", chbCritico.Checked ? 1 : 0);
                     insertCmd.Parameters.AddWithValue("@AYUDAVISUAL", cbAV.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("@ESTATUS", "ACTIVA");
 
                     int rowsAffected = insertCmd.ExecuteNonQuery();
 
@@ -1397,6 +1414,74 @@ namespace ElastoSystem
                 finally
                 {
                     conn.Close();
+                }
+            }
+        }
+
+        private void ReactivarOperacion()
+        {
+            using (Produccion_ReactivarOperacion form = new Produccion_ReactivarOperacion())
+            {
+                var result = form.ShowDialog();
+                if(result == DialogResult.OK)
+                {
+                    using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                    {
+                        try
+                        {
+                            conn.Open();
+                            string updateQuery = "UPDATE elastosystem_produccion_hoja_ruta SET Estatus = 'ACTIVA' WHERE NoOperacion = @NO_OPERACION AND Familia = @FAMILIA";
+                            MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn);
+                            updateCmd.Parameters.AddWithValue("@NO_OPERACION", txbNoOperacion.Text.Trim());
+                            updateCmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
+                            int rowsAffected = updateCmd.ExecuteNonQuery();
+
+                            if(rowsAffected > 0)
+                            {
+                                MessageBox.Show("Operación reactivada correctamente.");
+
+                                lblCamposObligatorios.Visible = false; pbCampos.Visible = false; pbNoOperacion.Visible = false; pbArea.Visible = false; pbNave.Visible = false; pbDescripcion.Visible = false;
+                                btnNuevo.Visible = false;
+                                btnEliminarProceso.Visible = false;
+                                btnActualizarProceso.Visible = false;
+                                btnAgregarProceso.Visible = false;
+                                btnAgregarProceso.Visible = true;
+                                btnVerAV.Visible = false;
+
+                                txbID.Clear();
+                                txbNoOperacion.Clear();
+                                cbArea.SelectedIndex = -1;
+                                txbNave.Clear();
+                                txbDescripcion.Clear();
+                                txbTipoMaquina.Clear();
+                                txbPreparacion.Clear();
+                                txbTiempoPreparacion.Clear();
+                                txbTiempoOperacion.Clear();
+                                txbInsumos.Clear();
+                                chbCritico.Checked = false;
+                                cbHule.SelectedIndex = -1;
+                                cbAV.SelectedIndex = -1;
+
+                                MandarALlamarHojaRuta();
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se pudo reactivar la operación.");
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            MessageBox.Show("ERROR AL REACTIVAR OPERACION: " + ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Operación no reactivada.");
                 }
             }
         }
@@ -1699,91 +1784,36 @@ namespace ElastoSystem
 
         private void btnEliminarProceso_Click(object sender, EventArgs e)
         {
-            EliminarProceso();
+            OcultarProceso();
         }
 
-        private void EliminarProceso()
+        private void OcultarProceso()
         {
-            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
                     conn.Open();
+                    string updateQuery = "UPDATE elastosystem_produccion_hoja_ruta SET Estatus = 'INACTIVA' WHERE NoOperacion = @NO_OPERACION AND Familia = @FAMILIA";
+                    MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn);
+                    updateCmd.Parameters.AddWithValue("@NO_OPERACION", txbNoOperacion.Text.Trim());
+                    updateCmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
+                    int rowsAffected = updateCmd.ExecuteNonQuery();
 
-                    string selectQuery = "SELECT NoOperacion, Familia FROM elastosystem_produccion_hoja_ruta WHERE ID = @ID";
-                    string noOperacion = "";
-                    string familia = "";
-
-                    using (MySqlCommand selectCmd = new MySqlCommand(selectQuery, conn))
+                    if(rowsAffected > 0)
                     {
-                        selectCmd.Parameters.AddWithValue("@ID", txbID.Text.Trim());
-
-                        using (var reader = selectCmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                noOperacion = reader["NoOperacion"].ToString();
-                                familia = reader["Familia"].ToString();
-                            }
-                            else
-                            {
-                                MessageBox.Show("No se encontró el proceso con ese ID.");
-                                return;
-                            }
-                        }
+                        MessageBox.Show("Proceso eliminado correctamente.");
+                        btnNuevo.PerformClick();
+                        MandarALlamarHojaRuta();
                     }
-
-                    EliminarProcesoDeHojaProducto(noOperacion, familia);
-
-                    string deleteQuery = "DELETE FROM elastosystem_produccion_hoja_ruta WHERE ID = @ID";
-                    using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
+                    else
                     {
-                        cmd.Parameters.AddWithValue("@ID", txbID.Text.Trim());
-                        int rowsAffected = cmd.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
-                        {
-                            RevisarHule();
-                            btnNuevo.PerformClick();
-                        }
-                        else
-                        {
-                            MessageBox.Show("No se pudo eliminar el proceso.");
-                        }
+                        MessageBox.Show("No se pudo eliminar el proceso.");
                     }
                 }
-                catch (Exception ex)
+                catch(Exception ex)
                 {
-                    MessageBox.Show("ERROR AL ELIMINAR PROCESO: " + ex.Message);
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-        }
-
-        private void EliminarProcesoDeHojaProducto(string noOperacion, string familia)
-        {
-            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
-            {
-                try
-                {
-                    conn.Open();
-
-                    string deleteQuery = @"DELETE FROM elastosystem_produccion_hoja_producto
-                                            WHERE NoOperacion = @NO_OPERACION AND Familia = @FAMILIA";
-                    using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@NO_OPERACION", noOperacion);
-                        cmd.Parameters.AddWithValue("@FAMILIA", familia);
-
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("ERROR AL ELIMINAR EL PROCESO EN elastosystem_produccion_hoja_producto: " + ex.Message);
+                    MessageBox.Show("ERROR AL ELIMINAR EL PROCESO: " + ex.Message);
                 }
                 finally
                 {
@@ -2569,7 +2599,14 @@ namespace ElastoSystem
                 }
                 else
                 {
-                    string consulta = "SELECT * FROM elastosystem_produccion_hoja_producto WHERE Producto LIKE @VALORBUSQUEDA OR Familia LIKE @VALORBUSQUEDA OR Descripcion LIKE @VALORBUSQUEDA ORDER BY Producto ASC, NoOperacion ASC";
+                    string consulta = @"
+                        SELECT p.*
+                        FROM elastosystem_produccion_hoja_producto p
+                        JOIN elastosystem_produccion_hoja_ruta r
+                            ON p.Familia = r.Familia AND p.NoOperacion = r.NoOperacion
+                        WHERE r.Estatus = 'ACTIVA'
+                            AND (p.Producto LIKE @VALORBUSQUEDA OR p.Familia LIKE @VALORBUSQUEDA OR p.Descripcion LIKE @VALORBUSQUEDA)
+                        ORDER BY p.Producto ASC, p.NoOperacion ASC";
 
                     MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, VariablesGlobales.ConexionBDElastotecnica);
 

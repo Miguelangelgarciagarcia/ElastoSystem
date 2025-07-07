@@ -134,18 +134,21 @@ namespace ElastoSystem
                 try
                 {
                     conn.Open();
-                    string query = @"SELECT ID, Descripcion, Operacion, Cantidad, Estatus
-                                FROM elastosystem_produccion_ot_precreadas
-                                WHERE OP = @OP
+                    string query = @"SELECT op.ID, op.Descripcion, op.Operacion, op.Cantidad, op.Estatus
+                                FROM elastosystem_produccion_ot_precreadas op
+                                JOIN elastosystem_produccion_hoja_ruta hr
+                                    ON op.Operacion = hr.NoOperacion AND op.Familia = hr.Familia
+                                WHERE op.OP = @OP
+                                    AND hr.Estatus = 'ACTIVA'
                                 ORDER BY
                                     CAST(CASE
-                                        WHEN operacion REGEXP '^[0-9]+$' THEN Operacion
-                                        WHEN Operacion REGEXP '^[0-9]+-[A-Z]$' THEN SUBSTRING_INDEX(Operacion, '-', 1)
-                                        ELSE Operacion
+                                        WHEN op.operacion REGEXP '^[0-9]+$' THEN op.Operacion
+                                        WHEN op.Operacion REGEXP '^[0-9]+-[A-Z]$' THEN SUBSTRING_INDEX(op.Operacion, '-', 1)
+                                        ELSE op.Operacion
                                     END AS UNSIGNED),
                                     CASE
-                                        WHEN Operacion REGEXP '^[0-9]+$' THEN ''
-                                        WHEN Operacion REGEXP '^[0-9]+-[A-Z]$' THEN SUBSTRING_INDEX(Operacion , '-', -1)
+                                        WHEN op.Operacion REGEXP '^[0-9]+$' THEN ''
+                                        WHEN op.Operacion REGEXP '^[0-9]+-[A-Z]$' THEN SUBSTRING_INDEX(op.Operacion , '-', -1)
                                     END";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {

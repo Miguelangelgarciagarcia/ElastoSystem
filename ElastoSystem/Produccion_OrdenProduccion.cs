@@ -205,7 +205,8 @@ namespace ElastoSystem
                         SELECT
                             hp.NoOperacion AS Operacion,
                             hp.Descripcion,
-                            hp.CantidadUnidad
+                            hp.CantidadUnidad,
+                            hr.Estatus
                         FROM elastosystem_produccion_hoja_producto hp
                         INNER JOIN elastosystem_produccion_hoja_ruta hr
                             ON hp.Familia = hr.Familia AND hp.NoOperacion = hr.NoOperacion
@@ -226,6 +227,7 @@ namespace ElastoSystem
                             string operacion = reader["Operacion"].ToString();
                             string descripcion = reader["Descripcion"].ToString();
                             string cantidadUnidad = reader["CantidadUnidad"].ToString();
+                            string estatus = reader["Estatus"].ToString();
 
                             string otPersonalizado = $"OT-{lblFolioOriginal.Text}-{operacion}";
                             string valorCero = "0";
@@ -235,9 +237,19 @@ namespace ElastoSystem
                                 descripcion,
                                 cantidadUnidad,
                                 otPersonalizado,
-                                valorCero
+                                valorCero,
+                                estatus
                             );
                         }
+
+                        foreach(DataGridViewRow row in dgvProcesosCriticos.Rows)
+                        {
+                            if (row.Cells["Estatus"].Value != null && row.Cells["Estatus"].Value.ToString() == "INACTIVA")
+                            {
+                                row.Visible = false;
+                            }
+                        }
+
                         if(dgvProcesosCriticos.Rows.Count == 0)
                         {
                             MessageBox.Show("No se encontraron operaciones críticas para el producto seleccionado, revisa tu Hoja de Ruta.");

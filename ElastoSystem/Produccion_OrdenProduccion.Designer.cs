@@ -93,6 +93,7 @@
             CantidadUnidad = new DataGridViewTextBoxColumn();
             OT = new DataGridViewTextBoxColumn();
             Cantidad = new DataGridViewTextBoxColumn();
+            Estatus = new DataGridViewTextBoxColumn();
             cmsOP = new ContextMenuStrip(components);
             AdminOP = new ToolStripMenuItem();
             txbFamilia = new TextBox();
@@ -753,7 +754,7 @@
             dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
             dgvProcesosCriticos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             dgvProcesosCriticos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProcesosCriticos.Columns.AddRange(new DataGridViewColumn[] { Operacion, Descripcion, CantidadUnidad, OT, Cantidad });
+            dgvProcesosCriticos.Columns.AddRange(new DataGridViewColumn[] { Operacion, Descripcion, CantidadUnidad, OT, Cantidad, Estatus });
             dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle14.BackColor = SystemColors.WindowFrame;
             dataGridViewCellStyle14.Font = new Font("Segoe UI", 9F);
@@ -810,6 +811,12 @@
             // 
             Cantidad.HeaderText = "Cantidad";
             Cantidad.Name = "Cantidad";
+            // 
+            // Estatus
+            // 
+            Estatus.HeaderText = "Estatus";
+            Estatus.Name = "Estatus";
+            Estatus.Visible = false;
             // 
             // cmsOP
             // 
@@ -910,11 +917,6 @@
         private Label lblFolioOriginal;
         private Panel panel3;
         private DataGridView dgvProcesosCriticos;
-        private DataGridViewTextBoxColumn Operacion;
-        private DataGridViewTextBoxColumn Descripcion;
-        private DataGridViewTextBoxColumn CantidadUnidad;
-        private DataGridViewTextBoxColumn OT;
-        private DataGridViewTextBoxColumn Cantidad;
         private TextBox txbEspecificacion;
         private TextBox txbOC;
         private TextBox txbCliente;
@@ -922,5 +924,11 @@
         private ToolStripMenuItem AdminOP;
         private Button btnDatosProdEspecial;
         private TextBox txbFamilia;
+        private DataGridViewTextBoxColumn Operacion;
+        private DataGridViewTextBoxColumn Descripcion;
+        private DataGridViewTextBoxColumn CantidadUnidad;
+        private DataGridViewTextBoxColumn OT;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn Estatus;
     }
 }
