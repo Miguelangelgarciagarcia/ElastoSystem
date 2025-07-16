@@ -1834,6 +1834,7 @@ namespace ElastoSystem
             ActualizarProceso();
         }
 
+        string oldNoOperacion = "", familia = "";
         private void ActualizarProceso()
         {
             using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
@@ -1848,7 +1849,7 @@ namespace ElastoSystem
                     string nuevaArea = cbArea.Text.Trim();
                     string nuevaNave = txbNave.Text.Trim();
 
-                    string oldNoOperacion = "", familia = "";
+                    
                     string selectQuery = "SELECT NoOperacion, Familia FROM elastosystem_produccion_hoja_ruta WHERE ID = @ID";
                     using (MySqlCommand selectCmd = new MySqlCommand(selectQuery, conn))
                     {
@@ -1927,6 +1928,8 @@ namespace ElastoSystem
                             updateProdCmd.ExecuteNonQuery();
                         }
 
+                        ActualizarOTPrecreadasActivas();
+
                         MessageBox.Show("Proceso actualizado correctamente.");
                         RevisarHule();
                         btnNuevo.PerformClick();
@@ -1939,6 +1942,45 @@ namespace ElastoSystem
                 catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ACTUALIZAR PROCESO: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void ActualizarOTPrecreadasActivas()
+        {
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string updateQuery = @"
+                        UPDATE elastosystem_produccion_ot_precreadas ot
+                        INNER JOIN elastosystem_produccion_orden_produccion op
+                            ON ot.OP = op.Folio_ALT
+                        SET ot.Operacion = @NUEVO_NO_OPERACION, ot.Descripcion = @NUEVA_DESCRIPCION
+                        WHERE ot.Familia = @FAMILIA
+                            AND op.Estatus = 'Activa'
+                            AND (ot.Operacion = @OLD_NO_OPERACION OR ot.Operacion LIKE CONCAT(@OLD_NO_OPERACION, '-%'))
+                    ";
+
+                    using(MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@NUEVO_NO_OPERACION", txbNoOperacion.Text.Trim());
+                        cmd.Parameters.AddWithValue("@NUEVA_DESCRIPCION", txbDescripcion.Text.Trim());
+                        cmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
+                        cmd.Parameters.AddWithValue("@OLD_NO_OPERACION", oldNoOperacion);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ACTUALIZAR ORDENES DE TRABAJO PRECREADAS: " + ex.Message);
                 }
                 finally
                 {

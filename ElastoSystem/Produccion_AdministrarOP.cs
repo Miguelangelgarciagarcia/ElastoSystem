@@ -135,21 +135,33 @@ namespace ElastoSystem
                 {
                     conn.Open();
                     string query = @"SELECT op.ID, op.Descripcion, op.Operacion, op.Cantidad, op.Estatus
-                                FROM elastosystem_produccion_ot_precreadas op
-                                JOIN elastosystem_produccion_hoja_ruta hr
-                                    ON op.Operacion = hr.NoOperacion AND op.Familia = hr.Familia
-                                WHERE op.OP = @OP
-                                    AND hr.Estatus = 'ACTIVA'
-                                ORDER BY
-                                    CAST(CASE
-                                        WHEN op.operacion REGEXP '^[0-9]+$' THEN op.Operacion
-                                        WHEN op.Operacion REGEXP '^[0-9]+-[A-Z]$' THEN SUBSTRING_INDEX(op.Operacion, '-', 1)
-                                        ELSE op.Operacion
-                                    END AS UNSIGNED),
-                                    CASE
-                                        WHEN op.Operacion REGEXP '^[0-9]+$' THEN ''
-                                        WHEN op.Operacion REGEXP '^[0-9]+-[A-Z]$' THEN SUBSTRING_INDEX(op.Operacion , '-', -1)
-                                    END";
+                                    FROM elastosystem_produccion_ot_precreadas op
+                                    INNER JOIN elastosystem_produccion_hoja_ruta hr
+                                        ON op.Familia = hr.Familia
+                                        AND hr.NoOperacion = TRIM(
+                                            CASE 
+                                                WHEN INSTR(op.Operacion, '-') > 0 THEN SUBSTRING(op.Operacion, 1, INSTR(op.Operacion, '-') - 1)
+                                                ELSE op.Operacion
+                                            END
+                                        )
+                                        AND hr.Estatus = 'ACTIVA'
+                                        AND hr.NoOperacion IS NOT NULL
+                                    WHERE op.OP = @OP
+                                    ORDER BY
+                                        CAST(
+                                            TRIM(
+                                                CASE
+                                                    WHEN op.Operacion REGEXP '^[0-9]+$' THEN op.Operacion
+                                                    WHEN op.Operacion REGEXP '^[0-9]+-[A-Za-z]$' THEN SUBSTRING(op.Operacion, 1, INSTR(op.Operacion, '-') - 1)
+                                                    ELSE op.Operacion
+                                                END
+                                            ) AS UNSIGNED
+                                        ),
+                                        CASE
+                                            WHEN op.Operacion REGEXP '^[0-9]+$' THEN ''
+                                            WHEN op.Operacion REGEXP '^[0-9]+-[A-Za-z]$' THEN SUBSTRING(op.Operacion, INSTR(op.Operacion, '-') + 1)
+                                            ELSE ''
+                                        END";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@OP", lblFolio.Text);
@@ -460,6 +472,7 @@ namespace ElastoSystem
 
             string numeroBase = lblOT.Text.Split('-').Last();
             string nuevaOperacion = "";
+            string familia = "";
 
             using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
@@ -491,17 +504,36 @@ namespace ElastoSystem
                         }
                     }
 
+                    string queryFamilia = "SELECT Familia FROM elastosystem_produccion_ot_precreadas WHERE OP = @OP AND Operacion = @NUMEROBASE LIMIT 1";
+                    using (MySqlCommand cmdFamilia = new MySqlCommand(queryFamilia, conn))
+                    {
+                        cmdFamilia.Parameters.AddWithValue("@OP", lblFolio.Text);
+                        cmdFamilia.Parameters.AddWithValue("@NUMEROBASE", numeroBase);
+
+                        object resultadoFamilia = cmdFamilia.ExecuteScalar();
+                        if(resultadoFamilia != null)
+                        {
+                            familia = resultadoFamilia.ToString();
+                        }
+                        else
+                        {
+                            MessageBox.Show("NO SE DUPPLICO LA OPERACION YA QUE NO TIENE FAMILIA, CONSULTA AL ADMINISTRADOR");
+                            return;
+                        }
+                    }
+
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
                         string estatus = "Activa";
                         cmd.Connection = conn;
-                        cmd.CommandText = "INSERT INTO elastosystem_produccion_ot_precreadas (OP, Operacion, Descripcion, Cantidad, Estatus)" +
-                                          "VALUES (@OP, @OPERACION, @DESCRIPCION, @CANTIDAD, @ESTATUS)";
+                        cmd.CommandText = "INSERT INTO elastosystem_produccion_ot_precreadas (OP, Operacion, Descripcion, Cantidad, Estatus, Familia)" +
+                                          "VALUES (@OP, @OPERACION, @DESCRIPCION, @CANTIDAD, @ESTATUS, @FAMILIA)";
                         cmd.Parameters.AddWithValue("@OP", lblFolio.Text);
                         cmd.Parameters.AddWithValue("@OPERACION", nuevaOperacion);
                         cmd.Parameters.AddWithValue("@DESCRIPCION", txbDescripcion.Text);
                         cmd.Parameters.AddWithValue("@CANTIDAD", txbCantidadDGV.Text);
                         cmd.Parameters.AddWithValue("@ESTATUS", estatus);
+                        cmd.Parameters.AddWithValue("@FAMILIA", familia);
 
                         cmd.ExecuteNonQuery();
 
