@@ -782,6 +782,8 @@ namespace ElastoSystem
             DateTime fechaInicioH, fechaFinalH;
 
             Dictionary<int, Dictionary<int, double>> sumasPorAnioYMes = new();
+            Dictionary<int, int> registrosPorAnio = new();
+            Dictionary<int, double> maxPorAnio = new();
 
             if (lblFechas.Text == "fechasnofiltradas")
             {
@@ -817,22 +819,25 @@ namespace ElastoSystem
                     double.TryParse(fila.Cells[nombreColumna].Value.ToString(), out double valor))
                 {
                     sumaTotal += valor;
-
                     if (valor > maxCantidad)
                     {
                         maxCantidad = valor;
                     }
-
                     int anio = fechaActual.Year;
                     int mes = fechaActual.Month;
 
                     if (!sumasPorAnioYMes.ContainsKey(anio))
                         sumasPorAnioYMes[anio] = new Dictionary<int, double>();
-
                     if (!sumasPorAnioYMes[anio].ContainsKey(mes))
                         sumasPorAnioYMes[anio][mes] = 0;
-
                     sumasPorAnioYMes[anio][mes] += valor;
+
+                    if(!registrosPorAnio.ContainsKey(anio))
+                        registrosPorAnio[anio] = 0;
+                    registrosPorAnio[anio]++;
+
+                    if(!maxPorAnio.ContainsKey(anio) || valor > maxPorAnio[anio])
+                        maxPorAnio[anio] = valor;
                 }
             }
 
@@ -875,21 +880,20 @@ namespace ElastoSystem
                 doc.Open();
 
                 iTextSharp.text.Font tituloFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14);
-                iTextSharp.text.Paragraph titulo = new iTextSharp.text.Paragraph("Reporte de Datos", tituloFont);
+                iTextSharp.text.Paragraph titulo = new iTextSharp.text.Paragraph($"Tendencia de Ventas {producto}", tituloFont);
                 titulo.Alignment = Element.ALIGN_CENTER;
                 doc.Add(titulo);
                 doc.Add(new iTextSharp.text.Paragraph("\n"));
 
                 iTextSharp.text.Font contenidoFont = FontFactory.GetFont("Arial", 11);
                 doc.Add(new iTextSharp.text.Paragraph($"Rango de fecha de consulta: {fecha}", contenidoFont));
-                doc.Add(new iTextSharp.text.Paragraph($"Producto consultado: {producto}", contenidoFont));
                 doc.Add(new iTextSharp.text.Paragraph($"Total de registros: {totalRegistros}", contenidoFont));
-                doc.Add(new iTextSharp.text.Paragraph($"Total de producto: {sumaTotal:F2}", contenidoFont));
+                doc.Add(new iTextSharp.text.Paragraph($"Piezas vendidas en el periodo: {sumaTotal:F2}", contenidoFont));
                 doc.Add(new iTextSharp.text.Paragraph($"Valor máximo en una factura: {maxCantidad:F2}", contenidoFont));
                 doc.Add(new iTextSharp.text.Paragraph($"Promedio por año: {promedioAnios:F2}", contenidoFont));
                 doc.Add(new iTextSharp.text.Paragraph($"Promedio por mes: {promedioMeses:F2}", contenidoFont));
                 doc.Add(new iTextSharp.text.Paragraph($"Promedio por día: {promedioDias:F2}", contenidoFont));
-                doc.Add(new iTextSharp.text.Paragraph("\nDETALLE POR AÑO Y MES:", contenidoFont));
+                doc.Add(new iTextSharp.text.Paragraph("\nANALISIS DETALLADO POR AÑO:", contenidoFont));
 
                 foreach (var anio in sumasPorAnioYMes.Keys.OrderBy(a => a))
                 {
@@ -897,28 +901,73 @@ namespace ElastoSystem
                     int cantidadMeses = sumasPorAnioYMes[anio].Count;
                     double promedioMensualCompleto = sumaAnual / 12;
                     double promedioMensualAnio = cantidadMeses > 0 ? sumaAnual / cantidadMeses : 0;
+                    int totalRegistrosAnio = registrosPorAnio.ContainsKey(anio) ? registrosPorAnio[anio] : 0;
+                    double maxAnio = maxPorAnio.ContainsKey(anio) ? maxPorAnio[anio] : 0;
 
-                    doc.Add(new iTextSharp.text.Paragraph($"\nTotal {anio} = {sumaAnual:F2}", contenidoFont));
-                    doc.Add(new iTextSharp.text.Paragraph($"Promedio mensual {anio} = {promedioMensualCompleto:F2}", contenidoFont));
-                    doc.Add(new iTextSharp.text.Paragraph($"Promedio mensual {anio} entre meses encontrados = {promedioMensualAnio:F2}", contenidoFont));
+                    iTextSharp.text.Paragraph parrafoAnio = new iTextSharp.text.Paragraph($"\n{anio}", tituloFont);
+                    parrafoAnio.Alignment = Element.ALIGN_CENTER;
+                    doc.Add(parrafoAnio);
+                    doc.Add(new iTextSharp.text.Paragraph($"Productos vendidos en el año = {sumaAnual:F2}", contenidoFont));
+                    doc.Add(new iTextSharp.text.Paragraph($"Total de registros = {totalRegistrosAnio}", contenidoFont));
+                    doc.Add(new iTextSharp.text.Paragraph($"Valor máximo en una factura = {maxAnio:F2}", contenidoFont));
+                    doc.Add(new iTextSharp.text.Paragraph($"Promedio mensual = {promedioMensualCompleto:F2}", contenidoFont));
+                    doc.Add(new iTextSharp.text.Paragraph($"Promedio mensual entre meses encontrados = {promedioMensualAnio:F2}", contenidoFont));
+                    doc.Add(new iTextSharp.text.Paragraph(" ", contenidoFont));
 
-                    int mesMayor = sumasPorAnioYMes[anio].OrderByDescending(m => m.Value).First().Key;
+                    PdfPTable tabla = new PdfPTable(3);
+                    tabla.WidthPercentage = 90;
+                    tabla.DefaultCell.Border = 0;
 
-                    foreach (var mes in sumasPorAnioYMes[anio].Keys.OrderBy(m => m))
+                    int mesMayor = 1;
+                    double maxValorMes = double.MinValue;
+                    for (int mes = 1; mes <= 12; mes++)
+                    {
+                        double valorMes = sumasPorAnioYMes[anio].ContainsKey(mes) ? sumasPorAnioYMes[anio][mes] : 0;
+                        if (valorMes > maxValorMes)
+                        {
+                            maxValorMes = valorMes;
+                            mesMayor = mes;
+                        }
+                    }
+
+                    for (int mes = 1; mes <= 12; mes++)
                     {
                         string nombreMes = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(new DateTime(anio, mes, 1).ToString("MMMM", CultureInfo.CurrentCulture));
-                        string textoMes = $"   {nombreMes} {anio} = {sumasPorAnioYMes[anio][mes]:F2}";
+                        double valorMes = sumasPorAnioYMes[anio].ContainsKey(mes) ? sumasPorAnioYMes[anio][mes] : 0;
 
-                        if (mes == mesMayor)
+                        iTextSharp.text.Font fontFila;
+
+                        if (valorMes == 0)
                         {
-                            iTextSharp.text.Font boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 11);
-                            doc.Add(new iTextSharp.text.Paragraph(textoMes, boldFont));
+                            // Toda la fila tachada si el valor es 0
+                            fontFila = new iTextSharp.text.Font(contenidoFont);
+                            fontFila.SetStyle(iTextSharp.text.Font.STRIKETHRU);
+                        }
+                        else if (mes == mesMayor)
+                        {
+                            // Negritas si es el mes mayor (y no es 0)
+                            fontFila = new iTextSharp.text.Font(contenidoFont);
+                            fontFila.SetStyle(iTextSharp.text.Font.BOLD);
                         }
                         else
                         {
-                            doc.Add(new iTextSharp.text.Paragraph(textoMes, contenidoFont));
+                            // Normal
+                            fontFila = new iTextSharp.text.Font(contenidoFont);
                         }
+
+                        PdfPCell celdaAnio = new PdfPCell(new Phrase(anio.ToString(), fontFila));
+                        celdaAnio.Border = 0;
+                        PdfPCell celdaMes = new PdfPCell(new Phrase(nombreMes, fontFila));
+                        celdaMes.Border = 0;
+                        PdfPCell celdaCantidad = new PdfPCell(new Phrase(valorMes.ToString("F2"), fontFila));
+                        celdaCantidad.Border = 0;
+
+                        tabla.AddCell(celdaAnio);
+                        tabla.AddCell(celdaMes);
+                        tabla.AddCell(celdaCantidad);
                     }
+
+                    doc.Add(tabla);
                 }
 
                 doc.Close();
