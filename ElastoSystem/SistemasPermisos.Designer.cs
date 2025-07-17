@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SistemasPermisos));
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             label2 = new Label();
             cbUsuarios = new ComboBox();
@@ -111,6 +111,7 @@
             dgvUsuarioyPassword = new DataGridView();
             tabPermisosUsuarios = new TabPage();
             panel8 = new Panel();
+            chbMttoPreventivo = new CheckBox();
             chbInventarioMaquinas = new CheckBox();
             chbHistorialMtto = new CheckBox();
             chbPendientesMtto = new CheckBox();
@@ -118,6 +119,7 @@
             chbMantenimiento = new CheckBox();
             tabPage1 = new TabPage();
             panel13 = new Panel();
+            chbEliminarFamilias = new CheckBox();
             label14 = new Label();
             chbAdminOP = new CheckBox();
             panel12 = new Panel();
@@ -137,7 +139,6 @@
             chbComprasAlmacenar = new CheckBox();
             cbUsuariosEspeciales = new ComboBox();
             label8 = new Label();
-            chbEliminarFamilias = new CheckBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -1165,26 +1166,26 @@
             dgvUsuarioyPassword.AllowUserToAddRows = false;
             dgvUsuarioyPassword.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvUsuarioyPassword.BackgroundColor = Color.White;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvUsuarioyPassword.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvUsuarioyPassword.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvUsuarioyPassword.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsuarioyPassword.Location = new Point(24, 325);
             dgvUsuarioyPassword.Name = "dgvUsuarioyPassword";
             dgvUsuarioyPassword.ReadOnly = true;
             dgvUsuarioyPassword.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dgvUsuarioyPassword.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dgvUsuarioyPassword.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvUsuarioyPassword.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvUsuarioyPassword.Size = new Size(1207, 275);
             dgvUsuarioyPassword.TabIndex = 19;
@@ -1218,6 +1219,7 @@
             // panel8
             // 
             panel8.BackColor = Color.FromArgb(3, 42, 76);
+            panel8.Controls.Add(chbMttoPreventivo);
             panel8.Controls.Add(chbInventarioMaquinas);
             panel8.Controls.Add(chbHistorialMtto);
             panel8.Controls.Add(chbPendientesMtto);
@@ -1227,6 +1229,19 @@
             panel8.Name = "panel8";
             panel8.Size = new Size(240, 291);
             panel8.TabIndex = 12;
+            // 
+            // chbMttoPreventivo
+            // 
+            chbMttoPreventivo.AutoSize = true;
+            chbMttoPreventivo.Font = new Font("Montserrat", 9F);
+            chbMttoPreventivo.ForeColor = Color.White;
+            chbMttoPreventivo.Location = new Point(15, 152);
+            chbMttoPreventivo.Name = "chbMttoPreventivo";
+            chbMttoPreventivo.Size = new Size(188, 20);
+            chbMttoPreventivo.TabIndex = 5;
+            chbMttoPreventivo.Text = "Mantenimiento Preventivo";
+            chbMttoPreventivo.UseVisualStyleBackColor = true;
+            chbMttoPreventivo.CheckedChanged += chbMttoPreventivo_CheckedChanged;
             // 
             // chbInventarioMaquinas
             // 
@@ -1322,6 +1337,18 @@
             panel13.Name = "panel13";
             panel13.Size = new Size(240, 240);
             panel13.TabIndex = 15;
+            // 
+            // chbEliminarFamilias
+            // 
+            chbEliminarFamilias.AutoSize = true;
+            chbEliminarFamilias.Font = new Font("Montserrat", 9F);
+            chbEliminarFamilias.ForeColor = Color.White;
+            chbEliminarFamilias.Location = new Point(15, 74);
+            chbEliminarFamilias.Name = "chbEliminarFamilias";
+            chbEliminarFamilias.Size = new Size(129, 20);
+            chbEliminarFamilias.TabIndex = 9;
+            chbEliminarFamilias.Text = "Eliminar Familias";
+            chbEliminarFamilias.UseVisualStyleBackColor = true;
             // 
             // label14
             // 
@@ -1547,18 +1574,6 @@
             label8.TabIndex = 3;
             label8.Text = "Usuario:";
             // 
-            // chbEliminarFamilias
-            // 
-            chbEliminarFamilias.AutoSize = true;
-            chbEliminarFamilias.Font = new Font("Montserrat", 9F);
-            chbEliminarFamilias.ForeColor = Color.White;
-            chbEliminarFamilias.Location = new Point(15, 74);
-            chbEliminarFamilias.Name = "chbEliminarFamilias";
-            chbEliminarFamilias.Size = new Size(129, 20);
-            chbEliminarFamilias.TabIndex = 9;
-            chbEliminarFamilias.Text = "Eliminar Familias";
-            chbEliminarFamilias.UseVisualStyleBackColor = true;
-            // 
             // SistemasPermisos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1726,5 +1741,6 @@
         private Label label14;
         private CheckBox chbAdminOP;
         private CheckBox chbEliminarFamilias;
+        private CheckBox chbMttoPreventivo;
     }
 }

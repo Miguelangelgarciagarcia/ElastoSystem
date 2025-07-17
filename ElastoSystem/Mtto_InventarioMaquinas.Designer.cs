@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             panel5 = new Panel();
             lblID = new Label();
@@ -69,7 +69,7 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Montserrat", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Montserrat", 24F, FontStyle.Bold);
             label1.ForeColor = Color.White;
             label1.Location = new Point(37, 31);
             label1.Name = "label1";
@@ -112,7 +112,7 @@
             // 
             lblID.AutoSize = true;
             lblID.BackColor = Color.Transparent;
-            lblID.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            lblID.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             lblID.ForeColor = Color.White;
             lblID.Location = new Point(220, 16);
             lblID.Name = "lblID";
@@ -127,7 +127,7 @@
             btnCargarImagen.Cursor = Cursors.Hand;
             btnCargarImagen.FlatAppearance.BorderSize = 0;
             btnCargarImagen.FlatStyle = FlatStyle.Flat;
-            btnCargarImagen.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCargarImagen.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnCargarImagen.ForeColor = Color.White;
             btnCargarImagen.Location = new Point(358, 436);
             btnCargarImagen.Name = "btnCargarImagen";
@@ -140,7 +140,7 @@
             // chbIndicador
             // 
             chbIndicador.AutoSize = true;
-            chbIndicador.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            chbIndicador.Font = new Font("Montserrat", 12F);
             chbIndicador.ForeColor = Color.White;
             chbIndicador.Location = new Point(448, 269);
             chbIndicador.Name = "chbIndicador";
@@ -162,7 +162,7 @@
             // cbEstatus
             // 
             cbEstatus.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbEstatus.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            cbEstatus.Font = new Font("Montserrat", 11F);
             cbEstatus.FormattingEnabled = true;
             cbEstatus.Items.AddRange(new object[] { "ACTIVA", "INACTIVA" });
             cbEstatus.Location = new Point(185, 183);
@@ -174,7 +174,7 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             label2.ForeColor = Color.White;
             label2.Location = new Point(24, 318);
             label2.Name = "label2";
@@ -185,7 +185,7 @@
             // chbMantenimiento
             // 
             chbMantenimiento.AutoSize = true;
-            chbMantenimiento.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            chbMantenimiento.Font = new Font("Montserrat", 12F);
             chbMantenimiento.ForeColor = Color.White;
             chbMantenimiento.Location = new Point(244, 269);
             chbMantenimiento.Name = "chbMantenimiento";
@@ -198,7 +198,7 @@
             // 
             label9.AutoSize = true;
             label9.BackColor = Color.Transparent;
-            label9.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            label9.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             label9.ForeColor = Color.White;
             label9.Location = new Point(26, 186);
             label9.Name = "label9";
@@ -209,7 +209,7 @@
             // chbOrdenTrabajo
             // 
             chbOrdenTrabajo.AutoSize = true;
-            chbOrdenTrabajo.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            chbOrdenTrabajo.Font = new Font("Montserrat", 12F);
             chbOrdenTrabajo.ForeColor = Color.White;
             chbOrdenTrabajo.Location = new Point(26, 269);
             chbOrdenTrabajo.Name = "chbOrdenTrabajo";
@@ -224,7 +224,7 @@
             btnModificar.Cursor = Cursors.Hand;
             btnModificar.FlatAppearance.BorderSize = 0;
             btnModificar.FlatStyle = FlatStyle.Flat;
-            btnModificar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnModificar.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnModificar.ForeColor = Color.White;
             btnModificar.Location = new Point(209, 606);
             btnModificar.Name = "btnModificar";
@@ -239,7 +239,7 @@
             // 
             label8.AutoSize = true;
             label8.BackColor = Color.Transparent;
-            label8.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.Font = new Font("Montserrat", 14F, FontStyle.Bold);
             label8.ForeColor = Color.White;
             label8.Location = new Point(24, 229);
             label8.Name = "label8";
@@ -253,7 +253,7 @@
             btnEliminar.Cursor = Cursors.Hand;
             btnEliminar.FlatAppearance.BorderSize = 0;
             btnEliminar.FlatStyle = FlatStyle.Flat;
-            btnEliminar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEliminar.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnEliminar.ForeColor = Color.White;
             btnEliminar.Location = new Point(33, 606);
             btnEliminar.Name = "btnEliminar";
@@ -270,7 +270,7 @@
             btnNueva.Cursor = Cursors.Hand;
             btnNueva.FlatAppearance.BorderSize = 0;
             btnNueva.FlatStyle = FlatStyle.Flat;
-            btnNueva.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnNueva.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnNueva.ForeColor = Color.White;
             btnNueva.Location = new Point(443, 16);
             btnNueva.Name = "btnNueva";
@@ -284,7 +284,7 @@
             // cbUbicacion
             // 
             cbUbicacion.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbUbicacion.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            cbUbicacion.Font = new Font("Montserrat", 11F);
             cbUbicacion.FormattingEnabled = true;
             cbUbicacion.Items.AddRange(new object[] { "NAVE 1", "NAVE 2" });
             cbUbicacion.Location = new Point(185, 148);
@@ -294,7 +294,7 @@
             // 
             // txbNumeroSerie
             // 
-            txbNumeroSerie.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNumeroSerie.Font = new Font("Montserrat", 11F);
             txbNumeroSerie.Location = new Point(185, 117);
             txbNumeroSerie.Name = "txbNumeroSerie";
             txbNumeroSerie.Size = new Size(389, 25);
@@ -304,7 +304,7 @@
             // 
             label7.AutoSize = true;
             label7.BackColor = Color.Transparent;
-            label7.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             label7.ForeColor = Color.White;
             label7.Location = new Point(24, 120);
             label7.Name = "label7";
@@ -316,7 +316,7 @@
             // 
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             label6.ForeColor = Color.White;
             label6.Location = new Point(26, 89);
             label6.Name = "label6";
@@ -328,7 +328,7 @@
             // 
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
-            label5.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            label5.Font = new Font("Montserrat", 14F, FontStyle.Bold);
             label5.ForeColor = Color.White;
             label5.Location = new Point(24, 19);
             label5.Name = "label5";
@@ -340,7 +340,7 @@
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             label3.ForeColor = Color.White;
             label3.Location = new Point(26, 58);
             label3.Name = "label3";
@@ -350,7 +350,7 @@
             // 
             // txbNombre
             // 
-            txbNombre.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            txbNombre.Font = new Font("Montserrat", 11F);
             txbNombre.Location = new Point(185, 55);
             txbNombre.Name = "txbNombre";
             txbNombre.Size = new Size(389, 25);
@@ -360,7 +360,7 @@
             // 
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             label4.ForeColor = Color.White;
             label4.Location = new Point(26, 151);
             label4.Name = "label4";
@@ -374,7 +374,7 @@
             btnAgregar.Cursor = Cursors.Hand;
             btnAgregar.FlatAppearance.BorderSize = 0;
             btnAgregar.FlatStyle = FlatStyle.Flat;
-            btnAgregar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnAgregar.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnAgregar.ForeColor = Color.White;
             btnAgregar.Location = new Point(422, 606);
             btnAgregar.Name = "btnAgregar";
@@ -386,7 +386,7 @@
             // 
             // txbModelo
             // 
-            txbModelo.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            txbModelo.Font = new Font("Montserrat", 11F);
             txbModelo.Location = new Point(185, 86);
             txbModelo.Name = "txbModelo";
             txbModelo.Size = new Size(389, 25);
@@ -398,44 +398,43 @@
             dgvBD.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvBD.BackgroundColor = Color.FromArgb(205, 215, 224);
             dgvBD.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = Color.White;
-            dataGridViewCellStyle9.Font = new Font("Montserrat ExtraBold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle9.ForeColor = Color.Black;
-            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle9.SelectionForeColor = Color.White;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            dgvBD.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat ExtraBold", 12F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvBD.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvBD.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle10.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle10.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.False;
-            dgvBD.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvBD.DefaultCellStyle = dataGridViewCellStyle2;
             dgvBD.GridColor = SystemColors.ActiveCaptionText;
             dgvBD.Location = new Point(667, 146);
             dgvBD.Name = "dgvBD";
             dgvBD.ReadOnly = true;
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle11.Font = new Font("Montserrat", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle11.SelectionForeColor = Color.White;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dgvBD.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(205, 215, 224);
+            dataGridViewCellStyle3.Font = new Font("Montserrat", 8.999999F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvBD.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvBD.RowHeadersVisible = false;
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.BackColor = Color.White;
-            dataGridViewCellStyle12.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle12.ForeColor = Color.Black;
-            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle12.SelectionForeColor = Color.White;
-            dgvBD.RowsDefaultCellStyle = dataGridViewCellStyle12;
-            dgvBD.RowTemplate.Height = 25;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 11.25F);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvBD.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvBD.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvBD.Size = new Size(643, 619);
             dgvBD.TabIndex = 41;
@@ -445,7 +444,7 @@
             // 
             label10.AutoSize = true;
             label10.BackColor = Color.Transparent;
-            label10.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            label10.Font = new Font("Montserrat", 11F);
             label10.ForeColor = Color.White;
             label10.Location = new Point(667, 111);
             label10.Name = "label10";
@@ -455,7 +454,7 @@
             // 
             // txbBuscador
             // 
-            txbBuscador.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            txbBuscador.Font = new Font("Montserrat", 11F);
             txbBuscador.Location = new Point(756, 108);
             txbBuscador.Name = "txbBuscador";
             txbBuscador.Size = new Size(389, 25);
@@ -467,7 +466,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
-            ClientSize = new Size(1322, 792);
+            ClientSize = new Size(1322, 831);
             Controls.Add(label10);
             Controls.Add(txbBuscador);
             Controls.Add(dgvBD);

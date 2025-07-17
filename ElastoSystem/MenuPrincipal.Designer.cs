@@ -95,6 +95,7 @@
             dgvProductos = new DataGridView();
             dgv = new DataGridView();
             labelid = new Label();
+            btnMttoPreventivo = new Button();
             PBarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PBNaranja).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PBAzul).BeginInit();
@@ -233,7 +234,7 @@
             btnAjustes.FlatStyle = FlatStyle.Flat;
             btnAjustes.Font = new Font("Montserrat", 14F);
             btnAjustes.ForeColor = Color.White;
-            btnAjustes.Location = new Point(0, 1700);
+            btnAjustes.Location = new Point(0, 1733);
             btnAjustes.Name = "btnAjustes";
             btnAjustes.Padding = new Padding(50, 0, 0, 0);
             btnAjustes.Size = new Size(187, 56);
@@ -247,6 +248,7 @@
             // sbmMantenimiento
             // 
             sbmMantenimiento.BackColor = Color.FromArgb(3, 52, 92);
+            sbmMantenimiento.Controls.Add(btnMttoPreventivo);
             sbmMantenimiento.Controls.Add(btnInventarioMaquinas);
             sbmMantenimiento.Controls.Add(btnHistoricoMtto);
             sbmMantenimiento.Controls.Add(btnPendientesMtto);
@@ -254,7 +256,7 @@
             sbmMantenimiento.Dock = DockStyle.Top;
             sbmMantenimiento.Location = new Point(0, 1547);
             sbmMantenimiento.Name = "sbmMantenimiento";
-            sbmMantenimiento.Size = new Size(187, 153);
+            sbmMantenimiento.Size = new Size(187, 186);
             sbmMantenimiento.TabIndex = 17;
             // 
             // btnInventarioMaquinas
@@ -728,7 +730,7 @@
             // 
             panel1.Controls.Add(btninfo);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 1756);
+            panel1.Location = new Point(0, 1789);
             panel1.Name = "panel1";
             panel1.Size = new Size(187, 56);
             panel1.TabIndex = 0;
@@ -1239,6 +1241,25 @@
             labelid.Visible = false;
             labelid.TextChanged += labelrol_TextChanged;
             // 
+            // btnMttoPreventivo
+            // 
+            btnMttoPreventivo.Dock = DockStyle.Top;
+            btnMttoPreventivo.Enabled = false;
+            btnMttoPreventivo.FlatAppearance.BorderSize = 0;
+            btnMttoPreventivo.FlatStyle = FlatStyle.Flat;
+            btnMttoPreventivo.Font = new Font("Montserrat", 10F);
+            btnMttoPreventivo.ForeColor = Color.White;
+            btnMttoPreventivo.Location = new Point(0, 144);
+            btnMttoPreventivo.Name = "btnMttoPreventivo";
+            btnMttoPreventivo.Padding = new Padding(20, 0, 0, 0);
+            btnMttoPreventivo.Size = new Size(187, 36);
+            btnMttoPreventivo.TabIndex = 7;
+            btnMttoPreventivo.Text = "Mantto Preventivo";
+            btnMttoPreventivo.TextAlign = ContentAlignment.MiddleLeft;
+            btnMttoPreventivo.UseVisualStyleBackColor = true;
+            btnMttoPreventivo.Visible = false;
+            btnMttoPreventivo.Click += btnMttoPreventivo_Click;
+            // 
             // MenuPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1350,5 +1371,6 @@
         private Button btnAdministrarProcesos;
         private Button btnOrdenProduccion;
         private Button btnAjustes;
+        private Button btnMttoPreventivo;
     }
 }

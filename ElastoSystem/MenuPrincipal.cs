@@ -54,7 +54,7 @@ namespace ElastoSystem
                                 Maquinado, 
                                     Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, 
                                 Mantenimiento, 
-                                    SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas,
+                                    SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas, Mtto_Preventivo,
                                 Ajustes
                                 FROM elastosystem_permisos_menu WHERE ID = @idmenu";
                 cmd.CommandText = query;
@@ -335,6 +335,12 @@ namespace ElastoSystem
                             btnInventarioMaquinas.Enabled = true;
                             btnInventarioMaquinas.Visible = true;
                         }
+                        string mantenimientopreventivoValue = reader["Mtto_Preventivo"].ToString();
+                        if (mantenimientopreventivoValue == "True")
+                        {
+                            btnMttoPreventivo.Enabled = true;
+                            btnMttoPreventivo.Visible = true;
+                        }
                     }
 
                     string ajustesValue = reader["Ajustes"].ToString();
@@ -411,7 +417,7 @@ namespace ElastoSystem
                 try
                 {
                     List<string> correosDestino = new List<string>();
-                    using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                    using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                     {
                         conn.Open();
                         string query = "SELECT Correo FROM elastosystem_ajustes_correos WHERE Area = @AREA";
@@ -427,7 +433,7 @@ namespace ElastoSystem
                         }
                     }
 
-                    if(correosDestino.Count == 0)
+                    if (correosDestino.Count == 0)
                     {
                         MessageBox.Show("No hay correos configurados para enviar notificacion de insumos del almacen.");
                         return;
@@ -448,7 +454,7 @@ namespace ElastoSystem
                         Body = ConstruirCuerpoCorreoHTML(dt)
                     };
 
-                    foreach(string correo in correosDestino)
+                    foreach (string correo in correosDestino)
                     {
                         mailMessage.To.Add(correo);
                     }
@@ -910,6 +916,12 @@ namespace ElastoSystem
         private void btnAjustes_Click(object sender, EventArgs e)
         {
             openChildForm(new Ajustes());
+            HideSubMenu();
+        }
+
+        private void btnMttoPreventivo_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Mtto_ManttoPreventivo());
             HideSubMenu();
         }
     }
