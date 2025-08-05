@@ -18,6 +18,19 @@ namespace ElastoSystem
         public Compras_RequisicionMaterial()
         {
             InitializeComponent();
+            ConfigurarDGV();
+        }
+
+        private void ConfigurarDGV()
+        {
+            dgvCotizaciones.ColumnHeadersVisible = false;
+
+            dgvCotizaciones.Columns.Add("Nombre", "Nombre del Archivo");
+            dgvCotizaciones.Columns.Add("Ruta", "Ruta del Archivo");
+            dgvCotizaciones.Columns.Add("Tamano", "Tamano (bytes)");
+
+            dgvCotizaciones.Columns[1].Visible = false;
+            dgvCotizaciones.Columns[2].Visible = false;
         }
 
         private void AgregarADgv()
@@ -441,7 +454,6 @@ namespace ElastoSystem
             if(file.ShowDialog() == DialogResult.OK)
             {
                 string filePath = file.FileName;
-
                 string fileName = Path.GetFileName(filePath);
 
                 txbNombreArchivo.Text = fileName;
@@ -450,6 +462,7 @@ namespace ElastoSystem
                 try
                 {
                     archivoByte = File.ReadAllBytes(filePath);
+                    AgregarCotizacionAlGrid(fileName, filePath, archivoByte);
                     MessageBox.Show("Archivo cargado correctamente");
                 }
                 catch(Exception ex)
@@ -461,6 +474,11 @@ namespace ElastoSystem
             {
                 MessageBox.Show("No se selecciono ningun archivo");
             }
+        }
+
+        private void AgregarCotizacionAlGrid(string fileName, string filePath, byte[] fileBytes)
+        {
+            dgvCotizaciones.Rows.Add(fileName, filePath, fileBytes);
         }
     }
 }

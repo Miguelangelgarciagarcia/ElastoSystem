@@ -466,7 +466,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
-            ClientSize = new Size(1322, 831);
+            ClientSize = new Size(1338, 831);
             Controls.Add(label10);
             Controls.Add(txbBuscador);
             Controls.Add(dgvBD);

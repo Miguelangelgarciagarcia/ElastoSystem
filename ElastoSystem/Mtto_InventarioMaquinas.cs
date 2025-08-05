@@ -128,6 +128,20 @@ namespace ElastoSystem
                 try
                 {
                     conn.Open();
+
+                    string nombreOriginal = "";
+                    using (MySqlCommand cmdSelect = new MySqlCommand("SELECT Nombre FROM elastosystem_mtto_inventariomaquinas WHERE ID = @ID", conn))
+                    {
+                        cmdSelect.Parameters.AddWithValue("@ID", lblID.Text);
+                        using (MySqlDataReader reader = cmdSelect.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                nombreOriginal = reader["Nombre"].ToString();
+                            }
+                        }
+                    }
+
                     string query;
                     MySqlCommand cmd = new MySqlCommand();
                     bool boolordentrabajo = chbOrdenTrabajo.Checked;
@@ -170,7 +184,15 @@ namespace ElastoSystem
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
 
+                    if(nombreOriginal != txbNombre.Text.Trim())
+                    {
+                        ActualizarReferenciasEnOtrasTablas(nombreOriginal, txbNombre.Text.Trim());
+                    }
+
                     MessageBox.Show("Maquina " + txbNombre.Text + " modificada con exito.");
+                    MandarALlamarBDInventarioMaquinas();
+                    Limpiar();
+                    btnNueva.PerformClick();
                 }
                 catch (Exception ex)
                 {
@@ -180,9 +202,47 @@ namespace ElastoSystem
                 {
                     conn.Close();
                 }
-                MandarALlamarBDInventarioMaquinas();
-                Limpiar();
-                btnNueva.PerformClick();
+            }
+        }
+
+        private void ActualizarReferenciasEnOtrasTablas(string nombreOriginal, string nombreNuevo)
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string queryActividades = "UPDATE elastosystem_mtto_actividadesxactivo " +
+                                                "SET Activo = @NOMBRE_NUEVO " +
+                                                "WHERE Tipo = 'MAQUINA' AND Activo = @NOMBRE_ORIGINAL";
+
+                    using(MySqlCommand cmdActividades = new MySqlCommand(queryActividades, conn))
+                    {
+                        cmdActividades.Parameters.AddWithValue("@NOMBRE_NUEVO", nombreNuevo);
+                        cmdActividades.Parameters.AddWithValue("@NOMBRE_ORIGINAL", nombreOriginal);
+                        int registrosActividades = cmdActividades.ExecuteNonQuery();
+                    }
+
+                    string queryHistorial = "UPDATE elastosystem_mtto_preventivohistorial " +
+                                                "SET Activo = @NOMBRE_NUEVO " +
+                                                "WHERE Tipo = 'MAQUINA' AND Activo = @NOMBRE_ORIGINAL";
+
+                    using(MySqlCommand cmdHistorial = new MySqlCommand(queryHistorial, conn))
+                    {
+                        cmdHistorial.Parameters.AddWithValue("@NOMBRE_NUEVO", nombreNuevo);
+                        cmdHistorial.Parameters.AddWithValue("@NOMBRE_ORIGINAL", nombreOriginal);
+                        int registrosHistorial = cmdHistorial.ExecuteNonQuery();
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ACTUALIZAR REFERENCIAS: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
             }
         }
         private void Limpiar()
