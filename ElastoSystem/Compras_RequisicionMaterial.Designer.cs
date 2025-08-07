@@ -39,8 +39,6 @@
             label5 = new Label();
             panel5 = new Panel();
             dgvCotizaciones = new DataGridView();
-            txbRutaArchivo = new TextBox();
-            txbNombreArchivo = new TextBox();
             btnCargarCotizacion = new Button();
             chbCompraOnline = new CheckBox();
             cbTipoUso = new ComboBox();
@@ -65,6 +63,8 @@
             panel1 = new Panel();
             label14 = new Label();
             dgvListaMateriales = new DataGridView();
+            btnRequerimiento = new Button();
+            lblFolioREQ = new Label();
             Descripcion = new DataGridViewTextBoxColumn();
             Cantidad = new DataGridViewTextBoxColumn();
             Unidad = new DataGridViewTextBoxColumn();
@@ -76,8 +76,12 @@
             Cotizacion = new DataGridViewTextBoxColumn();
             Nombre = new DataGridViewTextBoxColumn();
             Ruta = new DataGridViewTextBoxColumn();
-            btnRequerimiento = new Button();
-            lblFolioREQ = new Label();
+            Cotizacion2 = new DataGridViewTextBoxColumn();
+            Nombre2 = new DataGridViewTextBoxColumn();
+            Ruta2 = new DataGridViewTextBoxColumn();
+            Cotizacion3 = new DataGridViewTextBoxColumn();
+            Nombre3 = new DataGridViewTextBoxColumn();
+            Ruta3 = new DataGridViewTextBoxColumn();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCotizaciones).BeginInit();
             panel1.SuspendLayout();
@@ -149,8 +153,6 @@
             // 
             panel5.BackColor = Color.FromArgb(3, 42, 76);
             panel5.Controls.Add(dgvCotizaciones);
-            panel5.Controls.Add(txbRutaArchivo);
-            panel5.Controls.Add(txbNombreArchivo);
             panel5.Controls.Add(btnCargarCotizacion);
             panel5.Controls.Add(chbCompraOnline);
             panel5.Controls.Add(cbTipoUso);
@@ -206,26 +208,7 @@
             dgvCotizaciones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvCotizaciones.Size = new Size(287, 80);
             dgvCotizaciones.TabIndex = 30;
-            // 
-            // txbRutaArchivo
-            // 
-            txbRutaArchivo.Font = new Font("Montserrat", 12F);
-            txbRutaArchivo.Location = new Point(501, 607);
-            txbRutaArchivo.Name = "txbRutaArchivo";
-            txbRutaArchivo.ReadOnly = true;
-            txbRutaArchivo.Size = new Size(34, 27);
-            txbRutaArchivo.TabIndex = 31;
-            txbRutaArchivo.Visible = false;
-            // 
-            // txbNombreArchivo
-            // 
-            txbNombreArchivo.Font = new Font("Montserrat", 12F);
-            txbNombreArchivo.Location = new Point(334, 607);
-            txbNombreArchivo.Name = "txbNombreArchivo";
-            txbNombreArchivo.ReadOnly = true;
-            txbNombreArchivo.Size = new Size(161, 27);
-            txbNombreArchivo.TabIndex = 30;
-            txbNombreArchivo.Visible = false;
+            dgvCotizaciones.CellDoubleClick += dgvCotizaciones_CellDoubleClick;
             // 
             // btnCargarCotizacion
             // 
@@ -525,7 +508,7 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
             dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvListaMateriales.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Onlinea, Cotizacion, Nombre, Ruta });
+            dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Onlinea, Cotizacion, Nombre, Ruta, Cotizacion2, Nombre2, Ruta2, Cotizacion3, Nombre3, Ruta3 });
             dgvListaMateriales.Location = new Point(16, 36);
             dgvListaMateriales.Name = "dgvListaMateriales";
             dgvListaMateriales.ReadOnly = true;
@@ -541,6 +524,34 @@
             dgvListaMateriales.Size = new Size(688, 565);
             dgvListaMateriales.TabIndex = 19;
             dgvListaMateriales.DoubleClick += dgvListaMateriales_DoubleClick;
+            // 
+            // btnRequerimiento
+            // 
+            btnRequerimiento.BackColor = Color.FromArgb(255, 102, 0);
+            btnRequerimiento.Cursor = Cursors.Hand;
+            btnRequerimiento.FlatAppearance.BorderSize = 0;
+            btnRequerimiento.FlatStyle = FlatStyle.Flat;
+            btnRequerimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            btnRequerimiento.ForeColor = Color.White;
+            btnRequerimiento.Location = new Point(684, 740);
+            btnRequerimiento.Name = "btnRequerimiento";
+            btnRequerimiento.Size = new Size(549, 42);
+            btnRequerimiento.TabIndex = 13;
+            btnRequerimiento.Text = "ENVIAR REQUERIMIENTO";
+            btnRequerimiento.UseVisualStyleBackColor = false;
+            btnRequerimiento.Click += button1_Click_1;
+            // 
+            // lblFolioREQ
+            // 
+            lblFolioREQ.AutoSize = true;
+            lblFolioREQ.BackColor = Color.Transparent;
+            lblFolioREQ.Font = new Font("Montserrat", 16F, FontStyle.Bold);
+            lblFolioREQ.ForeColor = Color.White;
+            lblFolioREQ.Location = new Point(1132, 42);
+            lblFolioREQ.Name = "lblFolioREQ";
+            lblFolioREQ.Size = new Size(101, 30);
+            lblFolioREQ.TabIndex = 29;
+            lblFolioREQ.Text = "240000";
             // 
             // Descripcion
             // 
@@ -612,33 +623,47 @@
             Ruta.ReadOnly = true;
             Ruta.Visible = false;
             // 
-            // btnRequerimiento
+            // Cotizacion2
             // 
-            btnRequerimiento.BackColor = Color.FromArgb(255, 102, 0);
-            btnRequerimiento.Cursor = Cursors.Hand;
-            btnRequerimiento.FlatAppearance.BorderSize = 0;
-            btnRequerimiento.FlatStyle = FlatStyle.Flat;
-            btnRequerimiento.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            btnRequerimiento.ForeColor = Color.White;
-            btnRequerimiento.Location = new Point(684, 740);
-            btnRequerimiento.Name = "btnRequerimiento";
-            btnRequerimiento.Size = new Size(549, 42);
-            btnRequerimiento.TabIndex = 13;
-            btnRequerimiento.Text = "ENVIAR REQUERIMIENTO";
-            btnRequerimiento.UseVisualStyleBackColor = false;
-            btnRequerimiento.Click += button1_Click_1;
+            Cotizacion2.HeaderText = "Cotizacion2";
+            Cotizacion2.Name = "Cotizacion2";
+            Cotizacion2.ReadOnly = true;
+            Cotizacion2.Visible = false;
             // 
-            // lblFolioREQ
+            // Nombre2
             // 
-            lblFolioREQ.AutoSize = true;
-            lblFolioREQ.BackColor = Color.Transparent;
-            lblFolioREQ.Font = new Font("Montserrat", 16F, FontStyle.Bold);
-            lblFolioREQ.ForeColor = Color.White;
-            lblFolioREQ.Location = new Point(1132, 42);
-            lblFolioREQ.Name = "lblFolioREQ";
-            lblFolioREQ.Size = new Size(101, 30);
-            lblFolioREQ.TabIndex = 29;
-            lblFolioREQ.Text = "240000";
+            Nombre2.HeaderText = "Nombre2";
+            Nombre2.Name = "Nombre2";
+            Nombre2.ReadOnly = true;
+            Nombre2.Visible = false;
+            // 
+            // Ruta2
+            // 
+            Ruta2.HeaderText = "Ruta2";
+            Ruta2.Name = "Ruta2";
+            Ruta2.ReadOnly = true;
+            Ruta2.Visible = false;
+            // 
+            // Cotizacion3
+            // 
+            Cotizacion3.HeaderText = "Cotizacion3";
+            Cotizacion3.Name = "Cotizacion3";
+            Cotizacion3.ReadOnly = true;
+            Cotizacion3.Visible = false;
+            // 
+            // Nombre3
+            // 
+            Nombre3.HeaderText = "Nombre3";
+            Nombre3.Name = "Nombre3";
+            Nombre3.ReadOnly = true;
+            Nombre3.Visible = false;
+            // 
+            // Ruta3
+            // 
+            Ruta3.HeaderText = "Ruta3";
+            Ruta3.Name = "Ruta3";
+            Ruta3.ReadOnly = true;
+            Ruta3.Visible = false;
             // 
             // Compras_RequisicionMaterial
             // 
@@ -703,8 +728,7 @@
         private Label lblFolioREQ;
         private CheckBox chbCompraOnline;
         private Button btnCargarCotizacion;
-        private TextBox txbNombreArchivo;
-        private TextBox txbRutaArchivo;
+        private DataGridView dgvCotizaciones;
         private DataGridViewTextBoxColumn Descripcion;
         private DataGridViewTextBoxColumn Cantidad;
         private DataGridViewTextBoxColumn Unidad;
@@ -716,6 +740,11 @@
         private DataGridViewTextBoxColumn Cotizacion;
         private DataGridViewTextBoxColumn Nombre;
         private DataGridViewTextBoxColumn Ruta;
-        private DataGridView dgvCotizaciones;
+        private DataGridViewTextBoxColumn Cotizacion2;
+        private DataGridViewTextBoxColumn Nombre2;
+        private DataGridViewTextBoxColumn Ruta2;
+        private DataGridViewTextBoxColumn Cotizacion3;
+        private DataGridViewTextBoxColumn Nombre3;
+        private DataGridViewTextBoxColumn Ruta3;
     }
 }

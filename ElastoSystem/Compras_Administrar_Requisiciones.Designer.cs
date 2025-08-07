@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Compras_Administrar_Requisiciones));
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             txbTexto = new TextBox();
             txbFolio = new TextBox();
             label1 = new Label();
@@ -118,6 +118,12 @@
             label22 = new Label();
             tabControl1 = new TabControl();
             tabAgregarPartidas = new TabPage();
+            txbNombreCotizacion3 = new TextBox();
+            txbRutaCotizacion3 = new TextBox();
+            btnDescargarCotizacion3 = new Button();
+            txbNombreCotizacion2 = new TextBox();
+            txbRutaCotizacion2 = new TextBox();
+            btnDescargarCotizacion2 = new Button();
             txbNombreCotizacion = new TextBox();
             txbRutaCotizacion = new TextBox();
             label29 = new Label();
@@ -271,26 +277,26 @@
             dgvRequisicions.AllowUserToAddRows = false;
             dgvRequisicions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvRequisicions.BackgroundColor = Color.White;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle7.BackColor = Color.White;
-            dataGridViewCellStyle7.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
-            dataGridViewCellStyle7.ForeColor = Color.Black;
-            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle7.SelectionForeColor = Color.White;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dgvRequisicions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvRequisicions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvRequisicions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvRequisicions.Location = new Point(22, 63);
             dgvRequisicions.Name = "dgvRequisicions";
             dgvRequisicions.ReadOnly = true;
             dgvRequisicions.RowHeadersVisible = false;
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = Color.White;
-            dataGridViewCellStyle8.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle8.ForeColor = Color.Black;
-            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle8.SelectionForeColor = Color.White;
-            dgvRequisicions.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dgvRequisicions.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvRequisicions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvRequisicions.Size = new Size(552, 140);
             dgvRequisicions.TabIndex = 21;
@@ -338,26 +344,26 @@
             dgvPartidas.AllowUserToAddRows = false;
             dgvPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPartidas.BackgroundColor = Color.White;
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle9.BackColor = Color.White;
-            dataGridViewCellStyle9.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
-            dataGridViewCellStyle9.ForeColor = Color.Black;
-            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle9.SelectionForeColor = Color.White;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            dgvPartidas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvPartidas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvPartidas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPartidas.Location = new Point(19, 55);
             dgvPartidas.Name = "dgvPartidas";
             dgvPartidas.ReadOnly = true;
             dgvPartidas.RowHeadersVisible = false;
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.BackColor = Color.White;
-            dataGridViewCellStyle10.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle10.ForeColor = Color.Black;
-            dataGridViewCellStyle10.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle10.SelectionForeColor = Color.White;
-            dgvPartidas.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvPartidas.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvPartidas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPartidas.Size = new Size(621, 148);
             dgvPartidas.TabIndex = 20;
@@ -960,14 +966,14 @@
             dgvListaMateriales.AllowUserToAddRows = false;
             dgvListaMateriales.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvListaMateriales.BackgroundColor = Color.White;
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle11.BackColor = Color.White;
-            dataGridViewCellStyle11.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
-            dataGridViewCellStyle11.ForeColor = Color.Black;
-            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle11.SelectionForeColor = Color.White;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle5.BackColor = Color.White;
+            dataGridViewCellStyle5.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
+            dataGridViewCellStyle5.ForeColor = Color.Black;
+            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvListaMateriales.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Partida, ID, Cantidad, Unidad, Descripcion, Precio, Importe, Requisicion });
             dgvListaMateriales.Enabled = false;
@@ -975,13 +981,13 @@
             dgvListaMateriales.Name = "dgvListaMateriales";
             dgvListaMateriales.ReadOnly = true;
             dgvListaMateriales.RowHeadersVisible = false;
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.BackColor = Color.White;
-            dataGridViewCellStyle12.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle12.ForeColor = Color.Black;
-            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle12.SelectionForeColor = Color.White;
-            dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle6.ForeColor = Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle6.SelectionForeColor = Color.White;
+            dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle6;
             dgvListaMateriales.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvListaMateriales.Size = new Size(864, 216);
             dgvListaMateriales.TabIndex = 25;
@@ -1167,6 +1173,12 @@
             // tabAgregarPartidas
             // 
             tabAgregarPartidas.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabAgregarPartidas.Controls.Add(txbNombreCotizacion3);
+            tabAgregarPartidas.Controls.Add(txbRutaCotizacion3);
+            tabAgregarPartidas.Controls.Add(btnDescargarCotizacion3);
+            tabAgregarPartidas.Controls.Add(txbNombreCotizacion2);
+            tabAgregarPartidas.Controls.Add(txbRutaCotizacion2);
+            tabAgregarPartidas.Controls.Add(btnDescargarCotizacion2);
             tabAgregarPartidas.Controls.Add(txbNombreCotizacion);
             tabAgregarPartidas.Controls.Add(txbRutaCotizacion);
             tabAgregarPartidas.Controls.Add(label29);
@@ -1207,10 +1219,80 @@
             tabAgregarPartidas.Text = "Agregar Partidas";
             tabAgregarPartidas.UseVisualStyleBackColor = true;
             // 
+            // txbNombreCotizacion3
+            // 
+            txbNombreCotizacion3.Font = new Font("Montserrat", 12F);
+            txbNombreCotizacion3.Location = new Point(846, 320);
+            txbNombreCotizacion3.Name = "txbNombreCotizacion3";
+            txbNombreCotizacion3.Size = new Size(21, 27);
+            txbNombreCotizacion3.TabIndex = 72;
+            txbNombreCotizacion3.Visible = false;
+            // 
+            // txbRutaCotizacion3
+            // 
+            txbRutaCotizacion3.Font = new Font("Montserrat", 12F);
+            txbRutaCotizacion3.Location = new Point(1151, 320);
+            txbRutaCotizacion3.Name = "txbRutaCotizacion3";
+            txbRutaCotizacion3.Size = new Size(19, 27);
+            txbRutaCotizacion3.TabIndex = 71;
+            txbRutaCotizacion3.Visible = false;
+            // 
+            // btnDescargarCotizacion3
+            // 
+            btnDescargarCotizacion3.BackColor = Color.FromArgb(255, 102, 0);
+            btnDescargarCotizacion3.Cursor = Cursors.Hand;
+            btnDescargarCotizacion3.FlatAppearance.BorderSize = 0;
+            btnDescargarCotizacion3.FlatStyle = FlatStyle.Flat;
+            btnDescargarCotizacion3.Font = new Font("Montserrat", 10F, FontStyle.Bold);
+            btnDescargarCotizacion3.ForeColor = Color.White;
+            btnDescargarCotizacion3.Location = new Point(873, 316);
+            btnDescargarCotizacion3.Name = "btnDescargarCotizacion3";
+            btnDescargarCotizacion3.Size = new Size(274, 38);
+            btnDescargarCotizacion3.TabIndex = 70;
+            btnDescargarCotizacion3.Text = "DESCARGAR COTIZACIÓN 3";
+            btnDescargarCotizacion3.UseVisualStyleBackColor = false;
+            btnDescargarCotizacion3.Visible = false;
+            btnDescargarCotizacion3.Click += btnDescargarCotizacion3_Click_1;
+            // 
+            // txbNombreCotizacion2
+            // 
+            txbNombreCotizacion2.Font = new Font("Montserrat", 12F);
+            txbNombreCotizacion2.Location = new Point(493, 320);
+            txbNombreCotizacion2.Name = "txbNombreCotizacion2";
+            txbNombreCotizacion2.Size = new Size(21, 27);
+            txbNombreCotizacion2.TabIndex = 69;
+            txbNombreCotizacion2.Visible = false;
+            // 
+            // txbRutaCotizacion2
+            // 
+            txbRutaCotizacion2.Font = new Font("Montserrat", 12F);
+            txbRutaCotizacion2.Location = new Point(798, 320);
+            txbRutaCotizacion2.Name = "txbRutaCotizacion2";
+            txbRutaCotizacion2.Size = new Size(19, 27);
+            txbRutaCotizacion2.TabIndex = 68;
+            txbRutaCotizacion2.Visible = false;
+            // 
+            // btnDescargarCotizacion2
+            // 
+            btnDescargarCotizacion2.BackColor = Color.FromArgb(255, 102, 0);
+            btnDescargarCotizacion2.Cursor = Cursors.Hand;
+            btnDescargarCotizacion2.FlatAppearance.BorderSize = 0;
+            btnDescargarCotizacion2.FlatStyle = FlatStyle.Flat;
+            btnDescargarCotizacion2.Font = new Font("Montserrat", 10F, FontStyle.Bold);
+            btnDescargarCotizacion2.ForeColor = Color.White;
+            btnDescargarCotizacion2.Location = new Point(520, 316);
+            btnDescargarCotizacion2.Name = "btnDescargarCotizacion2";
+            btnDescargarCotizacion2.Size = new Size(274, 38);
+            btnDescargarCotizacion2.TabIndex = 67;
+            btnDescargarCotizacion2.Text = "DESCARGAR COTIZACIÓN 2";
+            btnDescargarCotizacion2.UseVisualStyleBackColor = false;
+            btnDescargarCotizacion2.Visible = false;
+            btnDescargarCotizacion2.Click += btnDescargarCotizacion2_Click;
+            // 
             // txbNombreCotizacion
             // 
             txbNombreCotizacion.Font = new Font("Montserrat", 12F);
-            txbNombreCotizacion.Location = new Point(440, 313);
+            txbNombreCotizacion.Location = new Point(118, 319);
             txbNombreCotizacion.Name = "txbNombreCotizacion";
             txbNombreCotizacion.Size = new Size(21, 27);
             txbNombreCotizacion.TabIndex = 66;
@@ -1219,7 +1301,7 @@
             // txbRutaCotizacion
             // 
             txbRutaCotizacion.Font = new Font("Montserrat", 12F);
-            txbRutaCotizacion.Location = new Point(745, 313);
+            txbRutaCotizacion.Location = new Point(423, 319);
             txbRutaCotizacion.Name = "txbRutaCotizacion";
             txbRutaCotizacion.Size = new Size(19, 27);
             txbRutaCotizacion.TabIndex = 65;
@@ -1245,11 +1327,11 @@
             btnDescargarCotizacion.FlatStyle = FlatStyle.Flat;
             btnDescargarCotizacion.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             btnDescargarCotizacion.ForeColor = Color.White;
-            btnDescargarCotizacion.Location = new Point(467, 309);
+            btnDescargarCotizacion.Location = new Point(145, 315);
             btnDescargarCotizacion.Name = "btnDescargarCotizacion";
             btnDescargarCotizacion.Size = new Size(274, 38);
             btnDescargarCotizacion.TabIndex = 63;
-            btnDescargarCotizacion.Text = "DESCARGAR COTIZACIÓN";
+            btnDescargarCotizacion.Text = "DESCARGAR COTIZACIÓN 1";
             btnDescargarCotizacion.UseVisualStyleBackColor = false;
             btnDescargarCotizacion.Visible = false;
             btnDescargarCotizacion.Click += btnDescargarCotizacion_Click;
@@ -2058,5 +2140,11 @@
         private Label label29;
         private TextBox txbRutaCotizacion;
         private TextBox txbNombreCotizacion;
+        private TextBox txbNombreCotizacion3;
+        private TextBox txbRutaCotizacion3;
+        private Button btnDescargarCotizacion3;
+        private TextBox txbNombreCotizacion2;
+        private TextBox txbRutaCotizacion2;
+        private Button btnDescargarCotizacion2;
     }
 }

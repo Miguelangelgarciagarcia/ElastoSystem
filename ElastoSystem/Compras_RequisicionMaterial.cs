@@ -49,10 +49,23 @@ namespace ElastoSystem
             string tipouso = cbTipoUso.Text;
             string comentarios = txbNotas.Text;
             bool chbOnline = chbCompraOnline.Checked;
-            string nombreArchivo = txbNombreArchivo.Text;
-            string rutaArchivo = txbRutaArchivo.Text;
 
-            dgvListaMateriales.Rows.Add(descripcion, cantidad, unidad, precio, proveedor, tipouso, comentarios, chbOnline, archivoByte, nombreArchivo, rutaArchivo);
+            List<object> rowData = new List<object>
+            {
+                descripcion, cantidad, unidad, precio, proveedor, tipouso, comentarios, chbOnline
+            };
+
+            for(int i = 0; i < dgvCotizaciones.Rows.Count; i++)
+            {
+                if (dgvCotizaciones.Rows[i].Cells[0].Value != null)
+                {
+                    rowData.Add(dgvCotizaciones.Rows[i].Cells[2].Value);
+                    rowData.Add(dgvCotizaciones.Rows[i].Cells[0].Value);
+                    rowData.Add(dgvCotizaciones.Rows[i].Cells[1].Value);
+                }
+            }
+
+            dgvListaMateriales.Rows.Add(rowData.ToArray());
 
             txbDescripcion.Clear();
             txbCantidad.Clear();
@@ -62,9 +75,9 @@ namespace ElastoSystem
             cbTipoUso.Text = null;
             txbNotas.Clear();
             chbCompraOnline.Checked = false;
-            txbNombreArchivo.Clear();
-            txbRutaArchivo.Clear();
             archivoByte = null;
+            dgvCotizaciones.DataSource = null;
+            dgvCotizaciones.Rows.Clear();
         }
         private void Tabs()
         {
@@ -82,7 +95,7 @@ namespace ElastoSystem
             {
                 dgvListaMateriales.Rows.Remove(row);
             }
-            txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear(); txbNombreArchivo.Clear(); txbRutaArchivo.Clear(); archivoByte = null;
+            txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; cbTipoUso.Text = null; txbNotas.Clear(); dgvCotizaciones.DataSource = null; dgvCotizaciones.Rows.Clear(); archivoByte = null;
             btnEliminar.Visible = false;
             btnModificar.Visible = false;
             btnAgregar.Visible = true;
@@ -91,15 +104,15 @@ namespace ElastoSystem
         }
         private void Nuevo()
         {
-            txbDescripcion.Clear(); 
-            txbCantidad.Clear(); 
-            cbUnidad.Text = null; 
-            txbPrecio.Clear(); 
-            cbProveedor.Text = null; 
-            cbTipoUso.Text = null; 
+            txbDescripcion.Clear();
+            txbCantidad.Clear();
+            cbUnidad.Text = null;
+            txbPrecio.Clear();
+            cbProveedor.Text = null;
+            cbTipoUso.Text = null;
             txbNotas.Clear();
-            txbNombreArchivo.Clear();
-            txbRutaArchivo.Clear();
+            dgvCotizaciones.DataSource = null;
+            dgvCotizaciones.Rows.Clear();
             archivoByte = null;
             btnEliminar.Visible = false;
             btnModificar.Visible = false;
@@ -231,6 +244,7 @@ namespace ElastoSystem
                     cmd.ExecuteNonQuery();
                     EnviarRequisicionDesglosada();
                     txbDescripcion.Clear(); txbCantidad.Clear(); cbUnidad.Text = null; txbPrecio.Clear(); cbProveedor.Text = null; dgvListaMateriales.Rows.Clear(); txbNotas.Clear(); cbTipoUso.Text = null;
+                    dgvCotizaciones.DataSource = null; dgvCotizaciones.Rows.Clear(); archivoByte = null;
                     MessageBox.Show("Orden: " + lblFolioREQ.Text + " enviada con exito");
                     Folio();
                 }
@@ -257,10 +271,21 @@ namespace ElastoSystem
                 string estatus = "ABIERTA";
                 bool online = Convert.ToBoolean(dgvListaMateriales.Rows[i].Cells["Onlinea"].Value);
                 int valorOnline = online ? 1 : 0;
+
                 object cotizacion1 = dgvListaMateriales.Rows[i].Cells["Cotizacion"].Value;
-                byte[] archivo = cotizacion1 != null ? (byte[])cotizacion1 : null;
-                object rutaCotizacionObj = dgvListaMateriales.Rows[i].Cells["Ruta"].Value;
-                string rutaCotizacion = rutaCotizacionObj != null ? rutaCotizacionObj.ToString() : string.Empty;
+                byte[] archivo1 = cotizacion1 != null ? (byte[])cotizacion1 : null;
+                object rutaCotizacionObj1 = dgvListaMateriales.Rows[i].Cells["Ruta"].Value;
+                string rutaCotizacion1 = rutaCotizacionObj1 != null ? rutaCotizacionObj1.ToString() : string.Empty;
+
+                object cotizacion2 = dgvListaMateriales.Rows[i].Cells["Cotizacion2"].Value;
+                byte[] archivo2 = cotizacion2 != null ? (byte[])cotizacion2 : null;
+                object rutaCotizacionObj2 = dgvListaMateriales.Rows[i].Cells["Ruta2"].Value;
+                string rutaCotizacion2 = rutaCotizacionObj2 != null ? rutaCotizacionObj2.ToString() : string.Empty;
+
+                object cotizacion3 = dgvListaMateriales.Rows[i].Cells["Cotizacion3"].Value;
+                byte[] archivo3 = cotizacion3 != null ? (byte[])cotizacion3 : null;
+                object rutaCotizacionObj3 = dgvListaMateriales.Rows[i].Cells["Ruta3"].Value;
+                string rutaCotizacion3 = rutaCotizacionObj3 != null ? rutaCotizacionObj3.ToString() : string.Empty;
 
                 using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                 {
@@ -269,8 +294,8 @@ namespace ElastoSystem
                     {
                         cmd.Connection = conn;
                         cmd.CommandText = @"INSERT INTO elastosystem_compras_requisicion_desglosada
-                            (ID, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Estatus, Compra_Online, FechaInicio, Cotizacion1, Ruta_Cotizacion1)
-                            VALUES (@ID, @DESCRIPCION, @CANTIDAD, @UNIDAD, @PRECIO, @PROVEEDOR, @TIPOUSO, @COMENTARIOS, @ESTATUS, @ONLINE, @FECHAINICIO, @COTIZACION1, @RUTACOTIZACION1);";
+                            (ID, Descripcion, Cantidad, Unidad, Precio, Proveedor, TipoUso, Comentarios, Estatus, Compra_Online, FechaInicio, Cotizacion1, Ruta_Cotizacion1, Cotizacion2, Ruta_Cotizacion2, Cotizacion3, Ruta_Cotizacion3)
+                            VALUES (@ID, @DESCRIPCION, @CANTIDAD, @UNIDAD, @PRECIO, @PROVEEDOR, @TIPOUSO, @COMENTARIOS, @ESTATUS, @ONLINE, @FECHAINICIO, @COTIZACION1, @RUTACOTIZACION1, @COTIZACION2, @RUTACOTIZACION2, @COTIZACION3, @RUTACOTIZACION3);";
 
                         cmd.Parameters.AddWithValue("@ID", lblFolio.Text);
                         cmd.Parameters.AddWithValue("@DESCRIPCION", descripcion);
@@ -284,15 +309,35 @@ namespace ElastoSystem
                         cmd.Parameters.AddWithValue("@ONLINE", valorOnline);
                         cmd.Parameters.AddWithValue("@FECHAINICIO", fechainicio);
 
-                        if(archivo != null)
-                            cmd.Parameters.Add("@COTIZACION1", MySqlDbType.LongBlob).Value = archivo;
+                        if (archivo1 != null)
+                            cmd.Parameters.Add("@COTIZACION1", MySqlDbType.LongBlob).Value = archivo1;
                         else
                             cmd.Parameters.AddWithValue("@COTIZACION1", DBNull.Value);
 
-                        if (!string.IsNullOrEmpty(rutaCotizacion))
-                            cmd.Parameters.AddWithValue("@RUTACOTIZACION1", rutaCotizacion);
+                        if (!string.IsNullOrEmpty(rutaCotizacion1))
+                            cmd.Parameters.AddWithValue("@RUTACOTIZACION1", rutaCotizacion1);
                         else
                             cmd.Parameters.AddWithValue("@RUTACOTIZACION1", DBNull.Value);
+
+                        if (archivo2 != null)
+                            cmd.Parameters.Add("@COTIZACION2", MySqlDbType.LongBlob).Value = archivo2;
+                        else
+                            cmd.Parameters.AddWithValue("@COTIZACION2", DBNull.Value);
+
+                        if (!string.IsNullOrEmpty(rutaCotizacion2))
+                            cmd.Parameters.AddWithValue("@RUTACOTIZACION2", rutaCotizacion2);
+                        else
+                            cmd.Parameters.AddWithValue("@RUTACOTIZACION2", DBNull.Value);
+
+                        if (archivo3 != null)
+                            cmd.Parameters.Add("@COTIZACION3", MySqlDbType.LongBlob).Value = archivo3;
+                        else
+                            cmd.Parameters.AddWithValue("@COTIZACION3", DBNull.Value);
+
+                        if (!string.IsNullOrEmpty(rutaCotizacion3))
+                            cmd.Parameters.AddWithValue("@RUTACOTIZACION3", rutaCotizacion3);
+                        else
+                            cmd.Parameters.AddWithValue("@RUTACOTIZACION3", DBNull.Value);
 
                         cmd.ExecuteNonQuery();
                     }
@@ -329,6 +374,16 @@ namespace ElastoSystem
             btnAgregar.Visible = false;
             btnNuevo.Visible = true;
 
+            txbDescripcion.Clear();
+            txbCantidad.Clear();
+            cbUnidad.SelectedIndex = -1;
+            txbPrecio.Clear();
+            cbProveedor.SelectedIndex = -1;
+            cbTipoUso.SelectedIndex = -1;
+            txbNotas.Clear();
+            chbCompraOnline.Checked = false;
+            dgvCotizaciones.Rows.Clear();
+
             DataGridView dgv = (DataGridView)sender;
 
             if (dgv.SelectedCells.Count > 0)
@@ -359,14 +414,27 @@ namespace ElastoSystem
                 bool chbOnline = Convert.ToBoolean(dgv.Rows[rowIndex].Cells[7].Value);
                 chbCompraOnline.Checked = chbOnline;
 
-                byte[] archivo = (byte[])dgv.Rows[rowIndex].Cells[8].Value;
-                archivoByte = archivo;
+                int columnaInicio = 8;
+                int maxCotizaciones = 3;
 
-                string nombreArchivo = dgv.Rows[rowIndex].Cells[9].Value.ToString();
-                txbNombreArchivo.Text = nombreArchivo;
+                for(int i = 0; i < maxCotizaciones; i++)
+                {
+                    int colFileBytes = columnaInicio + (i * 3);
+                    int colFileName = columnaInicio + (i * 3) + 1;
+                    int colFilePath = columnaInicio + (i * 3) + 2;
 
-                string rutaArchivo = dgv.Rows[rowIndex].Cells[10].Value.ToString();
-                txbRutaArchivo.Text = rutaArchivo;
+                    if (colFilePath < dgv.Columns.Count &&
+                        dgv.Rows[rowIndex].Cells[colFileBytes].Value != null &&
+                        dgv.Rows[rowIndex].Cells[colFileName].Value != null &&
+                        dgv.Rows[rowIndex].Cells[colFilePath].Value != null)
+                    {
+                        byte[] fileBytes = (byte[])dgv.Rows[rowIndex].Cells[colFileBytes].Value;
+                        string fileName = dgv.Rows[rowIndex].Cells[colFileName].Value.ToString();
+                        string filePath = dgv.Rows[rowIndex].Cells[colFilePath].Value.ToString();
+
+                        dgvCotizaciones.Rows.Add(fileName, filePath, fileBytes);
+                    }
+                }
             }
         }
 
@@ -410,6 +478,11 @@ namespace ElastoSystem
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            if (dgvListaMateriales.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay materiales para enviar la requisición.");
+                return;
+            }
             EnviarRequerimiento();
         }
 
@@ -440,6 +513,11 @@ namespace ElastoSystem
 
         private void button1_Click_3(object sender, EventArgs e)
         {
+            if (dgvCotizaciones.Rows.Count >= 3)
+            {
+                MessageBox.Show("El máximo de cotizaciones es 3, no puedes agregar más.");
+                return;
+            }
             CargarCotizacion();
         }
 
@@ -447,27 +525,22 @@ namespace ElastoSystem
         private void CargarCotizacion()
         {
             OpenFileDialog file = new OpenFileDialog();
-
             file.Filter = "Todos los archivos (*.*)|*.*";
             file.Title = "Seleccionar Archivo";
 
-            if(file.ShowDialog() == DialogResult.OK)
+            if (file.ShowDialog() == DialogResult.OK)
             {
                 string filePath = file.FileName;
                 string fileName = Path.GetFileName(filePath);
-
-                txbNombreArchivo.Text = fileName;
-                txbRutaArchivo.Text = filePath;
-
                 try
                 {
+                    archivoByte = null;
                     archivoByte = File.ReadAllBytes(filePath);
                     AgregarCotizacionAlGrid(fileName, filePath, archivoByte);
-                    MessageBox.Show("Archivo cargado correctamente");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("ERROR AL CARGAR COTIZACION: "+ex.Message);
+                    MessageBox.Show("ERROR AL CARGAR COTIZACION: " + ex.Message);
                 }
             }
             else
@@ -479,6 +552,14 @@ namespace ElastoSystem
         private void AgregarCotizacionAlGrid(string fileName, string filePath, byte[] fileBytes)
         {
             dgvCotizaciones.Rows.Add(fileName, filePath, fileBytes);
+        }
+
+        private void dgvCotizaciones_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex >= 0)
+            {
+                dgvCotizaciones.Rows.RemoveAt(e.RowIndex);
+            }
         }
     }
 }

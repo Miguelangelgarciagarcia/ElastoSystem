@@ -285,6 +285,8 @@ namespace ElastoSystem
             txbNotas.Clear();
             btnCompraAutorizada.Visible = false;
             btnDescargarCotizacion.Visible = false;
+            btnDescargarCotizacion2.Visible = false;
+            btnDescargarCotizacion3.Visible = false;
         }
 
         private void PartidasPBVisibles()
@@ -343,16 +345,16 @@ namespace ElastoSystem
 
             string sql = "SELECT ID, Contacto, Telefono, Email FROM elastosystem_compras_proveedores WHERE Nombre LIKE @Nombre";
 
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
                     conn.Open();
-                    using(MySqlCommand comando = new MySqlCommand(sql, conn))
+                    using (MySqlCommand comando = new MySqlCommand(sql, conn))
                     {
                         comando.Parameters.AddWithValue("@Nombre", nombre);
 
-                        using(MySqlDataReader reader = comando.ExecuteReader())
+                        using (MySqlDataReader reader = comando.ExecuteReader())
                         {
                             if (reader.Read())
                             {
@@ -373,7 +375,7 @@ namespace ElastoSystem
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL OBTENER DATOS DEL PROVEEDOR: " + ex.Message);
                 }
@@ -580,13 +582,15 @@ namespace ElastoSystem
             RevisarBotonAlmacenar();
         }
 
-        byte[] cotizacionBytes;
+        byte[] cotizacionBytes1;
+        byte[] cotizacionBytes2;
+        byte[] cotizacionBytes3;
         private void RevisarSiHayCotizacion()
         {
             MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica);
             conn.Open();
             MySqlDataReader reader = null;
-            string sql = "SELECT Cotizacion1, Ruta_Cotizacion1 FROM elastosystem_compras_requisicion_desglosada WHERE ID_Producto LIKE '" + lblIDProducto.Text + "'";
+            string sql = "SELECT Cotizacion1, Ruta_Cotizacion1, Cotizacion2, Ruta_Cotizacion2, Cotizacion3, Ruta_Cotizacion3 FROM elastosystem_compras_requisicion_desglosada WHERE ID_Producto LIKE '" + lblIDProducto.Text + "'";
             try
             {
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
@@ -598,33 +602,76 @@ namespace ElastoSystem
                     {
                         try
                         {
-                            cotizacionBytes = (byte[])reader["Cotizacion1"];
+                            cotizacionBytes1 = reader["Cotizacion1"] as byte[];
+                            cotizacionBytes2 = reader["Cotizacion2"] as byte[];
+                            cotizacionBytes3 = reader["Cotizacion3"] as byte[];
 
-                            if (cotizacionBytes != null && cotizacionBytes.Length > 0)
-                            {
-                                btnDescargarCotizacion.Visible = true;
-                            }
-                            else
-                            {
-                                btnDescargarCotizacion.Visible = false;
-                            }
+                            btnDescargarCotizacion.Visible = (cotizacionBytes1 != null && cotizacionBytes1.Length > 0);
+
+                            btnDescargarCotizacion2.Visible = (cotizacionBytes2 != null && cotizacionBytes2.Length > 0);
+
+                            btnDescargarCotizacion3.Visible = (cotizacionBytes3 != null && cotizacionBytes3.Length > 0);
                         }
                         catch (Exception ex)
                         {
                             btnDescargarCotizacion.Visible = false;
+                            btnDescargarCotizacion2.Visible = false;
+                            btnDescargarCotizacion3.Visible = false;
                         }
                         try
                         {
-                            txbNombreCotizacion.Text = reader.GetString("Ruta_Cotizacion1");
-                            string rutacompleta = txbNombreCotizacion.Text;
-                            txbRutaCotizacion.Text = rutacompleta;
-                            string nombrearchivo = System.IO.Path.GetFileName(rutacompleta);
-                            txbNombreCotizacion.Text = nombrearchivo;
+                            if (!reader.IsDBNull("Ruta_Cotizacion1"))
+                            {
+                                txbNombreCotizacion.Text = reader.GetString("Ruta_Cotizacion1");
+                                string rutacompleta = txbNombreCotizacion.Text;
+                                txbRutaCotizacion.Text = rutacompleta;
+                                string nombrearchivo = System.IO.Path.GetFileName(rutacompleta);
+                                txbNombreCotizacion.Text = nombrearchivo;
+                            }
+                            else
+                            {
+                                txbNombreCotizacion.Text = string.Empty;
+                                txbRutaCotizacion.Text = string.Empty;
+                            }
+
+                            if (!reader.IsDBNull("Ruta_Cotizacion2"))
+                            {
+                                txbNombreCotizacion2.Text = reader.GetString("Ruta_Cotizacion2");
+                                string rutacompleta2 = txbNombreCotizacion2.Text;
+                                txbRutaCotizacion2.Text = rutacompleta2;
+                                string nombrearchivo2 = System.IO.Path.GetFileName(rutacompleta2);
+                                txbNombreCotizacion2.Text = nombrearchivo2;
+                            }
+                            else
+                            {
+                                txbNombreCotizacion2.Text = string.Empty;
+                                txbRutaCotizacion2.Text = string.Empty;
+                            }
+
+                            if (!reader.IsDBNull("Ruta_Cotizacion3"))
+                            {
+                                txbNombreCotizacion3.Text = reader.GetString("Ruta_Cotizacion3");
+                                string rutacompleta3 = txbNombreCotizacion3.Text;
+                                txbRutaCotizacion3.Text = rutacompleta3;
+                                string nombrearchivo3 = System.IO.Path.GetFileName(rutacompleta3);
+                                txbNombreCotizacion3.Text = nombrearchivo3;
+                            }
+                            else
+                            {
+                                txbNombreCotizacion3.Text = string.Empty;
+                                txbRutaCotizacion3.Text = string.Empty;
+                            }
                         }
                         catch
                         {
                             txbNombreCotizacion.Text = string.Empty;
                             txbRutaCotizacion.Text = string.Empty;
+
+                            txbNombreCotizacion2.Text = string.Empty;
+                            txbRutaCotizacion2.Text = string.Empty;
+
+                            txbNombreCotizacion3.Text = string.Empty;
+                            txbRutaCotizacion3.Text = string.Empty;
                         }
                     }
                 }
@@ -2300,14 +2347,14 @@ namespace ElastoSystem
             {
                 DialogResult resultado = MessageBox.Show("¿Deseas vincular otras partidas con este comprobante?", "Vincular", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if(resultado == DialogResult.Yes)
+                if (resultado == DialogResult.Yes)
                 {
                     string idProducto = lblIDProducto.Text;
 
                     Compras_VincularPartidas vincular = new Compras_VincularPartidas(idProducto);
                     vincular.ShowDialog();
 
-                    if(ListaProductos.Count > 0)
+                    if (ListaProductos.Count > 0)
                     {
                         ListaProductos.Add(Convert.ToInt32(idProducto));
                         CompraListaFinalizadaAutorizada();
@@ -2321,7 +2368,7 @@ namespace ElastoSystem
                 }
             }
         }
-        
+
         private void CompraListaFinalizadaAutorizada()
         {
             try
@@ -2331,13 +2378,13 @@ namespace ElastoSystem
                 string oc = "COMPRA AUTORIZADA POR: " + VariablesGlobales.Usuario;
                 string fecha = DateTime.Now.ToString("yyyy/MM/dd");
 
-                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                 {
                     conn.Open();
 
-                    foreach(var idProducto in ListaProductos)
+                    foreach (var idProducto in ListaProductos)
                     {
-                        using(MySqlCommand comando = new MySqlCommand())
+                        using (MySqlCommand comando = new MySqlCommand())
                         {
                             comando.Connection = conn;
                             comando.CommandText = "UPDATE elastosystem_compras_requisicion_desglosada SET FechaFinal = @FECHAFINAL, Estatus = @ESTATUS, OC = @OC, Ruta_Comprobante = @RUTACOMPROBANTE, Comprobante = @COMPROBANTE, Autorizo = @AUTORIZO, Motivo = @MOTIVO WHERE ID_Producto = @ID";
@@ -2374,6 +2421,7 @@ namespace ElastoSystem
                 dgvPartidas.Rows.Clear();
                 CargarRequisiciones();
                 btnCompraAutorizada.Visible = false;
+                txbMotivo.Clear();
             }
             catch (Exception ex)
             {
@@ -2393,7 +2441,7 @@ namespace ElastoSystem
 
         private void DescargarCotizacion()
         {
-            if (cotizacionBytes != null && cotizacionBytes.Length > 0)
+            if (cotizacionBytes1 != null && cotizacionBytes1.Length > 0)
             {
                 string extensionArchivo = System.IO.Path.GetExtension(txbRutaCotizacion.Text);
                 string nombreArchivo = txbNombreCotizacion.Text;
@@ -2409,7 +2457,75 @@ namespace ElastoSystem
                 {
                     try
                     {
-                        File.WriteAllBytes(file.FileName, cotizacionBytes);
+                        File.WriteAllBytes(file.FileName, cotizacionBytes1);
+                        MessageBox.Show("ARCHIVO GUARDADO CORRECTAMENTE");
+                        string argument = "/select, \"" + file.FileName + "\"";
+                        System.Diagnostics.Process.Start("explorer.exe", argument);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("ERROR AL GUARDAR EL ARCHIVO: " + ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay archivo valido para descargar.");
+            }
+        }
+        private void DescargarCotizacion3()
+        {
+            if (cotizacionBytes3 != null && cotizacionBytes3.Length > 0)
+            {
+                string extensionArchivo = System.IO.Path.GetExtension(txbRutaCotizacion3.Text);
+                string nombreArchivo = txbNombreCotizacion3.Text;
+
+                SaveFileDialog file = new SaveFileDialog()
+                {
+                    FileName = nombreArchivo,
+                    Filter = "Todos los archivos (*.*)|*.*",
+                    DefaultExt = extensionArchivo
+                };
+
+                if (file.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        File.WriteAllBytes(file.FileName, cotizacionBytes3);
+                        MessageBox.Show("ARCHIVO GUARDADO CORRECTAMENTE");
+                        string argument = "/select, \"" + file.FileName + "\"";
+                        System.Diagnostics.Process.Start("explorer.exe", argument);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("ERROR AL GUARDAR EL ARCHIVO: " + ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay archivo valido para descargar.");
+            }
+        }
+        private void DescargarCotizacion2()
+        {
+            if (cotizacionBytes2 != null && cotizacionBytes2.Length > 0)
+            {
+                string extensionArchivo = System.IO.Path.GetExtension(txbRutaCotizacion2.Text);
+                string nombreArchivo = txbNombreCotizacion2.Text;
+
+                SaveFileDialog file = new SaveFileDialog()
+                {
+                    FileName = nombreArchivo,
+                    Filter = "Todos los archivos (*.*)|*.*",
+                    DefaultExt = extensionArchivo
+                };
+
+                if (file.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        File.WriteAllBytes(file.FileName, cotizacionBytes2);
                         MessageBox.Show("ARCHIVO GUARDADO CORRECTAMENTE");
                         string argument = "/select, \"" + file.FileName + "\"";
                         System.Diagnostics.Process.Start("explorer.exe", argument);
@@ -2504,6 +2620,16 @@ namespace ElastoSystem
         private void txbPrecio_KeyPress(object sender, KeyPressEventArgs e)
         {
             ValidarNumero(e, txbPrecio);
+        }
+
+        private void btnDescargarCotizacion2_Click(object sender, EventArgs e)
+        {
+            DescargarCotizacion2();
+        }
+
+        private void btnDescargarCotizacion3_Click_1(object sender, EventArgs e)
+        {
+            DescargarCotizacion3();
         }
     }
 }
