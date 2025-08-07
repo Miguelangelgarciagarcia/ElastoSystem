@@ -845,9 +845,9 @@ namespace ElastoSystem
             DateTime fechaFinal = DateTime.ParseExact(lblFechaFinal.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             TimeSpan diferencia = fechaFinal - fechaInicio;
 
-            double anios = fechaFinal.Year - fechaInicio.Year;
-            double meses = fechaFinal.Month - fechaInicio.Month;
-            double dias = fechaFinal.Day - fechaInicio.Day;
+            int anios = fechaFinal.Year - fechaInicio.Year;
+            int meses = fechaFinal.Month - fechaInicio.Month;
+            int dias = fechaFinal.Day - fechaInicio.Day;
 
             if (dias < 0)
             {
@@ -860,7 +860,9 @@ namespace ElastoSystem
                 meses += 12;
             }
 
-            double totalMeses = (anios * 12) + meses;
+            anios++;
+
+            double totalMeses = anios * 12;
             double totalDias = diferencia.TotalDays;
 
             promedioAnios = (anios > 0) ? sumaTotal / anios : 0;
