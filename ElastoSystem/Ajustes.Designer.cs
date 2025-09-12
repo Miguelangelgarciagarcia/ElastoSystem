@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             tabControl1 = new TabControl();
             tPEnvioCorreos = new TabPage();
@@ -203,26 +203,26 @@
             dgvCorreo.AllowUserToAddRows = false;
             dgvCorreo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvCorreo.BackgroundColor = Color.White;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvCorreo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvCorreo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvCorreo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCorreo.Location = new Point(27, 130);
             dgvCorreo.Name = "dgvCorreo";
             dgvCorreo.ReadOnly = true;
             dgvCorreo.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dgvCorreo.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvCorreo.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvCorreo.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvCorreo.Size = new Size(1156, 383);
             dgvCorreo.TabIndex = 20;
@@ -233,7 +233,7 @@
             cbCorreo.DropDownStyle = ComboBoxStyle.DropDownList;
             cbCorreo.Font = new Font("Montserrat", 15F);
             cbCorreo.FormattingEnabled = true;
-            cbCorreo.Items.AddRange(new object[] { "Insumos del Almacen", "Prioridades del Almacen", "Requisicion de Mantenimiento", "Requisicion de Sistemas" });
+            cbCorreo.Items.AddRange(new object[] { "Actualizacion de Licitaciones", "Insumos del Almacen", "Prioridades del Almacen", "Requisicion de Mantenimiento", "Requisicion de Sistemas" });
             cbCorreo.Location = new Point(140, 34);
             cbCorreo.Name = "cbCorreo";
             cbCorreo.Size = new Size(427, 35);
@@ -263,6 +263,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Ajustes";
             Text = "Ajustes";
+            Load += Ajustes_Load;
             tabControl1.ResumeLayout(false);
             tPEnvioCorreos.ResumeLayout(false);
             tPEnvioCorreos.PerformLayout();

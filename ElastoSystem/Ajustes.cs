@@ -268,5 +268,10 @@ namespace ElastoSystem
             btnAgregar.Visible = true;
             CargarCorreos();
         }
+
+        private void Ajustes_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
