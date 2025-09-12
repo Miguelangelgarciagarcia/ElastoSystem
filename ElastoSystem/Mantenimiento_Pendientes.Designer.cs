@@ -69,6 +69,8 @@
             btnFinalizarReq = new Button();
             pbComprobante = new PictureBox();
             label19 = new Label();
+            txbNotas = new TextBox();
+            label13 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvPendientesMtto).BeginInit();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbImagen).BeginInit();
@@ -80,7 +82,7 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Montserrat", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Montserrat", 24F, FontStyle.Bold);
             label1.ForeColor = Color.White;
             label1.Location = new Point(23, 24);
             label1.Name = "label1";
@@ -96,7 +98,7 @@
             dgvPendientesMtto.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle5.BackColor = Color.White;
-            dataGridViewCellStyle5.Font = new Font("Montserrat ExtraBold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle5.Font = new Font("Montserrat ExtraBold", 12F, FontStyle.Bold);
             dataGridViewCellStyle5.ForeColor = Color.Black;
             dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(255, 102, 0);
             dataGridViewCellStyle5.SelectionForeColor = Color.White;
@@ -105,7 +107,7 @@
             dgvPendientesMtto.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
             dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
             dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
@@ -117,7 +119,7 @@
             dgvPendientesMtto.ReadOnly = true;
             dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle7.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle7.Font = new Font("Montserrat", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle7.Font = new Font("Montserrat", 8.999999F);
             dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
             dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(255, 102, 0);
             dataGridViewCellStyle7.SelectionForeColor = Color.White;
@@ -126,12 +128,11 @@
             dgvPendientesMtto.RowHeadersVisible = false;
             dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle8.BackColor = Color.White;
-            dataGridViewCellStyle8.Font = new Font("Montserrat", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle8.Font = new Font("Montserrat", 11.25F);
             dataGridViewCellStyle8.ForeColor = Color.Black;
             dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(255, 102, 0);
             dataGridViewCellStyle8.SelectionForeColor = Color.White;
             dgvPendientesMtto.RowsDefaultCellStyle = dataGridViewCellStyle8;
-            dgvPendientesMtto.RowTemplate.Height = 25;
             dgvPendientesMtto.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPendientesMtto.Size = new Size(673, 708);
             dgvPendientesMtto.TabIndex = 42;
@@ -173,7 +174,7 @@
             // 
             // txbSolicitante
             // 
-            txbSolicitante.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbSolicitante.Font = new Font("Montserrat", 10F);
             txbSolicitante.Location = new Point(154, 80);
             txbSolicitante.Name = "txbSolicitante";
             txbSolicitante.ReadOnly = true;
@@ -182,7 +183,7 @@
             // 
             // txbFolio
             // 
-            txbFolio.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbFolio.Font = new Font("Montserrat", 10F);
             txbFolio.Location = new Point(154, 50);
             txbFolio.Name = "txbFolio";
             txbFolio.ReadOnly = true;
@@ -193,7 +194,7 @@
             // 
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
-            label5.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label5.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             label5.ForeColor = Color.White;
             label5.Location = new Point(21, 83);
             label5.Name = "label5";
@@ -205,7 +206,7 @@
             // 
             label12.AutoSize = true;
             label12.BackColor = Color.Transparent;
-            label12.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label12.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             label12.ForeColor = Color.White;
             label12.Location = new Point(21, 53);
             label12.Name = "label12";
@@ -217,7 +218,7 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             label2.ForeColor = Color.White;
             label2.Location = new Point(21, 15);
             label2.Name = "label2";
@@ -231,7 +232,7 @@
             btnCargarComprobante.Cursor = Cursors.Hand;
             btnCargarComprobante.FlatAppearance.BorderSize = 0;
             btnCargarComprobante.FlatStyle = FlatStyle.Flat;
-            btnCargarComprobante.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCargarComprobante.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnCargarComprobante.ForeColor = Color.White;
             btnCargarComprobante.Location = new Point(121, 637);
             btnCargarComprobante.Name = "btnCargarComprobante";
@@ -243,7 +244,7 @@
             // 
             // txbRefacciones
             // 
-            txbRefacciones.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbRefacciones.Font = new Font("Montserrat", 10F);
             txbRefacciones.Location = new Point(21, 566);
             txbRefacciones.Multiline = true;
             txbRefacciones.Name = "txbRefacciones";
@@ -253,7 +254,7 @@
             // 
             // txbRecomendaciones
             // 
-            txbRecomendaciones.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbRecomendaciones.Font = new Font("Montserrat", 10F);
             txbRecomendaciones.Location = new Point(21, 484);
             txbRecomendaciones.Multiline = true;
             txbRecomendaciones.Name = "txbRecomendaciones";
@@ -265,7 +266,7 @@
             // 
             label15.AutoSize = true;
             label15.BackColor = Color.Transparent;
-            label15.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label15.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             label15.ForeColor = Color.White;
             label15.Location = new Point(21, 543);
             label15.Name = "label15";
@@ -277,7 +278,7 @@
             // 
             label16.AutoSize = true;
             label16.BackColor = Color.Transparent;
-            label16.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label16.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             label16.ForeColor = Color.White;
             label16.Location = new Point(21, 461);
             label16.Name = "label16";
@@ -289,7 +290,7 @@
             // 
             label17.AutoSize = true;
             label17.BackColor = Color.Transparent;
-            label17.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label17.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             label17.ForeColor = Color.White;
             label17.Location = new Point(21, 429);
             label17.Name = "label17";
@@ -299,7 +300,7 @@
             // 
             // txbDescripcion
             // 
-            txbDescripcion.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbDescripcion.Font = new Font("Montserrat", 10F);
             txbDescripcion.Location = new Point(154, 369);
             txbDescripcion.Multiline = true;
             txbDescripcion.Name = "txbDescripcion";
@@ -311,7 +312,7 @@
             // 
             label7.AutoSize = true;
             label7.BackColor = Color.Transparent;
-            label7.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             label7.ForeColor = Color.White;
             label7.Location = new Point(21, 372);
             label7.Name = "label7";
@@ -321,7 +322,7 @@
             // 
             // txbTipoFalla
             // 
-            txbTipoFalla.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbTipoFalla.Font = new Font("Montserrat", 10F);
             txbTipoFalla.Location = new Point(154, 339);
             txbTipoFalla.Name = "txbTipoFalla";
             txbTipoFalla.ReadOnly = true;
@@ -330,7 +331,7 @@
             // 
             // txbPrioridad
             // 
-            txbPrioridad.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbPrioridad.Font = new Font("Montserrat", 10F);
             txbPrioridad.Location = new Point(154, 309);
             txbPrioridad.Name = "txbPrioridad";
             txbPrioridad.ReadOnly = true;
@@ -341,7 +342,7 @@
             // 
             label9.AutoSize = true;
             label9.BackColor = Color.Transparent;
-            label9.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label9.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             label9.ForeColor = Color.White;
             label9.Location = new Point(21, 342);
             label9.Name = "label9";
@@ -353,7 +354,7 @@
             // 
             label10.AutoSize = true;
             label10.BackColor = Color.Transparent;
-            label10.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label10.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             label10.ForeColor = Color.White;
             label10.Location = new Point(21, 312);
             label10.Name = "label10";
@@ -365,7 +366,7 @@
             // 
             label11.AutoSize = true;
             label11.BackColor = Color.Transparent;
-            label11.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label11.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             label11.ForeColor = Color.White;
             label11.Location = new Point(21, 272);
             label11.Name = "label11";
@@ -375,7 +376,7 @@
             // 
             // txbMaquina
             // 
-            txbMaquina.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbMaquina.Font = new Font("Montserrat", 10F);
             txbMaquina.Location = new Point(154, 206);
             txbMaquina.Name = "txbMaquina";
             txbMaquina.ReadOnly = true;
@@ -385,7 +386,7 @@
             // 
             // txbUbicacion
             // 
-            txbUbicacion.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbUbicacion.Font = new Font("Montserrat", 10F);
             txbUbicacion.Location = new Point(154, 176);
             txbUbicacion.Name = "txbUbicacion";
             txbUbicacion.ReadOnly = true;
@@ -394,7 +395,7 @@
             // 
             // txbMantenimiento
             // 
-            txbMantenimiento.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txbMantenimiento.Font = new Font("Montserrat", 10F);
             txbMantenimiento.Location = new Point(154, 146);
             txbMantenimiento.Name = "txbMantenimiento";
             txbMantenimiento.ReadOnly = true;
@@ -415,7 +416,7 @@
             // 
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             label6.ForeColor = Color.White;
             label6.Location = new Point(21, 209);
             label6.Name = "label6";
@@ -427,7 +428,7 @@
             // 
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             label4.ForeColor = Color.White;
             label4.Location = new Point(21, 179);
             label4.Name = "label4";
@@ -439,7 +440,7 @@
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             label3.ForeColor = Color.White;
             label3.Location = new Point(21, 149);
             label3.Name = "label3";
@@ -451,7 +452,7 @@
             // 
             label8.AutoSize = true;
             label8.BackColor = Color.Transparent;
-            label8.Font = new Font("Montserrat", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.Font = new Font("Montserrat", 12F, FontStyle.Bold);
             label8.ForeColor = Color.White;
             label8.Location = new Point(21, 115);
             label8.Name = "label8";
@@ -462,6 +463,8 @@
             // pnlComprobante
             // 
             pnlComprobante.BackColor = Color.FromArgb(3, 42, 76);
+            pnlComprobante.Controls.Add(label13);
+            pnlComprobante.Controls.Add(txbNotas);
             pnlComprobante.Controls.Add(lblRutaArchivo);
             pnlComprobante.Controls.Add(txbNombreArchivo);
             pnlComprobante.Controls.Add(btnCargarDoc);
@@ -479,9 +482,9 @@
             // 
             lblRutaArchivo.AutoSize = true;
             lblRutaArchivo.BackColor = Color.Transparent;
-            lblRutaArchivo.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            lblRutaArchivo.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             lblRutaArchivo.ForeColor = Color.White;
-            lblRutaArchivo.Location = new Point(173, 492);
+            lblRutaArchivo.Location = new Point(123, 420);
             lblRutaArchivo.Name = "lblRutaArchivo";
             lblRutaArchivo.Size = new Size(44, 20);
             lblRutaArchivo.TabIndex = 50;
@@ -490,8 +493,8 @@
             // 
             // txbNombreArchivo
             // 
-            txbNombreArchivo.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            txbNombreArchivo.Location = new Point(173, 465);
+            txbNombreArchivo.Font = new Font("Montserrat", 10F);
+            txbNombreArchivo.Location = new Point(173, 417);
             txbNombreArchivo.Name = "txbNombreArchivo";
             txbNombreArchivo.ReadOnly = true;
             txbNombreArchivo.Size = new Size(300, 24);
@@ -503,9 +506,9 @@
             btnCargarDoc.Cursor = Cursors.Hand;
             btnCargarDoc.FlatAppearance.BorderSize = 0;
             btnCargarDoc.FlatStyle = FlatStyle.Flat;
-            btnCargarDoc.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCargarDoc.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnCargarDoc.ForeColor = Color.White;
-            btnCargarDoc.Location = new Point(222, 421);
+            btnCargarDoc.Location = new Point(222, 373);
             btnCargarDoc.Name = "btnCargarDoc";
             btnCargarDoc.Size = new Size(223, 38);
             btnCargarDoc.TabIndex = 47;
@@ -519,7 +522,7 @@
             btnCerrar.Cursor = Cursors.Hand;
             btnCerrar.FlatAppearance.BorderSize = 0;
             btnCerrar.FlatStyle = FlatStyle.Flat;
-            btnCerrar.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCerrar.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnCerrar.ForeColor = Color.White;
             btnCerrar.Location = new Point(537, 15);
             btnCerrar.Name = "btnCerrar";
@@ -535,7 +538,7 @@
             btnFinalizarReq.Cursor = Cursors.Hand;
             btnFinalizarReq.FlatAppearance.BorderSize = 0;
             btnFinalizarReq.FlatStyle = FlatStyle.Flat;
-            btnFinalizarReq.Font = new Font("Montserrat", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            btnFinalizarReq.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnFinalizarReq.ForeColor = Color.White;
             btnFinalizarReq.Location = new Point(132, 601);
             btnFinalizarReq.Name = "btnFinalizarReq";
@@ -548,7 +551,7 @@
             // pbComprobante
             // 
             pbComprobante.BackColor = Color.White;
-            pbComprobante.Location = new Point(173, 190);
+            pbComprobante.Location = new Point(173, 142);
             pbComprobante.Name = "pbComprobante";
             pbComprobante.Size = new Size(300, 225);
             pbComprobante.SizeMode = PictureBoxSizeMode.Zoom;
@@ -559,13 +562,34 @@
             // 
             label19.AutoSize = true;
             label19.BackColor = Color.Transparent;
-            label19.Font = new Font("Montserrat", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            label19.Font = new Font("Montserrat", 14F, FontStyle.Bold);
             label19.ForeColor = Color.White;
-            label19.Location = new Point(189, 111);
+            label19.Location = new Point(189, 63);
             label19.Name = "label19";
             label19.Size = new Size(266, 26);
             label19.TabIndex = 21;
             label19.Text = "CARGAR COMPROBANTE";
+            // 
+            // txbNotas
+            // 
+            txbNotas.Font = new Font("Montserrat", 10F);
+            txbNotas.Location = new Point(173, 484);
+            txbNotas.Multiline = true;
+            txbNotas.Name = "txbNotas";
+            txbNotas.Size = new Size(300, 89);
+            txbNotas.TabIndex = 51;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.BackColor = Color.Transparent;
+            label13.Font = new Font("Montserrat", 10F, FontStyle.Bold);
+            label13.ForeColor = Color.White;
+            label13.Location = new Point(173, 461);
+            label13.Name = "label13";
+            label13.Size = new Size(55, 20);
+            label13.TabIndex = 52;
+            label13.Text = "Notas:";
             // 
             // Mantenimiento_Pendientes
             // 
@@ -631,5 +655,7 @@
         private Label label19;
         private Label lblRutaArchivo;
         private TextBox txbNombreArchivo;
+        private TextBox txbNotas;
+        private Label label13;
     }
 }

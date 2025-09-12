@@ -56,6 +56,7 @@ namespace ElastoSystem
             dgvPendientesMtto.Columns["Usuario_Finalizo"].Visible = false;
             dgvPendientesMtto.Columns["Folio_ALT"].HeaderText = "Folio";
             dgvPendientesMtto.Columns["Tipo_Falla"].HeaderText = "Tipo Falla";
+            dgvPendientesMtto.Columns["Notas"].Visible = false;
         }
 
         private void dgvPendientesMtto_DoubleClick(object sender, EventArgs e)
@@ -180,6 +181,7 @@ namespace ElastoSystem
             pbComprobante.Image = null;
             txbNombreArchivo.Clear();
             lblRutaArchivo.Text = string.Empty;
+            txbNotas.Clear();
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)
@@ -270,13 +272,14 @@ namespace ElastoSystem
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "UPDATE elastosystem_mtto_req SET Estatus = @ESTATUS, Fecha_Termino = @FECHATERMINO, Ruta_Comprobante = @RUTACOMPROBANTE, Comprobante = @COMPROBANTE, Usuario_Finalizo = @USUARIOFINALIZO WHERE Folio_ALT = @FOLIO";
+                cmd.CommandText = "UPDATE elastosystem_mtto_req SET Estatus = @ESTATUS, Fecha_Termino = @FECHATERMINO, Ruta_Comprobante = @RUTACOMPROBANTE, Comprobante = @COMPROBANTE, Usuario_Finalizo = @USUARIOFINALIZO, Notas = @NOTAS WHERE Folio_ALT = @FOLIO";
                 cmd.Parameters.AddWithValue("@FOLIO", txbFolio.Text);
                 cmd.Parameters.AddWithValue("@ESTATUS", estatus);
                 cmd.Parameters.AddWithValue("@FECHATERMINO", fecha);
                 cmd.Parameters.AddWithValue("@RUTACOMPROBANTE", ruta_archivo);
                 cmd.Parameters.AddWithValue("@COMPROBANTE", archivoBytes);
                 cmd.Parameters.AddWithValue("@USUARIOFINALIZO", usuario);
+                cmd.Parameters.AddWithValue("@NOTAS", txbNotas.Text);
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("MANTENIMIENTO " + txbFolio.Text + " FINALIZADO CON EXITO");
                 Limpiar();
