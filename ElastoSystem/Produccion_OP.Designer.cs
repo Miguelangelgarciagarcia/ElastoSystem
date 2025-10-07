@@ -797,6 +797,7 @@
             Name = "Produccion_OP";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Produccion_OP";
+            Load += Produccion_OP_Load;
             panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();

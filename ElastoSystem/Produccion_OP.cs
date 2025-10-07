@@ -14,11 +14,21 @@ namespace ElastoSystem
 {
     public partial class Produccion_OP : Form
     {
+        private DateTime? _fechaInicio;
+        private DateTime? _fechaEntrega;
+        private string _claveProducto;
+        private string _folioOTSeleccionado;
+        private string _folioOP;
+        private string _folioSolicitudFabricacion;
+        private string _operacion;
+
         public Produccion_OP(string folio, string solicitud)
         {
             InitializeComponent();
             lblFolioOP.Text = folio;
+            _folioOP = folio;
             lblSolicitudFabricacion.Text = solicitud;
+            _folioSolicitudFabricacion = solicitud;
             CargarInfoOP();
         }
 
@@ -89,14 +99,17 @@ namespace ElastoSystem
                                 if (DateTime.TryParse(reader["FechaInicio"].ToString(), out DateTime fechaInicio))
                                 {
                                     lblFechaInicio.Text = fechaInicio.ToString("dd / MMMM / yyyy", new System.Globalization.CultureInfo("es-MX"));
+                                    _fechaInicio = fechaInicio;
                                 }
 
                                 if (DateTime.TryParse(reader["FechaEntrega"].ToString(), out DateTime fechaEntrega))
                                 {
                                     lblFechaEntrega.Text = fechaEntrega.ToString("dd / MMMM / yyyy", new System.Globalization.CultureInfo("es-MX"));
+                                    _fechaEntrega = fechaEntrega;
                                 }
 
                                 lblClave.Text = reader["Clave"].ToString();
+                                _claveProducto = lblClave.Text;
 
                                 lblCantidad.Text = reader["CantidadSolicitada"].ToString();
 
@@ -240,56 +253,77 @@ namespace ElastoSystem
 
         private void dgvOperaciones_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex >= 0)
+            if (e.RowIndex < 0) return;
+
+            string folioBuscado = dgvOperaciones.Rows[e.RowIndex].Cells[2].Value?.ToString()?.Trim();
+            _folioOTSeleccionado = folioBuscado;
+
+            if (string.IsNullOrEmpty(folioBuscado))
             {
-                string idSeleccionado = dgvOperaciones.Rows[e.RowIndex].Cells[0].Value.ToString();
+                MessageBox.Show("No se pudo obtener el Folio de la OT");
+                return;
+            }
 
-                using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            string[] partesFolio = folioBuscado.Split('-');
+            if(partesFolio.Length >= 3)
+            {
+                _operacion = string.Join("-", partesFolio.Skip(2));
+            }
+            else
+            {
+                MessageBox.Show("ERROR AL OBTENER OPERACION");
+                return;
+            }
+
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
                 {
-                    try
+                    conn.Open();
+                    string query = "SELECT COUNT(1) FROM elastosystem_produccion_ot WHERE Folio LIKE CONCAT('%', @FOLIO, '%')";
+                    using(MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        conn.Open();
-                        string query = "SELECT Estatus FROM elastosystem_produccion_ot_precreadas WHERE OP = @OP AND ID = @ID";
-                        using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                        cmd.Parameters.AddWithValue("@FOLIO", folioBuscado);
+
+                        object result = cmd.ExecuteScalar();
+                        int coincidencias = 0;
+                        if(result != null && int.TryParse(result.ToString(), out int count))
                         {
-                            cmd.Parameters.AddWithValue("@OP", lblFolioOP.Text);
-                            cmd.Parameters.AddWithValue("@ID", idSeleccionado);
+                            coincidencias = count;
+                        }
 
-                            object result = cmd.ExecuteScalar();
-
-                            if(result != null && result.ToString() == "Activa")
-                            {
-                                CrearOToRelacionar();
-                            }
-                            else
-                            {
-                                AbrirOT();
-                            }
+                        if(coincidencias > 0)
+                        {
+                            AbrirOT();
+                        }
+                        else
+                        {
+                            CrearOToRelacionar();
                         }
                     }
-                    catch(Exception ex)
-                    {
-                        MessageBox.Show("ERROR AL CONSULTAR EL ESTATUS DE LA OPERACION: " + ex.Message);
-                    }
-                    finally
-                    {
-                        conn.Close();
-                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CONSULTAR FOLIO EN OT: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
                 }
             }
         }
 
         private void CrearOToRelacionar()
         {
-            using(Produccion_CrearOToRelacionar form = new Produccion_CrearOToRelacionar())
+            using (Produccion_CrearOToRelacionar form = new Produccion_CrearOToRelacionar())
             {
                 int resultado = form.ShowDialogResult();
 
-                if(resultado == 0)
+                if (resultado == 0)
                 {
                     RelacionarOT();
                 }
-                else if(resultado == 1)
+                else if (resultado == 1)
                 {
                     CrearOT();
                 }
@@ -307,10 +341,44 @@ namespace ElastoSystem
 
         private void CrearOT()
         {
-            
+            try
+            {
+                DateTime fechaInicio = _fechaInicio ?? DateTime.Now;
+                DateTime fechaEntrega = _fechaEntrega ?? DateTime.Now;
+                string claveProducto = !string.IsNullOrWhiteSpace(_claveProducto) ? _claveProducto : lblClave.Text?.Trim();
+                string folioOT = _folioOTSeleccionado;
+
+                if (string.IsNullOrWhiteSpace(folioOT))
+                {
+                    MessageBox.Show("ERROR AL OBTENER EL VALOR DE LA ORDEN DE TRABAJO");
+                    return;
+                }
+
+                using (var form = new Produccion_CrearOT())
+                {
+                    form.FechaInicio = fechaInicio;
+                    form.FechaFinal = fechaEntrega;
+                    form.ClaveProducto = claveProducto;
+                    form.FolioOT = folioOT;
+                    form.FolioOP = _folioOP;
+                    form.SolicitudFabricacion = _folioSolicitudFabricacion;
+                    form.Operacion = _operacion;
+
+                    form.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL ABRIR LA CREACION DE OT: " + ex.Message);
+            }
         }
 
         private void AbrirOT()
+        {
+
+        }
+
+        private void Produccion_OP_Load(object sender, EventArgs e)
         {
 
         }
