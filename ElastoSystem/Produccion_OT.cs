@@ -80,7 +80,7 @@ namespace ElastoSystem
 
                                 //CargarDesgloseOT();
 
-                                Calcular();
+                                //Calcular();
                             }
                         }
                     }
@@ -94,11 +94,6 @@ namespace ElastoSystem
                     conn.Close();
                 }
             }
-        }
-
-        private void Calcular()
-        {
-
         }
 
         [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]

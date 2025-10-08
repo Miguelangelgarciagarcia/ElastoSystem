@@ -377,7 +377,61 @@ namespace ElastoSystem
                 MessageBox.Show("EL CAMPO LOTE NO PUEDE ESTAR VACÍO");
                 return;
             }
-            CrearOT();
+            RevisarMaquinas();
+            
+        }
+
+        private void RevisarMaquinas()
+        {
+            string maquinaSeleccionada = cbMaquinas.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(maquinaSeleccionada))
+            {
+                MessageBox.Show("DEBES SELECCIONAR UNA MAQUINA ANTES DE CREAR LA ORDEN DE TRABAJO");
+                return;
+            }
+
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"SELECT Folio
+                                    FROM elastosystem_produccion_ot
+                                    WHERE Maquina = @MAQUINA
+                                        AND Estatus = 'ABIERTA'
+                                    LIMIT 1";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@MAQUINA", maquinaSeleccionada);
+
+                        object resultado = cmd.ExecuteScalar();
+
+                        if(resultado != null && resultado != DBNull.Value)
+                        {
+                            string folioActivo = resultado.ToString();
+                            MessageBox.Show($"La máquina '{maquinaSeleccionada}' ya tiene una Orden de Trabajo activa.\n" +
+                                            $"Orden de Trabajo: {folioActivo}\n" +
+                                            $"Por favor, cierra esa OT antes de crear una nueva.");
+                            return;
+                        }
+                        else
+                        {
+                            CrearOT();
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL VERIFICAR LAS MAQUINAS: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
 
         private void CrearOT()
