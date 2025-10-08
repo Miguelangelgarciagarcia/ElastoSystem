@@ -375,7 +375,27 @@ namespace ElastoSystem
 
         private void AbrirOT()
         {
+            try
+            {
+                string folioOT = _folioOTSeleccionado;
 
+                if (string.IsNullOrWhiteSpace(folioOT))
+                {
+                    MessageBox.Show("ERROR AL OBTENER EL VALOR DE LA ORDEN DE TRABAJO");
+                    return;
+                }
+
+                using(var form = new Produccion_OT())
+                {
+                    form.FolioOT = folioOT;
+
+                    form.ShowDialog();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("ERROR AL ABRIR LA ORDEN DE TRABAJO: " + ex.Message);
+            }
         }
 
         private void Produccion_OP_Load(object sender, EventArgs e)
