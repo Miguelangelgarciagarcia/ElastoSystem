@@ -221,6 +221,7 @@
             btnVerEspecificacion.Text = "VER ESPECIFICACION";
             btnVerEspecificacion.UseVisualStyleBackColor = false;
             btnVerEspecificacion.Visible = false;
+            btnVerEspecificacion.Click += btnVerEspecificacion_Click;
             // 
             // txbSolicitudFabricacion
             // 

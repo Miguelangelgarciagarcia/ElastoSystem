@@ -120,5 +120,69 @@ namespace ElastoSystem
         {
             this.Close();
         }
+
+        private byte[] ayudaVisualPdfAV;
+        private void btnVerEspecificacion_Click(object sender, EventArgs e)
+        {
+            CargarAV();
+        }
+
+        private void CargarAV()
+        {
+            string nombreav = txbEspecificacion.Text;
+
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = "SELECT Archivo FROM elastosystem_produccion_av WHERE Nombre = @NOMBRE LIMIT 1";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@NOMBRE", nombreav);
+
+                    object resultado = cmd.ExecuteScalar();
+
+                    if(resultado != null && resultado != DBNull.Value)
+                    {
+                        ayudaVisualPdfAV = (byte[])resultado;
+                        MostrarAV();
+                    }
+                    else
+                    {
+                        ayudaVisualPdfAV = null;
+                        MessageBox.Show("NO SE ENCONTRO EL ARCHIVO ASOCIADO A LA AYUDA VISUAL");
+                        return;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("ERROR AL OBTENER LA AYUDA VISUAL: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void MostrarAV()
+        {
+            if(ayudaVisualPdfAV != null)
+            {
+                string rutaTemporal = Path.Combine(Path.GetTempPath(), "tempAV.pdf");
+                File.WriteAllBytes(rutaTemporal, ayudaVisualPdfAV);
+
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = rutaTemporal,
+                    UseShellExecute = true
+                };
+                System.Diagnostics.Process.Start(psi);
+            }
+            else
+            {
+                MessageBox.Show("NO HAY ARCHIVO CARGADO PARA VISAULIZAR");
+            }
+        }
     }
 }
