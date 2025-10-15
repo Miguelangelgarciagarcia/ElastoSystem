@@ -762,8 +762,8 @@ namespace ElastoSystem
 
         private void btnReporte_Click(object sender, EventArgs e)
         {
-            /*openChildForm(new Produccion_Reporte());
-            HideSubMenu();*/
+            openChildForm(new Produccion_ReporteDiario());
+            HideSubMenu();
         }
 
         private void btnAdmiReq_Click(object sender, EventArgs e)
