@@ -356,6 +356,11 @@ namespace ElastoSystem
 
         private void btnCrearOT_Click(object sender, EventArgs e)
         {
+            if(string.IsNullOrEmpty(txbNombreArea.Text))
+            {
+                MessageBox.Show("EL CAMPO NOMBRE DE AREA NO PUEDE ESTAR VACÍO CONSULTA CON ADMINISTRADOR\nLO PUEDES ACTUALIZAR EN PRODUCCIÓN >> ADMINSTRAR PROCESOS >> RELACIONAR");
+                return;
+            }
             RevisarDatos();
         }
 
