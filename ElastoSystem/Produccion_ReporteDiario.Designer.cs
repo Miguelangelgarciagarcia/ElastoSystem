@@ -39,6 +39,8 @@
             label1 = new Label();
             tabControl1 = new TabControl();
             tabNave1 = new TabPage();
+            lblIDApoyo = new Label();
+            lblIDOperador = new Label();
             cbApoyo = new ComboBox();
             label16 = new Label();
             lblFecha = new Label();
@@ -60,7 +62,6 @@
             btnGuardar = new Button();
             cbOperador = new ComboBox();
             label6 = new Label();
-            cbTurno = new ComboBox();
             label5 = new Label();
             txbActividad = new TextBox();
             label4 = new Label();
@@ -76,8 +77,7 @@
             tabEditarReporte = new TabPage();
             textBox7 = new TextBox();
             label13 = new Label();
-            lblIDOperador = new Label();
-            lblIDApoyo = new Label();
+            txbTurnoN1 = new TextBox();
             tabControl1.SuspendLayout();
             tabNave1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvNave1).BeginInit();
@@ -111,6 +111,7 @@
             // tabNave1
             // 
             tabNave1.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabNave1.Controls.Add(txbTurnoN1);
             tabNave1.Controls.Add(lblIDApoyo);
             tabNave1.Controls.Add(lblIDOperador);
             tabNave1.Controls.Add(cbApoyo);
@@ -134,7 +135,6 @@
             tabNave1.Controls.Add(btnGuardar);
             tabNave1.Controls.Add(cbOperador);
             tabNave1.Controls.Add(label6);
-            tabNave1.Controls.Add(cbTurno);
             tabNave1.Controls.Add(label5);
             tabNave1.Controls.Add(txbActividad);
             tabNave1.Controls.Add(label4);
@@ -150,6 +150,32 @@
             tabNave1.TabIndex = 1;
             tabNave1.Text = "NAVE 1";
             tabNave1.UseVisualStyleBackColor = true;
+            // 
+            // lblIDApoyo
+            // 
+            lblIDApoyo.AutoSize = true;
+            lblIDApoyo.BackColor = Color.Transparent;
+            lblIDApoyo.Font = new Font("Montserrat", 11F);
+            lblIDApoyo.ForeColor = Color.White;
+            lblIDApoyo.Location = new Point(165, 37);
+            lblIDApoyo.Name = "lblIDApoyo";
+            lblIDApoyo.Size = new Size(89, 24);
+            lblIDApoyo.TabIndex = 140;
+            lblIDApoyo.Text = "ID APOYO";
+            lblIDApoyo.Visible = false;
+            // 
+            // lblIDOperador
+            // 
+            lblIDOperador.AutoSize = true;
+            lblIDOperador.BackColor = Color.Transparent;
+            lblIDOperador.Font = new Font("Montserrat", 11F);
+            lblIDOperador.ForeColor = Color.White;
+            lblIDOperador.Location = new Point(36, 37);
+            lblIDOperador.Name = "lblIDOperador";
+            lblIDOperador.Size = new Size(123, 24);
+            lblIDOperador.TabIndex = 139;
+            lblIDOperador.Text = "ID OPERADOR";
+            lblIDOperador.Visible = false;
             // 
             // cbApoyo
             // 
@@ -398,18 +424,6 @@
             label6.Size = new Size(84, 24);
             label6.TabIndex = 121;
             label6.Text = "Operador:";
-            // 
-            // cbTurno
-            // 
-            cbTurno.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbTurno.Font = new Font("Montserrat", 11F);
-            cbTurno.FormattingEnabled = true;
-            cbTurno.Items.AddRange(new object[] { "MATUTINO", "MIXTO", "VESPERTINO" });
-            cbTurno.Location = new Point(979, 80);
-            cbTurno.Name = "cbTurno";
-            cbTurno.Size = new Size(307, 32);
-            cbTurno.TabIndex = 118;
-            cbTurno.SelectedIndexChanged += cbTurno_SelectedIndexChanged;
             // 
             // label5
             // 
@@ -667,31 +681,15 @@
             label13.Text = "P.N.C EN REVISION:";
             label13.Visible = false;
             // 
-            // lblIDOperador
+            // txbTurnoN1
             // 
-            lblIDOperador.AutoSize = true;
-            lblIDOperador.BackColor = Color.Transparent;
-            lblIDOperador.Font = new Font("Montserrat", 11F);
-            lblIDOperador.ForeColor = Color.White;
-            lblIDOperador.Location = new Point(36, 37);
-            lblIDOperador.Name = "lblIDOperador";
-            lblIDOperador.Size = new Size(123, 24);
-            lblIDOperador.TabIndex = 139;
-            lblIDOperador.Text = "ID OPERADOR";
-            lblIDOperador.Visible = false;
-            // 
-            // lblIDApoyo
-            // 
-            lblIDApoyo.AutoSize = true;
-            lblIDApoyo.BackColor = Color.Transparent;
-            lblIDApoyo.Font = new Font("Montserrat", 11F);
-            lblIDApoyo.ForeColor = Color.White;
-            lblIDApoyo.Location = new Point(165, 37);
-            lblIDApoyo.Name = "lblIDApoyo";
-            lblIDApoyo.Size = new Size(89, 24);
-            lblIDApoyo.TabIndex = 140;
-            lblIDApoyo.Text = "ID APOYO";
-            lblIDApoyo.Visible = false;
+            txbTurnoN1.Font = new Font("Montserrat", 11F);
+            txbTurnoN1.Location = new Point(979, 83);
+            txbTurnoN1.Name = "txbTurnoN1";
+            txbTurnoN1.ReadOnly = true;
+            txbTurnoN1.Size = new Size(307, 25);
+            txbTurnoN1.TabIndex = 135;
+            txbTurnoN1.TextAlign = HorizontalAlignment.Center;
             // 
             // Produccion_ReporteDiario
             // 
@@ -734,7 +732,6 @@
         private Label label4;
         private TextBox txbProducto;
         private Label label10;
-        private ComboBox cbTurno;
         private Label label5;
         private Button btnGuardar;
         private ComboBox cbOperador;
@@ -761,5 +758,6 @@
         private ComboBox cbApoyo;
         private Label label16;
         private Label lblIDApoyo;
+        private TextBox txbTurnoN1;
     }
 }

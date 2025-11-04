@@ -168,7 +168,7 @@
             lblOrdenTrabajo.ForeColor = Color.White;
             lblOrdenTrabajo.Location = new Point(12, 39);
             lblOrdenTrabajo.Name = "lblOrdenTrabajo";
-            lblOrdenTrabajo.Size = new Size(432, 37);
+            lblOrdenTrabajo.Size = new Size(433, 42);
             lblOrdenTrabajo.TabIndex = 89;
             lblOrdenTrabajo.Text = "ORDEN DE TRABAJO: ERROR";
             // 
@@ -241,7 +241,7 @@
             label16.ForeColor = Color.White;
             label16.Location = new Point(427, 180);
             label16.Name = "label16";
-            label16.Size = new Size(115, 20);
+            label16.Size = new Size(116, 22);
             label16.TabIndex = 120;
             label16.Text = "Observaciones:";
             // 
@@ -253,7 +253,7 @@
             label17.ForeColor = Color.White;
             label17.Location = new Point(427, 149);
             label17.Name = "label17";
-            label17.Size = new Size(181, 20);
+            label17.Size = new Size(182, 22);
             label17.TabIndex = 118;
             label17.Text = "Solicitud de Fabricación:";
             // 
@@ -275,7 +275,7 @@
             cbMaquinas.FormattingEnabled = true;
             cbMaquinas.Location = new Point(544, 113);
             cbMaquinas.Name = "cbMaquinas";
-            cbMaquinas.Size = new Size(365, 26);
+            cbMaquinas.Size = new Size(365, 28);
             cbMaquinas.TabIndex = 114;
             // 
             // label15
@@ -286,7 +286,7 @@
             label15.ForeColor = Color.White;
             label15.Location = new Point(427, 116);
             label15.Name = "label15";
-            label15.Size = new Size(72, 20);
+            label15.Size = new Size(73, 22);
             label15.TabIndex = 115;
             label15.Text = "Máquina:";
             // 
@@ -318,7 +318,7 @@
             label7.ForeColor = Color.White;
             label7.Location = new Point(426, 51);
             label7.Name = "label7";
-            label7.Size = new Size(44, 20);
+            label7.Size = new Size(45, 22);
             label7.TabIndex = 110;
             label7.Text = "Área:";
             // 
@@ -330,7 +330,7 @@
             label10.ForeColor = Color.White;
             label10.Location = new Point(426, 83);
             label10.Name = "label10";
-            label10.Size = new Size(106, 20);
+            label10.Size = new Size(107, 22);
             label10.TabIndex = 111;
             label10.Text = "Nombre Área:";
             // 
@@ -340,10 +340,10 @@
             cbTurno.Enabled = false;
             cbTurno.Font = new Font("Montserrat", 10F);
             cbTurno.FormattingEnabled = true;
-            cbTurno.Items.AddRange(new object[] { "MATUTINO", "MIXTO", "VESPERTINO" });
+            cbTurno.Items.AddRange(new object[] { "1 TURNO", "2 TURNOS", "3 TURNOS" });
             cbTurno.Location = new Point(132, 77);
             cbTurno.Name = "cbTurno";
-            cbTurno.Size = new Size(274, 26);
+            cbTurno.Size = new Size(274, 28);
             cbTurno.TabIndex = 96;
             // 
             // txbEspecificacion
@@ -383,7 +383,7 @@
             label5.ForeColor = Color.White;
             label5.Location = new Point(15, 83);
             label5.Name = "label5";
-            label5.Size = new Size(53, 20);
+            label5.Size = new Size(54, 22);
             label5.TabIndex = 96;
             label5.Text = "Turno:";
             // 
@@ -395,7 +395,7 @@
             label3.ForeColor = Color.White;
             label3.Location = new Point(15, 52);
             label3.Name = "label3";
-            label3.Size = new Size(72, 20);
+            label3.Size = new Size(73, 22);
             label3.TabIndex = 95;
             label3.Text = "Autorizo:";
             // 
@@ -407,7 +407,7 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(468, 22);
             label2.Name = "label2";
-            label2.Size = new Size(116, 20);
+            label2.Size = new Size(117, 22);
             label2.TabIndex = 75;
             label2.Text = "Fecha Termino:";
             // 
@@ -419,7 +419,7 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(15, 22);
             label4.Name = "label4";
-            label4.Size = new Size(96, 20);
+            label4.Size = new Size(97, 22);
             label4.TabIndex = 73;
             label4.Text = "Fecha Inicio:";
             // 
@@ -431,7 +431,7 @@
             label13.ForeColor = Color.White;
             label13.Location = new Point(15, 115);
             label13.Name = "label13";
-            label13.Size = new Size(75, 20);
+            label13.Size = new Size(76, 22);
             label13.TabIndex = 104;
             label13.Text = "Cantidad:";
             // 
@@ -443,7 +443,7 @@
             lblAutorizo.ForeColor = Color.White;
             lblAutorizo.Location = new Point(132, 52);
             lblAutorizo.Name = "lblAutorizo";
-            lblAutorizo.Size = new Size(60, 20);
+            lblAutorizo.Size = new Size(61, 22);
             lblAutorizo.TabIndex = 94;
             lblAutorizo.Text = "ERROR";
             // 
@@ -455,7 +455,7 @@
             cbMolde.FormattingEnabled = true;
             cbMolde.Location = new Point(132, 176);
             cbMolde.Name = "cbMolde";
-            cbMolde.Size = new Size(273, 26);
+            cbMolde.Size = new Size(273, 28);
             cbMolde.TabIndex = 97;
             // 
             // txbLote
@@ -476,7 +476,7 @@
             label12.ForeColor = Color.White;
             label12.Location = new Point(15, 147);
             label12.Name = "label12";
-            label12.Size = new Size(43, 20);
+            label12.Size = new Size(44, 22);
             label12.TabIndex = 102;
             label12.Text = "Lote:";
             // 
@@ -488,7 +488,7 @@
             label11.ForeColor = Color.White;
             label11.Location = new Point(15, 179);
             label11.Name = "label11";
-            label11.Size = new Size(55, 20);
+            label11.Size = new Size(56, 22);
             label11.TabIndex = 98;
             label11.Text = "Molde:";
             // 
@@ -510,7 +510,7 @@
             label14.ForeColor = Color.White;
             label14.Location = new Point(17, 13);
             label14.Name = "label14";
-            label14.Size = new Size(174, 20);
+            label14.Size = new Size(175, 22);
             label14.TabIndex = 117;
             label14.Text = "Producción por Turno:";
             // 
@@ -870,7 +870,7 @@
             label8.ForeColor = Color.White;
             label8.Location = new Point(3, 9);
             label8.Name = "label8";
-            label8.Size = new Size(234, 20);
+            label8.Size = new Size(235, 22);
             label8.TabIndex = 129;
             label8.Text = "PRODUCCIÓN EN OPERACION:";
             // 

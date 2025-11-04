@@ -54,63 +54,98 @@ namespace ElastoSystem
                                 );";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    using (MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
                     {
-                        using (MySqlDataAdapter adaptador = new MySqlDataAdapter(cmd))
+                        DataTable dtOriginal = new DataTable();
+                        adaptador.Fill(dtOriginal);
+
+                        DataTable dtFinal = dtOriginal.Clone();
+
+                        foreach (DataRow row in dtOriginal.Rows)
                         {
-                            DataTable dt = new DataTable();
-                            adaptador.Fill(dt);
+                            string turno = row["Turno"]?.ToString()?.Trim().ToUpper() ?? "";
 
-                            dt.Columns.Add("Produccion", typeof(double));
-                            foreach (DataRow row in dt.Rows)
+                            if (turno == "1 TURNO")
                             {
-                                row["Produccion"] = 0;
+                                DataRow nuevo = dtFinal.NewRow();
+                                nuevo.ItemArray = row.ItemArray.Clone() as object[];
+                                nuevo["Turno"] = "MIXTO";
+                                dtFinal.Rows.Add(nuevo);
                             }
-
-                            dt.Columns.Add("Operador", typeof(string));
-                            dt.Columns.Add("IDOperador", typeof(string));
-                            dt.Columns.Add("POP", typeof(double));
-                            dt.Columns.Add("PNCOP", typeof(double));
-                            dt.Columns.Add("Reproceso", typeof(double));
-                            dt.Columns.Add("ObservacionesP", typeof(string));
-                            dt.Columns.Add("HorasTrabajadas", typeof(string));
-                            dt.Columns.Add("Apoyo", typeof(string));
-                            dt.Columns.Add("IDApoyo", typeof(string));
-
-                            dgvNave1.DataSource = dt;
-
-                            dgvNave1.Columns["Producto"].DisplayIndex = 0;
-                            dgvNave1.Columns["Producto"].HeaderText = "Producto";
-
-                            dgvNave1.Columns["Produccion"].Width = 120;
-                            dgvNave1.Columns["Produccion"].HeaderText = "Producción";
-
-                            dgvNave1.Columns["NombreArea"].DisplayIndex = 1;
-                            dgvNave1.Columns["NombreArea"].HeaderText = "Actividad";
-
-                            dgvNave1.Columns["ID"].Visible = false;
-                            dgvNave1.Columns["FechaInicio"].Visible = false;
-                            dgvNave1.Columns["FechaTermino"].Visible = false;
-                            dgvNave1.Columns["Autorizo"].Visible = false;
-                            dgvNave1.Columns["Lote"].Visible = false;
-                            dgvNave1.Columns["Molde"].Visible = false;
-                            dgvNave1.Columns["Cantidad"].Visible = false;
-                            dgvNave1.Columns["Especificacion"].Visible = false;
-                            dgvNave1.Columns["Area"].Visible = false;
-                            dgvNave1.Columns["SF"].Visible = false;
-                            dgvNave1.Columns["Observaciones"].Visible = false;
-                            dgvNave1.Columns["Nave"].Visible = false;
-                            dgvNave1.Columns["Estatus"].Visible = false;
-
-                            dgvNave1.Columns["Operador"].Visible = false;
-                            dgvNave1.Columns["IDOperador"].Visible = false;
-                            dgvNave1.Columns["POP"].Visible = false;
-                            dgvNave1.Columns["PNCOP"].Visible = false;
-                            dgvNave1.Columns["Reproceso"].Visible = false;
-                            dgvNave1.Columns["ObservacionesP"].Visible = false;
-                            dgvNave1.Columns["HorasTrabajadas"].Visible = false;
-                            dgvNave1.Columns["Apoyo"].Visible = false;
-                            dgvNave1.Columns["IDApoyo"].Visible = false;
+                            else if (turno == "2 TURNOS")
+                            {
+                                string[] turnos = { "MATUTINO", "VESPERTINO" };
+                                foreach (string t in turnos)
+                                {
+                                    DataRow nuevo = dtFinal.NewRow();
+                                    nuevo.ItemArray = row.ItemArray.Clone() as object[];
+                                    nuevo["Turno"] = t;
+                                    dtFinal.Rows.Add(nuevo);
+                                }
+                            }
+                            else
+                            {
+                                string[] turnos = { "MATUTINO", "VESPERTINO", "NOCTURNO" };
+                                foreach (string t in turnos)
+                                {
+                                    DataRow nuevo = dtFinal.NewRow();
+                                    nuevo.ItemArray = row.ItemArray.Clone() as object[];
+                                    nuevo["Turno"] = t;
+                                    dtFinal.Rows.Add(nuevo);
+                                }
+                            }
                         }
+
+                        dtFinal.Columns.Add("Produccion", typeof(double));
+                        dtFinal.Columns.Add("Operador", typeof(string));
+                        dtFinal.Columns.Add("IDOperador", typeof(string));
+                        dtFinal.Columns.Add("POP", typeof(double));
+                        dtFinal.Columns.Add("PNCOP", typeof(double));
+                        dtFinal.Columns.Add("Reproceso", typeof(double));
+                        dtFinal.Columns.Add("ObservacionesP", typeof(string));
+                        dtFinal.Columns.Add("HorasTrabajadas", typeof(string));
+                        dtFinal.Columns.Add("Apoyo", typeof(string));
+                        dtFinal.Columns.Add("IDApoyo", typeof(string));
+
+                        foreach (DataRow row in dtFinal.Rows)
+                        {
+                            row["Produccion"] = 0;
+                        }
+
+                        dgvNave1.DataSource = dtFinal;
+
+                        dgvNave1.Columns["Producto"].DisplayIndex = 0;
+                        dgvNave1.Columns["Producto"].HeaderText = "Producto";
+
+                        dgvNave1.Columns["Produccion"].Width = 120;
+                        dgvNave1.Columns["Produccion"].HeaderText = "Producción";
+
+                        dgvNave1.Columns["NombreArea"].DisplayIndex = 1;
+                        dgvNave1.Columns["NombreArea"].HeaderText = "Actividad";
+
+                        dgvNave1.Columns["ID"].Visible = false;
+                        dgvNave1.Columns["FechaInicio"].Visible = false;
+                        dgvNave1.Columns["FechaTermino"].Visible = false;
+                        dgvNave1.Columns["Autorizo"].Visible = false;
+                        dgvNave1.Columns["Lote"].Visible = false;
+                        dgvNave1.Columns["Molde"].Visible = false;
+                        dgvNave1.Columns["Cantidad"].Visible = false;
+                        dgvNave1.Columns["Especificacion"].Visible = false;
+                        dgvNave1.Columns["Area"].Visible = false;
+                        dgvNave1.Columns["SF"].Visible = false;
+                        dgvNave1.Columns["Observaciones"].Visible = false;
+                        dgvNave1.Columns["Nave"].Visible = false;
+                        dgvNave1.Columns["Estatus"].Visible = false;
+
+                        dgvNave1.Columns["Operador"].Visible = false;
+                        dgvNave1.Columns["IDOperador"].Visible = false;
+                        dgvNave1.Columns["POP"].Visible = false;
+                        dgvNave1.Columns["PNCOP"].Visible = false;
+                        dgvNave1.Columns["Reproceso"].Visible = false;
+                        dgvNave1.Columns["ObservacionesP"].Visible = false;
+                        dgvNave1.Columns["HorasTrabajadas"].Visible = false;
+                        dgvNave1.Columns["Apoyo"].Visible = false;
+                        dgvNave1.Columns["IDApoyo"].Visible = false;
                     }
                 }
             }
@@ -191,7 +226,7 @@ namespace ElastoSystem
         {
             txbProducto.Clear();
             txbActividad.Clear();
-            cbTurno.SelectedIndex = -1;
+            txbTurnoN1.Clear();
             cbOperador.SelectedIndex = -1;
             cbApoyo.SelectedIndex = -1;
             txbMaquina.Clear();
@@ -221,7 +256,7 @@ namespace ElastoSystem
                 txbActividad.Text = actividad;
 
                 string turno = dgv.Rows[rowIndex].Cells["Turno"].Value.ToString();
-                cbTurno.Text = turno;
+                txbTurnoN1.Text = turno;
 
                 string maquina = dgv.Rows[rowIndex].Cells["Maquina"].Value.ToString();
                 txbMaquina.Text = maquina;
@@ -234,7 +269,7 @@ namespace ElastoSystem
 
                 if (horasTrabajadas == "")
                 {
-                    if (cbTurno.Text == "MIXTO")
+                    if (txbTurnoN1.Text == "MIXTO")
                     {
                         txbHorasTrabajadas.Text = "9.5";
                     }
@@ -266,7 +301,7 @@ namespace ElastoSystem
 
         private void cbTurno_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbTurno.Text == "MIXTO")
+            if (txbTurnoN1.Text == "MIXTO")
             {
                 txbHorasTrabajadas.Text = "9.5";
             }
@@ -456,7 +491,7 @@ namespace ElastoSystem
             if (string.IsNullOrWhiteSpace(txbReproceso.Text))
                 txbReproceso.Text = "0";
 
-            dgvNave1.Rows[rowIndex].Cells["Turno"].Value = cbTurno.Text;
+            dgvNave1.Rows[rowIndex].Cells["Turno"].Value = txbTurnoN1.Text;
             dgvNave1.Rows[rowIndex].Cells["Operador"].Value = cbOperador.Text;
             dgvNave1.Rows[rowIndex].Cells["IDOperador"].Value = lblIDOperador.Text;
             dgvNave1.Rows[rowIndex].Cells["Produccion"].Value = Convert.ToDouble(txbPCTotal.Text);

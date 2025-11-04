@@ -35,7 +35,7 @@ namespace ElastoSystem
             dtpFechaFinal.MinDate = FechaInicio;
 
             lblAutorizo.Text = VariablesGlobales.Usuario;
-            cbTurno.SelectedIndex = 1;
+            cbTurno.SelectedIndex = 0;
 
             txbProducto.Text = ClaveProducto;
             lblFolioOT.Text = FolioOT;
