@@ -39,6 +39,10 @@
             label1 = new Label();
             tabControl1 = new TabControl();
             tabNave1 = new TabPage();
+            cbApoyo = new ComboBox();
+            label16 = new Label();
+            lblFecha = new Label();
+            button1 = new Button();
             txbReproceso = new TextBox();
             label15 = new Label();
             txbPCTotal = new TextBox();
@@ -72,6 +76,8 @@
             tabEditarReporte = new TabPage();
             textBox7 = new TextBox();
             label13 = new Label();
+            lblIDOperador = new Label();
+            lblIDApoyo = new Label();
             tabControl1.SuspendLayout();
             tabNave1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvNave1).BeginInit();
@@ -105,6 +111,12 @@
             // tabNave1
             // 
             tabNave1.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabNave1.Controls.Add(lblIDApoyo);
+            tabNave1.Controls.Add(lblIDOperador);
+            tabNave1.Controls.Add(cbApoyo);
+            tabNave1.Controls.Add(label16);
+            tabNave1.Controls.Add(lblFecha);
+            tabNave1.Controls.Add(button1);
             tabNave1.Controls.Add(txbReproceso);
             tabNave1.Controls.Add(label15);
             tabNave1.Controls.Add(txbPCTotal);
@@ -139,15 +151,67 @@
             tabNave1.Text = "NAVE 1";
             tabNave1.UseVisualStyleBackColor = true;
             // 
+            // cbApoyo
+            // 
+            cbApoyo.Font = new Font("Montserrat", 11F);
+            cbApoyo.FormattingEnabled = true;
+            cbApoyo.ItemHeight = 24;
+            cbApoyo.Location = new Point(633, 123);
+            cbApoyo.MaxDropDownItems = 5;
+            cbApoyo.Name = "cbApoyo";
+            cbApoyo.Size = new Size(373, 32);
+            cbApoyo.TabIndex = 141;
+            cbApoyo.SelectedIndexChanged += cbApoyo_SelectedIndexChanged;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.BackColor = Color.Transparent;
+            label16.Font = new Font("Montserrat", 11F);
+            label16.ForeColor = Color.White;
+            label16.Location = new Point(567, 126);
+            label16.Name = "label16";
+            label16.Size = new Size(60, 24);
+            label16.TabIndex = 142;
+            label16.Text = "Apoyo:";
+            // 
+            // lblFecha
+            // 
+            lblFecha.BackColor = Color.Transparent;
+            lblFecha.Font = new Font("Montserrat", 11F, FontStyle.Bold);
+            lblFecha.ForeColor = Color.White;
+            lblFecha.Location = new Point(819, 37);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(467, 24);
+            lblFecha.TabIndex = 140;
+            lblFecha.Text = "FECHA: ERROR";
+            lblFecha.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(255, 102, 0);
+            button1.Cursor = Cursors.Hand;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Montserrat", 11F, FontStyle.Bold);
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(21, 654);
+            button1.Name = "button1";
+            button1.Size = new Size(320, 35);
+            button1.TabIndex = 139;
+            button1.Text = "REGISTRAR PAROS DE MAQUINAS";
+            button1.UseVisualStyleBackColor = false;
+            // 
             // txbReproceso
             // 
             txbReproceso.Font = new Font("Montserrat", 11F);
-            txbReproceso.Location = new Point(805, 176);
+            txbReproceso.Location = new Point(805, 220);
             txbReproceso.Name = "txbReproceso";
-            txbReproceso.ReadOnly = true;
             txbReproceso.Size = new Size(142, 25);
             txbReproceso.TabIndex = 138;
             txbReproceso.TextAlign = HorizontalAlignment.Center;
+            txbReproceso.TextChanged += txbReproceso_TextChanged;
+            txbReproceso.KeyPress += txbReproceso_KeyPress;
             // 
             // label15
             // 
@@ -155,16 +219,16 @@
             label15.BackColor = Color.Transparent;
             label15.Font = new Font("Montserrat", 11F);
             label15.ForeColor = Color.White;
-            label15.Location = new Point(687, 179);
+            label15.Location = new Point(687, 223);
             label15.Name = "label15";
-            label15.Size = new Size(112, 21);
+            label15.Size = new Size(112, 24);
             label15.TabIndex = 137;
             label15.Text = "REPROCESO:";
             // 
             // txbPCTotal
             // 
             txbPCTotal.Font = new Font("Montserrat", 11F);
-            txbPCTotal.Location = new Point(1095, 176);
+            txbPCTotal.Location = new Point(1095, 220);
             txbPCTotal.Name = "txbPCTotal";
             txbPCTotal.ReadOnly = true;
             txbPCTotal.Size = new Size(142, 25);
@@ -177,21 +241,22 @@
             label14.BackColor = Color.Transparent;
             label14.Font = new Font("Montserrat", 11F);
             label14.ForeColor = Color.White;
-            label14.Location = new Point(994, 176);
+            label14.Location = new Point(994, 220);
             label14.Name = "label14";
-            label14.Size = new Size(95, 21);
+            label14.Size = new Size(95, 24);
             label14.TabIndex = 135;
             label14.Text = "P.C. TOTAL:";
             // 
             // txbPNCOperacion
             // 
             txbPNCOperacion.Font = new Font("Montserrat", 11F);
-            txbPNCOperacion.Location = new Point(509, 176);
+            txbPNCOperacion.Location = new Point(509, 220);
             txbPNCOperacion.Name = "txbPNCOperacion";
-            txbPNCOperacion.ReadOnly = true;
             txbPNCOperacion.Size = new Size(142, 25);
             txbPNCOperacion.TabIndex = 132;
             txbPNCOperacion.TextAlign = HorizontalAlignment.Center;
+            txbPNCOperacion.TextChanged += txbPNCOperacion_TextChanged;
+            txbPNCOperacion.KeyPress += txbPNCOperacion_KeyPress;
             // 
             // label12
             // 
@@ -199,21 +264,22 @@
             label12.BackColor = Color.Transparent;
             label12.Font = new Font("Montserrat", 11F);
             label12.ForeColor = Color.White;
-            label12.Location = new Point(375, 176);
+            label12.Location = new Point(375, 220);
             label12.Name = "label12";
-            label12.Size = new Size(128, 21);
+            label12.Size = new Size(128, 24);
             label12.TabIndex = 131;
             label12.Text = "P.N.C EN OPER:";
             // 
             // txbProductoOP
             // 
             txbProductoOP.Font = new Font("Montserrat", 11F);
-            txbProductoOP.Location = new Point(214, 173);
+            txbProductoOP.Location = new Point(214, 217);
             txbProductoOP.Name = "txbProductoOP";
-            txbProductoOP.ReadOnly = true;
             txbProductoOP.Size = new Size(142, 25);
             txbProductoOP.TabIndex = 130;
             txbProductoOP.TextAlign = HorizontalAlignment.Center;
+            txbProductoOP.TextChanged += txbProductoOP_TextChanged;
+            txbProductoOP.KeyPress += txbProductoOP_KeyPress;
             // 
             // label11
             // 
@@ -221,21 +287,21 @@
             label11.BackColor = Color.Transparent;
             label11.Font = new Font("Montserrat", 11F);
             label11.ForeColor = Color.White;
-            label11.Location = new Point(49, 176);
+            label11.Location = new Point(49, 220);
             label11.Name = "label11";
-            label11.Size = new Size(159, 21);
+            label11.Size = new Size(159, 24);
             label11.TabIndex = 129;
             label11.Text = "PRODUCTO EN OP:";
             // 
             // txbHorasTrabajadas
             // 
             txbHorasTrabajadas.Font = new Font("Montserrat", 11F);
-            txbHorasTrabajadas.Location = new Point(1080, 126);
+            txbHorasTrabajadas.Location = new Point(1163, 130);
             txbHorasTrabajadas.Name = "txbHorasTrabajadas";
-            txbHorasTrabajadas.ReadOnly = true;
-            txbHorasTrabajadas.Size = new Size(206, 25);
+            txbHorasTrabajadas.Size = new Size(123, 25);
             txbHorasTrabajadas.TabIndex = 128;
             txbHorasTrabajadas.TextAlign = HorizontalAlignment.Center;
+            txbHorasTrabajadas.KeyPress += txbHorasTrabajadas_KeyPress;
             // 
             // label9
             // 
@@ -243,19 +309,18 @@
             label9.BackColor = Color.Transparent;
             label9.Font = new Font("Montserrat", 11F);
             label9.ForeColor = Color.White;
-            label9.Location = new Point(934, 129);
+            label9.Location = new Point(1017, 130);
             label9.Name = "label9";
-            label9.Size = new Size(140, 21);
+            label9.Size = new Size(140, 24);
             label9.TabIndex = 127;
             label9.Text = "Horas Trabajadas:";
             // 
             // txbObservaciones
             // 
             txbObservaciones.Font = new Font("Montserrat", 11F);
-            txbObservaciones.Location = new Point(164, 218);
+            txbObservaciones.Location = new Point(527, 172);
             txbObservaciones.Name = "txbObservaciones";
-            txbObservaciones.ReadOnly = true;
-            txbObservaciones.Size = new Size(783, 25);
+            txbObservaciones.Size = new Size(759, 25);
             txbObservaciones.TabIndex = 126;
             txbObservaciones.TextAlign = HorizontalAlignment.Center;
             // 
@@ -265,16 +330,16 @@
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Montserrat", 11F);
             label8.ForeColor = Color.White;
-            label8.Location = new Point(36, 221);
+            label8.Location = new Point(399, 175);
             label8.Name = "label8";
-            label8.Size = new Size(122, 21);
+            label8.Size = new Size(122, 24);
             label8.TabIndex = 125;
             label8.Text = "Observaciones:";
             // 
             // txbMaquina
             // 
             txbMaquina.Font = new Font("Montserrat", 11F);
-            txbMaquina.Location = new Point(659, 127);
+            txbMaquina.Location = new Point(119, 172);
             txbMaquina.Name = "txbMaquina";
             txbMaquina.ReadOnly = true;
             txbMaquina.Size = new Size(267, 25);
@@ -287,9 +352,9 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Montserrat", 11F);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(574, 130);
+            label7.Location = new Point(34, 175);
             label7.Name = "label7";
-            label7.Size = new Size(79, 21);
+            label7.Size = new Size(79, 24);
             label7.TabIndex = 123;
             label7.Text = "Maquina:";
             // 
@@ -301,23 +366,26 @@
             btnGuardar.FlatStyle = FlatStyle.Flat;
             btnGuardar.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnGuardar.ForeColor = Color.White;
-            btnGuardar.Location = new Point(953, 213);
+            btnGuardar.Location = new Point(332, 264);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(333, 35);
+            btnGuardar.Size = new Size(641, 35);
             btnGuardar.TabIndex = 122;
             btnGuardar.Text = "GUARDAR";
             btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // cbOperador
             // 
-            cbOperador.Enabled = false;
             cbOperador.Font = new Font("Montserrat", 11F);
             cbOperador.FormattingEnabled = true;
-            cbOperador.Items.AddRange(new object[] { "MATUTINO", "MIXTO", "VESPERTINO" });
+            cbOperador.ItemHeight = 24;
             cbOperador.Location = new Point(123, 123);
+            cbOperador.MaxDropDownItems = 5;
             cbOperador.Name = "cbOperador";
-            cbOperador.Size = new Size(437, 29);
+            cbOperador.Size = new Size(437, 32);
             cbOperador.TabIndex = 120;
+            cbOperador.SelectedIndexChanged += cbOperador_SelectedIndexChanged;
+            cbOperador.TextChanged += cbOperador_TextChanged;
             // 
             // label6
             // 
@@ -327,21 +395,21 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(33, 126);
             label6.Name = "label6";
-            label6.Size = new Size(84, 21);
+            label6.Size = new Size(84, 24);
             label6.TabIndex = 121;
             label6.Text = "Operador:";
             // 
             // cbTurno
             // 
             cbTurno.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbTurno.Enabled = false;
             cbTurno.Font = new Font("Montserrat", 11F);
             cbTurno.FormattingEnabled = true;
-            cbTurno.Items.AddRange(new object[] { "ESPECIAL", "MATUTINO", "MIXTO", "VESPERTINO" });
+            cbTurno.Items.AddRange(new object[] { "MATUTINO", "MIXTO", "VESPERTINO" });
             cbTurno.Location = new Point(979, 80);
             cbTurno.Name = "cbTurno";
-            cbTurno.Size = new Size(307, 29);
+            cbTurno.Size = new Size(307, 32);
             cbTurno.TabIndex = 118;
+            cbTurno.SelectedIndexChanged += cbTurno_SelectedIndexChanged;
             // 
             // label5
             // 
@@ -351,7 +419,7 @@
             label5.ForeColor = Color.White;
             label5.Location = new Point(916, 83);
             label5.Name = "label5";
-            label5.Size = new Size(57, 21);
+            label5.Size = new Size(57, 24);
             label5.TabIndex = 119;
             label5.Text = "Turno:";
             // 
@@ -373,7 +441,7 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(357, 83);
             label4.Name = "label4";
-            label4.Size = new Size(83, 21);
+            label4.Size = new Size(83, 24);
             label4.TabIndex = 116;
             label4.Text = "Actividad:";
             // 
@@ -395,7 +463,7 @@
             label10.ForeColor = Color.White;
             label10.Location = new Point(31, 83);
             label10.Name = "label10";
-            label10.Size = new Size(82, 21);
+            label10.Size = new Size(82, 24);
             label10.TabIndex = 114;
             label10.Text = "Producto:";
             // 
@@ -404,12 +472,12 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Montserrat", 22F, FontStyle.Bold);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(21, 18);
+            label2.Location = new Point(595, 24);
             label2.Name = "label2";
-            label2.Size = new Size(1265, 41);
+            label2.Size = new Size(128, 41);
             label2.TabIndex = 75;
             label2.Text = "NAVE 1";
-            label2.TextAlign = ContentAlignment.TopCenter;
+            label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnFirmarReporteN1
             // 
@@ -419,12 +487,13 @@
             btnFirmarReporteN1.FlatStyle = FlatStyle.Flat;
             btnFirmarReporteN1.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             btnFirmarReporteN1.ForeColor = Color.White;
-            btnFirmarReporteN1.Location = new Point(525, 646);
+            btnFirmarReporteN1.Location = new Point(966, 654);
             btnFirmarReporteN1.Name = "btnFirmarReporteN1";
-            btnFirmarReporteN1.Size = new Size(275, 35);
+            btnFirmarReporteN1.Size = new Size(320, 35);
             btnFirmarReporteN1.TabIndex = 74;
-            btnFirmarReporteN1.Text = "FIRMAR REPORTE";
+            btnFirmarReporteN1.Text = "FIRMAR Y GENERAR REPORTE";
             btnFirmarReporteN1.UseVisualStyleBackColor = false;
+            btnFirmarReporteN1.Click += btnFirmarReporteN1_Click;
             // 
             // dgvNave1
             // 
@@ -450,7 +519,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dgvNave1.DefaultCellStyle = dataGridViewCellStyle2;
             dgvNave1.GridColor = SystemColors.ActiveCaptionText;
-            dgvNave1.Location = new Point(21, 264);
+            dgvNave1.Location = new Point(21, 315);
             dgvNave1.Name = "dgvNave1";
             dgvNave1.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -470,10 +539,11 @@
             dataGridViewCellStyle4.SelectionForeColor = Color.White;
             dgvNave1.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvNave1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvNave1.Size = new Size(1265, 361);
+            dgvNave1.Size = new Size(1265, 325);
             dgvNave1.TabIndex = 73;
             dgvNave1.CellClick += dgvNave1_CellClick;
             dgvNave1.CellDoubleClick += dgvNave1_CellDoubleClick;
+            dgvNave1.DataBindingComplete += dgvNave1_DataBindingComplete;
             // 
             // tabNave2
             // 
@@ -576,10 +646,10 @@
             // textBox7
             // 
             textBox7.Font = new Font("Montserrat", 11F);
-            textBox7.Location = new Point(1069, 37);
+            textBox7.Location = new Point(1286, 18);
             textBox7.Name = "textBox7";
             textBox7.ReadOnly = true;
-            textBox7.Size = new Size(142, 25);
+            textBox7.Size = new Size(21, 25);
             textBox7.TabIndex = 134;
             textBox7.TextAlign = HorizontalAlignment.Center;
             textBox7.Visible = false;
@@ -590,12 +660,38 @@
             label13.BackColor = Color.Transparent;
             label13.Font = new Font("Montserrat", 11F);
             label13.ForeColor = Color.White;
-            label13.Location = new Point(905, 40);
+            label13.Location = new Point(1122, 21);
             label13.Name = "label13";
-            label13.Size = new Size(158, 21);
+            label13.Size = new Size(158, 24);
             label13.TabIndex = 133;
             label13.Text = "P.N.C EN REVISION:";
             label13.Visible = false;
+            // 
+            // lblIDOperador
+            // 
+            lblIDOperador.AutoSize = true;
+            lblIDOperador.BackColor = Color.Transparent;
+            lblIDOperador.Font = new Font("Montserrat", 11F);
+            lblIDOperador.ForeColor = Color.White;
+            lblIDOperador.Location = new Point(36, 37);
+            lblIDOperador.Name = "lblIDOperador";
+            lblIDOperador.Size = new Size(123, 24);
+            lblIDOperador.TabIndex = 139;
+            lblIDOperador.Text = "ID OPERADOR";
+            lblIDOperador.Visible = false;
+            // 
+            // lblIDApoyo
+            // 
+            lblIDApoyo.AutoSize = true;
+            lblIDApoyo.BackColor = Color.Transparent;
+            lblIDApoyo.Font = new Font("Montserrat", 11F);
+            lblIDApoyo.ForeColor = Color.White;
+            lblIDApoyo.Location = new Point(165, 37);
+            lblIDApoyo.Name = "lblIDApoyo";
+            lblIDApoyo.Size = new Size(89, 24);
+            lblIDApoyo.TabIndex = 140;
+            lblIDApoyo.Text = "ID APOYO";
+            lblIDApoyo.Visible = false;
             // 
             // Produccion_ReporteDiario
             // 
@@ -659,5 +755,11 @@
         private Label label11;
         private TextBox txbReproceso;
         private Label label15;
+        private Label lblIDOperador;
+        private Button button1;
+        private Label lblFecha;
+        private ComboBox cbApoyo;
+        private Label label16;
+        private Label lblIDApoyo;
     }
 }
