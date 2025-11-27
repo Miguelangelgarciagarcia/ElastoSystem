@@ -121,6 +121,12 @@
   <data name="Mesa de trabajo 1-100" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Mesa de trabajo 1-100.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Mesa de trabajo 1-1001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Mesa de trabajo 1-1001.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fondocontrolalmacen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fondocontrolalmacen.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Logo1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Logo1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -136,19 +142,16 @@
   <data name="Icono Persona" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Icono Persona.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="circuloazulminimizar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\circuloazulminimizar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Logotipo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Logotipo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="fondocontrolalmacen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fondocontrolalmacen.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="circuloazulminimizar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\circuloazulminimizar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Mesa de trabajo 1-1001" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Mesa de trabajo 1-1001.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Flecha2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Flecha2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
