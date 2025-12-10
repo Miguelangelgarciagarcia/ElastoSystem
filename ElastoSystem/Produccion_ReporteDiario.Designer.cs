@@ -807,6 +807,7 @@
             btnParoMaquinasN1.TabIndex = 139;
             btnParoMaquinasN1.Text = "PAROS DE MAQUINAS";
             btnParoMaquinasN1.UseVisualStyleBackColor = false;
+            btnParoMaquinasN1.Click += btnParoMaquinasN1_Click;
             // 
             // label2
             // 
@@ -1467,6 +1468,7 @@
             btnParoMaquinasN2.TabIndex = 152;
             btnParoMaquinasN2.Text = "PAROS DE MAQUINAS";
             btnParoMaquinasN2.UseVisualStyleBackColor = false;
+            btnParoMaquinasN2.Click += btnParoMaquinasN2_Click;
             // 
             // label39
             // 
@@ -1494,6 +1496,7 @@
             btnGenerarReporteN2.TabIndex = 150;
             btnGenerarReporteN2.Text = "DESCARGAR REPORTE";
             btnGenerarReporteN2.UseVisualStyleBackColor = false;
+            btnGenerarReporteN2.Click += btnGenerarReporteN2_Click;
             // 
             // Produccion_ReporteDiario
             // 

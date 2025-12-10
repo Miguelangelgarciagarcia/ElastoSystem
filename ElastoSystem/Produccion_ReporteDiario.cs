@@ -958,12 +958,149 @@ namespace ElastoSystem
             }
         }
 
+        private Dictionary<string, (TimeSpan Start, TimeSpan End)> ObtenerHorariosTurnos()
+        {
+            return new Dictionary<string, (TimeSpan Start, TimeSpan End)>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "MATUTINO", (new TimeSpan(6, 0, 0), new TimeSpan(14, 0, 0)) },
+                { "MIXTO", (new TimeSpan(7, 0, 0), new TimeSpan(17, 0, 0)) },
+                { "VESPERTINO", (new TimeSpan(14, 0, 0), new TimeSpan(22, 0, 0)) }
+            };
+        }
+
+        private List<string> ObtenerMaquinasPendientesN1(string turno)
+        {
+            return dgvPendientesNave1.Rows.Cast<DataGridViewRow>()
+                .Where(r => !r.IsNewRow && (r.Cells["Turno"]?.Value?.ToString() ?? "").Equals(turno, StringComparison.OrdinalIgnoreCase))
+                .Select(r => r.Cells["Maquina"]?.Value?.ToString() ?? "")
+                .Where(m => !string.IsNullOrWhiteSpace(m))
+                .Distinct()
+                .ToList();
+        }
+
+        private bool TieneCoberturaParosN1(string turno, List<string> maquinas)
+        {
+            if (!maquinas.Any()) return true;
+            var horarios = ObtenerHorariosTurnos();
+            if (!horarios.TryGetValue(turno, out var horarioTurno)) return false;
+            TimeSpan duracionTurno = horarioTurno.End - horarioTurno.Start;
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    foreach (string maquina in maquinas)
+                    {
+                        string query = @"
+                            SELECT Hora_Inicio, Hora_Fin
+                            FROM elastosystem_produccion_paros p
+                            INNER JOIN elastosystem_mtto_inventariomaquinas m ON p.ID_Maquina = m.ID
+                            WHERE m.Nombre = @MAQUINA
+                                AND p.Fecha = @FECHA
+                                AND p.Nave = 'NAVE 1'";
+                        using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@MAQUINA", maquina);
+                            cmd.Parameters.AddWithValue("@FECHA", fechaMostrada.Date);
+                            using (MySqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                TimeSpan totalOverlap = TimeSpan.Zero;
+                                while (reader.Read())
+                                {
+                                    TimeSpan inicioParo = reader.GetTimeSpan("Hora_Inicio");
+                                    TimeSpan finParo = reader.GetTimeSpan("Hora_Fin");
+                                    TimeSpan overlapStart = TimeSpan.FromTicks(Math.Max(horarioTurno.Start.Ticks, inicioParo.Ticks));
+                                    TimeSpan overlapEnd = TimeSpan.FromTicks(Math.Min(horarioTurno.End.Ticks, finParo.Ticks));
+                                    if (overlapEnd > overlapStart)
+                                    {
+                                        totalOverlap += overlapEnd - overlapStart;
+                                    }
+                                }
+                                if (totalOverlap < duracionTurno) return false;
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
         private void btnFirmarReporteN1_Click(object sender, EventArgs e)
         {
-            if(dgvRegistradosNave1.Rows.Count == 0 || dgvRegistradosNave1.DataSource == null)
+            if (dgvRegistradosNave1.Rows.Count == 0 || dgvRegistradosNave1.DataSource == null)
             {
                 MessageBox.Show("No se puede generar el reporte.\n\nNo hay registros de producción en NAVE 1 para esta fecha.", "Sin Registros", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
+            }
+
+            DateTime hoy = DateTime.Today;
+            var pendientesMatutino = ObtenerMaquinasPendientesN1("MATUTINO");
+            var pendientesMixto = ObtenerMaquinasPendientesN1("MIXTO");
+            var pendientesVespertino = ObtenerMaquinasPendientesN1("VESPERTINO");
+
+            var todosLosPendientes = pendientesMatutino
+                .Concat(pendientesMixto)
+                .Concat(pendientesVespertino)
+                .Distinct()
+                .ToList();
+
+            if (fechaMostrada.Date > hoy)
+            {
+                MessageBox.Show("No se puede generar reporte de una fecha futura.", "Fecha no permitida", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            else if (fechaMostrada.Date < hoy)
+            {
+                var faltantes = new List<string>();
+                if (pendientesMatutino.Any() && !TieneCoberturaParosN1("MATUTINO", pendientesMatutino))
+                    faltantes.Add($"MATUTINO → {string.Join(", ", pendientesMatutino)}");
+                if (pendientesMixto.Any() && !TieneCoberturaParosN1("MIXTO", pendientesMixto))
+                    faltantes.Add($"MIXTO → {string.Join(", ", pendientesMixto)}");
+                if (pendientesVespertino.Any() && !TieneCoberturaParosN1("VESPERTINO", pendientesVespertino))
+                    faltantes.Add($"VESPERTINO → {string.Join(", ", pendientesVespertino)}");
+
+                if (faltantes.Any())
+                {
+                    MessageBox.Show(
+                        $"Esta en una fecha pasada ({fechaMostrada:dd/MM/yyyy}).\n" +
+                        $"Todos los pendientes deben tener paros que cubran al menos la duración del turno.\n\n" +
+                        $"Turnos sin cobertura suficiente:\n" +
+                        string.Join("\n", faltantes) + "\n\n" +
+                        $"Registra paros adecuados antes de generar el reporte.",
+                        "Faltan paros con cobertura", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    AbrirParoMaquinas("NAVE 1", lblFechaN1.Text, fechaMostrada);
+                    return;
+                }
+            }
+            else
+            {
+                TimeSpan horaActual = DateTime.Now.TimeOfDay;
+                TimeSpan horaObligaMatutino = new TimeSpan(8, 0, 0);
+                TimeSpan horaObligaMixto = new TimeSpan(15, 0, 0);
+                TimeSpan horaObligaVespertino = new TimeSpan(18, 0, 0);
+
+                var faltantes = new List<string>();
+                if (horaActual >= horaObligaMatutino && pendientesMatutino.Any() && !TieneCoberturaParosN1("MATUTINO", pendientesMatutino))
+                    faltantes.Add($"MATUTINO → {string.Join(", ", pendientesMatutino)}");
+                if (horaActual >= horaObligaMixto && pendientesMixto.Any() && !TieneCoberturaParosN1("MIXTO", pendientesMixto))
+                    faltantes.Add($"MIXTO → {string.Join(", ", pendientesMixto)}");
+                if (horaActual >= horaObligaVespertino && pendientesVespertino.Any() && !TieneCoberturaParosN1("VESPERTINO", pendientesVespertino))
+                    faltantes.Add($"VESPERTINO → {string.Join(", ", pendientesVespertino)}");
+
+                if (faltantes.Any())
+                {
+                    MessageBox.Show(
+                        $"Son las {DateTime.Now:HH:mm} y ya es obligatorio registrar paros para los siguientes turnos pendientes:\n\n" +
+                        string.Join("\n", faltantes) + "\n\n" +
+                        $"Por favor, registra paros que cubran al menos la duración del turno antes de generar el reporte.",
+                        "Faltan paros con cobertura", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    AbrirParoMaquinas("NAVE 1", lblFechaN1.Text, fechaMostrada);
+                    return;
+                }
             }
 
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -975,7 +1112,7 @@ namespace ElastoSystem
 
             string rutaArchivo = saveFileDialog.FileName;
             iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 36, 36, 36, 36);
-            
+
             try
             {
                 PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(rutaArchivo, FileMode.Create));
@@ -1124,6 +1261,81 @@ namespace ElastoSystem
                         tablaObs.AddCell(new PdfPCell(new Phrase("NO HAY REGISTRO", fontNoRegistro)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 8, BackgroundColor = fondoPendiente });
                     }
                     doc.Add(tablaObs);
+
+                    using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                    {
+                        conn.Open();
+
+                        string queryParos = @"
+                            SELECT
+                                m.Nombre AS Maquina,
+                                CONCAT(f.Codigo, ' - ', f.Falla) AS Falla,
+                                p.Hora_Inicio,
+                                p.Hora_Fin,
+                                p.Observaciones
+                            FROM elastosystem_produccion_paros p
+                            INNER JOIN elastosystem_mtto_inventariomaquinas m ON p.ID_Maquina = m.ID
+                            INNER JOIN elastosystem_produccion_fallas f ON p.Codigo_Falla = f.Codigo
+                            WHERE p.Nave = @NAVE
+                                AND p.Fecha = @FECHA
+                            ORDER BY p.Hora_Inicio ASC";
+
+                        using (MySqlCommand cmd = new MySqlCommand(queryParos, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@NAVE", "NAVE 1");
+                            cmd.Parameters.AddWithValue("@FECHA", fechaMostrada.Date);
+
+                            using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                            {
+                                DataTable dtParos = new DataTable();
+                                da.Fill(dtParos);
+
+                                if (dtParos.Rows.Count > 0)
+                                {
+                                    doc.Add(new Paragraph("PAROS REGISTRADOS", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12))
+                                    { Alignment = Element.ALIGN_CENTER, SpacingBefore = 20, SpacingAfter = 10 });
+
+                                    PdfPTable tablaParos = new PdfPTable(5);
+                                    tablaParos.WidthPercentage = 100;
+                                    tablaParos.SetWidths(new float[] { 20f, 30f, 12f, 12f, 26f });
+
+                                    BaseColor headerColor = new BaseColor(200, 220, 255);
+                                    var headerFont2 = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9);
+
+                                    string[] encabezadosParos = { "MÁQUINA", "FALLA", "INICIO", "FIN", "OBSERVACIONES" };
+                                    foreach (string h in encabezadosParos)
+                                    {
+                                        PdfPCell celda = new PdfPCell(new Phrase(h, headerFont2));
+                                        celda.BackgroundColor = headerColor;
+                                        celda.HorizontalAlignment = Element.ALIGN_CENTER;
+                                        celda.Padding = 6;
+                                        tablaParos.AddCell(celda);
+                                    }
+
+                                    var cellFont2 = FontFactory.GetFont(FontFactory.HELVETICA, 8);
+
+                                    foreach (DataRow row in dtParos.Rows)
+                                    {
+                                        tablaParos.AddCell(new PdfPCell(new Phrase(row["Maquina"].ToString(), cellFont2)) { Padding = 5 });
+                                        tablaParos.AddCell(new PdfPCell(new Phrase(row["Falla"].ToString(), cellFont2)) { Padding = 5 });
+                                        tablaParos.AddCell(new PdfPCell(new Phrase(((TimeSpan)row["Hora_Inicio"]).ToString(@"hh\:mm"), cellFont2)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 });
+                                        tablaParos.AddCell(new PdfPCell(new Phrase(((TimeSpan)row["Hora_Fin"]).ToString(@"hh\:mm"), cellFont2)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 });
+                                        tablaParos.AddCell(new PdfPCell(new Phrase(row["Observaciones"]?.ToString() ?? "", cellFont2)) { Padding = 5 });
+                                    }
+
+                                    doc.Add(tablaParos);
+                                }
+                                else
+                                {
+                                    doc.Add(new Paragraph("PAROS REGISTRADOS", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12))
+                                    { Alignment = Element.ALIGN_CENTER, SpacingBefore = 20, SpacingAfter = 8 });
+
+                                    doc.Add(new Paragraph("No se registraron paros en este día.", FontFactory.GetFont(FontFactory.HELVETICA, 10))
+                                    { Alignment = Element.ALIGN_CENTER, SpacingAfter = 10 });
+                                }
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -1956,6 +2168,428 @@ namespace ElastoSystem
 
                 string pncrevision = dgv.Rows[rowIndex].Cells["PNCRevision"].Value.ToString();
                 txbPNCRevision2.Text = pncrevision;
+            }
+        }
+
+        private void AbrirParoMaquinas(string nave, string fechaTexto, DateTime fecha)
+        {
+            using (Produccion_ParoMaquinas frm = new Produccion_ParoMaquinas())
+            {
+                frm.Nave = nave;
+                frm.FechaTexto = fechaTexto;
+                frm.Fecha = fecha;
+                frm.ShowDialog(this);
+            }
+        }
+
+        private void btnParoMaquinasN1_Click(object sender, EventArgs e)
+        {
+            AbrirParoMaquinas("NAVE 1", lblFechaN1.Text, fechaMostrada);
+        }
+
+        private void btnParoMaquinasN2_Click(object sender, EventArgs e)
+        {
+            AbrirParoMaquinas("NAVE 2", lblFechaN2.Text, fechaMostrada);
+        }
+
+        private List<string> ObtenerMaquinasPendientesN2(string turno)
+        {
+            return dgvPendientesNave2.Rows.Cast<DataGridViewRow>()
+                .Where(r => !r.IsNewRow && (r.Cells["Turno"]?.Value?.ToString() ?? "").Equals(turno, StringComparison.OrdinalIgnoreCase))
+                .Select(r => r.Cells["Maquina"]?.Value?.ToString() ?? "")
+                .Where(m => !string.IsNullOrWhiteSpace(m))
+                .Distinct()
+                .ToList();
+        }
+
+        private bool TieneCoberturaParosN2(string turno, List<string> maquinas)
+        {
+            if (!maquinas.Any()) return true;
+            var horarios = ObtenerHorariosTurnos();
+            if (!horarios.TryGetValue(turno, out var horarioTurno)) return false;
+            TimeSpan duracionTurno = horarioTurno.End - horarioTurno.Start;
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    foreach (string maquina in maquinas)
+                    {
+                        string query = @"
+                            SELECT Hora_Inicio, Hora_Fin
+                            FROM elastosystem_produccion_paros p
+                            INNER JOIN elastosystem_mtto_inventariomaquinas m ON p.ID_Maquina = m.ID
+                            WHERE m.Nombre = @MAQUINA
+                                AND p.Fecha = @FECHA
+                                AND p.Nave = 'NAVE 2'";
+                        using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@MAQUINA", maquina);
+                            cmd.Parameters.AddWithValue("@FECHA", fechaMostrada.Date);
+                            using (MySqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                TimeSpan totalOverlap = TimeSpan.Zero;
+                                while (reader.Read())
+                                {
+                                    TimeSpan inicioParo = reader.GetTimeSpan("Hora_Inicio");
+                                    TimeSpan finParo = reader.GetTimeSpan("Hora_Fin");
+                                    TimeSpan overlapStart = TimeSpan.FromTicks(Math.Max(horarioTurno.Start.Ticks, inicioParo.Ticks));
+                                    TimeSpan overlapEnd = TimeSpan.FromTicks(Math.Min(horarioTurno.End.Ticks, finParo.Ticks));
+                                    if (overlapEnd > overlapStart)
+                                    {
+                                        totalOverlap += overlapEnd - overlapStart;
+                                    }
+                                }
+                                if (totalOverlap < duracionTurno) return false;
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void btnGenerarReporteN2_Click(object sender, EventArgs e)
+        {
+            if (dgvRegistradosNave2.Rows.Count == 0 || dgvRegistradosNave2.DataSource == null)
+            {
+                MessageBox.Show("No se puede generar el reporte.\n\nNo hay registros de producción en NAVE 2 para esta fecha.", "Sin Registros", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            DateTime hoy = DateTime.Today;
+            var pendientesMatutino = ObtenerMaquinasPendientesN2("MATUTINO");
+            var pendientesMixto = ObtenerMaquinasPendientesN2("MIXTO");
+            var pendientesVespertino = ObtenerMaquinasPendientesN2("VESPERTINO");
+
+            var todosLosPendientes = pendientesMatutino
+                .Concat(pendientesMixto)
+                .Concat(pendientesVespertino)
+                .Distinct()
+                .ToList();
+
+            if (fechaMostrada.Date > hoy)
+            {
+                MessageBox.Show("No se puede generar reporte de una fecha futura.", "Fecha no permitida", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            else if (fechaMostrada.Date < hoy)
+            {
+                var faltantes = new List<string>();
+                if (pendientesMatutino.Any() && !TieneCoberturaParosN2("MATUTINO", pendientesMatutino))
+                    faltantes.Add($"MATUTINO → {string.Join(", ", pendientesMatutino)}");
+                if (pendientesMixto.Any() && !TieneCoberturaParosN2("MIXTO", pendientesMixto))
+                    faltantes.Add($"MIXTO → {string.Join(", ", pendientesMixto)}");
+                if (pendientesVespertino.Any() && !TieneCoberturaParosN2("VESPERTINO", pendientesVespertino))
+                    faltantes.Add($"VESPERTINO → {string.Join(", ", pendientesVespertino)}");
+
+                if (faltantes.Any())
+                {
+                    MessageBox.Show(
+                        $"Esta en una fecha pasada ({fechaMostrada:dd/MM/yyyy}).\n" +
+                        $"Todos los pendientes deben tener paros que cubran al menos la duración del turno.\n\n" +
+                        $"Turnos sin cobertura suficiente:\n" +
+                        string.Join("\n", faltantes) + "\n\n" +
+                        $"Registra paros adecuados antes de generar el reporte.",
+                        "Faltan paros con cobertura", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    AbrirParoMaquinas("NAVE 2", lblFechaN2.Text, fechaMostrada);
+                    return;
+                }
+            }
+            else
+            {
+                TimeSpan horaActual = DateTime.Now.TimeOfDay;
+                TimeSpan horaObligaMatutino = new TimeSpan(8, 0, 0);
+                TimeSpan horaObligaMixto = new TimeSpan(15, 0, 0);
+                TimeSpan horaObligaVespertino = new TimeSpan(18, 0, 0);
+
+                var faltantes = new List<string>();
+                if (horaActual >= horaObligaMatutino && pendientesMatutino.Any() && !TieneCoberturaParosN2("MATUTINO", pendientesMatutino))
+                    faltantes.Add($"MATUTINO → {string.Join(", ", pendientesMatutino)}");
+                if (horaActual >= horaObligaMixto && pendientesMixto.Any() && !TieneCoberturaParosN2("MIXTO", pendientesMixto))
+                    faltantes.Add($"MIXTO → {string.Join(", ", pendientesMixto)}");
+                if (horaActual >= horaObligaVespertino && pendientesVespertino.Any() && !TieneCoberturaParosN2("VESPERTINO", pendientesVespertino))
+                    faltantes.Add($"VESPERTINO → {string.Join(", ", pendientesVespertino)}");
+
+                if (faltantes.Any())
+                {
+                    MessageBox.Show(
+                        $"Son las {DateTime.Now:HH:mm} y ya es obligatorio registrar paros para los siguientes turnos pendientes:\n\n" +
+                        string.Join("\n", faltantes) + "\n\n" +
+                        $"Por favor, registra paros que cubran al menos la duración del turno antes de generar el reporte.",
+                        "Faltan paros con cobertura", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    AbrirParoMaquinas("NAVE 2", lblFechaN2.Text, fechaMostrada);
+                    return;
+                }
+            }
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Archivos PDF (*.pdf)|*.pdf";
+            saveFileDialog.Title = "Guardar Reporte de Producción";
+            saveFileDialog.FileName = $"Reporte de Produccion Nave 2 {fechaMostrada:yyyy-MM-dd}.pdf";
+
+            if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
+
+            string rutaArchivo = saveFileDialog.FileName;
+            iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 36, 36, 36, 36);
+
+            try
+            {
+                PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(rutaArchivo, FileMode.Create));
+                doc.Open();
+
+                var tituloFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
+                var textoFont = FontFactory.GetFont(FontFactory.HELVETICA, 9);
+                var cellFont = FontFactory.GetFont(FontFactory.HELVETICA, 9);
+                var boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9);
+                var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 12, BaseColor.BLACK);
+                BaseColor grisClaro = new BaseColor(230, 230, 230);
+
+                doc.Add(new Paragraph("REPORTE DE PRODUCCIÓN NAVE 2", tituloFont) { Alignment = Element.ALIGN_LEFT, SpacingAfter = 5 });
+                doc.Add(new Paragraph("Fecha: " + lblFechaN2.Text, textoFont) { Alignment = Element.ALIGN_LEFT, SpacingAfter = 1 });
+
+                string fechaGen = DateTime.Now.ToString("dddd dd 'de' MMMM 'del' yyyy HH:mm", new CultureInfo("es-MX"));
+                fechaGen = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fechaGen);
+                doc.Add(new Paragraph("Generado: " + fechaGen, textoFont) { Alignment = Element.ALIGN_LEFT, SpacingAfter = 15 });
+
+                doc.Add(new Paragraph("Registrados", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)) { Alignment = Element.ALIGN_CENTER, SpacingAfter = 10 });
+
+                PdfPTable tabla = new PdfPTable(4);
+                tabla.WidthPercentage = 100;
+                tabla.SetWidths(new float[] { 15f, 25f, 35f, 25f });
+
+                string[] encabezados = { "TURNO", "NOMBRE", "ACTIVIDAD", "CANTIDAD" };
+                foreach (string h in encabezados)
+                {
+                    PdfPCell celda = new PdfPCell(new Phrase(h, headerFont));
+                    celda.BackgroundColor = grisClaro;
+                    celda.HorizontalAlignment = Element.ALIGN_CENTER;
+                    celda.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    celda.Padding = 10;
+                    tabla.AddCell(celda);
+                }
+
+                double totalOP = 0, totalPNC = 0, totalFinal = 0;
+
+                foreach (DataGridViewRow row in dgvRegistradosNave2.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    string turno = row.Cells["Turno"].Value?.ToString() ?? "";
+                    string operador = row.Cells["Operador"].Value?.ToString() ?? "";
+                    string maquina = row.Cells["Maquina"].Value?.ToString() ?? "";
+                    string producto = row.Cells["Producto"].Value?.ToString() ?? "";
+                    string area = row.Cells["NombreArea"].Value?.ToString() ?? "";
+                    string apoyo = row.Cells["Apoyo"].Value?.ToString() ?? "";
+                    string observaciones = row.Cells["Observaciones"].Value?.ToString() ?? "";
+
+                    double pop = Convert.ToDouble(row.Cells["POP"].Value ?? 0);
+                    double pncop = Convert.ToDouble(row.Cells["PNCOP"].Value ?? 0);
+                    double reproceso = Convert.ToDouble(row.Cells["Reproceso"].Value ?? 0);
+                    double pncrevision = Convert.ToDouble(row.Cells["PNCRevision"].Value ?? 0);
+
+                    double pnc = pncop + reproceso + pncrevision;
+                    double cantidadFinal = pop - pnc;
+
+                    totalOP += pop;
+                    totalPNC += pnc;
+                    totalFinal += cantidadFinal;
+
+                    string actividadTexto = $"{maquina} / {producto} / {area}";
+                    string cantidadTexto = $"{pop:N0} - {pnc:N0} = {cantidadFinal:N0}";
+
+                    tabla.AddCell(new PdfPCell(new Phrase(turno, boldFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 8 });
+                    tabla.AddCell(new PdfPCell(new Phrase(operador, cellFont)) { Padding = 8 });
+                    tabla.AddCell(new PdfPCell(new Phrase(actividadTexto, cellFont)) { Padding = 8 });
+                    tabla.AddCell(new PdfPCell(new Phrase(cantidadTexto, boldFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 8 });
+                }
+                doc.Add(tabla);
+
+                var filasConInfo = new List<DataGridViewRow>();
+                var filasPendientes = new List<DataGridViewRow>();
+
+                foreach (DataGridViewRow row in dgvRegistradosNave2.Rows)
+                {
+                    if (row.IsNewRow) continue;
+                    string apoyo = row.Cells["Apoyo"].Value?.ToString() ?? "";
+                    string obs = row.Cells["Observaciones"].Value?.ToString() ?? "";
+                    if (!string.IsNullOrWhiteSpace(apoyo) || !string.IsNullOrWhiteSpace(obs))
+                        filasConInfo.Add(row);
+                }
+
+                foreach (DataGridViewRow row in dgvPendientesNave2.Rows)
+                {
+                    if (!row.IsNewRow)
+                        filasPendientes.Add(row);
+                }
+
+                if (filasConInfo.Any() || filasPendientes.Any())
+                {
+                    doc.Add(new Paragraph("Observaciones", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)) { Alignment = Element.ALIGN_CENTER, SpacingBefore = 20, SpacingAfter = 10 });
+
+                    PdfPTable tablaObs = new PdfPTable(3);
+                    tablaObs.WidthPercentage = 100;
+                    tablaObs.SetWidths(new float[] { 15f, 40f, 45f });
+
+                    string[] encabezadosObs = { "TURNO", "ACTIVIDAD", "OBSERVACIONES" };
+                    foreach (string h in encabezadosObs)
+                    {
+                        PdfPCell celda = new PdfPCell(new Phrase(h, headerFont));
+                        celda.BackgroundColor = grisClaro;
+                        celda.HorizontalAlignment = Element.ALIGN_CENTER;
+                        celda.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        celda.Padding = 9;
+                        tablaObs.AddCell(celda);
+                    }
+
+                    var fontNormal = FontFactory.GetFont(FontFactory.HELVETICA, 9);
+                    var fontNoRegistro = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.RED);
+                    BaseColor fondoPendiente = new BaseColor(255, 230, 230);
+
+                    foreach (DataGridViewRow row in filasConInfo)
+                    {
+                        string turno = row.Cells["Turno"].Value?.ToString() ?? "";
+                        string maquina = row.Cells["Maquina"].Value?.ToString() ?? "";
+                        string producto = row.Cells["Producto"].Value?.ToString() ?? "";
+                        string area = row.Cells["NombreArea"].Value?.ToString() ?? "";
+                        string apoyo = row.Cells["Apoyo"].Value?.ToString() ?? "";
+                        string obs = row.Cells["Observaciones"].Value?.ToString()?.Trim() ?? "";
+
+                        string actividad = $"{maquina} / {producto} / {area}".Trim();
+
+                        var partes = new List<string>();
+                        if (!string.IsNullOrWhiteSpace(apoyo)) partes.Add($"Apoyo: {apoyo}");
+                        if (!string.IsNullOrWhiteSpace(obs)) partes.Add($"Observaciones: {obs}");
+                        string textoObs = string.Join("\n", partes);
+
+                        tablaObs.AddCell(new PdfPCell(new Phrase(turno, boldFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 8 });
+                        tablaObs.AddCell(new PdfPCell(new Phrase(actividad, fontNormal)) { Padding = 8 });
+                        tablaObs.AddCell(new PdfPCell(new Phrase(textoObs, fontNormal)) { Padding = 8 });
+                    }
+
+                    foreach (DataGridViewRow row in filasPendientes)
+                    {
+                        string turno = row.Cells["Turno"].Value?.ToString() ?? "";
+                        string maquina = row.Cells["Maquina"].Value?.ToString() ?? "";
+                        string producto = row.Cells["Producto"].Value?.ToString() ?? "";
+                        string area = row.Cells["NombreArea"].Value?.ToString() ?? "";
+
+                        string actividad = $"{maquina} / {producto} / {area}".Trim();
+
+                        tablaObs.AddCell(new PdfPCell(new Phrase(turno, boldFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 8, BackgroundColor = fondoPendiente });
+                        tablaObs.AddCell(new PdfPCell(new Phrase(actividad, fontNormal)) { Padding = 8, BackgroundColor = fondoPendiente });
+                        tablaObs.AddCell(new PdfPCell(new Phrase("NO HAY REGISTRO", fontNoRegistro)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 8, BackgroundColor = fondoPendiente });
+                    }
+                    doc.Add(tablaObs);
+
+                    using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                    {
+                        conn.Open();
+
+                        string queryParos = @"
+                            SELECT
+                                m.Nombre AS Maquina,
+                                CONCAT(f.Codigo, ' - ', f.Falla) AS Falla,
+                                p.Hora_Inicio,
+                                p.Hora_Fin,
+                                p.Observaciones
+                            FROM elastosystem_produccion_paros p
+                            INNER JOIN elastosystem_mtto_inventariomaquinas m ON p.ID_Maquina = m.ID
+                            INNER JOIN elastosystem_produccion_fallas f ON p.Codigo_Falla = f.Codigo
+                            WHERE p.Nave = @NAVE
+                                AND p.Fecha = @FECHA
+                            ORDER BY p.Hora_Inicio ASC";
+
+                        using (MySqlCommand cmd = new MySqlCommand(queryParos, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@NAVE", "NAVE 2");
+                            cmd.Parameters.AddWithValue("@FECHA", fechaMostrada.Date);
+
+                            using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                            {
+                                DataTable dtParos = new DataTable();
+                                da.Fill(dtParos);
+
+                                if (dtParos.Rows.Count > 0)
+                                {
+                                    doc.Add(new Paragraph("PAROS REGISTRADOS", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12))
+                                    { Alignment = Element.ALIGN_CENTER, SpacingBefore = 20, SpacingAfter = 10 });
+
+                                    PdfPTable tablaParos = new PdfPTable(5);
+                                    tablaParos.WidthPercentage = 100;
+                                    tablaParos.SetWidths(new float[] { 20f, 30f, 12f, 12f, 26f });
+
+                                    BaseColor headerColor = new BaseColor(200, 220, 255);
+                                    var headerFont2 = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9);
+
+                                    string[] encabezadosParos = { "MÁQUINA", "FALLA", "INICIO", "FIN", "OBSERVACIONES" };
+                                    foreach (string h in encabezadosParos)
+                                    {
+                                        PdfPCell celda = new PdfPCell(new Phrase(h, headerFont2));
+                                        celda.BackgroundColor = headerColor;
+                                        celda.HorizontalAlignment = Element.ALIGN_CENTER;
+                                        celda.Padding = 6;
+                                        tablaParos.AddCell(celda);
+                                    }
+
+                                    var cellFont2 = FontFactory.GetFont(FontFactory.HELVETICA, 8);
+
+                                    foreach (DataRow row in dtParos.Rows)
+                                    {
+                                        tablaParos.AddCell(new PdfPCell(new Phrase(row["Maquina"].ToString(), cellFont2)) { Padding = 5 });
+                                        tablaParos.AddCell(new PdfPCell(new Phrase(row["Falla"].ToString(), cellFont2)) { Padding = 5 });
+                                        tablaParos.AddCell(new PdfPCell(new Phrase(((TimeSpan)row["Hora_Inicio"]).ToString(@"hh\:mm"), cellFont2)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 });
+                                        tablaParos.AddCell(new PdfPCell(new Phrase(((TimeSpan)row["Hora_Fin"]).ToString(@"hh\:mm"), cellFont2)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 });
+                                        tablaParos.AddCell(new PdfPCell(new Phrase(row["Observaciones"]?.ToString() ?? "", cellFont2)) { Padding = 5 });
+                                    }
+
+                                    doc.Add(tablaParos);
+                                }
+                                else
+                                {
+                                    doc.Add(new Paragraph("PAROS REGISTRADOS", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12))
+                                    { Alignment = Element.ALIGN_CENTER, SpacingBefore = 20, SpacingAfter = 8 });
+
+                                    doc.Add(new Paragraph("No se registraron paros en este día.", FontFactory.GetFont(FontFactory.HELVETICA, 10))
+                                    { Alignment = Element.ALIGN_CENTER, SpacingAfter = 10 });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL GENERAR PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                doc.Close();
+            }
+
+            if (File.Exists(rutaArchivo))
+            {
+                try
+                {
+                    var psi = new ProcessStartInfo
+                    {
+                        FileName = rutaArchivo,
+                        UseShellExecute = true
+                    };
+                    Process.Start(psi);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("No se pudo abrir el PDF automáticamente:\n" + ex.Message, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("El archivo no se pudo encontrar después de guardarlo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }
