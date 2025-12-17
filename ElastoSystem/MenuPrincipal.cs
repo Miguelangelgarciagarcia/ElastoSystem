@@ -54,7 +54,7 @@ namespace ElastoSystem
                                 Maquinado, 
                                     Solicitud_Maquinado, Pendientes_Maquinado, Historial_Maquinado, 
                                 Mantenimiento, 
-                                    SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas, Mtto_Preventivo,
+                                    SolicitudMtto, PendientesMtto, HistoricoMtto, InventarioMaquinas, Mtto_Preventivo, IndicadorMtto,
                                 Ajustes
                                 FROM elastosystem_permisos_menu WHERE ID = @idmenu";
                 cmd.CommandText = query;
@@ -340,6 +340,12 @@ namespace ElastoSystem
                         {
                             btnMttoPreventivo.Enabled = true;
                             btnMttoPreventivo.Visible = true;
+                        }
+                        string indicadormttoValue = reader["IndicadorMtto"].ToString();
+                        if (indicadormttoValue == "True")
+                        {
+                            btnIndicadorMtto.Enabled = true;
+                            btnIndicadorMtto.Visible = true;
                         }
                     }
 
@@ -922,6 +928,12 @@ namespace ElastoSystem
         private void btnMttoPreventivo_Click(object sender, EventArgs e)
         {
             openChildForm(new Mtto_ManttoPreventivo());
+            HideSubMenu();
+        }
+
+        private void btnIndicadorMtto_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Mtto_Indicador());
             HideSubMenu();
         }
     }

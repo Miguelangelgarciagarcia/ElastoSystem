@@ -111,6 +111,7 @@
             dgvUsuarioyPassword = new DataGridView();
             tabPermisosUsuarios = new TabPage();
             panel8 = new Panel();
+            chbIndicadorMtto = new CheckBox();
             chbMttoPreventivo = new CheckBox();
             chbInventarioMaquinas = new CheckBox();
             chbHistorialMtto = new CheckBox();
@@ -174,7 +175,7 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(29, 31);
             label1.Name = "label1";
-            label1.Size = new Size(384, 41);
+            label1.Size = new Size(384, 47);
             label1.TabIndex = 0;
             label1.Text = "CONTROL DE ACCESOS";
             // 
@@ -186,7 +187,7 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(26, 33);
             label2.Name = "label2";
-            label2.Size = new Size(98, 27);
+            label2.Size = new Size(100, 31);
             label2.TabIndex = 1;
             label2.Text = "Usuario:";
             // 
@@ -197,7 +198,7 @@
             cbUsuarios.FormattingEnabled = true;
             cbUsuarios.Location = new Point(140, 30);
             cbUsuarios.Name = "cbUsuarios";
-            cbUsuarios.Size = new Size(288, 35);
+            cbUsuarios.Size = new Size(288, 39);
             cbUsuarios.TabIndex = 2;
             cbUsuarios.SelectedIndexChanged += cbUsuarios_SelectedIndexChanged;
             // 
@@ -226,7 +227,7 @@
             chbAdminSolFab.ForeColor = Color.White;
             chbAdminSolFab.Location = new Point(15, 256);
             chbAdminSolFab.Name = "chbAdminSolFab";
-            chbAdminSolFab.Size = new Size(212, 20);
+            chbAdminSolFab.Size = new Size(213, 22);
             chbAdminSolFab.TabIndex = 9;
             chbAdminSolFab.Text = "Admin. Solicitudes Fabricacion";
             chbAdminSolFab.UseVisualStyleBackColor = true;
@@ -239,7 +240,7 @@
             chbSolicitudFabricacion.ForeColor = Color.White;
             chbSolicitudFabricacion.Location = new Point(15, 230);
             chbSolicitudFabricacion.Name = "chbSolicitudFabricacion";
-            chbSolicitudFabricacion.Size = new Size(170, 20);
+            chbSolicitudFabricacion.Size = new Size(171, 22);
             chbSolicitudFabricacion.TabIndex = 8;
             chbSolicitudFabricacion.Text = "Solicitud de Fabricacion";
             chbSolicitudFabricacion.UseVisualStyleBackColor = true;
@@ -252,7 +253,7 @@
             chbInventarioAlmacenPT.ForeColor = Color.White;
             chbInventarioAlmacenPT.Location = new Point(15, 204);
             chbInventarioAlmacenPT.Name = "chbInventarioAlmacenPT";
-            chbInventarioAlmacenPT.Size = new Size(164, 20);
+            chbInventarioAlmacenPT.Size = new Size(165, 22);
             chbInventarioAlmacenPT.TabIndex = 7;
             chbInventarioAlmacenPT.Text = "Inventario Almacen PT";
             chbInventarioAlmacenPT.UseVisualStyleBackColor = true;
@@ -265,7 +266,7 @@
             chbAdminInventarioPT.ForeColor = Color.White;
             chbAdminInventarioPT.Location = new Point(15, 178);
             chbAdminInventarioPT.Name = "chbAdminInventarioPT";
-            chbAdminInventarioPT.Size = new Size(154, 20);
+            chbAdminInventarioPT.Size = new Size(155, 22);
             chbAdminInventarioPT.TabIndex = 6;
             chbAdminInventarioPT.Text = "Admin. Inventario PT";
             chbAdminInventarioPT.UseVisualStyleBackColor = true;
@@ -278,7 +279,7 @@
             chbConsultaSalidas.ForeColor = Color.White;
             chbConsultaSalidas.Location = new Point(15, 152);
             chbConsultaSalidas.Name = "chbConsultaSalidas";
-            chbConsultaSalidas.Size = new Size(124, 20);
+            chbConsultaSalidas.Size = new Size(125, 22);
             chbConsultaSalidas.TabIndex = 5;
             chbConsultaSalidas.Text = "Consulta Salidas";
             chbConsultaSalidas.UseVisualStyleBackColor = true;
@@ -291,7 +292,7 @@
             chbControlAlmacen.ForeColor = Color.White;
             chbControlAlmacen.Location = new Point(15, 126);
             chbControlAlmacen.Name = "chbControlAlmacen";
-            chbControlAlmacen.Size = new Size(129, 20);
+            chbControlAlmacen.Size = new Size(130, 22);
             chbControlAlmacen.TabIndex = 4;
             chbControlAlmacen.Text = "Control Almacen";
             chbControlAlmacen.UseVisualStyleBackColor = true;
@@ -304,7 +305,7 @@
             chbRegistrarExistencias.ForeColor = Color.White;
             chbRegistrarExistencias.Location = new Point(15, 100);
             chbRegistrarExistencias.Name = "chbRegistrarExistencias";
-            chbRegistrarExistencias.Size = new Size(149, 20);
+            chbRegistrarExistencias.Size = new Size(151, 22);
             chbRegistrarExistencias.TabIndex = 3;
             chbRegistrarExistencias.Text = "Registrar Existencias";
             chbRegistrarExistencias.UseVisualStyleBackColor = true;
@@ -317,7 +318,7 @@
             chbEditarProducto.ForeColor = Color.White;
             chbEditarProducto.Location = new Point(15, 74);
             chbEditarProducto.Name = "chbEditarProducto";
-            chbEditarProducto.Size = new Size(123, 20);
+            chbEditarProducto.Size = new Size(124, 22);
             chbEditarProducto.TabIndex = 2;
             chbEditarProducto.Text = "Editar Producto";
             chbEditarProducto.UseVisualStyleBackColor = true;
@@ -330,7 +331,7 @@
             chbNuevoProducto.ForeColor = Color.White;
             chbNuevoProducto.Location = new Point(15, 48);
             chbNuevoProducto.Name = "chbNuevoProducto";
-            chbNuevoProducto.Size = new Size(127, 20);
+            chbNuevoProducto.Size = new Size(128, 22);
             chbNuevoProducto.TabIndex = 1;
             chbNuevoProducto.Text = "Nuevo Producto";
             chbNuevoProducto.UseVisualStyleBackColor = true;
@@ -343,7 +344,7 @@
             chbAlmacen.ForeColor = Color.White;
             chbAlmacen.Location = new Point(15, 13);
             chbAlmacen.Name = "chbAlmacen";
-            chbAlmacen.Size = new Size(114, 26);
+            chbAlmacen.Size = new Size(116, 29);
             chbAlmacen.TabIndex = 0;
             chbAlmacen.Text = "ALMACEN";
             chbAlmacen.UseVisualStyleBackColor = true;
@@ -355,7 +356,7 @@
             lblNumeroTemp.BackColor = Color.Transparent;
             lblNumeroTemp.Location = new Point(453, 21);
             lblNumeroTemp.Name = "lblNumeroTemp";
-            lblNumeroTemp.Size = new Size(80, 15);
+            lblNumeroTemp.Size = new Size(81, 15);
             lblNumeroTemp.TabIndex = 4;
             lblNumeroTemp.Text = "NumeroTemp";
             lblNumeroTemp.Visible = false;
@@ -383,7 +384,7 @@
             chbConsultarOCs.ForeColor = Color.White;
             chbConsultarOCs.Location = new Point(15, 204);
             chbConsultarOCs.Name = "chbConsultarOCs";
-            chbConsultarOCs.Size = new Size(115, 20);
+            chbConsultarOCs.Size = new Size(116, 22);
             chbConsultarOCs.TabIndex = 7;
             chbConsultarOCs.Text = "Consultar OC's";
             chbConsultarOCs.UseVisualStyleBackColor = true;
@@ -396,7 +397,7 @@
             chbReqEnviadas.ForeColor = Color.White;
             chbReqEnviadas.Location = new Point(15, 152);
             chbReqEnviadas.Name = "chbReqEnviadas";
-            chbReqEnviadas.Size = new Size(166, 20);
+            chbReqEnviadas.Size = new Size(167, 22);
             chbReqEnviadas.TabIndex = 6;
             chbReqEnviadas.Text = "Requisiciones Enviadas";
             chbReqEnviadas.UseVisualStyleBackColor = true;
@@ -409,7 +410,7 @@
             chbAdmiProvee.ForeColor = Color.White;
             chbAdmiProvee.Location = new Point(15, 126);
             chbAdmiProvee.Name = "chbAdmiProvee";
-            chbAdmiProvee.Size = new Size(177, 20);
+            chbAdmiProvee.Size = new Size(179, 22);
             chbAdmiProvee.TabIndex = 5;
             chbAdmiProvee.Text = "Administrar Proveedores";
             chbAdmiProvee.UseVisualStyleBackColor = true;
@@ -422,7 +423,7 @@
             chbAdmiReq.ForeColor = Color.White;
             chbAdmiReq.Location = new Point(15, 100);
             chbAdmiReq.Name = "chbAdmiReq";
-            chbAdmiReq.Size = new Size(197, 20);
+            chbAdmiReq.Size = new Size(199, 22);
             chbAdmiReq.TabIndex = 4;
             chbAdmiReq.Text = "Administrar Requerimientos";
             chbAdmiReq.UseVisualStyleBackColor = true;
@@ -435,7 +436,7 @@
             chbReqCompra.ForeColor = Color.White;
             chbReqCompra.Location = new Point(15, 74);
             chbReqCompra.Name = "chbReqCompra";
-            chbReqCompra.Size = new Size(169, 20);
+            chbReqCompra.Size = new Size(171, 22);
             chbReqCompra.TabIndex = 3;
             chbReqCompra.Text = "Requerimiento Compra";
             chbReqCompra.UseVisualStyleBackColor = true;
@@ -448,7 +449,7 @@
             chbConsumiblesAlmacen.ForeColor = Color.White;
             chbConsumiblesAlmacen.Location = new Point(15, 48);
             chbConsumiblesAlmacen.Name = "chbConsumiblesAlmacen";
-            chbConsumiblesAlmacen.Size = new Size(162, 20);
+            chbConsumiblesAlmacen.Size = new Size(163, 22);
             chbConsumiblesAlmacen.TabIndex = 2;
             chbConsumiblesAlmacen.Text = "Consumibles Almacen";
             chbConsumiblesAlmacen.UseVisualStyleBackColor = true;
@@ -461,7 +462,7 @@
             chbIndicadorCompras.ForeColor = Color.White;
             chbIndicadorCompras.Location = new Point(15, 178);
             chbIndicadorCompras.Name = "chbIndicadorCompras";
-            chbIndicadorCompras.Size = new Size(142, 20);
+            chbIndicadorCompras.Size = new Size(144, 22);
             chbIndicadorCompras.TabIndex = 1;
             chbIndicadorCompras.Text = "Indicador Compras";
             chbIndicadorCompras.UseVisualStyleBackColor = true;
@@ -474,7 +475,7 @@
             chbCompras.ForeColor = Color.White;
             chbCompras.Location = new Point(15, 13);
             chbCompras.Name = "chbCompras";
-            chbCompras.Size = new Size(116, 26);
+            chbCompras.Size = new Size(118, 29);
             chbCompras.TabIndex = 0;
             chbCompras.Text = "COMPRAS";
             chbCompras.UseVisualStyleBackColor = true;
@@ -498,7 +499,7 @@
             chbGenerarCredencial.ForeColor = Color.White;
             chbGenerarCredencial.Location = new Point(15, 74);
             chbGenerarCredencial.Name = "chbGenerarCredencial";
-            chbGenerarCredencial.Size = new Size(140, 20);
+            chbGenerarCredencial.Size = new Size(142, 22);
             chbGenerarCredencial.TabIndex = 2;
             chbGenerarCredencial.Text = "Generar Credencial";
             chbGenerarCredencial.UseVisualStyleBackColor = true;
@@ -511,7 +512,7 @@
             chbRegistroTrabajador.ForeColor = Color.White;
             chbRegistroTrabajador.Location = new Point(15, 48);
             chbRegistroTrabajador.Name = "chbRegistroTrabajador";
-            chbRegistroTrabajador.Size = new Size(144, 20);
+            chbRegistroTrabajador.Size = new Size(146, 22);
             chbRegistroTrabajador.TabIndex = 1;
             chbRegistroTrabajador.Text = "Registro Trabajador";
             chbRegistroTrabajador.UseVisualStyleBackColor = true;
@@ -524,7 +525,7 @@
             chbRecursosHumanos.ForeColor = Color.White;
             chbRecursosHumanos.Location = new Point(15, 13);
             chbRecursosHumanos.Name = "chbRecursosHumanos";
-            chbRecursosHumanos.Size = new Size(218, 26);
+            chbRecursosHumanos.Size = new Size(220, 29);
             chbRecursosHumanos.TabIndex = 0;
             chbRecursosHumanos.Text = "RECURSOS HUMANOS";
             chbRecursosHumanos.UseVisualStyleBackColor = true;
@@ -549,7 +550,7 @@
             chbPendientesSistemas.ForeColor = Color.White;
             chbPendientesSistemas.Location = new Point(15, 100);
             chbPendientesSistemas.Name = "chbPendientesSistemas";
-            chbPendientesSistemas.Size = new Size(151, 20);
+            chbPendientesSistemas.Size = new Size(152, 22);
             chbPendientesSistemas.TabIndex = 3;
             chbPendientesSistemas.Text = "Pendientes Sistemas";
             chbPendientesSistemas.UseVisualStyleBackColor = true;
@@ -562,7 +563,7 @@
             chbPermisos.ForeColor = Color.White;
             chbPermisos.Location = new Point(15, 74);
             chbPermisos.Name = "chbPermisos";
-            chbPermisos.Size = new Size(83, 20);
+            chbPermisos.Size = new Size(84, 22);
             chbPermisos.TabIndex = 2;
             chbPermisos.Text = "Permisos";
             chbPermisos.UseVisualStyleBackColor = true;
@@ -575,7 +576,7 @@
             chbRequisicion.ForeColor = Color.White;
             chbRequisicion.Location = new Point(15, 48);
             chbRequisicion.Name = "chbRequisicion";
-            chbRequisicion.Size = new Size(96, 20);
+            chbRequisicion.Size = new Size(97, 22);
             chbRequisicion.TabIndex = 1;
             chbRequisicion.Text = "Requisicion";
             chbRequisicion.UseVisualStyleBackColor = true;
@@ -588,7 +589,7 @@
             chbSistemas.ForeColor = Color.White;
             chbSistemas.Location = new Point(15, 13);
             chbSistemas.Name = "chbSistemas";
-            chbSistemas.Size = new Size(112, 26);
+            chbSistemas.Size = new Size(114, 29);
             chbSistemas.TabIndex = 0;
             chbSistemas.Text = "SISTEMAS";
             chbSistemas.UseVisualStyleBackColor = true;
@@ -630,7 +631,7 @@
             chbBuscarCotizacion.ForeColor = Color.White;
             chbBuscarCotizacion.Location = new Point(15, 48);
             chbBuscarCotizacion.Name = "chbBuscarCotizacion";
-            chbBuscarCotizacion.Size = new Size(135, 20);
+            chbBuscarCotizacion.Size = new Size(136, 22);
             chbBuscarCotizacion.TabIndex = 4;
             chbBuscarCotizacion.Text = "Buscar Cotización";
             chbBuscarCotizacion.UseVisualStyleBackColor = true;
@@ -643,7 +644,7 @@
             chbCatalogoProductos.ForeColor = Color.White;
             chbCatalogoProductos.Location = new Point(15, 100);
             chbCatalogoProductos.Name = "chbCatalogoProductos";
-            chbCatalogoProductos.Size = new Size(148, 20);
+            chbCatalogoProductos.Size = new Size(149, 22);
             chbCatalogoProductos.TabIndex = 3;
             chbCatalogoProductos.Text = "Catalogo Productos";
             chbCatalogoProductos.UseVisualStyleBackColor = true;
@@ -656,7 +657,7 @@
             chbNuevaCotizacion.ForeColor = Color.White;
             chbNuevaCotizacion.Location = new Point(15, 126);
             chbNuevaCotizacion.Name = "chbNuevaCotizacion";
-            chbNuevaCotizacion.Size = new Size(132, 20);
+            chbNuevaCotizacion.Size = new Size(133, 22);
             chbNuevaCotizacion.TabIndex = 2;
             chbNuevaCotizacion.Text = "Nueva Cotización";
             chbNuevaCotizacion.UseVisualStyleBackColor = true;
@@ -669,7 +670,7 @@
             chbClientes.ForeColor = Color.White;
             chbClientes.Location = new Point(15, 74);
             chbClientes.Name = "chbClientes";
-            chbClientes.Size = new Size(132, 20);
+            chbClientes.Size = new Size(133, 22);
             chbClientes.TabIndex = 1;
             chbClientes.Text = "Catalogo Clientes";
             chbClientes.UseVisualStyleBackColor = true;
@@ -682,7 +683,7 @@
             chbVentas.ForeColor = Color.White;
             chbVentas.Location = new Point(15, 13);
             chbVentas.Name = "chbVentas";
-            chbVentas.Size = new Size(96, 26);
+            chbVentas.Size = new Size(98, 29);
             chbVentas.TabIndex = 0;
             chbVentas.Text = "VENTAS";
             chbVentas.UseVisualStyleBackColor = true;
@@ -707,7 +708,7 @@
             chbOrdenProduccion.ForeColor = Color.White;
             chbOrdenProduccion.Location = new Point(15, 100);
             chbOrdenProduccion.Name = "chbOrdenProduccion";
-            chbOrdenProduccion.Size = new Size(138, 20);
+            chbOrdenProduccion.Size = new Size(139, 22);
             chbOrdenProduccion.TabIndex = 3;
             chbOrdenProduccion.Text = "Orden Produccion";
             chbOrdenProduccion.UseVisualStyleBackColor = true;
@@ -720,7 +721,7 @@
             chbAdministrarProcesos.ForeColor = Color.White;
             chbAdministrarProcesos.Location = new Point(15, 74);
             chbAdministrarProcesos.Name = "chbAdministrarProcesos";
-            chbAdministrarProcesos.Size = new Size(156, 20);
+            chbAdministrarProcesos.Size = new Size(158, 22);
             chbAdministrarProcesos.TabIndex = 2;
             chbAdministrarProcesos.Text = "Administrar Procesos";
             chbAdministrarProcesos.UseVisualStyleBackColor = true;
@@ -733,7 +734,7 @@
             chbReporteProduccion.ForeColor = Color.White;
             chbReporteProduccion.Location = new Point(15, 48);
             chbReporteProduccion.Name = "chbReporteProduccion";
-            chbReporteProduccion.Size = new Size(167, 20);
+            chbReporteProduccion.Size = new Size(168, 22);
             chbReporteProduccion.TabIndex = 1;
             chbReporteProduccion.Text = "Reporte de Producción";
             chbReporteProduccion.UseVisualStyleBackColor = true;
@@ -746,7 +747,7 @@
             chbProduccion.ForeColor = Color.White;
             chbProduccion.Location = new Point(15, 13);
             chbProduccion.Name = "chbProduccion";
-            chbProduccion.Size = new Size(149, 26);
+            chbProduccion.Size = new Size(151, 29);
             chbProduccion.TabIndex = 0;
             chbProduccion.Text = "PRODUCCIÓN";
             chbProduccion.UseVisualStyleBackColor = true;
@@ -771,7 +772,7 @@
             chbHistorialMaquinado.ForeColor = Color.White;
             chbHistorialMaquinado.Location = new Point(15, 100);
             chbHistorialMaquinado.Name = "chbHistorialMaquinado";
-            chbHistorialMaquinado.Size = new Size(147, 20);
+            chbHistorialMaquinado.Size = new Size(148, 22);
             chbHistorialMaquinado.TabIndex = 3;
             chbHistorialMaquinado.Text = "Historial Maquinado";
             chbHistorialMaquinado.UseVisualStyleBackColor = true;
@@ -784,7 +785,7 @@
             chbPendientesMaquinado.ForeColor = Color.White;
             chbPendientesMaquinado.Location = new Point(15, 74);
             chbPendientesMaquinado.Name = "chbPendientesMaquinado";
-            chbPendientesMaquinado.Size = new Size(165, 20);
+            chbPendientesMaquinado.Size = new Size(166, 22);
             chbPendientesMaquinado.TabIndex = 2;
             chbPendientesMaquinado.Text = "Pendientes Maquinado";
             chbPendientesMaquinado.UseVisualStyleBackColor = true;
@@ -797,7 +798,7 @@
             chbSolicitudMaquinado.ForeColor = Color.White;
             chbSolicitudMaquinado.Location = new Point(15, 48);
             chbSolicitudMaquinado.Name = "chbSolicitudMaquinado";
-            chbSolicitudMaquinado.Size = new Size(149, 20);
+            chbSolicitudMaquinado.Size = new Size(150, 22);
             chbSolicitudMaquinado.TabIndex = 1;
             chbSolicitudMaquinado.Text = "Solicitud Maquinado";
             chbSolicitudMaquinado.UseVisualStyleBackColor = true;
@@ -810,7 +811,7 @@
             chbMaquinado.ForeColor = Color.White;
             chbMaquinado.Location = new Point(15, 13);
             chbMaquinado.Name = "chbMaquinado";
-            chbMaquinado.Size = new Size(140, 26);
+            chbMaquinado.Size = new Size(142, 29);
             chbMaquinado.TabIndex = 0;
             chbMaquinado.Text = "MAQUINADO";
             chbMaquinado.UseVisualStyleBackColor = true;
@@ -918,7 +919,7 @@
             label10.ForeColor = Color.White;
             label10.Location = new Point(76, 163);
             label10.Name = "label10";
-            label10.Size = new Size(67, 22);
+            label10.Size = new Size(68, 25);
             label10.TabIndex = 58;
             label10.Text = "Correo:";
             // 
@@ -974,7 +975,7 @@
             lblCampos.ForeColor = Color.White;
             lblCampos.Location = new Point(439, 31);
             lblCampos.Name = "lblCampos";
-            lblCampos.Size = new Size(177, 22);
+            lblCampos.Size = new Size(178, 25);
             lblCampos.TabIndex = 53;
             lblCampos.Text = "Campos Obilgatorios";
             lblCampos.Visible = false;
@@ -996,7 +997,7 @@
             cbEstatus.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
             cbEstatus.Location = new Point(645, 115);
             cbEstatus.Name = "cbEstatus";
-            cbEstatus.Size = new Size(241, 30);
+            cbEstatus.Size = new Size(241, 33);
             cbEstatus.TabIndex = 46;
             // 
             // label6
@@ -1007,7 +1008,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(518, 118);
             label6.Name = "label6";
-            label6.Size = new Size(72, 22);
+            label6.Size = new Size(74, 25);
             label6.TabIndex = 45;
             label6.Text = "Estatus:";
             // 
@@ -1028,7 +1029,7 @@
             label7.ForeColor = Color.White;
             label7.Location = new Point(518, 74);
             label7.Name = "label7";
-            label7.Size = new Size(127, 22);
+            label7.Size = new Size(129, 25);
             label7.TabIndex = 43;
             label7.Text = "No_Trabajador:";
             // 
@@ -1049,7 +1050,7 @@
             label5.ForeColor = Color.White;
             label5.Location = new Point(76, 118);
             label5.Name = "label5";
-            label5.Size = new Size(90, 22);
+            label5.Size = new Size(92, 25);
             label5.TabIndex = 41;
             label5.Text = "Password:";
             // 
@@ -1069,7 +1070,7 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(76, 74);
             label4.Name = "label4";
-            label4.Size = new Size(74, 22);
+            label4.Size = new Size(76, 25);
             label4.TabIndex = 39;
             label4.Text = "Usuario:";
             // 
@@ -1157,7 +1158,7 @@
             label3.ForeColor = Color.White;
             label3.Location = new Point(26, 291);
             label3.Name = "label3";
-            label3.Size = new Size(117, 27);
+            label3.Size = new Size(119, 31);
             label3.TabIndex = 20;
             label3.Text = "Buscador:";
             // 
@@ -1219,6 +1220,7 @@
             // panel8
             // 
             panel8.BackColor = Color.FromArgb(3, 42, 76);
+            panel8.Controls.Add(chbIndicadorMtto);
             panel8.Controls.Add(chbMttoPreventivo);
             panel8.Controls.Add(chbInventarioMaquinas);
             panel8.Controls.Add(chbHistorialMtto);
@@ -1230,6 +1232,19 @@
             panel8.Size = new Size(240, 291);
             panel8.TabIndex = 12;
             // 
+            // chbIndicadorMtto
+            // 
+            chbIndicadorMtto.AutoSize = true;
+            chbIndicadorMtto.Font = new Font("Montserrat", 9F);
+            chbIndicadorMtto.ForeColor = Color.White;
+            chbIndicadorMtto.Location = new Point(15, 178);
+            chbIndicadorMtto.Name = "chbIndicadorMtto";
+            chbIndicadorMtto.Size = new Size(181, 22);
+            chbIndicadorMtto.TabIndex = 6;
+            chbIndicadorMtto.Text = "Indicador Mantenimiento";
+            chbIndicadorMtto.UseVisualStyleBackColor = true;
+            chbIndicadorMtto.CheckedChanged += chbIndicadorMtto_CheckedChanged;
+            // 
             // chbMttoPreventivo
             // 
             chbMttoPreventivo.AutoSize = true;
@@ -1237,7 +1252,7 @@
             chbMttoPreventivo.ForeColor = Color.White;
             chbMttoPreventivo.Location = new Point(15, 152);
             chbMttoPreventivo.Name = "chbMttoPreventivo";
-            chbMttoPreventivo.Size = new Size(188, 20);
+            chbMttoPreventivo.Size = new Size(189, 22);
             chbMttoPreventivo.TabIndex = 5;
             chbMttoPreventivo.Text = "Mantenimiento Preventivo";
             chbMttoPreventivo.UseVisualStyleBackColor = true;
@@ -1250,7 +1265,7 @@
             chbInventarioMaquinas.ForeColor = Color.White;
             chbInventarioMaquinas.Location = new Point(15, 126);
             chbInventarioMaquinas.Name = "chbInventarioMaquinas";
-            chbInventarioMaquinas.Size = new Size(149, 20);
+            chbInventarioMaquinas.Size = new Size(150, 22);
             chbInventarioMaquinas.TabIndex = 4;
             chbInventarioMaquinas.Text = "Inventario Maquinas";
             chbInventarioMaquinas.UseVisualStyleBackColor = true;
@@ -1263,7 +1278,7 @@
             chbHistorialMtto.ForeColor = Color.White;
             chbHistorialMtto.Location = new Point(15, 100);
             chbHistorialMtto.Name = "chbHistorialMtto";
-            chbHistorialMtto.Size = new Size(172, 20);
+            chbHistorialMtto.Size = new Size(173, 22);
             chbHistorialMtto.TabIndex = 3;
             chbHistorialMtto.Text = "Historial Mantenimiento";
             chbHistorialMtto.UseVisualStyleBackColor = true;
@@ -1276,7 +1291,7 @@
             chbPendientesMtto.ForeColor = Color.White;
             chbPendientesMtto.Location = new Point(15, 74);
             chbPendientesMtto.Name = "chbPendientesMtto";
-            chbPendientesMtto.Size = new Size(190, 20);
+            chbPendientesMtto.Size = new Size(191, 22);
             chbPendientesMtto.TabIndex = 2;
             chbPendientesMtto.Text = "Pendientes Mantenimiento";
             chbPendientesMtto.UseVisualStyleBackColor = true;
@@ -1289,7 +1304,7 @@
             chbSolicitudMtto.ForeColor = Color.White;
             chbSolicitudMtto.Location = new Point(15, 48);
             chbSolicitudMtto.Name = "chbSolicitudMtto";
-            chbSolicitudMtto.Size = new Size(174, 20);
+            chbSolicitudMtto.Size = new Size(175, 22);
             chbSolicitudMtto.TabIndex = 1;
             chbSolicitudMtto.Text = "Solicitud Mantenimiento";
             chbSolicitudMtto.UseVisualStyleBackColor = true;
@@ -1302,7 +1317,7 @@
             chbMantenimiento.ForeColor = Color.White;
             chbMantenimiento.Location = new Point(15, 13);
             chbMantenimiento.Name = "chbMantenimiento";
-            chbMantenimiento.Size = new Size(176, 26);
+            chbMantenimiento.Size = new Size(178, 29);
             chbMantenimiento.TabIndex = 0;
             chbMantenimiento.Text = "MANTENIMIENTO";
             chbMantenimiento.UseVisualStyleBackColor = true;
@@ -1345,7 +1360,7 @@
             chbEliminarFamilias.ForeColor = Color.White;
             chbEliminarFamilias.Location = new Point(15, 74);
             chbEliminarFamilias.Name = "chbEliminarFamilias";
-            chbEliminarFamilias.Size = new Size(129, 20);
+            chbEliminarFamilias.Size = new Size(130, 22);
             chbEliminarFamilias.TabIndex = 9;
             chbEliminarFamilias.Text = "Eliminar Familias";
             chbEliminarFamilias.UseVisualStyleBackColor = true;
@@ -1358,7 +1373,7 @@
             label14.ForeColor = Color.White;
             label14.Location = new Point(15, 13);
             label14.Name = "label14";
-            label14.Size = new Size(130, 22);
+            label14.Size = new Size(132, 25);
             label14.TabIndex = 8;
             label14.Text = "PRODUCCIÓN";
             // 
@@ -1369,7 +1384,7 @@
             chbAdminOP.ForeColor = Color.White;
             chbAdminOP.Location = new Point(15, 48);
             chbAdminOP.Name = "chbAdminOP";
-            chbAdminOP.Size = new Size(216, 20);
+            chbAdminOP.Size = new Size(217, 22);
             chbAdminOP.TabIndex = 2;
             chbAdminOP.Text = "Admin. Ordenes de Producción";
             chbAdminOP.UseVisualStyleBackColor = true;
@@ -1392,7 +1407,7 @@
             label13.ForeColor = Color.White;
             label13.Location = new Point(15, 13);
             label13.Name = "label13";
-            label13.Size = new Size(85, 22);
+            label13.Size = new Size(87, 25);
             label13.TabIndex = 8;
             label13.Text = "AJUSTES";
             // 
@@ -1403,7 +1418,7 @@
             chbAjustes.ForeColor = Color.White;
             chbAjustes.Location = new Point(15, 48);
             chbAjustes.Name = "chbAjustes";
-            chbAjustes.Size = new Size(70, 20);
+            chbAjustes.Size = new Size(71, 22);
             chbAjustes.TabIndex = 2;
             chbAjustes.Text = "Ajustes";
             chbAjustes.UseVisualStyleBackColor = true;
@@ -1426,7 +1441,7 @@
             label12.ForeColor = Color.White;
             label12.Location = new Point(15, 13);
             label12.Name = "label12";
-            label12.Size = new Size(121, 22);
+            label12.Size = new Size(123, 25);
             label12.TabIndex = 8;
             label12.Text = "MAQUINADO";
             // 
@@ -1437,7 +1452,7 @@
             chbMaquinadoVG.ForeColor = Color.White;
             chbMaquinadoVG.Location = new Point(15, 48);
             chbMaquinadoVG.Name = "chbMaquinadoVG";
-            chbMaquinadoVG.Size = new Size(174, 20);
+            chbMaquinadoVG.Size = new Size(176, 22);
             chbMaquinadoVG.TabIndex = 2;
             chbMaquinadoVG.Text = "Vista General de Historial";
             chbMaquinadoVG.UseVisualStyleBackColor = true;
@@ -1460,7 +1475,7 @@
             label11.ForeColor = Color.White;
             label11.Location = new Point(15, 13);
             label11.Name = "label11";
-            label11.Size = new Size(157, 22);
+            label11.Size = new Size(159, 25);
             label11.TabIndex = 8;
             label11.Text = "MANTENIMIENTO";
             // 
@@ -1471,7 +1486,7 @@
             chbMantenimientoVG.ForeColor = Color.White;
             chbMantenimientoVG.Location = new Point(15, 48);
             chbMantenimientoVG.Name = "chbMantenimientoVG";
-            chbMantenimientoVG.Size = new Size(174, 20);
+            chbMantenimientoVG.Size = new Size(176, 22);
             chbMantenimientoVG.TabIndex = 2;
             chbMantenimientoVG.Text = "Vista General de Historial";
             chbMantenimientoVG.UseVisualStyleBackColor = true;
@@ -1482,7 +1497,7 @@
             lblNumeroEspecial.BackColor = Color.Transparent;
             lblNumeroEspecial.Location = new Point(434, 54);
             lblNumeroEspecial.Name = "lblNumeroEspecial";
-            lblNumeroEspecial.Size = new Size(80, 15);
+            lblNumeroEspecial.Size = new Size(81, 15);
             lblNumeroEspecial.TabIndex = 11;
             lblNumeroEspecial.Text = "NumeroTemp";
             lblNumeroEspecial.Visible = false;
@@ -1521,7 +1536,7 @@
             chbComprasVG.ForeColor = Color.White;
             chbComprasVG.Location = new Point(15, 74);
             chbComprasVG.Name = "chbComprasVG";
-            chbComprasVG.Size = new Size(174, 20);
+            chbComprasVG.Size = new Size(176, 22);
             chbComprasVG.TabIndex = 9;
             chbComprasVG.Text = "Vista General de Historial";
             chbComprasVG.UseVisualStyleBackColor = true;
@@ -1534,7 +1549,7 @@
             label9.ForeColor = Color.White;
             label9.Location = new Point(15, 13);
             label9.Name = "label9";
-            label9.Size = new Size(97, 22);
+            label9.Size = new Size(99, 25);
             label9.TabIndex = 8;
             label9.Text = "COMPRAS";
             // 
@@ -1545,7 +1560,7 @@
             chbComprasAlmacenar.ForeColor = Color.White;
             chbComprasAlmacenar.Location = new Point(15, 48);
             chbComprasAlmacenar.Name = "chbComprasAlmacenar";
-            chbComprasAlmacenar.Size = new Size(192, 20);
+            chbComprasAlmacenar.Size = new Size(193, 22);
             chbComprasAlmacenar.TabIndex = 2;
             chbComprasAlmacenar.Text = "Almacenar Requerimientos";
             chbComprasAlmacenar.UseVisualStyleBackColor = true;
@@ -1557,7 +1572,7 @@
             cbUsuariosEspeciales.FormattingEnabled = true;
             cbUsuariosEspeciales.Location = new Point(140, 34);
             cbUsuariosEspeciales.Name = "cbUsuariosEspeciales";
-            cbUsuariosEspeciales.Size = new Size(288, 35);
+            cbUsuariosEspeciales.Size = new Size(288, 39);
             cbUsuariosEspeciales.TabIndex = 4;
             cbUsuariosEspeciales.SelectedIndexChanged += cbUsuariosEspeciales_SelectedIndexChanged;
             cbUsuariosEspeciales.SelectionChangeCommitted += cbUsuariosEspeciales_SelectionChangeCommitted;
@@ -1570,7 +1585,7 @@
             label8.ForeColor = Color.White;
             label8.Location = new Point(26, 37);
             label8.Name = "label8";
-            label8.Size = new Size(98, 27);
+            label8.Size = new Size(100, 31);
             label8.TabIndex = 3;
             label8.Text = "Usuario:";
             // 
@@ -1742,5 +1757,6 @@
         private CheckBox chbAdminOP;
         private CheckBox chbEliminarFamilias;
         private CheckBox chbMttoPreventivo;
+        private CheckBox chbIndicadorMtto;
     }
 }
