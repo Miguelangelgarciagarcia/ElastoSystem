@@ -80,6 +80,10 @@ namespace ElastoSystem
                 dgvPartidas.Columns["Motivo"].Visible = false;
                 dgvPartidas.Columns["Cotizacion1"].Visible = false;
                 dgvPartidas.Columns["Ruta_Cotizacion1"].Visible = false;
+                dgvPartidas.Columns["Cotizacion2"].Visible = false;
+                dgvPartidas.Columns["Ruta_Cotizacion2"].Visible = false;
+                dgvPartidas.Columns["Cotizacion3"].Visible = false;
+                dgvPartidas.Columns["Ruta_Cotizacion3"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -163,36 +167,7 @@ namespace ElastoSystem
 
         private void dgvRequisicions_DoubleClick(object sender, EventArgs e)
         {
-            txbTipoUso.Clear();
-            txbNotas.Clear();
-            lblFolio.Text = "";
-            lblFolioREQ.Text = "";
-            lblFechaInicio.Text = "-------------";
-            lblFechaFinal.Text = "-------------";
-            lblEstatus.Text = "-------------";
-            lblOC.Visible = false;
-            lblOCResultado.Text = "-------------";
-            txbComprobante.Clear();
-            lblOCResultado.Visible = false;
-            btnDescargarComprobante.Visible = false;
-            btnDescargarCotizacion.Visible = false;
-            txbRutCot.Clear();
 
-
-            DataGridView dgv = (DataGridView)sender;
-
-            if (dgv.SelectedCells.Count > 0)
-            {
-                int rowIndex = dgv.SelectedCells[0].RowIndex;
-
-                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
-                lblFolio.Text = id;
-
-                string folio = dgv.Rows[rowIndex].Cells[1].Value.ToString();
-                lblFolioREQ.Text = folio;
-                lblFolioREQ.Visible = true;
-            }
-            MandarALlamarPartidas();
         }
 
         private void dgvPartidas_Click(object sender, EventArgs e)
@@ -270,35 +245,7 @@ namespace ElastoSystem
 
         private void dgvRequisicions_Click(object sender, EventArgs e)
         {
-            txbTipoUso.Clear();
-            txbNotas.Clear();
-            lblFolio.Text = "";
-            lblFolioREQ.Text = "";
-            lblFechaInicio.Text = "-------------";
-            lblFechaFinal.Text = "-------------";
-            lblEstatus.Text = "-------------";
-            lblOC.Visible = false;
-            lblOCResultado.Text = "-------------";
-            txbComprobante.Clear();
-            lblOCResultado.Visible = false;
-            btnDescargarComprobante.Visible = false;
-            btnDescargarCotizacion.Visible = false;
-            txbRutCot.Clear();
 
-            DataGridView dgv = (DataGridView)sender;
-
-            if (dgv.SelectedCells.Count > 0)
-            {
-                int rowIndex = dgv.SelectedCells[0].RowIndex;
-
-                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
-                lblFolio.Text = id;
-
-                string folio = dgv.Rows[rowIndex].Cells[1].Value.ToString();
-                lblFolioREQ.Text = folio;
-                lblFolioREQ.Visible = true;
-            }
-            MandarALlamarPartidas();
         }
 
         private void dgvRequisicions_SelectionChanged(object sender, EventArgs e)
@@ -623,6 +570,40 @@ namespace ElastoSystem
         private void txbBuscadorGeneral_TextChanged(object sender, EventArgs e)
         {
             BuscadorGeneral();
+        }
+
+        private void dgvRequisicions_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            txbTipoUso.Clear();
+            txbNotas.Clear();
+            lblFolio.Text = "";
+            lblFolioREQ.Text = "";
+            lblFechaInicio.Text = "-------------";
+            lblFechaFinal.Text = "-------------";
+            lblEstatus.Text = "-------------";
+            lblOC.Visible = false;
+            lblOCResultado.Text = "-------------";
+            txbComprobante.Clear();
+            lblOCResultado.Visible = false;
+            btnDescargarComprobante.Visible = false;
+            btnDescargarCotizacion.Visible = false;
+            txbRutCot.Clear();
+
+
+            DataGridView dgv = (DataGridView)sender;
+
+            if (dgv.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgv.SelectedCells[0].RowIndex;
+
+                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
+                lblFolio.Text = id;
+
+                string folio = dgv.Rows[rowIndex].Cells[1].Value.ToString();
+                lblFolioREQ.Text = folio;
+                lblFolioREQ.Visible = true;
+            }
+            MandarALlamarPartidas();
         }
     }
 }
