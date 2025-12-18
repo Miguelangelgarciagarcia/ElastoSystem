@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Compras_Administrar_Requisiciones));
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             txbTexto = new TextBox();
             txbFolio = new TextBox();
             label1 = new Label();
@@ -232,7 +232,7 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(28, 16);
             label1.Name = "label1";
-            label1.Size = new Size(533, 44);
+            label1.Size = new Size(536, 49);
             label1.TabIndex = 4;
             label1.Text = "ADMINISTRAR REQUISICIONES";
             // 
@@ -255,7 +255,7 @@
             lblID.ForeColor = Color.White;
             lblID.Location = new Point(206, 23);
             lblID.Name = "lblID";
-            lblID.Size = new Size(105, 22);
+            lblID.Size = new Size(107, 25);
             lblID.TabIndex = 37;
             lblID.Text = "Descripción";
             lblID.Visible = false;
@@ -268,7 +268,7 @@
             label3.ForeColor = Color.White;
             label3.Location = new Point(22, 23);
             label3.Name = "label3";
-            label3.Size = new Size(128, 22);
+            label3.Size = new Size(130, 25);
             label3.TabIndex = 22;
             label3.Text = "REQUISIONES";
             // 
@@ -277,26 +277,26 @@
             dgvRequisicions.AllowUserToAddRows = false;
             dgvRequisicions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvRequisicions.BackgroundColor = Color.White;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvRequisicions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle7.BackColor = Color.White;
+            dataGridViewCellStyle7.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
+            dataGridViewCellStyle7.ForeColor = Color.Black;
+            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle7.SelectionForeColor = Color.White;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dgvRequisicions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             dgvRequisicions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvRequisicions.Location = new Point(22, 63);
             dgvRequisicions.Name = "dgvRequisicions";
             dgvRequisicions.ReadOnly = true;
             dgvRequisicions.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dgvRequisicions.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = Color.White;
+            dataGridViewCellStyle8.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle8.ForeColor = Color.Black;
+            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle8.SelectionForeColor = Color.White;
+            dgvRequisicions.RowsDefaultCellStyle = dataGridViewCellStyle8;
             dgvRequisicions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvRequisicions.Size = new Size(552, 140);
             dgvRequisicions.TabIndex = 21;
@@ -322,7 +322,7 @@
             lblSolicito.ForeColor = Color.White;
             lblSolicito.Location = new Point(23, 15);
             lblSolicito.Name = "lblSolicito";
-            lblSolicito.Size = new Size(105, 22);
+            lblSolicito.Size = new Size(107, 25);
             lblSolicito.TabIndex = 38;
             lblSolicito.Text = "Descripción";
             lblSolicito.Visible = false;
@@ -335,7 +335,7 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(295, 15);
             label2.Name = "label2";
-            label2.Size = new Size(95, 22);
+            label2.Size = new Size(97, 25);
             label2.TabIndex = 23;
             label2.Text = "PARTIDAS";
             // 
@@ -344,26 +344,26 @@
             dgvPartidas.AllowUserToAddRows = false;
             dgvPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPartidas.BackgroundColor = Color.White;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvPartidas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle9.BackColor = Color.White;
+            dataGridViewCellStyle9.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
+            dataGridViewCellStyle9.ForeColor = Color.Black;
+            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle9.SelectionForeColor = Color.White;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            dgvPartidas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dgvPartidas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPartidas.Location = new Point(19, 55);
             dgvPartidas.Name = "dgvPartidas";
             dgvPartidas.ReadOnly = true;
             dgvPartidas.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dgvPartidas.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.BackColor = Color.White;
+            dataGridViewCellStyle10.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle10.ForeColor = Color.Black;
+            dataGridViewCellStyle10.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle10.SelectionForeColor = Color.White;
+            dgvPartidas.RowsDefaultCellStyle = dataGridViewCellStyle10;
             dgvPartidas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPartidas.Size = new Size(621, 148);
             dgvPartidas.TabIndex = 20;
@@ -387,7 +387,7 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(19, 207);
             label4.Name = "label4";
-            label4.Size = new Size(107, 22);
+            label4.Size = new Size(109, 25);
             label4.TabIndex = 18;
             label4.Text = "Tipo de Uso:";
             // 
@@ -408,7 +408,7 @@
             label5.ForeColor = Color.White;
             label5.Location = new Point(17, 240);
             label5.Name = "label5";
-            label5.Size = new Size(116, 22);
+            label5.Size = new Size(117, 25);
             label5.TabIndex = 16;
             label5.Text = "Comentarios:";
             // 
@@ -442,7 +442,7 @@
             cbRequisicion.Items.AddRange(new object[] { "ELASTOTECNICA", "ANDREA", "BROSMA" });
             cbRequisicion.Location = new Point(359, 15);
             cbRequisicion.Name = "cbRequisicion";
-            cbRequisicion.Size = new Size(336, 30);
+            cbRequisicion.Size = new Size(336, 33);
             cbRequisicion.TabIndex = 63;
             // 
             // label12
@@ -453,7 +453,7 @@
             label12.ForeColor = Color.White;
             label12.Location = new Point(162, 18);
             label12.Name = "label12";
-            label12.Size = new Size(175, 22);
+            label12.Size = new Size(176, 25);
             label12.TabIndex = 62;
             label12.Text = "Requisicion Compra:";
             // 
@@ -465,7 +465,7 @@
             lblCampos2.ForeColor = Color.White;
             lblCampos2.Location = new Point(1008, 23);
             lblCampos2.Name = "lblCampos2";
-            lblCampos2.Size = new Size(177, 22);
+            lblCampos2.Size = new Size(178, 25);
             lblCampos2.TabIndex = 61;
             lblCampos2.Text = "Campos Obilgatorios";
             lblCampos2.Visible = false;
@@ -554,7 +554,7 @@
             chbCerNo.ForeColor = Color.White;
             chbCerNo.Location = new Point(969, 150);
             chbCerNo.Name = "chbCerNo";
-            chbCerNo.Size = new Size(52, 26);
+            chbCerNo.Size = new Size(54, 29);
             chbCerNo.TabIndex = 49;
             chbCerNo.Text = "No";
             chbCerNo.UseVisualStyleBackColor = true;
@@ -567,7 +567,7 @@
             chbCerSi.ForeColor = Color.White;
             chbCerSi.Location = new Point(904, 150);
             chbCerSi.Name = "chbCerSi";
-            chbCerSi.Size = new Size(43, 26);
+            chbCerSi.Size = new Size(45, 29);
             chbCerSi.TabIndex = 48;
             chbCerSi.Text = "Si";
             chbCerSi.UseVisualStyleBackColor = true;
@@ -581,7 +581,7 @@
             cbFormaPago.Items.AddRange(new object[] { "CHEQUE", "EFECTIVO", "TRANSFERENCIA" });
             cbFormaPago.Location = new Point(849, 106);
             cbFormaPago.Name = "cbFormaPago";
-            cbFormaPago.Size = new Size(336, 30);
+            cbFormaPago.Size = new Size(336, 33);
             cbFormaPago.TabIndex = 47;
             // 
             // cbCondicionPago
@@ -591,7 +591,7 @@
             cbCondicionPago.Items.AddRange(new object[] { "CONTADO", "CRÉDITO" });
             cbCondicionPago.Location = new Point(250, 141);
             cbCondicionPago.Name = "cbCondicionPago";
-            cbCondicionPago.Size = new Size(336, 30);
+            cbCondicionPago.Size = new Size(336, 33);
             cbCondicionPago.TabIndex = 46;
             // 
             // cbConfirmacionPedido
@@ -602,7 +602,7 @@
             cbConfirmacionPedido.Items.AddRange(new object[] { "EMAIL", "TELEFONICO", "WHATSAPP" });
             cbConfirmacionPedido.Location = new Point(250, 106);
             cbConfirmacionPedido.Name = "cbConfirmacionPedido";
-            cbConfirmacionPedido.Size = new Size(336, 30);
+            cbConfirmacionPedido.Size = new Size(336, 33);
             cbConfirmacionPedido.TabIndex = 45;
             // 
             // cbMoneda
@@ -613,7 +613,7 @@
             cbMoneda.Items.AddRange(new object[] { "DOLARES", "EUROS", "PESOS MEXICANOS" });
             cbMoneda.Location = new Point(250, 71);
             cbMoneda.Name = "cbMoneda";
-            cbMoneda.Size = new Size(336, 30);
+            cbMoneda.Size = new Size(336, 33);
             cbMoneda.TabIndex = 44;
             cbMoneda.SelectedIndexChanged += cbMoneda_SelectedIndexChanged;
             // 
@@ -625,7 +625,7 @@
             label21.ForeColor = Color.White;
             label21.Location = new Point(653, 147);
             label21.Name = "label21";
-            label21.Size = new Size(189, 22);
+            label21.Size = new Size(189, 25);
             label21.TabIndex = 41;
             label21.Text = "Certificado de Calidad:";
             // 
@@ -637,7 +637,7 @@
             label20.ForeColor = Color.White;
             label20.Location = new Point(653, 114);
             label20.Name = "label20";
-            label20.Size = new Size(135, 22);
+            label20.Size = new Size(137, 25);
             label20.TabIndex = 40;
             label20.Text = "Forma de Pago:";
             // 
@@ -684,7 +684,7 @@
             label19.ForeColor = Color.White;
             label19.Location = new Point(30, 214);
             label19.Name = "label19";
-            label19.Size = new Size(152, 22);
+            label19.Size = new Size(154, 25);
             label19.TabIndex = 29;
             label19.Text = "Lugar de Entrega:";
             // 
@@ -696,7 +696,7 @@
             label18.ForeColor = Color.White;
             label18.Location = new Point(30, 179);
             label18.Name = "label18";
-            label18.Size = new Size(167, 22);
+            label18.Size = new Size(169, 25);
             label18.TabIndex = 28;
             label18.Text = "Tiempo de Entrega:";
             // 
@@ -708,7 +708,7 @@
             label17.ForeColor = Color.White;
             label17.Location = new Point(29, 144);
             label17.Name = "label17";
-            label17.Size = new Size(165, 22);
+            label17.Size = new Size(166, 25);
             label17.TabIndex = 27;
             label17.Text = "Condicion de Pago:";
             // 
@@ -720,7 +720,7 @@
             label16.ForeColor = Color.White;
             label16.Location = new Point(29, 109);
             label16.Name = "label16";
-            label16.Size = new Size(212, 22);
+            label16.Size = new Size(213, 25);
             label16.TabIndex = 26;
             label16.Text = "Confirmacion del Pedido:";
             // 
@@ -732,7 +732,7 @@
             label15.ForeColor = Color.White;
             label15.Location = new Point(29, 74);
             label15.Name = "label15";
-            label15.Size = new Size(79, 22);
+            label15.Size = new Size(81, 25);
             label15.TabIndex = 25;
             label15.Text = "Moneda:";
             // 
@@ -753,7 +753,7 @@
             label9.ForeColor = Color.White;
             label9.Location = new Point(49, 141);
             label9.Name = "label9";
-            label9.Size = new Size(63, 22);
+            label9.Size = new Size(65, 25);
             label9.TabIndex = 22;
             label9.Text = "Precio:";
             // 
@@ -773,7 +773,7 @@
             label8.ForeColor = Color.White;
             label8.Location = new Point(43, 108);
             label8.Name = "label8";
-            label8.Size = new Size(72, 22);
+            label8.Size = new Size(74, 25);
             label8.TabIndex = 20;
             label8.Text = "Unidad:";
             // 
@@ -794,7 +794,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(31, 75);
             label6.Name = "label6";
-            label6.Size = new Size(86, 22);
+            label6.Size = new Size(87, 25);
             label6.TabIndex = 18;
             label6.Text = "Cantidad:";
             // 
@@ -815,7 +815,7 @@
             label7.ForeColor = Color.White;
             label7.Location = new Point(299, 76);
             label7.Name = "label7";
-            label7.Size = new Size(108, 22);
+            label7.Size = new Size(110, 25);
             label7.TabIndex = 16;
             label7.Text = "Descripción:";
             // 
@@ -874,7 +874,7 @@
             chbIVA.ForeColor = Color.White;
             chbIVA.Location = new Point(919, 72);
             chbIVA.Name = "chbIVA";
-            chbIVA.Size = new Size(88, 26);
+            chbIVA.Size = new Size(90, 29);
             chbIVA.TabIndex = 50;
             chbIVA.Text = "IVA 16%";
             chbIVA.UseVisualStyleBackColor = true;
@@ -925,7 +925,7 @@
             label14.ForeColor = Color.White;
             label14.Location = new Point(935, 107);
             label14.Name = "label14";
-            label14.Size = new Size(47, 22);
+            label14.Size = new Size(49, 25);
             label14.TabIndex = 30;
             label14.Text = "Total";
             // 
@@ -957,7 +957,7 @@
             label11.ForeColor = Color.White;
             label11.Location = new Point(935, 40);
             label11.Name = "label11";
-            label11.Size = new Size(77, 22);
+            label11.Size = new Size(79, 25);
             label11.TabIndex = 26;
             label11.Text = "Subtotal";
             // 
@@ -966,14 +966,14 @@
             dgvListaMateriales.AllowUserToAddRows = false;
             dgvListaMateriales.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvListaMateriales.BackgroundColor = Color.White;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle5.BackColor = Color.White;
-            dataGridViewCellStyle5.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = Color.Black;
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle5.SelectionForeColor = Color.White;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle11.BackColor = Color.White;
+            dataGridViewCellStyle11.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
+            dataGridViewCellStyle11.ForeColor = Color.Black;
+            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle11.SelectionForeColor = Color.White;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            dgvListaMateriales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             dgvListaMateriales.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvListaMateriales.Columns.AddRange(new DataGridViewColumn[] { Partida, ID, Cantidad, Unidad, Descripcion, Precio, Importe, Requisicion });
             dgvListaMateriales.Enabled = false;
@@ -981,13 +981,13 @@
             dgvListaMateriales.Name = "dgvListaMateriales";
             dgvListaMateriales.ReadOnly = true;
             dgvListaMateriales.RowHeadersVisible = false;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle6.ForeColor = Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle6.SelectionForeColor = Color.White;
-            dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = Color.White;
+            dataGridViewCellStyle12.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle12.ForeColor = Color.Black;
+            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle12.SelectionForeColor = Color.White;
+            dgvListaMateriales.RowsDefaultCellStyle = dataGridViewCellStyle12;
             dgvListaMateriales.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvListaMateriales.Size = new Size(864, 216);
             dgvListaMateriales.TabIndex = 25;
@@ -1074,7 +1074,7 @@
             lblCampos.ForeColor = Color.White;
             lblCampos.Location = new Point(1053, 20);
             lblCampos.Name = "lblCampos";
-            lblCampos.Size = new Size(177, 22);
+            lblCampos.Size = new Size(178, 25);
             lblCampos.TabIndex = 51;
             lblCampos.Text = "Campos Obilgatorios";
             lblCampos.Visible = false;
@@ -1116,7 +1116,7 @@
             cbProveedores.Items.AddRange(new object[] { "TODOS" });
             cbProveedores.Location = new Point(139, 31);
             cbProveedores.Name = "cbProveedores";
-            cbProveedores.Size = new Size(435, 30);
+            cbProveedores.Size = new Size(435, 33);
             cbProveedores.TabIndex = 17;
             cbProveedores.SelectedIndexChanged += cbProveedores_SelectedIndexChanged;
             cbProveedores.TextChanged += cbProveedores_TextChanged;
@@ -1129,7 +1129,7 @@
             label13.ForeColor = Color.White;
             label13.Location = new Point(37, 34);
             label13.Name = "label13";
-            label13.Size = new Size(96, 22);
+            label13.Size = new Size(98, 25);
             label13.TabIndex = 16;
             label13.Text = "Proveedor:";
             // 
@@ -1141,7 +1141,7 @@
             lblFolio.ForeColor = Color.White;
             lblFolio.Location = new Point(1137, 3);
             lblFolio.Name = "lblFolio";
-            lblFolio.Size = new Size(95, 30);
+            lblFolio.Size = new Size(97, 34);
             lblFolio.TabIndex = 30;
             lblFolio.Text = "ERROR";
             lblFolio.Visible = false;
@@ -1154,7 +1154,7 @@
             label22.ForeColor = Color.White;
             label22.Location = new Point(1064, 27);
             label22.Name = "label22";
-            label22.Size = new Size(75, 30);
+            label22.Size = new Size(77, 34);
             label22.TabIndex = 29;
             label22.Text = "Folio:";
             // 
@@ -1315,7 +1315,7 @@
             label29.ForeColor = Color.White;
             label29.Location = new Point(31, 28);
             label29.Name = "label29";
-            label29.Size = new Size(227, 25);
+            label29.Size = new Size(227, 28);
             label29.TabIndex = 64;
             label29.Text = "PRODUCTO / SERVICIO";
             // 
@@ -1344,7 +1344,7 @@
             lblNo.ForeColor = Color.White;
             lblNo.Location = new Point(20, 264);
             lblNo.Name = "lblNo";
-            lblNo.Size = new Size(33, 22);
+            lblNo.Size = new Size(35, 25);
             lblNo.TabIndex = 62;
             lblNo.Text = "No";
             lblNo.Visible = false;
@@ -1391,7 +1391,7 @@
             chbCompraOnline.ForeColor = Color.White;
             chbCompraOnline.Location = new Point(832, 61);
             chbCompraOnline.Name = "chbCompraOnline";
-            chbCompraOnline.Size = new Size(150, 26);
+            chbCompraOnline.Size = new Size(151, 29);
             chbCompraOnline.TabIndex = 59;
             chbCompraOnline.Text = "Compra Online";
             chbCompraOnline.UseVisualStyleBackColor = true;
@@ -1459,7 +1459,7 @@
             lblCamposPartidas.ForeColor = Color.White;
             lblCamposPartidas.Location = new Point(507, 49);
             lblCamposPartidas.Name = "lblCamposPartidas";
-            lblCamposPartidas.Size = new Size(186, 22);
+            lblCamposPartidas.Size = new Size(188, 25);
             lblCamposPartidas.TabIndex = 53;
             lblCamposPartidas.Text = "Campos Obilgatorios";
             lblCamposPartidas.Visible = false;
@@ -1482,7 +1482,7 @@
             label23.ForeColor = Color.White;
             label23.Location = new Point(19, 174);
             label23.Name = "label23";
-            label23.Size = new Size(220, 22);
+            label23.Size = new Size(222, 25);
             label23.TabIndex = 38;
             label23.Text = "Proovedor Recomendado:";
             // 
@@ -1494,7 +1494,7 @@
             lblIDProducto.ForeColor = Color.White;
             lblIDProducto.Location = new Point(49, 266);
             lblIDProducto.Name = "lblIDProducto";
-            lblIDProducto.Size = new Size(31, 22);
+            lblIDProducto.Size = new Size(33, 25);
             lblIDProducto.TabIndex = 37;
             lblIDProducto.Text = "ID:";
             lblIDProducto.Visible = false;
@@ -1675,7 +1675,7 @@
             label26.ForeColor = Color.White;
             label26.Location = new Point(375, 117);
             label26.Name = "label26";
-            label26.Size = new Size(67, 22);
+            label26.Size = new Size(68, 25);
             label26.TabIndex = 56;
             label26.Text = "Correo:";
             // 
@@ -1687,7 +1687,7 @@
             label25.ForeColor = Color.White;
             label25.Location = new Point(38, 117);
             label25.Name = "label25";
-            label25.Size = new Size(81, 22);
+            label25.Size = new Size(83, 25);
             label25.TabIndex = 55;
             label25.Text = "Telefono:";
             // 
@@ -1699,7 +1699,7 @@
             label24.ForeColor = Color.White;
             label24.Location = new Point(38, 73);
             label24.Name = "label24";
-            label24.Size = new Size(86, 22);
+            label24.Size = new Size(87, 25);
             label24.TabIndex = 54;
             label24.Text = "Contacto:";
             // 
@@ -1753,7 +1753,7 @@
             lblLista.ForeColor = Color.White;
             lblLista.Location = new Point(145, 375);
             lblLista.Name = "lblLista";
-            lblLista.Size = new Size(49, 22);
+            lblLista.Size = new Size(51, 25);
             lblLista.TabIndex = 69;
             lblLista.Text = "Lista:";
             lblLista.Visible = false;
@@ -1786,7 +1786,7 @@
             label10.ForeColor = Color.White;
             label10.Location = new Point(653, 74);
             label10.Name = "label10";
-            label10.Size = new Size(96, 22);
+            label10.Size = new Size(97, 25);
             label10.TabIndex = 66;
             label10.Text = "Cotización:";
             // 
@@ -1798,7 +1798,7 @@
             lblFolioOC.ForeColor = Color.White;
             lblFolioOC.Location = new Point(1136, 28);
             lblFolioOC.Name = "lblFolioOC";
-            lblFolioOC.Size = new Size(95, 30);
+            lblFolioOC.Size = new Size(97, 34);
             lblFolioOC.TabIndex = 32;
             lblFolioOC.Text = "ERROR";
             // 
@@ -1845,7 +1845,7 @@
             label28.ForeColor = Color.White;
             label28.Location = new Point(622, 122);
             label28.Name = "label28";
-            label28.Size = new Size(283, 22);
+            label28.Size = new Size(284, 25);
             label28.TabIndex = 54;
             label28.Text = "Motivo por el que no se realizo OC:";
             // 
@@ -1873,7 +1873,7 @@
             lblRutaArchivo.ForeColor = Color.White;
             lblRutaArchivo.Location = new Point(40, 339);
             lblRutaArchivo.Name = "lblRutaArchivo";
-            lblRutaArchivo.Size = new Size(44, 20);
+            lblRutaArchivo.Size = new Size(45, 22);
             lblRutaArchivo.TabIndex = 52;
             lblRutaArchivo.Text = "Ruta";
             lblRutaArchivo.Visible = false;
@@ -1921,7 +1921,7 @@
             label27.ForeColor = Color.White;
             label27.Location = new Point(36, 29);
             label27.Name = "label27";
-            label27.Size = new Size(266, 26);
+            label27.Size = new Size(266, 30);
             label27.TabIndex = 48;
             label27.Text = "CARGAR COMPROBANTE";
             // 

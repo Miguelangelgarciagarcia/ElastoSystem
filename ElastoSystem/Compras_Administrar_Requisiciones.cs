@@ -326,9 +326,9 @@ namespace ElastoSystem
             iva = Math.Round(iva, 2);
             total = suma + iva;
             total = Math.Round(total, 2);
-            txbSubtotal.Text = suma.ToString();
-            txbIVA.Text = iva.ToString();
-            txbTotal.Text = total.ToString();
+            txbSubtotal.Text = suma.ToString("0.00");
+            txbIVA.Text = iva.ToString("0.00");
+            txbTotal.Text = total.ToString("0.00");
         }
         private void MandarALlamarDatosProveedor()
         {
