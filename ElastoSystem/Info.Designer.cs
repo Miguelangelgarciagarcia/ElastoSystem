@@ -95,7 +95,7 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(12, 53);
             label1.Name = "label1";
-            label1.Size = new Size(329, 50);
+            label1.Size = new Size(331, 56);
             label1.TabIndex = 1;
             label1.Text = "ELASTO SYSTEM";
             // 
@@ -118,9 +118,9 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(24, 131);
             label2.Name = "label2";
-            label2.Size = new Size(167, 16);
+            label2.Size = new Size(160, 18);
             label2.TabIndex = 3;
-            label2.Text = "Elasto System Version 6.0.1";
+            label2.Text = "Elasto System Version 7.0";
             // 
             // label3
             // 
@@ -130,7 +130,7 @@
             label3.ForeColor = Color.White;
             label3.Location = new Point(24, 176);
             label3.Name = "label3";
-            label3.Size = new Size(476, 16);
+            label3.Size = new Size(478, 18);
             label3.TabIndex = 4;
             label3.Text = "Para obtener más información sobre Elasto System y poder consultar dudas o";
             // 
@@ -142,7 +142,7 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(24, 192);
             label4.Name = "label4";
-            label4.Size = new Size(176, 16);
+            label4.Size = new Size(178, 18);
             label4.TabIndex = 5;
             label4.Text = "aclaraciones comunicarse a:";
             // 
@@ -154,7 +154,7 @@
             label5.ForeColor = Color.White;
             label5.Location = new Point(24, 208);
             label5.Name = "label5";
-            label5.Size = new Size(85, 16);
+            label5.Size = new Size(86, 18);
             label5.TabIndex = 6;
             label5.Text = "55-5056-7196";
             // 
@@ -166,7 +166,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(24, 224);
             label6.Name = "label6";
-            label6.Size = new Size(251, 16);
+            label6.Size = new Size(253, 18);
             label6.TabIndex = 7;
             label6.Text = "miguel_tec_programador@outlook.com";
             label6.Click += label6_Click;
@@ -179,7 +179,7 @@
             label7.ForeColor = Color.White;
             label7.Location = new Point(24, 240);
             label7.Name = "label7";
-            label7.Size = new Size(255, 16);
+            label7.Size = new Size(256, 18);
             label7.TabIndex = 8;
             label7.Text = "Desarrollador: Miguel Angel García García";
             // 
@@ -191,9 +191,9 @@
             label8.ForeColor = Color.White;
             label8.Location = new Point(24, 147);
             label8.Name = "label8";
-            label8.Size = new Size(180, 16);
+            label8.Size = new Size(180, 18);
             label8.TabIndex = 9;
-            label8.Text = "Última actualización 15/09/25";
+            label8.Text = "Última actualización 22/12/25";
             // 
             // lblConexion
             // 
@@ -203,7 +203,7 @@
             lblConexion.ForeColor = Color.White;
             lblConexion.Location = new Point(24, 103);
             lblConexion.Name = "lblConexion";
-            lblConexion.Size = new Size(135, 16);
+            lblConexion.Size = new Size(136, 18);
             lblConexion.TabIndex = 10;
             lblConexion.Text = "Conectado a: ERROR";
             // 
