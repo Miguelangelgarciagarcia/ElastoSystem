@@ -15,7 +15,7 @@ namespace ElastoSystem
         public static string ConexionElastotec = "server=10.120.1.3 ; username=root; password=; database=elastotec";
         public static string ConexionLocal = "server=localhost ; username=root; password=; database=elastosystem";
         */
-        public static string IPServidor = "10.120.1.104";
+        public static string IPServidor = "10.120.1.3";
         public static string ConexionBDElastotecnica = $"server={IPServidor} ; username=root; password=; database=elastosystem";
         //public static string IPSAE = "10.120.1.104";
         public static string IPSAE = "10.120.1.4";
