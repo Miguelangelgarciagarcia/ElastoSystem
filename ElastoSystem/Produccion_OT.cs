@@ -15,6 +15,7 @@ namespace ElastoSystem
     public partial class Produccion_OT : Form
     {
         public string FolioOT { get; set; }
+        public string ClaveProd { get; set; }
         public Produccion_OT()
         {
             InitializeComponent();
@@ -23,8 +24,8 @@ namespace ElastoSystem
         private void Produccion_OT_Load(object sender, EventArgs e)
         {
             lblOrdenTrabajo.Text = "ORDEN DE TRABAJO: " + FolioOT;
-
             CargarInfoOT();
+            CargarRegistros();
         }
 
         private void CargarInfoOT()
@@ -71,16 +72,12 @@ namespace ElastoSystem
 
                                 if (txbEspecificacion.Text.Length > 0)
                                 {
-                                    btnVerEspecificacion.Visible = true;
+                                    ComprobarAV();
                                 }
                                 else
                                 {
-                                    btnVerEspecificacion.Visible = false;
+                                    RevisarAVGenerales();
                                 }
-
-                                //CargarDesgloseOT();
-
-                                //Calcular();
                             }
                         }
                     }
@@ -94,6 +91,392 @@ namespace ElastoSystem
                     conn.Close();
                 }
             }
+        }
+
+        private void ComprobarAV()
+        {
+            string nombreAV = txbEspecificacion.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(nombreAV))
+            {
+                btnVerEspecificacion.Visible = false;
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    string query = "SELECT COUNT(*) FROM elastosystem_produccion_av WHERE Nombre = @NOMBRE";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@NOMBRE", nombreAV);
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                        if (count > 0)
+                        {
+                            btnVerEspecificacion.Visible = true;
+                        }
+                        else
+                        {
+                            RevisarAVGenerales();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL COMPROBAR AYUDA VISUAL ESPECÍFICA: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btnVerEspecificacion.Visible = false;
+            }
+        }
+
+        private void RevisarAVGenerales()
+        {
+            if (string.IsNullOrWhiteSpace(FolioOT) || string.IsNullOrWhiteSpace(ClaveProd))
+            {
+                btnVerEspecificacion.Visible = false;
+                return;
+            }
+
+            string[] partes = FolioOT.Split('-');
+            if (partes.Length < 3 || !int.TryParse(partes[partes.Length -1], out int noOperacion))
+            {
+                btnVerEspecificacion.Visible = false;
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    string familia = "";
+                    string ayudaVisual = "";
+
+                    string queryFamilia = "SELECT Familia FROM elastosystem_sae_productos WHERE Producto = @CLAVE LIMIT 1";
+                    using (MySqlCommand cmd = new MySqlCommand(queryFamilia, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@CLAVE", ClaveProd.Trim());
+                        object result = cmd.ExecuteScalar();
+
+                        if (result == null || result == DBNull.Value || string.IsNullOrWhiteSpace(result.ToString()))
+                        {
+                            btnVerEspecificacion.Visible = false;
+                            return;
+                        }
+
+                        familia = result.ToString().Trim();
+                    }
+
+                    string queryAyuda = @"
+                        SELECT AyudaVisual
+                        FROM elastosystem_produccion_hoja_ruta
+                        WHERE Familia = @FAMILIA
+                            AND NoOperacion = @NOOPERACION
+                        LIMIT 1";
+
+                    using (MySqlCommand cmd = new MySqlCommand(queryAyuda, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FAMILIA", familia);
+                        cmd.Parameters.AddWithValue("@NOOPERACION", noOperacion);
+
+                        object result = cmd.ExecuteScalar();
+
+                        if (result == null || result == DBNull.Value || string.IsNullOrWhiteSpace(result.ToString()))
+                        {
+                            btnVerEspecificacion.Visible = false;
+                            return;
+                        }
+
+                        ayudaVisual = result.ToString().Trim();
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(ayudaVisual) && ayudaVisual != txbEspecificacion.Text.Trim())
+                    {
+                        txbEspecificacion.Text = ayudaVisual;
+                        ComprobarAV();
+                    }
+                    else
+                    {
+                        btnVerEspecificacion.Visible = false;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL REVISAR AYUDA VISUAL GENERAL: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btnVerEspecificacion.Visible = false;
+            }
+        }
+
+        private void CargarRegistros()
+        {
+            if (string.IsNullOrWhiteSpace(FolioOT))
+            {
+                dgvIngresos.DataSource = null;
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT
+                            r.Fecha,
+                            TRIM(
+                                CONCAT(
+                                    IFNULL(CONCAT(op.Nombre, ' ', op.Apellido_Paterno,
+                                                    IFNULL(CONCAT(' ', op.Apellido_Materno), '')), ''),
+                                    IF(ap.ID IS NOT NULL,
+                                        CONCAT(' // ', ap.Nombre, ' ', ap.Apellido_Paterno,
+                                                IFNULL(CONCAT(' ', ap.Apellido_Materno), '')),
+                                        '')
+                                )
+                            ) AS Operador,
+                            r.POP, 
+                            r.PNCOP,
+                            r.PNCRevision,
+                            r.Reproceso, 
+                            r.Observaciones
+                        FROM elastosystem_produccion_registro_diario r
+                        LEFT JOIN elastosystem_rh op ON r.ID_Operador = op.ID
+                        LEFT JOIN elastosystem_rh ap ON r.ID_Apoyo = ap.ID
+                        WHERE r.Orden_Trabajo = @FOLIOOT
+                        ORDER BY r.Fecha DESC";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FOLIOOT", FolioOT);
+
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+
+                            dt.Columns.Add("Total", typeof(int));
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                int pop = Convert.ToInt32(row["POP"]);
+                                int pncop = Convert.ToInt32(row["PNCOP"]);
+                                int reproceso = Convert.ToInt32(row["Reproceso"]);
+                                int pncrevision = Convert.ToInt32(row["PNCRevision"]);
+                                row["Total"] = pop - pncop - reproceso - pncrevision;
+                            }
+
+                            dgvIngresos.DataSource = dt;
+
+                            if (dgvIngresos.Columns.Count > 0)
+                            {
+                                dgvIngresos.Columns["POP"].HeaderText = "PRO OP";
+                                dgvIngresos.Columns["PNCOP"].HeaderText = "PNC OP";
+                                dgvIngresos.Columns["PNCRevision"].HeaderText = "PNC RE";
+
+                                dgvIngresos.Columns["Fecha"].Width = 100;
+                                dgvIngresos.Columns["Operador"].Width = 150;
+                                dgvIngresos.Columns["POP"].Width = 90;
+                                dgvIngresos.Columns["PNCOP"].Width = 90;
+                                dgvIngresos.Columns["Reproceso"].Width = 90;
+                                dgvIngresos.Columns["PNCRevision"].Width = 90;
+                                dgvIngresos.Columns["Total"].Width = 90;
+                                dgvIngresos.Columns["Observaciones"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                                dgvIngresos.Columns["POP"].DefaultCellStyle.Format = "N0";
+                                dgvIngresos.Columns["PNCOP"].DefaultCellStyle.Format = "N0";
+                                dgvIngresos.Columns["Reproceso"].DefaultCellStyle.Format = "N0";
+                                dgvIngresos.Columns["PNCRevision"].DefaultCellStyle.Format = "N0";
+                                dgvIngresos.Columns["Total"].DefaultCellStyle.Format = "N0";
+
+                                dgvIngresos.Columns["Total"].DisplayIndex = dgvIngresos.Columns["Observaciones"].Index;
+
+                                Calcular();
+
+                                if (dt.Rows.Count == 0)
+                                {
+                                    MessageBox.Show("NO HAY REGISTROS EN LA ORDEN DE TRABAJO");
+                                    lblProduccionEnOperacion.Text = string.Empty;
+                                    lblProduccionXTurno.Text = string.Empty;
+                                    lblDiasRestantes.Text = string.Empty;
+                                    lblPNCEnOperacion.Text = string.Empty;
+                                    lblPNCEnRevision.Text = string.Empty;
+                                    lblPNCTotal.Text = string.Empty;
+                                    lblPorPNC.Text = string.Empty;
+                                    lblReprocesoTotal.Text = string.Empty;
+                                    lblPorReproceso.Text = string.Empty;
+                                    lblProductoConforme.Text = string.Empty;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL CARGAR REGISTROS: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dgvIngresos.DataSource = null;
+            }
+        }
+
+        private void Calcular()
+        {
+            if (dgvIngresos.DataSource == null || dgvIngresos.Rows.Count == 0)
+            {
+                lblProduccionEnOperacion.Text = "0";
+                lblPNCEnOperacion.Text = "0";
+                lblPNCEnRevision.Text = "0";
+                lblReprocesoTotal.Text = "0";
+                lblPNCTotal.Text = "0";
+                lblPorPNC.Text = "0.00%";
+                lblPorReproceso.Text = "0.00%";
+                lblProductoConforme.Text = "0";
+                CalcularPromedio();
+                return;
+            }
+
+            int totalPOP = 0;
+            int totalPNCOP = 0;
+            int totalPNCRevision = 0;
+            int totalReproceso = 0;
+
+            foreach (DataGridViewRow row in dgvIngresos.Rows)
+            {
+                if (row.Cells["Operador"].Value != null &&
+                    row.Cells["Operador"].Value.ToString().Contains("No hay registros"))
+                {
+                    continue;
+                }
+
+                if (int.TryParse(row.Cells["POP"].Value?.ToString(), out int pop)) totalPOP += pop;
+                if (int.TryParse(row.Cells["PNCOP"].Value?.ToString(), out int pncop)) totalPNCOP += pncop;
+                if (int.TryParse(row.Cells["PNCRevision"].Value?.ToString(), out int pncrev)) totalPNCRevision += pncrev;
+                if (int.TryParse(row.Cells["Reproceso"].Value.ToString(), out int repro)) totalReproceso += repro;
+            }
+
+            int pncTotal = totalPNCOP + totalPNCRevision + totalReproceso;
+            int productoConforme = totalPOP - pncTotal;
+
+            double porPNC = totalPOP > 0 ? (pncTotal * 100.0) / totalPOP : 0;
+            double porReproceso = totalPOP > 0 ? (totalReproceso * 100.0) / totalPOP : 0;
+
+            lblProduccionEnOperacion.Text = totalPOP.ToString("N0");
+            lblPNCEnOperacion.Text = totalPNCOP.ToString("N0");
+            lblPNCEnRevision.Text = totalPNCRevision.ToString("N0");
+            lblReprocesoTotal.Text = totalReproceso.ToString("N0");
+            lblPNCTotal.Text = pncTotal.ToString("N0");
+            lblPorPNC.Text = porPNC.ToString("N2") + "%";
+            lblPorReproceso.Text = porReproceso.ToString("N2") + "%";
+            lblProductoConforme.Text = productoConforme.ToString("N0");
+            CalcularPromedio();
+        }
+
+        private void CalcularPromedio()
+        {
+            lblProduccionXTurno.Text = "SR";
+            lblDiasRestantes.Text = "N/A";
+
+            if (string.IsNullOrWhiteSpace(ClaveProd) ||
+                string.IsNullOrWhiteSpace(FolioOT) ||
+                cbTurno.SelectedItem == null)
+            {
+                return;
+            }
+
+            string sufijoActual = FolioOT.Split('-').Last();
+            string seleccionTurno = cbTurno.SelectedItem.ToString().Trim();
+
+            string condicionTurno = "";
+            if (seleccionTurno == "1 TURNO")
+            {
+                condicionTurno = "AND r.Turno = 'MIXTO'";
+            }
+            else
+            {
+                condicionTurno = "AND r.Turno IN ('MATUTINO', 'VESPERTINO', 'NOCTURNO')";
+            }
+
+            int produccionDiariaEsperada = 0;
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    string query = $@"
+                        SELECT
+                            (r.POP - r.PNCOP - r.Reproceso - r.PNCRevision) AS TotalDiario
+                        FROM elastosystem_produccion_registro_diario r
+                        INNER JOIN elastosystem_produccion_ot ot ON r.Orden_Trabajo = ot.Folio
+                        INNER JOIN elastosystem_almacen_solicitud_fabricacion sf ON ot.SF = sf.Folio_ALT
+                        WHERE sf.Clave = @CLAVE
+                            AND SUBSTRING_INDEX(ot.Folio, '-', -1) = @SUFIJO
+                            {condicionTurno}
+                            AND (r.POP - r.PNCOP - r.Reproceso - r.PNCRevision) > 0
+                        ORDER BY TotalDiario DESC
+                        LIMIT 5";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@CLAVE", ClaveProd);
+                        cmd.Parameters.AddWithValue("@SUFIJO", sufijoActual);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            List<int> mejores5 = new List<int>();
+                            while (reader.Read())
+                            {
+                                int totalDiario = reader.GetInt32("TotalDiario");
+                                mejores5.Add(totalDiario);
+                            }
+
+                            if (mejores5.Count == 0)
+                            {
+                                lblProduccionXTurno.Text = "SR";
+                                lblDiasRestantes.Text = "N/A";
+                                return;
+                            }
+
+                            double promedio = mejores5.Average();
+                            produccionDiariaEsperada = (int)Math.Round(promedio, MidpointRounding.AwayFromZero);
+                            lblProduccionXTurno.Text = produccionDiariaEsperada.ToString("N0");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL CALCULAR PRODUCCIÓN POR TURNO: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblProduccionXTurno.Text = "ERROR";
+                lblDiasRestantes.Text = "ERROR";
+                return;
+            }
+
+            if (!int.TryParse(txbCantidad.Text.Replace(",", ""), out int cantidadObjetivo) ||
+                !int.TryParse(lblProductoConforme.Text.Replace(",", ""), out int produccionConforme) ||
+                produccionDiariaEsperada <= 0)
+            {
+                lblDiasRestantes.Text = "N/A";
+                return;
+            }
+
+            int faltante = cantidadObjetivo - produccionConforme;
+
+            if (faltante <= 0)
+            {
+                lblDiasRestantes.Text = "0";
+                return;
+            }
+
+            int diasRestantes = (int)Math.Ceiling((double)faltante / produccionDiariaEsperada);
+
+            lblDiasRestantes.Text = diasRestantes.ToString();
         }
 
         [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]
@@ -131,7 +514,7 @@ namespace ElastoSystem
         {
             string nombreav = txbEspecificacion.Text;
 
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -142,7 +525,7 @@ namespace ElastoSystem
 
                     object resultado = cmd.ExecuteScalar();
 
-                    if(resultado != null && resultado != DBNull.Value)
+                    if (resultado != null && resultado != DBNull.Value)
                     {
                         ayudaVisualPdfAV = (byte[])resultado;
                         MostrarAV();
@@ -154,7 +537,7 @@ namespace ElastoSystem
                         return;
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL OBTENER LA AYUDA VISUAL: " + ex.Message);
                 }
@@ -167,7 +550,7 @@ namespace ElastoSystem
 
         private void MostrarAV()
         {
-            if(ayudaVisualPdfAV != null)
+            if (ayudaVisualPdfAV != null)
             {
                 string rutaTemporal = Path.Combine(Path.GetTempPath(), "tempAV.pdf");
                 File.WriteAllBytes(rutaTemporal, ayudaVisualPdfAV);
@@ -183,6 +566,11 @@ namespace ElastoSystem
             {
                 MessageBox.Show("NO HAY ARCHIVO CARGADO PARA VISAULIZAR");
             }
+        }
+
+        private void dgvIngresos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dgvIngresos.ClearSelection();
         }
     }
 }

@@ -378,6 +378,7 @@ namespace ElastoSystem
             try
             {
                 string folioOT = _folioOTSeleccionado;
+                string clave = lblClave.Text;
 
                 if (string.IsNullOrWhiteSpace(folioOT))
                 {
@@ -388,6 +389,7 @@ namespace ElastoSystem
                 using(var form = new Produccion_OT())
                 {
                     form.FolioOT = folioOT;
+                    form.ClaveProd = clave;
 
                     form.ShowDialog();
                 }

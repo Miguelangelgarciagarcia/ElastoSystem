@@ -45,12 +45,12 @@
             txbObservaciones = new TextBox();
             cbMaquinas = new ComboBox();
             label15 = new Label();
+            txbEspecificacion = new TextBox();
             txbNombreArea = new TextBox();
             txbArea = new TextBox();
             label7 = new Label();
             label10 = new Label();
             cbTurno = new ComboBox();
-            txbEspecificacion = new TextBox();
             dtpFechaFinal = new DateTimePicker();
             dtpFechaInicio = new DateTimePicker();
             label5 = new Label();
@@ -67,43 +67,35 @@
             label14 = new Label();
             panel2 = new Panel();
             panel11 = new Panel();
-            label32 = new Label();
+            lblProductoConforme = new Label();
             label24 = new Label();
-            label6 = new Label();
+            lblProduccionXTurno = new Label();
             panel3 = new Panel();
-            label25 = new Label();
+            lblDiasRestantes = new Label();
             label9 = new Label();
             panel8 = new Panel();
-            label29 = new Label();
+            lblPorPNC = new Label();
             label21 = new Label();
             panel5 = new Panel();
-            label26 = new Label();
+            lblPNCEnOperacion = new Label();
             label18 = new Label();
             panel7 = new Panel();
-            label28 = new Label();
+            lblPNCTotal = new Label();
             label20 = new Label();
             panel10 = new Panel();
-            label31 = new Label();
+            lblPorReproceso = new Label();
             label23 = new Label();
-            panel9 = new Panel();
-            label30 = new Label();
-            label22 = new Label();
             panel6 = new Panel();
-            label27 = new Label();
+            lblPNCEnRevision = new Label();
             label19 = new Label();
+            panel9 = new Panel();
+            lblReprocesoTotal = new Label();
+            label22 = new Label();
             button1 = new Button();
             panel12 = new Panel();
-            label33 = new Label();
+            lblProduccionEnOperacion = new Label();
             label8 = new Label();
             dgvIngresos = new DataGridView();
-            Fecha = new DataGridViewTextBoxColumn();
-            Operador = new DataGridViewTextBoxColumn();
-            PNCOP = new DataGridViewTextBoxColumn();
-            PROOP = new DataGridViewTextBoxColumn();
-            PNCRE = new DataGridViewTextBoxColumn();
-            PCTOTAL = new DataGridViewTextBoxColumn();
-            REPROCESO = new DataGridViewTextBoxColumn();
-            OBSERVACIONES = new DataGridViewTextBoxColumn();
             panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -115,8 +107,8 @@
             panel5.SuspendLayout();
             panel7.SuspendLayout();
             panel10.SuspendLayout();
-            panel9.SuspendLayout();
             panel6.SuspendLayout();
+            panel9.SuspendLayout();
             panel12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvIngresos).BeginInit();
             SuspendLayout();
@@ -182,12 +174,12 @@
             panel1.Controls.Add(txbObservaciones);
             panel1.Controls.Add(cbMaquinas);
             panel1.Controls.Add(label15);
+            panel1.Controls.Add(txbEspecificacion);
             panel1.Controls.Add(txbNombreArea);
             panel1.Controls.Add(txbArea);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(label10);
             panel1.Controls.Add(cbTurno);
-            panel1.Controls.Add(txbEspecificacion);
             panel1.Controls.Add(dtpFechaFinal);
             panel1.Controls.Add(dtpFechaInicio);
             panel1.Controls.Add(label5);
@@ -212,13 +204,13 @@
             btnVerEspecificacion.Cursor = Cursors.Hand;
             btnVerEspecificacion.FlatAppearance.BorderSize = 0;
             btnVerEspecificacion.FlatStyle = FlatStyle.Flat;
-            btnVerEspecificacion.Font = new Font("Montserrat", 9F, FontStyle.Bold);
+            btnVerEspecificacion.Font = new Font("Montserrat", 10F, FontStyle.Bold);
             btnVerEspecificacion.ForeColor = Color.White;
-            btnVerEspecificacion.Location = new Point(133, 215);
+            btnVerEspecificacion.Location = new Point(484, 198);
             btnVerEspecificacion.Name = "btnVerEspecificacion";
-            btnVerEspecificacion.Size = new Size(273, 29);
+            btnVerEspecificacion.Size = new Size(390, 34);
             btnVerEspecificacion.TabIndex = 124;
-            btnVerEspecificacion.Text = "VER ESPECIFICACION";
+            btnVerEspecificacion.Text = "VER ESPECIFICACIÓN";
             btnVerEspecificacion.UseVisualStyleBackColor = false;
             btnVerEspecificacion.Visible = false;
             btnVerEspecificacion.Click += btnVerEspecificacion_Click;
@@ -239,7 +231,7 @@
             label16.BackColor = Color.Transparent;
             label16.Font = new Font("Montserrat", 10F);
             label16.ForeColor = Color.White;
-            label16.Location = new Point(427, 180);
+            label16.Location = new Point(10, 215);
             label16.Name = "label16";
             label16.Size = new Size(116, 22);
             label16.TabIndex = 120;
@@ -260,11 +252,10 @@
             // txbObservaciones
             // 
             txbObservaciones.Font = new Font("Montserrat", 10F);
-            txbObservaciones.Location = new Point(545, 177);
-            txbObservaciones.Multiline = true;
+            txbObservaciones.Location = new Point(132, 212);
             txbObservaciones.Name = "txbObservaciones";
             txbObservaciones.ReadOnly = true;
-            txbObservaciones.Size = new Size(364, 64);
+            txbObservaciones.Size = new Size(273, 24);
             txbObservaciones.TabIndex = 119;
             // 
             // cbMaquinas
@@ -289,6 +280,17 @@
             label15.Size = new Size(73, 22);
             label15.TabIndex = 115;
             label15.Text = "Máquina:";
+            // 
+            // txbEspecificacion
+            // 
+            txbEspecificacion.Font = new Font("Montserrat", 10F);
+            txbEspecificacion.Location = new Point(439, 177);
+            txbEspecificacion.Name = "txbEspecificacion";
+            txbEspecificacion.ReadOnly = true;
+            txbEspecificacion.Size = new Size(32, 24);
+            txbEspecificacion.TabIndex = 107;
+            txbEspecificacion.TextAlign = HorizontalAlignment.Center;
+            txbEspecificacion.Visible = false;
             // 
             // txbNombreArea
             // 
@@ -345,17 +347,6 @@
             cbTurno.Name = "cbTurno";
             cbTurno.Size = new Size(274, 28);
             cbTurno.TabIndex = 96;
-            // 
-            // txbEspecificacion
-            // 
-            txbEspecificacion.Font = new Font("Montserrat", 10F);
-            txbEspecificacion.Location = new Point(15, 217);
-            txbEspecificacion.Name = "txbEspecificacion";
-            txbEspecificacion.ReadOnly = true;
-            txbEspecificacion.Size = new Size(32, 24);
-            txbEspecificacion.TabIndex = 107;
-            txbEspecificacion.TextAlign = HorizontalAlignment.Center;
-            txbEspecificacion.Visible = false;
             // 
             // dtpFechaFinal
             // 
@@ -518,15 +509,15 @@
             // 
             panel2.BackColor = Color.FromArgb(3, 42, 76);
             panel2.Controls.Add(panel11);
-            panel2.Controls.Add(label6);
+            panel2.Controls.Add(lblProduccionXTurno);
             panel2.Controls.Add(label14);
             panel2.Controls.Add(panel3);
             panel2.Controls.Add(panel8);
             panel2.Controls.Add(panel5);
             panel2.Controls.Add(panel7);
             panel2.Controls.Add(panel10);
-            panel2.Controls.Add(panel9);
             panel2.Controls.Add(panel6);
+            panel2.Controls.Add(panel9);
             panel2.Location = new Point(950, 39);
             panel2.Name = "panel2";
             panel2.Size = new Size(200, 706);
@@ -536,24 +527,24 @@
             // 
             panel11.BackColor = Color.FromArgb(3, 42, 76);
             panel11.BorderStyle = BorderStyle.FixedSingle;
-            panel11.Controls.Add(label32);
+            panel11.Controls.Add(lblProductoConforme);
             panel11.Controls.Add(label24);
             panel11.Location = new Point(17, 598);
             panel11.Name = "panel11";
             panel11.Size = new Size(166, 94);
             panel11.TabIndex = 127;
             // 
-            // label32
+            // lblProductoConforme
             // 
-            label32.BackColor = Color.Transparent;
-            label32.Font = new Font("Montserrat", 16F, FontStyle.Bold);
-            label32.ForeColor = Color.White;
-            label32.Location = new Point(-1, 50);
-            label32.Name = "label32";
-            label32.Size = new Size(166, 34);
-            label32.TabIndex = 134;
-            label32.Text = "00000";
-            label32.TextAlign = ContentAlignment.TopCenter;
+            lblProductoConforme.BackColor = Color.Transparent;
+            lblProductoConforme.Font = new Font("Montserrat", 16F, FontStyle.Bold);
+            lblProductoConforme.ForeColor = Color.White;
+            lblProductoConforme.Location = new Point(-1, 53);
+            lblProductoConforme.Name = "lblProductoConforme";
+            lblProductoConforme.Size = new Size(166, 34);
+            lblProductoConforme.TabIndex = 134;
+            lblProductoConforme.Text = "-----";
+            lblProductoConforme.TextAlign = ContentAlignment.TopCenter;
             // 
             // label24
             // 
@@ -562,45 +553,45 @@
             label24.ForeColor = Color.White;
             label24.Location = new Point(-1, 5);
             label24.Name = "label24";
-            label24.Size = new Size(166, 40);
+            label24.Size = new Size(166, 45);
             label24.TabIndex = 125;
             label24.Text = "PRODUCTO CONFORME:";
             label24.TextAlign = ContentAlignment.TopCenter;
             // 
-            // label6
+            // lblProduccionXTurno
             // 
-            label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Montserrat", 16F, FontStyle.Bold);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(17, 37);
-            label6.Name = "label6";
-            label6.Size = new Size(166, 34);
-            label6.TabIndex = 95;
-            label6.Text = "ERROR";
-            label6.TextAlign = ContentAlignment.TopCenter;
+            lblProduccionXTurno.BackColor = Color.Transparent;
+            lblProduccionXTurno.Font = new Font("Montserrat", 16F, FontStyle.Bold);
+            lblProduccionXTurno.ForeColor = Color.White;
+            lblProduccionXTurno.Location = new Point(17, 37);
+            lblProduccionXTurno.Name = "lblProduccionXTurno";
+            lblProduccionXTurno.Size = new Size(166, 34);
+            lblProduccionXTurno.TabIndex = 95;
+            lblProduccionXTurno.Text = "ERROR";
+            lblProduccionXTurno.TextAlign = ContentAlignment.TopCenter;
             // 
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(3, 42, 76);
             panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Controls.Add(label25);
+            panel3.Controls.Add(lblDiasRestantes);
             panel3.Controls.Add(label9);
             panel3.Location = new Point(17, 80);
             panel3.Name = "panel3";
             panel3.Size = new Size(166, 68);
             panel3.TabIndex = 126;
             // 
-            // label25
+            // lblDiasRestantes
             // 
-            label25.BackColor = Color.Transparent;
-            label25.Font = new Font("Montserrat", 16F, FontStyle.Bold);
-            label25.ForeColor = Color.White;
-            label25.Location = new Point(-1, 32);
-            label25.Name = "label25";
-            label25.Size = new Size(166, 34);
-            label25.TabIndex = 129;
-            label25.Text = "00";
-            label25.TextAlign = ContentAlignment.TopCenter;
+            lblDiasRestantes.BackColor = Color.Transparent;
+            lblDiasRestantes.Font = new Font("Montserrat", 16F, FontStyle.Bold);
+            lblDiasRestantes.ForeColor = Color.White;
+            lblDiasRestantes.Location = new Point(-1, 32);
+            lblDiasRestantes.Name = "lblDiasRestantes";
+            lblDiasRestantes.Size = new Size(166, 34);
+            lblDiasRestantes.TabIndex = 129;
+            lblDiasRestantes.Text = "--";
+            lblDiasRestantes.TextAlign = ContentAlignment.TopCenter;
             // 
             // label9
             // 
@@ -618,24 +609,24 @@
             // 
             panel8.BackColor = Color.FromArgb(3, 42, 76);
             panel8.BorderStyle = BorderStyle.FixedSingle;
-            panel8.Controls.Add(label29);
+            panel8.Controls.Add(lblPorPNC);
             panel8.Controls.Add(label21);
-            panel8.Location = new Point(17, 376);
+            panel8.Location = new Point(17, 524);
             panel8.Name = "panel8";
             panel8.Size = new Size(166, 68);
             panel8.TabIndex = 127;
             // 
-            // label29
+            // lblPorPNC
             // 
-            label29.BackColor = Color.Transparent;
-            label29.Font = new Font("Montserrat", 16F, FontStyle.Bold);
-            label29.ForeColor = Color.White;
-            label29.Location = new Point(-1, 27);
-            label29.Name = "label29";
-            label29.Size = new Size(166, 34);
-            label29.TabIndex = 131;
-            label29.Text = "00%";
-            label29.TextAlign = ContentAlignment.TopCenter;
+            lblPorPNC.BackColor = Color.Transparent;
+            lblPorPNC.Font = new Font("Montserrat", 16F, FontStyle.Bold);
+            lblPorPNC.ForeColor = Color.White;
+            lblPorPNC.Location = new Point(-1, 27);
+            lblPorPNC.Name = "lblPorPNC";
+            lblPorPNC.Size = new Size(166, 34);
+            lblPorPNC.TabIndex = 131;
+            lblPorPNC.Text = "--%";
+            lblPorPNC.TextAlign = ContentAlignment.TopCenter;
             // 
             // label21
             // 
@@ -653,24 +644,24 @@
             // 
             panel5.BackColor = Color.FromArgb(3, 42, 76);
             panel5.BorderStyle = BorderStyle.FixedSingle;
-            panel5.Controls.Add(label26);
+            panel5.Controls.Add(lblPNCEnOperacion);
             panel5.Controls.Add(label18);
             panel5.Location = new Point(17, 154);
             panel5.Name = "panel5";
             panel5.Size = new Size(166, 68);
             panel5.TabIndex = 127;
             // 
-            // label26
+            // lblPNCEnOperacion
             // 
-            label26.BackColor = Color.Transparent;
-            label26.Font = new Font("Montserrat", 16F, FontStyle.Bold);
-            label26.ForeColor = Color.White;
-            label26.Location = new Point(-1, 27);
-            label26.Name = "label26";
-            label26.Size = new Size(166, 34);
-            label26.TabIndex = 130;
-            label26.Text = "000";
-            label26.TextAlign = ContentAlignment.TopCenter;
+            lblPNCEnOperacion.BackColor = Color.Transparent;
+            lblPNCEnOperacion.Font = new Font("Montserrat", 16F, FontStyle.Bold);
+            lblPNCEnOperacion.ForeColor = Color.White;
+            lblPNCEnOperacion.Location = new Point(-1, 27);
+            lblPNCEnOperacion.Name = "lblPNCEnOperacion";
+            lblPNCEnOperacion.Size = new Size(166, 34);
+            lblPNCEnOperacion.TabIndex = 130;
+            lblPNCEnOperacion.Text = "---";
+            lblPNCEnOperacion.TextAlign = ContentAlignment.TopCenter;
             // 
             // label18
             // 
@@ -688,24 +679,24 @@
             // 
             panel7.BackColor = Color.FromArgb(3, 42, 76);
             panel7.BorderStyle = BorderStyle.FixedSingle;
-            panel7.Controls.Add(label28);
+            panel7.Controls.Add(lblPNCTotal);
             panel7.Controls.Add(label20);
-            panel7.Location = new Point(17, 302);
+            panel7.Location = new Point(17, 450);
             panel7.Name = "panel7";
             panel7.Size = new Size(166, 68);
             panel7.TabIndex = 127;
             // 
-            // label28
+            // lblPNCTotal
             // 
-            label28.BackColor = Color.Transparent;
-            label28.Font = new Font("Montserrat", 16F, FontStyle.Bold);
-            label28.ForeColor = Color.White;
-            label28.Location = new Point(-1, 27);
-            label28.Name = "label28";
-            label28.Size = new Size(166, 34);
-            label28.TabIndex = 132;
-            label28.Text = "000";
-            label28.TextAlign = ContentAlignment.TopCenter;
+            lblPNCTotal.BackColor = Color.Transparent;
+            lblPNCTotal.Font = new Font("Montserrat", 16F, FontStyle.Bold);
+            lblPNCTotal.ForeColor = Color.White;
+            lblPNCTotal.Location = new Point(-1, 27);
+            lblPNCTotal.Name = "lblPNCTotal";
+            lblPNCTotal.Size = new Size(166, 34);
+            lblPNCTotal.TabIndex = 132;
+            lblPNCTotal.Text = "---";
+            lblPNCTotal.TextAlign = ContentAlignment.TopCenter;
             // 
             // label20
             // 
@@ -723,24 +714,24 @@
             // 
             panel10.BackColor = Color.FromArgb(3, 42, 76);
             panel10.BorderStyle = BorderStyle.FixedSingle;
-            panel10.Controls.Add(label31);
+            panel10.Controls.Add(lblPorReproceso);
             panel10.Controls.Add(label23);
-            panel10.Location = new Point(17, 524);
+            panel10.Location = new Point(17, 376);
             panel10.Name = "panel10";
             panel10.Size = new Size(166, 68);
             panel10.TabIndex = 127;
             // 
-            // label31
+            // lblPorReproceso
             // 
-            label31.BackColor = Color.Transparent;
-            label31.Font = new Font("Montserrat", 16F, FontStyle.Bold);
-            label31.ForeColor = Color.White;
-            label31.Location = new Point(-1, 26);
-            label31.Name = "label31";
-            label31.Size = new Size(166, 34);
-            label31.TabIndex = 134;
-            label31.Text = "00%";
-            label31.TextAlign = ContentAlignment.TopCenter;
+            lblPorReproceso.BackColor = Color.Transparent;
+            lblPorReproceso.Font = new Font("Montserrat", 16F, FontStyle.Bold);
+            lblPorReproceso.ForeColor = Color.White;
+            lblPorReproceso.Location = new Point(-1, 26);
+            lblPorReproceso.Name = "lblPorReproceso";
+            lblPorReproceso.Size = new Size(166, 34);
+            lblPorReproceso.TabIndex = 134;
+            lblPorReproceso.Text = "--%";
+            lblPorReproceso.TextAlign = ContentAlignment.TopCenter;
             // 
             // label23
             // 
@@ -754,63 +745,28 @@
             label23.Text = "REPROCESO %";
             label23.TextAlign = ContentAlignment.TopCenter;
             // 
-            // panel9
-            // 
-            panel9.BackColor = Color.FromArgb(3, 42, 76);
-            panel9.BorderStyle = BorderStyle.FixedSingle;
-            panel9.Controls.Add(label30);
-            panel9.Controls.Add(label22);
-            panel9.Location = new Point(17, 450);
-            panel9.Name = "panel9";
-            panel9.Size = new Size(166, 68);
-            panel9.TabIndex = 127;
-            // 
-            // label30
-            // 
-            label30.BackColor = Color.Transparent;
-            label30.Font = new Font("Montserrat", 16F, FontStyle.Bold);
-            label30.ForeColor = Color.White;
-            label30.Location = new Point(-1, 26);
-            label30.Name = "label30";
-            label30.Size = new Size(166, 34);
-            label30.TabIndex = 133;
-            label30.Text = "000";
-            label30.TextAlign = ContentAlignment.TopCenter;
-            // 
-            // label22
-            // 
-            label22.BackColor = Color.Transparent;
-            label22.Font = new Font("Montserrat", 10F, FontStyle.Bold);
-            label22.ForeColor = Color.White;
-            label22.Location = new Point(-1, 5);
-            label22.Name = "label22";
-            label22.Size = new Size(166, 20);
-            label22.TabIndex = 123;
-            label22.Text = "REPROCESO TOTAL";
-            label22.TextAlign = ContentAlignment.TopCenter;
-            // 
             // panel6
             // 
             panel6.BackColor = Color.FromArgb(3, 42, 76);
             panel6.BorderStyle = BorderStyle.FixedSingle;
-            panel6.Controls.Add(label27);
+            panel6.Controls.Add(lblPNCEnRevision);
             panel6.Controls.Add(label19);
             panel6.Location = new Point(17, 228);
             panel6.Name = "panel6";
             panel6.Size = new Size(166, 68);
             panel6.TabIndex = 127;
             // 
-            // label27
+            // lblPNCEnRevision
             // 
-            label27.BackColor = Color.Transparent;
-            label27.Font = new Font("Montserrat", 16F, FontStyle.Bold);
-            label27.ForeColor = Color.White;
-            label27.Location = new Point(-1, 28);
-            label27.Name = "label27";
-            label27.Size = new Size(166, 34);
-            label27.TabIndex = 131;
-            label27.Text = "000";
-            label27.TextAlign = ContentAlignment.TopCenter;
+            lblPNCEnRevision.BackColor = Color.Transparent;
+            lblPNCEnRevision.Font = new Font("Montserrat", 16F, FontStyle.Bold);
+            lblPNCEnRevision.ForeColor = Color.White;
+            lblPNCEnRevision.Location = new Point(-1, 28);
+            lblPNCEnRevision.Name = "lblPNCEnRevision";
+            lblPNCEnRevision.Size = new Size(166, 34);
+            lblPNCEnRevision.TabIndex = 131;
+            lblPNCEnRevision.Text = "---";
+            lblPNCEnRevision.TextAlign = ContentAlignment.TopCenter;
             // 
             // label19
             // 
@@ -823,6 +779,41 @@
             label19.TabIndex = 120;
             label19.Text = "PNC EN REVISION";
             label19.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // panel9
+            // 
+            panel9.BackColor = Color.FromArgb(3, 42, 76);
+            panel9.BorderStyle = BorderStyle.FixedSingle;
+            panel9.Controls.Add(lblReprocesoTotal);
+            panel9.Controls.Add(label22);
+            panel9.Location = new Point(17, 302);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(166, 68);
+            panel9.TabIndex = 127;
+            // 
+            // lblReprocesoTotal
+            // 
+            lblReprocesoTotal.BackColor = Color.Transparent;
+            lblReprocesoTotal.Font = new Font("Montserrat", 16F, FontStyle.Bold);
+            lblReprocesoTotal.ForeColor = Color.White;
+            lblReprocesoTotal.Location = new Point(-1, 26);
+            lblReprocesoTotal.Name = "lblReprocesoTotal";
+            lblReprocesoTotal.Size = new Size(166, 34);
+            lblReprocesoTotal.TabIndex = 133;
+            lblReprocesoTotal.Text = "---";
+            lblReprocesoTotal.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label22
+            // 
+            label22.BackColor = Color.Transparent;
+            label22.Font = new Font("Montserrat", 10F, FontStyle.Bold);
+            label22.ForeColor = Color.White;
+            label22.Location = new Point(-1, 5);
+            label22.Name = "label22";
+            label22.Size = new Size(166, 20);
+            label22.TabIndex = 123;
+            label22.Text = "REPROCESO TOTAL";
+            label22.TextAlign = ContentAlignment.TopCenter;
             // 
             // button1
             // 
@@ -843,24 +834,24 @@
             // 
             panel12.BackColor = Color.FromArgb(3, 42, 76);
             panel12.BorderStyle = BorderStyle.FixedSingle;
-            panel12.Controls.Add(label33);
+            panel12.Controls.Add(lblProduccionEnOperacion);
             panel12.Controls.Add(label8);
             panel12.Location = new Point(527, 691);
             panel12.Name = "panel12";
             panel12.Size = new Size(417, 41);
             panel12.TabIndex = 128;
             // 
-            // label33
+            // lblProduccionEnOperacion
             // 
-            label33.BackColor = Color.Transparent;
-            label33.Font = new Font("Montserrat", 16F, FontStyle.Bold);
-            label33.ForeColor = Color.White;
-            label33.Location = new Point(243, 3);
-            label33.Name = "label33";
-            label33.Size = new Size(166, 34);
-            label33.TabIndex = 135;
-            label33.Text = "00000";
-            label33.TextAlign = ContentAlignment.TopCenter;
+            lblProduccionEnOperacion.BackColor = Color.Transparent;
+            lblProduccionEnOperacion.Font = new Font("Montserrat", 16F, FontStyle.Bold);
+            lblProduccionEnOperacion.ForeColor = Color.White;
+            lblProduccionEnOperacion.Location = new Point(243, 3);
+            lblProduccionEnOperacion.Name = "lblProduccionEnOperacion";
+            lblProduccionEnOperacion.Size = new Size(166, 34);
+            lblProduccionEnOperacion.TabIndex = 135;
+            lblProduccionEnOperacion.Text = "-----";
+            lblProduccionEnOperacion.TextAlign = ContentAlignment.TopCenter;
             // 
             // label8
             // 
@@ -889,7 +880,6 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvIngresos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvIngresos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvIngresos.Columns.AddRange(new DataGridViewColumn[] { Fecha, Operador, PNCOP, PROOP, PNCRE, PCTOTAL, REPROCESO, OBSERVACIONES });
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = SystemColors.WindowFrame;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
@@ -899,7 +889,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dgvIngresos.DefaultCellStyle = dataGridViewCellStyle2;
             dgvIngresos.GridColor = SystemColors.ActiveCaptionText;
-            dgvIngresos.Location = new Point(12, 349);
+            dgvIngresos.Location = new Point(12, 350);
             dgvIngresos.MultiSelect = false;
             dgvIngresos.Name = "dgvIngresos";
             dgvIngresos.ReadOnly = true;
@@ -922,54 +912,7 @@
             dgvIngresos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvIngresos.Size = new Size(932, 334);
             dgvIngresos.TabIndex = 129;
-            // 
-            // Fecha
-            // 
-            Fecha.HeaderText = "Fecha";
-            Fecha.Name = "Fecha";
-            Fecha.ReadOnly = true;
-            // 
-            // Operador
-            // 
-            Operador.HeaderText = "Operador";
-            Operador.Name = "Operador";
-            Operador.ReadOnly = true;
-            // 
-            // PNCOP
-            // 
-            PNCOP.HeaderText = "PNC OP";
-            PNCOP.Name = "PNCOP";
-            PNCOP.ReadOnly = true;
-            // 
-            // PROOP
-            // 
-            PROOP.HeaderText = "PRO OP";
-            PROOP.Name = "PROOP";
-            PROOP.ReadOnly = true;
-            // 
-            // PNCRE
-            // 
-            PNCRE.HeaderText = "PNC RE";
-            PNCRE.Name = "PNCRE";
-            PNCRE.ReadOnly = true;
-            // 
-            // PCTOTAL
-            // 
-            PCTOTAL.HeaderText = "PC TOTAL";
-            PCTOTAL.Name = "PCTOTAL";
-            PCTOTAL.ReadOnly = true;
-            // 
-            // REPROCESO
-            // 
-            REPROCESO.HeaderText = "REPROCESO";
-            REPROCESO.Name = "REPROCESO";
-            REPROCESO.ReadOnly = true;
-            // 
-            // OBSERVACIONES
-            // 
-            OBSERVACIONES.HeaderText = "OBSERVACIONES";
-            OBSERVACIONES.Name = "OBSERVACIONES";
-            OBSERVACIONES.ReadOnly = true;
+            dgvIngresos.DataBindingComplete += dgvIngresos_DataBindingComplete;
             // 
             // Produccion_OT
             // 
@@ -1002,8 +945,8 @@
             panel5.ResumeLayout(false);
             panel7.ResumeLayout(false);
             panel10.ResumeLayout(false);
-            panel9.ResumeLayout(false);
             panel6.ResumeLayout(false);
+            panel9.ResumeLayout(false);
             panel12.ResumeLayout(false);
             panel12.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvIngresos).EndInit();
@@ -1046,7 +989,7 @@
         private Label label11;
         private TextBox txbCantidad;
         private Panel panel2;
-        private Label label6;
+        private Label lblProduccionXTurno;
         private Button button1;
         private Panel panel3;
         private Panel panel11;
@@ -1066,23 +1009,15 @@
         private Label label23;
         private Label label22;
         private Label label19;
-        private Label label25;
-        private Label label29;
-        private Label label26;
-        private Label label28;
-        private Label label31;
-        private Label label30;
-        private Label label27;
-        private Label label32;
-        private Label label33;
+        private Label lblDiasRestantes;
+        private Label lblPorPNC;
+        private Label lblPNCEnOperacion;
+        private Label lblPNCTotal;
+        private Label lblPorReproceso;
+        private Label lblReprocesoTotal;
+        private Label lblPNCEnRevision;
+        private Label lblProductoConforme;
+        private Label lblProduccionEnOperacion;
         private DataGridView dgvIngresos;
-        private DataGridViewTextBoxColumn Fecha;
-        private DataGridViewTextBoxColumn Operador;
-        private DataGridViewTextBoxColumn PNCOP;
-        private DataGridViewTextBoxColumn PROOP;
-        private DataGridViewTextBoxColumn PNCRE;
-        private DataGridViewTextBoxColumn PCTOTAL;
-        private DataGridViewTextBoxColumn REPROCESO;
-        private DataGridViewTextBoxColumn OBSERVACIONES;
     }
 }
