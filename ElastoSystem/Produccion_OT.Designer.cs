@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Produccion_OT));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -73,22 +74,22 @@
             panel3 = new Panel();
             lblDiasRestantes = new Label();
             label9 = new Label();
-            panel8 = new Panel();
+            pnlPNCPor = new Panel();
             lblPorPNC = new Label();
             label21 = new Label();
             panel5 = new Panel();
             lblPNCEnOperacion = new Label();
             label18 = new Label();
-            panel7 = new Panel();
+            pnlPNC = new Panel();
             lblPNCTotal = new Label();
             label20 = new Label();
-            panel10 = new Panel();
+            pnlReprocesoPor = new Panel();
             lblPorReproceso = new Label();
             label23 = new Label();
             panel6 = new Panel();
             lblPNCEnRevision = new Label();
             label19 = new Label();
-            panel9 = new Panel();
+            pnlReproceso = new Panel();
             lblReprocesoTotal = new Label();
             label22 = new Label();
             button1 = new Button();
@@ -96,6 +97,8 @@
             lblProduccionEnOperacion = new Label();
             label8 = new Label();
             dgvIngresos = new DataGridView();
+            timerParpadeoPNC = new System.Windows.Forms.Timer(components);
+            timerParpadeoReproceso = new System.Windows.Forms.Timer(components);
             panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -103,12 +106,12 @@
             panel2.SuspendLayout();
             panel11.SuspendLayout();
             panel3.SuspendLayout();
-            panel8.SuspendLayout();
+            pnlPNCPor.SuspendLayout();
             panel5.SuspendLayout();
-            panel7.SuspendLayout();
-            panel10.SuspendLayout();
+            pnlPNC.SuspendLayout();
+            pnlReprocesoPor.SuspendLayout();
             panel6.SuspendLayout();
-            panel9.SuspendLayout();
+            pnlReproceso.SuspendLayout();
             panel12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvIngresos).BeginInit();
             SuspendLayout();
@@ -512,12 +515,12 @@
             panel2.Controls.Add(lblProduccionXTurno);
             panel2.Controls.Add(label14);
             panel2.Controls.Add(panel3);
-            panel2.Controls.Add(panel8);
+            panel2.Controls.Add(pnlPNCPor);
             panel2.Controls.Add(panel5);
-            panel2.Controls.Add(panel7);
-            panel2.Controls.Add(panel10);
+            panel2.Controls.Add(pnlPNC);
+            panel2.Controls.Add(pnlReprocesoPor);
             panel2.Controls.Add(panel6);
-            panel2.Controls.Add(panel9);
+            panel2.Controls.Add(pnlReproceso);
             panel2.Location = new Point(950, 39);
             panel2.Name = "panel2";
             panel2.Size = new Size(200, 706);
@@ -605,16 +608,16 @@
             label9.Text = "DIAS RESTANTES";
             label9.TextAlign = ContentAlignment.TopCenter;
             // 
-            // panel8
+            // pnlPNCPor
             // 
-            panel8.BackColor = Color.FromArgb(3, 42, 76);
-            panel8.BorderStyle = BorderStyle.FixedSingle;
-            panel8.Controls.Add(lblPorPNC);
-            panel8.Controls.Add(label21);
-            panel8.Location = new Point(17, 524);
-            panel8.Name = "panel8";
-            panel8.Size = new Size(166, 68);
-            panel8.TabIndex = 127;
+            pnlPNCPor.BackColor = Color.FromArgb(3, 42, 76);
+            pnlPNCPor.Controls.Add(lblPorPNC);
+            pnlPNCPor.Controls.Add(label21);
+            pnlPNCPor.Location = new Point(17, 524);
+            pnlPNCPor.Name = "pnlPNCPor";
+            pnlPNCPor.Size = new Size(166, 68);
+            pnlPNCPor.TabIndex = 127;
+            pnlPNCPor.Paint += pnlPNCPor_Paint;
             // 
             // lblPorPNC
             // 
@@ -675,16 +678,16 @@
             label18.Text = "PNC EN OPERACION";
             label18.TextAlign = ContentAlignment.TopCenter;
             // 
-            // panel7
+            // pnlPNC
             // 
-            panel7.BackColor = Color.FromArgb(3, 42, 76);
-            panel7.BorderStyle = BorderStyle.FixedSingle;
-            panel7.Controls.Add(lblPNCTotal);
-            panel7.Controls.Add(label20);
-            panel7.Location = new Point(17, 450);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(166, 68);
-            panel7.TabIndex = 127;
+            pnlPNC.BackColor = Color.FromArgb(3, 42, 76);
+            pnlPNC.Controls.Add(lblPNCTotal);
+            pnlPNC.Controls.Add(label20);
+            pnlPNC.Location = new Point(17, 450);
+            pnlPNC.Name = "pnlPNC";
+            pnlPNC.Size = new Size(166, 68);
+            pnlPNC.TabIndex = 127;
+            pnlPNC.Paint += pnlPNC_Paint;
             // 
             // lblPNCTotal
             // 
@@ -710,16 +713,16 @@
             label20.Text = "PNC TOTAL";
             label20.TextAlign = ContentAlignment.TopCenter;
             // 
-            // panel10
+            // pnlReprocesoPor
             // 
-            panel10.BackColor = Color.FromArgb(3, 42, 76);
-            panel10.BorderStyle = BorderStyle.FixedSingle;
-            panel10.Controls.Add(lblPorReproceso);
-            panel10.Controls.Add(label23);
-            panel10.Location = new Point(17, 376);
-            panel10.Name = "panel10";
-            panel10.Size = new Size(166, 68);
-            panel10.TabIndex = 127;
+            pnlReprocesoPor.BackColor = Color.FromArgb(3, 42, 76);
+            pnlReprocesoPor.Controls.Add(lblPorReproceso);
+            pnlReprocesoPor.Controls.Add(label23);
+            pnlReprocesoPor.Location = new Point(17, 376);
+            pnlReprocesoPor.Name = "pnlReprocesoPor";
+            pnlReprocesoPor.Size = new Size(166, 68);
+            pnlReprocesoPor.TabIndex = 127;
+            pnlReprocesoPor.Paint += pnlReprocesoPor_Paint;
             // 
             // lblPorReproceso
             // 
@@ -780,16 +783,16 @@
             label19.Text = "PNC EN REVISION";
             label19.TextAlign = ContentAlignment.TopCenter;
             // 
-            // panel9
+            // pnlReproceso
             // 
-            panel9.BackColor = Color.FromArgb(3, 42, 76);
-            panel9.BorderStyle = BorderStyle.FixedSingle;
-            panel9.Controls.Add(lblReprocesoTotal);
-            panel9.Controls.Add(label22);
-            panel9.Location = new Point(17, 302);
-            panel9.Name = "panel9";
-            panel9.Size = new Size(166, 68);
-            panel9.TabIndex = 127;
+            pnlReproceso.BackColor = Color.FromArgb(3, 42, 76);
+            pnlReproceso.Controls.Add(lblReprocesoTotal);
+            pnlReproceso.Controls.Add(label22);
+            pnlReproceso.Location = new Point(17, 302);
+            pnlReproceso.Name = "pnlReproceso";
+            pnlReproceso.Size = new Size(166, 68);
+            pnlReproceso.TabIndex = 127;
+            pnlReproceso.Paint += pnlReproceso_Paint;
             // 
             // lblReprocesoTotal
             // 
@@ -914,6 +917,16 @@
             dgvIngresos.TabIndex = 129;
             dgvIngresos.DataBindingComplete += dgvIngresos_DataBindingComplete;
             // 
+            // timerParpadeoPNC
+            // 
+            timerParpadeoPNC.Interval = 500;
+            timerParpadeoPNC.Tick += timerParpadeoPNC_Tick;
+            // 
+            // timerParpadeoReproceso
+            // 
+            timerParpadeoReproceso.Interval = 500;
+            timerParpadeoReproceso.Tick += timerParpadeoReproceso_Tick;
+            // 
             // Produccion_OT
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -941,12 +954,12 @@
             panel2.PerformLayout();
             panel11.ResumeLayout(false);
             panel3.ResumeLayout(false);
-            panel8.ResumeLayout(false);
+            pnlPNCPor.ResumeLayout(false);
             panel5.ResumeLayout(false);
-            panel7.ResumeLayout(false);
-            panel10.ResumeLayout(false);
+            pnlPNC.ResumeLayout(false);
+            pnlReprocesoPor.ResumeLayout(false);
             panel6.ResumeLayout(false);
-            panel9.ResumeLayout(false);
+            pnlReproceso.ResumeLayout(false);
             panel12.ResumeLayout(false);
             panel12.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvIngresos).EndInit();
@@ -993,11 +1006,11 @@
         private Button button1;
         private Panel panel3;
         private Panel panel11;
-        private Panel panel8;
+        private Panel pnlPNCPor;
         private Panel panel5;
-        private Panel panel7;
-        private Panel panel10;
-        private Panel panel9;
+        private Panel pnlPNC;
+        private Panel pnlReprocesoPor;
+        private Panel pnlReproceso;
         private Panel panel6;
         private Panel panel12;
         private Label label8;
@@ -1019,5 +1032,7 @@
         private Label lblProductoConforme;
         private Label lblProduccionEnOperacion;
         private DataGridView dgvIngresos;
+        private System.Windows.Forms.Timer timerParpadeoPNC;
+        private System.Windows.Forms.Timer timerParpadeoReproceso;
     }
 }

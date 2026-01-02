@@ -21,9 +21,18 @@ namespace ElastoSystem
             InitializeComponent();
         }
 
+        private Color colorOriginalPNCPor;
+        private Color colorOriginalReprocesoPor;
+        private bool parpadeandoPNC = false;
+        private bool parpadeandoReproceso = false;
+
         private void Produccion_OT_Load(object sender, EventArgs e)
         {
             lblOrdenTrabajo.Text = "ORDEN DE TRABAJO: " + FolioOT;
+
+            colorOriginalPNCPor = pnlPNCPor.BackColor;
+            colorOriginalReprocesoPor = pnlReprocesoPor.BackColor;
+
             CargarInfoOT();
             CargarRegistros();
         }
@@ -142,7 +151,7 @@ namespace ElastoSystem
             }
 
             string[] partes = FolioOT.Split('-');
-            if (partes.Length < 3 || !int.TryParse(partes[partes.Length -1], out int noOperacion))
+            if (partes.Length < 3 || !int.TryParse(partes[partes.Length - 1], out int noOperacion))
             {
                 btnVerEspecificacion.Visible = false;
                 return;
@@ -373,7 +382,76 @@ namespace ElastoSystem
             lblPorPNC.Text = porPNC.ToString("N2") + "%";
             lblPorReproceso.Text = porReproceso.ToString("N2") + "%";
             lblProductoConforme.Text = productoConforme.ToString("N0");
+            Parpadeo();
             CalcularPromedio();
+        }
+
+        private void Parpadeo()
+        {
+            if (double.TryParse(lblPorPNC.Text.Replace("%", "").Trim(), out double porPNC))
+            {
+                if (porPNC >= 5.0)
+                {
+                    if (!parpadeandoPNC)
+                    {
+                        parpadeandoPNC = true;
+                        pnlPNCPor.BackColor = Color.Red;
+                        timerParpadeoPNC.Start();
+                    }
+                }
+                else
+                {
+                    if (parpadeandoPNC)
+                    {
+                        timerParpadeoPNC.Stop();
+                        pnlPNCPor.BackColor = colorOriginalPNCPor;
+                        parpadeandoPNC = false;
+                    }
+                }
+            }
+            else
+            {
+                if (parpadeandoPNC)
+                {
+                    timerParpadeoPNC.Stop();
+                    pnlPNCPor.BackColor = colorOriginalPNCPor;
+                    parpadeandoPNC = false;
+                }
+            }
+
+
+
+
+            if (double.TryParse(lblPorReproceso.Text.Replace("%", "").Trim(), out double porReproceso))
+            {
+                if (porReproceso >= 5.0)
+                {
+                    if (!parpadeandoReproceso)
+                    {
+                        parpadeandoReproceso = true;
+                        pnlReprocesoPor.BackColor = Color.Red;
+                        timerParpadeoReproceso.Start();
+                    }
+                }
+                else
+                {
+                    if (parpadeandoReproceso)
+                    {
+                        timerParpadeoReproceso.Stop();
+                        pnlReprocesoPor.BackColor = colorOriginalReprocesoPor;
+                        parpadeandoReproceso = false;
+                    }
+                }
+            }
+            else
+            {
+                if (parpadeandoReproceso)
+                {
+                    timerParpadeoReproceso.Stop();
+                    pnlReprocesoPor.BackColor = colorOriginalReprocesoPor;
+                    parpadeandoReproceso = false;
+                }
+            }
         }
 
         private void CalcularPromedio()
@@ -571,6 +649,85 @@ namespace ElastoSystem
         private void dgvIngresos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             dgvIngresos.ClearSelection();
+        }
+        int grosor = 2;
+        Color colorBorde = Color.Red;
+        private void pnlReproceso_Paint(object sender, PaintEventArgs e)
+        {
+            Panel panel = sender as Panel;
+            if (panel != null)
+            {
+                using (Pen pen = new Pen(colorBorde, grosor))
+                {
+                    Rectangle rect = new Rectangle(0, 0, panel.Width - 1, panel.Height - 1);
+                    e.Graphics.DrawRectangle(pen, rect);
+                }
+            }
+        }
+
+        private void pnlReprocesoPor_Paint(object sender, PaintEventArgs e)
+        {
+            Panel panel = sender as Panel;
+            if (panel != null)
+            {
+                using (Pen pen = new Pen(colorBorde, grosor))
+                {
+                    Rectangle rect = new Rectangle(0, 0, panel.Width - 1, panel.Height - 1);
+                    e.Graphics.DrawRectangle(pen, rect);
+                }
+            }
+        }
+
+        private void pnlPNC_Paint(object sender, PaintEventArgs e)
+        {
+            Panel panel = sender as Panel;
+            if (panel != null)
+            {
+                using (Pen pen = new Pen(colorBorde, grosor))
+                {
+                    Rectangle rect = new Rectangle(0, 0, panel.Width - 1, panel.Height - 1);
+                    e.Graphics.DrawRectangle(pen, rect);
+                }
+            }
+        }
+
+        private void pnlPNCPor_Paint(object sender, PaintEventArgs e)
+        {
+            Panel panel = sender as Panel;
+            if (panel != null)
+            {
+                using (Pen pen = new Pen(colorBorde, grosor))
+                {
+                    Rectangle rect = new Rectangle(0, 0, panel.Width - 1, panel.Height - 1);
+                    e.Graphics.DrawRectangle(pen, rect);
+                }
+            }
+        }
+
+        private void timerParpadeoPNC_Tick(object sender, EventArgs e)
+        {
+            if (pnlPNCPor.BackColor == Color.Red)
+            {
+                pnlPNCPor.BackColor = colorOriginalPNCPor;
+            }
+            else
+            {
+                pnlPNCPor.BackColor = Color.Red;
+            }
+
+            
+        }
+
+        private void timerParpadeoReproceso_Tick(object sender, EventArgs e)
+        {
+            if (pnlReprocesoPor.BackColor == Color.Red)
+            {
+                pnlReprocesoPor.BackColor = colorOriginalReprocesoPor;
+            }
+            else
+            {
+                pnlReprocesoPor.BackColor = Color.Red;
+            }
         }
     }
 }
