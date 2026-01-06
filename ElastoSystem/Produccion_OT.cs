@@ -368,6 +368,7 @@ namespace ElastoSystem
                     string query = @"
                         SELECT
                             r.Fecha,
+                            r.Turno,
                             TRIM(
                                 CONCAT(
                                     IFNULL(CONCAT(op.Nombre, ' ', op.Apellido_Paterno,
@@ -398,9 +399,24 @@ namespace ElastoSystem
                             DataTable dt = new DataTable();
                             da.Fill(dt);
 
+                            dt.Columns.Add("TurnoAbreviado", typeof(string));
                             dt.Columns.Add("Total", typeof(int));
+
                             foreach (DataRow row in dt.Rows)
                             {
+                                string turnoOriginal = row["Turno"].ToString().Trim().ToUpper();
+
+                                string abreviado = turnoOriginal switch
+                                {
+                                    "MIXTO" => "X",
+                                    "MATUTINO" => "M",
+                                    "VESPERTINO" => "V",
+                                    "NOCTURNO" => "N",
+                                    _ => turnoOriginal
+                                };
+
+                                row["TurnoAbreviado"] = abreviado;
+
                                 int pop = Convert.ToInt32(row["POP"]);
                                 int pncop = Convert.ToInt32(row["PNCOP"]);
                                 int reproceso = Convert.ToInt32(row["Reproceso"]);
@@ -412,6 +428,11 @@ namespace ElastoSystem
 
                             if (dgvIngresos.Columns.Count > 0)
                             {
+                                dgvIngresos.Columns["Turno"].Visible = false;
+                                dgvIngresos.Columns["TurnoAbreviado"].HeaderText = "Turno";
+                                dgvIngresos.Columns["TurnoAbreviado"].Width = 60;
+                                dgvIngresos.Columns["TurnoAbreviado"].DisplayIndex = 1;
+
                                 dgvIngresos.Columns["POP"].HeaderText = "PRO OP";
                                 dgvIngresos.Columns["PNCOP"].HeaderText = "PNC OP";
                                 dgvIngresos.Columns["PNCRevision"].HeaderText = "PNC RE";
