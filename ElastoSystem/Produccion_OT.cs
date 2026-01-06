@@ -35,6 +35,82 @@ namespace ElastoSystem
 
             CargarInfoOT();
             CargarRegistros();
+            RevisarPermisosActualizar();
+
+            if (btnActualizarOT.Visible)
+            {
+                dtpFechaInicio.Enabled = true;
+                dtpFechaFinal.Enabled = true;
+                cbTurno.Enabled = true;
+                txbCantidad.ReadOnly = false;
+                txbLote.ReadOnly = false;
+                cbMolde.Enabled = true;
+                txbObservaciones.ReadOnly = false;
+                cbMaquinas.Enabled = true;
+            }
+            else
+            {
+                dtpFechaInicio.Enabled = false;
+                dtpFechaFinal.Enabled = false;
+                cbTurno.Enabled = false;
+                txbCantidad.ReadOnly = true;
+                txbLote.ReadOnly = true;
+                cbMolde.Enabled = false;
+                txbObservaciones.ReadOnly = true;
+                cbMaquinas.Enabled = false;
+            }
+        }
+
+        private void RevisarPermisosActualizar()
+        {
+            if (string.IsNullOrWhiteSpace(VariablesGlobales.Usuario))
+            {
+                btnActualizarOT.Visible = false;
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    string queryUsuario = "SELECT ID FROM elastosystem_login WHERE Usuario = @USUARIO LIMIT 1";
+                    int userId = 0;
+
+                    using (MySqlCommand cmdUsuario = new MySqlCommand(queryUsuario, conn))
+                    {
+                        cmdUsuario.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario.Trim());
+                        object result = cmdUsuario.ExecuteScalar();
+
+                        if (result == null || result == DBNull.Value || !int.TryParse(result.ToString(), out userId))
+                        {
+                            btnActualizarOT.Visible = false;
+                            return;
+                        }
+                    }
+
+                    string queryPermiso = "SELECT ActualizarOT FROM elastosystem_permisos_menu WHERE ID = @ID LIMIT 1";
+                    using (MySqlCommand cmdPermiso = new MySqlCommand(queryPermiso, conn))
+                    {
+                        cmdPermiso.Parameters.AddWithValue("@ID", userId);
+                        object result = cmdPermiso.ExecuteScalar();
+
+                        bool tienePermiso = false;
+                        if (result != null && result != DBNull.Value)
+                        {
+                            tienePermiso = Convert.ToBoolean(result);
+                        }
+
+                        btnActualizarOT.Visible = tienePermiso;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL VERIFICAR PERMISOS: " + ex.Message, "Error de permisos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                btnActualizarOT.Visible = false;
+            }
         }
 
         private void CargarInfoOT()
@@ -78,7 +154,8 @@ namespace ElastoSystem
                                 cbMaquinas.SelectedIndex = 0;
                                 txbSolicitudFabricacion.Text = reader["SF"].ToString();
                                 txbObservaciones.Text = reader["Observaciones"].ToString();
-
+                                lblNave.Text = reader["Nave"].ToString();
+                                CargarMaquinasDisponibles();
                                 if (txbEspecificacion.Text.Length > 0)
                                 {
                                     ComprobarAV();
@@ -99,6 +176,57 @@ namespace ElastoSystem
                 {
                     conn.Close();
                 }
+            }
+        }
+
+        private void CargarMaquinasDisponibles()
+        {
+            string nave = lblNave.Text.Trim();
+            if(string.IsNullOrWhiteSpace(nave))
+            {
+                return;
+            }
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT im.Nombre
+                        FROM elastosystem_mtto_inventariomaquinas im
+                        WHERE im.Ubicacion = @UBICACION
+                            AND im.Orden_Trabajo = 1
+                            AND NOT EXISTS (
+                                SELECT 1
+                                FROM elastosystem_produccion_ot ot
+                                WHERE ot.Maquina = im.Nombre
+                                    AND ot.Estatus = 'ABIERTA'
+                            )
+                        ORDER BY im.Nombre";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UBICACION", nave);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string nombreMaquina = reader["Nombre"].ToString();
+                                if (!string.IsNullOrWhiteSpace(nombreMaquina))
+                                {
+                                    cbMaquinas.Items.Add(nombreMaquina);
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR AL CARGAR MÁQUINAS DISPONIBLES: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -715,7 +843,7 @@ namespace ElastoSystem
                 pnlPNCPor.BackColor = Color.Red;
             }
 
-            
+
         }
 
         private void timerParpadeoReproceso_Tick(object sender, EventArgs e)
@@ -728,6 +856,299 @@ namespace ElastoSystem
             {
                 pnlReprocesoPor.BackColor = Color.Red;
             }
+        }
+
+        private void btnActualizarOT_Click(object sender, EventArgs e)
+        {
+            if (dtpFechaInicio.Value.Date > dtpFechaFinal.Value.Date)
+            {
+                MessageBox.Show("La fecha de inicio debe ser menor o igual a la fecha final.", "Validación de fechas", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            bool hayRegistrosFueraDeRango = false;
+            string mensajeError = "";
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT COUNT(*)
+                        FROM elastosystem_produccion_registro_diario
+                        WHERE Orden_Trabajo = @FOLIOOT
+                            AND (
+                                Fecha < @NUEVAFECHAINICIO
+                                OR Fecha > @NUEVAFECHAFINAL
+                            )";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FOLIOOT", FolioOT);
+                        cmd.Parameters.AddWithValue("@NUEVAFECHAINICIO", dtpFechaInicio.Value.Date);
+                        cmd.Parameters.AddWithValue("@NUEVAFECHAFINAL", dtpFechaFinal.Value.Date);
+
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        hayRegistrosFueraDeRango = count > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al verificar registros existentes:\n" + ex.Message, "Error de base de datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (hayRegistrosFueraDeRango)
+            {
+                MessageBox.Show(
+                    "No se puede modificar el rango de fechas.\n\n" +
+                    "Existen registros diarios cuya fecha está fuera del nuevo rango propuesto.\n" +
+                    "Primero elimine o ajuste los registros que estén antes de la fecha de inicio\n" +
+                    "o después de la fecha final.",
+                    "Rango de fechas inválido",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop);
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(cbMaquinas.Text))
+            {
+                string maquinaSeleccionada = cbMaquinas.Text.Trim();
+
+                try
+                {
+                    using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                    {
+                        conn.Open();
+
+                        string query = @"
+                            SELECT COUNT(*)
+                            FROM elastosystem_produccion_ot
+                            WHERE Maquina = @MAQUINA
+                                AND Estatus = 'ABIERTA'
+                                AND Folio != @FOLIOOT";
+
+                        using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@MAQUINA", maquinaSeleccionada);
+                            cmd.Parameters.AddWithValue("@FOLIOOT", FolioOT);
+
+                            int count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                            if (count > 0)
+                            {
+                                MessageBox.Show(
+                                    $"La máquina '{maquinaSeleccionada}' ya está asignada a otra orden de trabajo ABIERTA.\n\n" +
+                                    "No es posible asignarla a esta orden hasta que la otra OT se cierre o cambie de máquina.",
+                                    "Máquina en uso",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Stop);
+
+                                return;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al verificar disponibilidad de la máquina:\n" + ex.Message, "Error de base de datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+
+            if (int.TryParse(txbCantidad.Text.Replace(",", ""), out int nuevaCantidad) &&
+                int.TryParse(lblProductoConforme.Text.Replace(",", ""), out int productoConforme))
+            {
+                if (nuevaCantidad < productoConforme)
+                {
+                    MessageBox.Show(
+                        $"La cantidad objetivo no puede ser menor que la cantidad ya producida conforme.\n\n" +
+                        $"Cantidad producidad conforme actual: {productoConforme:N0}\n" +
+                        $"Cantidad objetivo propuesta: {nuevaCantidad:N0}\n\n" +
+                        "Si necesita ajustar la cantidad, primero corrija o elimine registros de producción que excedan la nueva cantidad deseada.",
+                        "Cantidad inválida",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Stop);
+
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("La cantidad objetivo debe ser un número entero válido.", "Error de dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            ActualizarOT();
+        }
+
+        private void ActualizarOT()
+        {
+            DateTime originalFechaIncio = dtpFechaInicio.Value;
+            DateTime originalFechaFinal = dtpFechaFinal.Value;
+            string originalTurno = "";
+            string originalLote = "";
+            string originalMolde = "";
+            int originalCantidad = 0;
+            string originalMaquina = "";
+            string originalObservaciones = "";
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT FechaInicio, FechaTermino, Turno, Lote, Molde, Cantidad, Maquina, Observaciones
+                        FROM elastosystem_produccion_ot
+                        WHERE Folio = @FOLIO AND Estatus = 'ABIERTA'";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FOLIO", FolioOT);
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                originalFechaIncio = reader.GetDateTime("FechaInicio");
+                                originalFechaFinal = reader.GetDateTime("FechaTermino");
+                                originalTurno = reader["Turno"].ToString();
+                                originalLote = reader["Lote"].ToString();
+                                originalMolde = reader["Molde"].ToString();
+                                originalCantidad = Convert.ToInt32(reader["Cantidad"]);
+                                originalMaquina = reader["Maquina"].ToString();
+                                originalObservaciones = reader["Observaciones"].ToString();
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se encontró la orden de trabajo o no está ABIERTA.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener datos originales:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DateTime nuevaFechaInicio = dtpFechaInicio.Value.Date;
+            DateTime nuevaFechaFinal = dtpFechaFinal.Value.Date;
+            string nuevoTurno = cbTurno.Text.Trim();
+            string nuevoLote = txbLote.Text.Trim();
+            string nuevoMolde = cbMolde.Text.Trim();
+            int nuevaCantidad = int.Parse(txbCantidad.Text.Replace(",", ""));
+            string nuevaMaquina = cbMaquinas.Text.Trim();
+            string nuevasObservaciones = txbObservaciones.Text.Trim();
+
+            var cambios = new List<string>();
+
+            if (originalFechaIncio != nuevaFechaInicio)
+                cambios.Add($"Fecha Inicio: original {originalFechaIncio:dd/MM/yyyy} → cambió a {nuevaFechaInicio:dd/MM/yyyy}");
+
+            if (originalFechaFinal != nuevaFechaFinal)
+                cambios.Add($"Fecha Término: original {originalFechaFinal:dd/MM/yyyy} → cambió a {nuevaFechaFinal:dd/MM/yyyy}");
+
+            if (originalTurno != nuevoTurno)
+                cambios.Add($"Turno: original '{originalTurno}' → cambió a '{nuevoTurno}'");
+
+            if (originalLote != nuevoLote)
+                cambios.Add($"Lote: original '{originalLote}' → cambió a '{nuevoLote}'");
+
+            if (originalMolde != nuevoMolde)
+                cambios.Add($"Molde: original '{originalMolde}' → cambió a '{nuevoMolde}'");
+
+            if (originalCantidad != nuevaCantidad)
+                cambios.Add($"Cantidad: original {originalCantidad:N0} → cambió a {nuevaCantidad:N0}");
+
+            if (originalMaquina != nuevaMaquina)
+                cambios.Add($"Máquina: original '{originalMaquina}' → cambió a '{nuevaMaquina}'");
+
+            if (originalObservaciones != nuevasObservaciones)
+                cambios.Add($"Observaciones: cambió (texto modificado)");
+
+            if (cambios.Count == 0)
+            {
+                MessageBox.Show("No se detectaron cambios en los datos de la orden de trabajo.", "Sin cambios", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string textoCambios = ""+string.Join("\n", cambios);
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    string insertCambios = @"
+                        INSERT INTO elastosystem_produccion_ot_cambios (Usuario, Fecha, Cambios, Folio)
+                        VALUES (@USUARIO, @FECHA, @CAMBIOS, @FOLIO)";
+
+                    using (MySqlCommand cmdInsert = new MySqlCommand(insertCambios, conn))
+                    {
+                        cmdInsert.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario ?? "DESCONOCIDO");
+                        cmdInsert.Parameters.AddWithValue("@FECHA", DateTime.Now);
+                        cmdInsert.Parameters.AddWithValue("@CAMBIOS", textoCambios);
+                        cmdInsert.Parameters.AddWithValue("@FOLIO", FolioOT);
+                        cmdInsert.ExecuteNonQuery();
+                    }
+
+                    string updateOT = @"
+                        UPDATE elastosystem_produccion_ot
+                        SET
+                            FechaInicio = @FECHAINICIO,
+                            FechaTermino = @FECHATERMINO,
+                            Turno = @TURNO,
+                            Lote = @LOTE,
+                            Molde = @MOLDE,
+                            Cantidad = @CANTIDAD,
+                            Maquina = @MAQUINA,
+                            Observaciones = @OBSERVACIONES
+                        WHERE Folio = @FOLIO";
+
+                    using (MySqlCommand cmdUpdate = new MySqlCommand(updateOT, conn))
+                    {
+                        cmdUpdate.Parameters.AddWithValue("@FECHAINICIO", nuevaFechaInicio);
+                        cmdUpdate.Parameters.AddWithValue("@FECHATERMINO", nuevaFechaFinal);
+                        cmdUpdate.Parameters.AddWithValue("@TURNO", nuevoTurno);
+                        cmdUpdate.Parameters.AddWithValue("@LOTE", nuevoLote);
+                        cmdUpdate.Parameters.AddWithValue("@MOLDE", nuevoMolde);
+                        cmdUpdate.Parameters.AddWithValue("@CANTIDAD", nuevaCantidad);
+                        cmdUpdate.Parameters.AddWithValue("@MAQUINA", nuevaMaquina);
+                        cmdUpdate.Parameters.AddWithValue("@OBSERVACIONES", nuevasObservaciones);
+                        cmdUpdate.Parameters.AddWithValue("@FOLIO", FolioOT);
+
+                        int filas = cmdUpdate.ExecuteNonQuery();
+
+                        if (filas > 0)
+                        {
+                            MessageBox.Show("Orden de trabajo actualizada correctamente.\n\nLos cambios han sido registrados.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo actualizar la orden de trabajo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar los cambios:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void txbCantidad_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            VariablesGlobales.ValidarNumeroEntero(e, txbCantidad);
         }
     }
 }

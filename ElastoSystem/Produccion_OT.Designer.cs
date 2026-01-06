@@ -39,6 +39,7 @@
             pictureBox6 = new PictureBox();
             lblOrdenTrabajo = new Label();
             panel1 = new Panel();
+            lblNave = new Label();
             btnVerEspecificacion = new Button();
             txbSolicitudFabricacion = new TextBox();
             label16 = new Label();
@@ -99,6 +100,7 @@
             dgvIngresos = new DataGridView();
             timerParpadeoPNC = new System.Windows.Forms.Timer(components);
             timerParpadeoReproceso = new System.Windows.Forms.Timer(components);
+            btnActualizarOT = new Button();
             panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -170,6 +172,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(3, 42, 76);
+            panel1.Controls.Add(lblNave);
             panel1.Controls.Add(btnVerEspecificacion);
             panel1.Controls.Add(txbSolicitudFabricacion);
             panel1.Controls.Add(label16);
@@ -201,6 +204,19 @@
             panel1.Size = new Size(932, 261);
             panel1.TabIndex = 92;
             // 
+            // lblNave
+            // 
+            lblNave.AutoSize = true;
+            lblNave.BackColor = Color.Transparent;
+            lblNave.Font = new Font("Montserrat", 10F);
+            lblNave.ForeColor = Color.White;
+            lblNave.Location = new Point(640, 173);
+            lblNave.Name = "lblNave";
+            lblNave.Size = new Size(61, 22);
+            lblNave.TabIndex = 121;
+            lblNave.Text = "ERROR";
+            lblNave.Visible = false;
+            // 
             // btnVerEspecificacion
             // 
             btnVerEspecificacion.BackColor = Color.FromArgb(255, 102, 0);
@@ -212,7 +228,7 @@
             btnVerEspecificacion.Location = new Point(484, 198);
             btnVerEspecificacion.Name = "btnVerEspecificacion";
             btnVerEspecificacion.Size = new Size(390, 34);
-            btnVerEspecificacion.TabIndex = 124;
+            btnVerEspecificacion.TabIndex = 13;
             btnVerEspecificacion.Text = "VER ESPECIFICACIÓN";
             btnVerEspecificacion.UseVisualStyleBackColor = false;
             btnVerEspecificacion.Visible = false;
@@ -225,7 +241,7 @@
             txbSolicitudFabricacion.Name = "txbSolicitudFabricacion";
             txbSolicitudFabricacion.ReadOnly = true;
             txbSolicitudFabricacion.Size = new Size(295, 24);
-            txbSolicitudFabricacion.TabIndex = 121;
+            txbSolicitudFabricacion.TabIndex = 11;
             txbSolicitudFabricacion.TextAlign = HorizontalAlignment.Center;
             // 
             // label16
@@ -259,7 +275,7 @@
             txbObservaciones.Name = "txbObservaciones";
             txbObservaciones.ReadOnly = true;
             txbObservaciones.Size = new Size(273, 24);
-            txbObservaciones.TabIndex = 119;
+            txbObservaciones.TabIndex = 7;
             // 
             // cbMaquinas
             // 
@@ -270,7 +286,7 @@
             cbMaquinas.Location = new Point(544, 113);
             cbMaquinas.Name = "cbMaquinas";
             cbMaquinas.Size = new Size(365, 28);
-            cbMaquinas.TabIndex = 114;
+            cbMaquinas.TabIndex = 10;
             // 
             // label15
             // 
@@ -302,7 +318,7 @@
             txbNombreArea.Name = "txbNombreArea";
             txbNombreArea.ReadOnly = true;
             txbNombreArea.Size = new Size(365, 24);
-            txbNombreArea.TabIndex = 113;
+            txbNombreArea.TabIndex = 9;
             txbNombreArea.TextAlign = HorizontalAlignment.Center;
             // 
             // txbArea
@@ -312,7 +328,7 @@
             txbArea.Name = "txbArea";
             txbArea.ReadOnly = true;
             txbArea.Size = new Size(365, 24);
-            txbArea.TabIndex = 112;
+            txbArea.TabIndex = 8;
             txbArea.TextAlign = HorizontalAlignment.Center;
             // 
             // label7
@@ -349,7 +365,7 @@
             cbTurno.Location = new Point(132, 77);
             cbTurno.Name = "cbTurno";
             cbTurno.Size = new Size(274, 28);
-            cbTurno.TabIndex = 96;
+            cbTurno.TabIndex = 3;
             // 
             // dtpFechaFinal
             // 
@@ -358,7 +374,7 @@
             dtpFechaFinal.Location = new Point(598, 17);
             dtpFechaFinal.Name = "dtpFechaFinal";
             dtpFechaFinal.Size = new Size(311, 24);
-            dtpFechaFinal.TabIndex = 77;
+            dtpFechaFinal.TabIndex = 2;
             // 
             // dtpFechaInicio
             // 
@@ -367,7 +383,7 @@
             dtpFechaInicio.Location = new Point(145, 17);
             dtpFechaInicio.Name = "dtpFechaInicio";
             dtpFechaInicio.Size = new Size(311, 24);
-            dtpFechaInicio.TabIndex = 76;
+            dtpFechaInicio.TabIndex = 1;
             // 
             // label5
             // 
@@ -450,7 +466,7 @@
             cbMolde.Location = new Point(132, 176);
             cbMolde.Name = "cbMolde";
             cbMolde.Size = new Size(273, 28);
-            cbMolde.TabIndex = 97;
+            cbMolde.TabIndex = 6;
             // 
             // txbLote
             // 
@@ -459,7 +475,7 @@
             txbLote.Name = "txbLote";
             txbLote.ReadOnly = true;
             txbLote.Size = new Size(272, 24);
-            txbLote.TabIndex = 103;
+            txbLote.TabIndex = 5;
             txbLote.TextAlign = HorizontalAlignment.Center;
             // 
             // label12
@@ -493,8 +509,9 @@
             txbCantidad.Name = "txbCantidad";
             txbCantidad.ReadOnly = true;
             txbCantidad.Size = new Size(272, 24);
-            txbCantidad.TabIndex = 101;
+            txbCantidad.TabIndex = 4;
             txbCantidad.TextAlign = HorizontalAlignment.Center;
+            txbCantidad.KeyPress += txbCantidad_KeyPress;
             // 
             // label14
             // 
@@ -829,7 +846,7 @@
             button1.Location = new Point(12, 698);
             button1.Name = "button1";
             button1.Size = new Size(499, 29);
-            button1.TabIndex = 125;
+            button1.TabIndex = 14;
             button1.Text = "GENERAR REPORTE";
             button1.UseVisualStyleBackColor = false;
             // 
@@ -927,12 +944,30 @@
             timerParpadeoReproceso.Interval = 500;
             timerParpadeoReproceso.Tick += timerParpadeoReproceso_Tick;
             // 
+            // btnActualizarOT
+            // 
+            btnActualizarOT.BackColor = Color.FromArgb(255, 102, 0);
+            btnActualizarOT.Cursor = Cursors.Hand;
+            btnActualizarOT.FlatAppearance.BorderSize = 0;
+            btnActualizarOT.FlatStyle = FlatStyle.Flat;
+            btnActualizarOT.Font = new Font("Montserrat", 10F, FontStyle.Bold);
+            btnActualizarOT.ForeColor = Color.White;
+            btnActualizarOT.Location = new Point(817, 42);
+            btnActualizarOT.Name = "btnActualizarOT";
+            btnActualizarOT.Size = new Size(127, 34);
+            btnActualizarOT.TabIndex = 12;
+            btnActualizarOT.Text = "Actualizar OT";
+            btnActualizarOT.UseVisualStyleBackColor = false;
+            btnActualizarOT.Visible = false;
+            btnActualizarOT.Click += btnActualizarOT_Click;
+            // 
             // Produccion_OT
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(1162, 757);
+            Controls.Add(btnActualizarOT);
             Controls.Add(dgvIngresos);
             Controls.Add(panel12);
             Controls.Add(button1);
@@ -1034,5 +1069,7 @@
         private DataGridView dgvIngresos;
         private System.Windows.Forms.Timer timerParpadeoPNC;
         private System.Windows.Forms.Timer timerParpadeoReproceso;
+        private Button btnActualizarOT;
+        private Label lblNave;
     }
 }
