@@ -452,7 +452,7 @@ namespace ElastoSystem
                                 dgvIngresos.Columns["PNCRevision"].DefaultCellStyle.Format = "N0";
                                 dgvIngresos.Columns["Total"].DefaultCellStyle.Format = "N0";
 
-                                dgvIngresos.Columns["Total"].DisplayIndex = dgvIngresos.Columns["Observaciones"].Index;
+                                dgvIngresos.Columns["Total"].DisplayIndex = 8;
 
                                 Calcular();
 
@@ -616,19 +616,26 @@ namespace ElastoSystem
             }
 
             string sufijoActual = FolioOT.Split('-').Last();
-            string seleccionTurno = cbTurno.SelectedItem.ToString().Trim();
+            string seleccionTurno = cbTurno.SelectedItem.ToString().Trim().ToUpper();
 
-            string condicionTurno = "";
-            if (seleccionTurno == "1 TURNO")
-            {
-                condicionTurno = "AND r.Turno = 'MIXTO'";
-            }
+            int numTurnosPorDia = 1;
+            if(seleccionTurno.Contains("1 TURNO"))
+                numTurnosPorDia = 1;
+            else if (seleccionTurno.Contains("2 TURNOS"))
+                numTurnosPorDia = 2;
+            else if (seleccionTurno.Contains("3 TURNOS"))
+                numTurnosPorDia = 3;
             else
-            {
-                condicionTurno = "AND r.Turno IN ('MATUTINO', 'VESPERTINO', 'NOCTURNO')";
-            }
+                numTurnosPorDia = 3;
 
-            int produccionDiariaEsperada = 0;
+            bool esMixtoPrincipal = seleccionTurno.Contains("1 TURNO");
+            double horasPorTurno = esMixtoPrincipal ? 9.5 : 7.5;
+            string condicionPrincipal = esMixtoPrincipal ? "r.Turno = 'MIXTO'" : "r.Turno IN ('MATUTINO', 'VESPERTINO', 'NOCTURNO')";
+            string condicionSecundaria = esMixtoPrincipal ? "r.Turno IN ('MATUTINO', 'VESPERTINO', 'NOCTURNO')" : "r.Turno = 'MIXTO'";
+            double horasReferenciaSecundaria = esMixtoPrincipal ? 7.5 : 9.5;
+
+            int promedioPorTurno = 0;
+            bool usadoSecundario = false;
 
             try
             {
@@ -636,43 +643,51 @@ namespace ElastoSystem
                 {
                     conn.Open();
 
-                    string query = $@"
-                        SELECT
-                            (r.POP - r.PNCOP - r.Reproceso - r.PNCRevision) AS TotalDiario
-                        FROM elastosystem_produccion_registro_diario r
-                        INNER JOIN elastosystem_produccion_ot ot ON r.Orden_Trabajo = ot.Folio
-                        INNER JOIN elastosystem_almacen_solicitud_fabricacion sf ON ot.SF = sf.Folio_ALT
-                        WHERE sf.Clave = @CLAVE
-                            AND SUBSTRING_INDEX(ot.Folio, '-', -1) = @SUFIJO
-                            {condicionTurno}
-                            AND (r.POP - r.PNCOP - r.Reproceso - r.PNCRevision) > 0
-                        ORDER BY TotalDiario DESC
-                        LIMIT 5";
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    int ObtenerMejores5(string condicion)
                     {
-                        cmd.Parameters.AddWithValue("@CLAVE", ClaveProd);
-                        cmd.Parameters.AddWithValue("@SUFIJO", sufijoActual);
+                        string query = $@"
+                            SELECT (r.POP - r.PNCOP - r.Reproceso - r.PNCRevision) AS TotalDiario
+                            FROM elastosystem_produccion_registro_diario r
+                            INNER JOIN elastosystem_produccion_ot ot ON r.Orden_Trabajo = ot.Folio
+                            INNER JOIN elastosystem_almacen_solicitud_fabricacion sf ON ot.SF = sf.FOLIO_ALT
+                            WHERE sf.Clave = @CLAVE
+                                AND SUBSTRING_INDEX(ot.Folio, '-', -1) = @SUFIJO
+                                AND {condicion}
+                                AND (r.POP - r.PNCOP - r.Reproceso - r.PNCRevision) > 0
+                            ORDER BY TotalDiario DESC
+                            LIMIT 5";
 
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        using (MySqlCommand cmd = new MySqlCommand(query, conn))
                         {
-                            List<int> mejores5 = new List<int>();
-                            while (reader.Read())
+                            cmd.Parameters.AddWithValue("@CLAVE", ClaveProd);
+                            cmd.Parameters.AddWithValue("@SUFIJO", sufijoActual);
+
+                            List<int> valores = new List<int>();
+                            using (MySqlDataReader reader = cmd.ExecuteReader())
                             {
-                                int totalDiario = reader.GetInt32("TotalDiario");
-                                mejores5.Add(totalDiario);
+                                while (reader.Read())
+                                {
+                                    valores.Add(reader.GetInt32("TotalDiario"));
+                                }
                             }
 
-                            if (mejores5.Count == 0)
-                            {
-                                lblProduccionXTurno.Text = "SR";
-                                lblDiasRestantes.Text = "N/A";
-                                return;
-                            }
+                            if (valores.Count == 0) return 0;
 
-                            double promedio = mejores5.Average();
-                            produccionDiariaEsperada = (int)Math.Round(promedio, MidpointRounding.AwayFromZero);
-                            lblProduccionXTurno.Text = produccionDiariaEsperada.ToString("N0");
+                            double promedio = valores.Average();
+                            return (int)Math.Round(promedio, MidpointRounding.AwayFromZero);
+                        }
+                    }
+
+                    promedioPorTurno = ObtenerMejores5(condicionPrincipal);
+
+                    if (promedioPorTurno == 0)
+                    {
+                        int promedioSecundario = ObtenerMejores5(condicionSecundaria);
+                        if (promedioSecundario > 0)
+                        {
+                            double factor = horasPorTurno / horasReferenciaSecundaria;
+                            promedioPorTurno = (int)Math.Round(promedioSecundario * factor, MidpointRounding.AwayFromZero);
+                            usadoSecundario = true;
                         }
                     }
                 }
@@ -685,16 +700,30 @@ namespace ElastoSystem
                 return;
             }
 
-            if (!int.TryParse(txbCantidad.Text.Replace(",", ""), out int cantidadObjetivo) ||
-                !int.TryParse(lblProductoConforme.Text.Replace(",", ""), out int produccionConforme) ||
-                produccionDiariaEsperada <= 0)
+            if(promedioPorTurno == 0)
+            {
+                lblProduccionXTurno.Text = "SR";
+                lblDiasRestantes.Text = "N/A";
+                return;
+            }
+
+            lblProduccionXTurno.Text = promedioPorTurno.ToString("N0");
+
+            if (usadoSecundario)
+            {
+                lblProduccionXTurno.Text += "*";
+            }
+
+            int produccionDiariaEsperada = promedioPorTurno * numTurnosPorDia;
+
+            if(!int.TryParse(txbCantidad.Text.Replace(",", ""), out int cantidadObjetivo) ||
+               !int.TryParse(lblProductoConforme.Text.Replace(",", ""), out int produccionConforme))
             {
                 lblDiasRestantes.Text = "N/A";
                 return;
             }
 
             int faltante = cantidadObjetivo - produccionConforme;
-
             if (faltante <= 0)
             {
                 lblDiasRestantes.Text = "0";
@@ -702,7 +731,6 @@ namespace ElastoSystem
             }
 
             int diasRestantes = (int)Math.Ceiling((double)faltante / produccionDiariaEsperada);
-
             lblDiasRestantes.Text = diasRestantes.ToString();
         }
 
