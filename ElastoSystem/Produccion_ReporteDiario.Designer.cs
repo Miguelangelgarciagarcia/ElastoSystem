@@ -244,6 +244,7 @@
             dgvRegistradosNave1.TabIndex = 144;
             dgvRegistradosNave1.CellClick += dgvRegistradosNave1_CellClick;
             dgvRegistradosNave1.DataBindingComplete += dgvRegistradosNave1_DataBindingComplete;
+            dgvRegistradosNave1.MouseDown += dgvRegistradosNave1_MouseDown;
             // 
             // pbAdelanteN1
             // 
@@ -930,6 +931,7 @@
             dgvRegistradosNave2.TabIndex = 155;
             dgvRegistradosNave2.CellClick += dgvRegistradosNave2_CellClick;
             dgvRegistradosNave2.DataBindingComplete += dgvRegistradosNave2_DataBindingComplete;
+            dgvRegistradosNave2.MouseDown += dgvRegistradosNave2_MouseDown;
             // 
             // dgvPendientesNave2
             // 

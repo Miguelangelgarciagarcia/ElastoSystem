@@ -2592,5 +2592,192 @@ namespace ElastoSystem
                 MessageBox.Show("El archivo no se pudo encontrar después de guardarlo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void dgvRegistradosNave1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hit = dgvRegistradosNave1.HitTest(e.X, e.Y);
+                if (hit.Type == DataGridViewHitTestType.Cell && hit.RowIndex >= 0)
+                {
+                    dgvRegistradosNave1.ClearSelection();
+                    dgvRegistradosNave1.Rows[hit.RowIndex].Selected = true;
+
+                    if (TienePermisoEliminarRegistro())
+                    {
+                        if (MessageBox.Show("¿Estás seguro de eliminar este registro de producción?\n\nEsta acción no se puede deshacer.", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            EliminarRegistroSeleccionadoNave1();
+                        }
+                        else
+                        {
+                            dgvRegistradosNave1.ClearSelection();
+                        }
+                    }
+                }
+            }
+        }
+
+        private bool TienePermisoEliminarRegistro()
+        {
+            if (string.IsNullOrWhiteSpace(VariablesGlobales.Usuario))
+                return false;
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    string queryId = "SELECT ID FROM elastosystem_login WHERE Usuario = @USUARIO LIMIT 1";
+                    int userId = 0;
+                    using (MySqlCommand cmdId = new MySqlCommand(queryId, conn))
+                    {
+                        cmdId.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario);
+                        object result = cmdId.ExecuteScalar();
+                        if (result == null || !int.TryParse(result.ToString(), out userId))
+                            return false;
+                    }
+
+                    string queryPermiso = "SELECT EliminarRegistroProd FROM elastosystem_permisos_menu WHERE ID = @ID LIMIT 1";
+                    using (MySqlCommand cmdPerm = new MySqlCommand(queryPermiso, conn))
+                    {
+                        cmdPerm.Parameters.AddWithValue("@ID", userId);
+                        object result = cmdPerm.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            return Convert.ToBoolean(result);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al verificar permisos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            return false;
+        }
+
+        private void EliminarRegistroSeleccionadoNave1()
+        {
+            if (dgvRegistradosNave1.SelectedRows.Count == 0)
+                return;
+
+            string idRegistro = dgvRegistradosNave1.SelectedRows[0].Cells["ID"].Value?.ToString();
+
+            if (string.IsNullOrWhiteSpace(idRegistro))
+            {
+                MessageBox.Show("No se pudo obtener el ID del registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = "DELETE FROM elastosystem_produccion_registro_diario WHERE ID = @ID";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(idRegistro));
+                        int filas = cmd.ExecuteNonQuery();
+
+                        if (filas > 0)
+                        {
+                            MessageBox.Show("Registro eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LimpiarN1();
+                            btnActualizarN1.Visible = false;
+                            btnRegistrarN1.Visible = false;
+                            lblPNCRevisionN1.Visible = false;
+                            txbPNCRevisionN1.Visible = false;
+                            CargarPendientesN1();
+                            CargarRegistradosN1();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo eliminar el registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al eliminar el registro:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dgvRegistradosNave2_MouseDown(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                var hit = dgvRegistradosNave2.HitTest(e.X, e.Y);
+                if (hit.Type == DataGridViewHitTestType.Cell && hit.RowIndex >= 0)
+                {
+                    dgvRegistradosNave2.ClearSelection();
+                    dgvRegistradosNave2.Rows[hit.RowIndex].Selected = true;
+
+                    if (TienePermisoEliminarRegistro())
+                    {
+                        if (MessageBox.Show("¿Estás seguro de eliminar este registro de producción?\n\nEsta acción no se puede deshacer.", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            EliminarRegistroSeleccionadoNave2();
+                        }
+                        else
+                        {
+                            dgvRegistradosNave2.ClearSelection();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void EliminarRegistroSeleccionadoNave2()
+        {
+            if (dgvRegistradosNave2.SelectedRows.Count == 0)
+                return;
+
+            string idRegistro = dgvRegistradosNave2.SelectedRows[0].Cells["ID"].Value?.ToString();
+
+            if (string.IsNullOrWhiteSpace(idRegistro))
+            {
+                MessageBox.Show("No se pudo obtener el ID del registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string query = "DELETE FROM elastosystem_produccion_registro_diario WHERE ID = @ID";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(idRegistro));
+                        int filas = cmd.ExecuteNonQuery();
+
+                        if (filas > 0)
+                        {
+                            MessageBox.Show("Registro eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LimpiarN2();
+                            btnActualizar2.Visible = false;
+                            btnRegistrar2.Visible = false;
+                            lblPNCRevision2.Visible = false;
+                            txbPNCRevision2.Visible = false;
+                            CargarPendientesN2();
+                            CargarRegistradosN2();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo eliminar el registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al eliminar el registro:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
