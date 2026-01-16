@@ -746,6 +746,7 @@ namespace ElastoSystem
         private void CargarFamiliasAdmin()
         {
             cbFamiliaAdministrar.Items.Clear();
+
             using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
@@ -753,10 +754,12 @@ namespace ElastoSystem
                     conn.Open();
 
                     string query = @"
-                        SELECT Familia
-                        FROM elastosystem_produccion_familia
-                        WHERE Estatus = 'Activa'
-                        ORDER BY Familia ASC";
+                        SELECT f.Familia
+                        FROM elastosystem_produccion_familia f
+                        LEFT JOIN elastosystem_produccion_encabezado e ON f.Familia = e.Familia
+                        WHERE f.Estatus = 'Activa'
+                            AND e.Familia IS NULL
+                        ORDER BY f.Familia ASC";
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
@@ -772,10 +775,6 @@ namespace ElastoSystem
                 catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL CARGAR FAMILIAS: " + ex.Message);
-                }
-                finally
-                {
-                    conn.Close();
                 }
             }
         }
