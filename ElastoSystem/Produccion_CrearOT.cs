@@ -479,6 +479,21 @@ namespace ElastoSystem
 
                         if(filasAfectadas > 0)
                         {
+                            string insertHistorico = @"
+                                INSERT INTO elastosystem_produccion_ot_cambios
+                                (Usuario, Fecha, Cambios, Folio, Turno_Anterior, Turno_Nuevo)
+                                VALUES
+                                (@USUARIO, @FECHA_INICIO, 'Creacion de OT - Turno inicial asignado', @FOLIO, NULL, @TURNO_INICIAL)";
+
+                            using (MySqlCommand cmdHist = new MySqlCommand(insertHistorico, conn))
+                            {
+                                cmdHist.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario ?? "SISTEMA");
+                                cmdHist.Parameters.AddWithValue("@FECHA_INICIO", dtpFechaInicio.Value.Date);
+                                cmdHist.Parameters.AddWithValue("@FOLIO", lblFolioOT.Text.Trim());
+                                cmdHist.Parameters.AddWithValue("@TURNO_INICIAL", cbTurno.Text.Trim());
+                                cmdHist.ExecuteNonQuery();
+                            }
+
                             MessageBox.Show("ORDEN DE TRABAJO CREADA EXITOSAMENTE");
                             this.Close();
                         }

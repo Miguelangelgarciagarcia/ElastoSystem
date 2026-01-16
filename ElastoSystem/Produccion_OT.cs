@@ -915,6 +915,59 @@ namespace ElastoSystem
                 return;
             }
 
+            string nuevoTurno = cbTurno.Text.Trim();
+            string turnoOriginal = "";
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+                    string queryTurnoActual = "SELECT Turno FROM elastosystem_produccion_ot WHERE Folio = @FOLIO LIMIT 1";
+                    using(MySqlCommand cmd = new MySqlCommand(queryTurnoActual, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FOLIO", FolioOT);
+                        turnoOriginal = cmd.ExecuteScalar()?.ToString()?.Trim() ?? "";
+                    }
+
+                    if (string.Equals(turnoOriginal, nuevoTurno, StringComparison.OrdinalIgnoreCase))
+                    {
+
+                    }
+                    else
+                    {
+                        string queryRegistrosHoy = @"
+                            SELECT COUNT(*)
+                            FROM elastosystem_produccion_registro_diario
+                            WHERE Orden_Trabajo = @FOLIOOT
+                                AND DATE(Fecha) = CURDATE()";
+
+                        using (MySqlCommand cmdHoy = new MySqlCommand(queryRegistrosHoy, conn))
+                        {
+                            cmdHoy.Parameters.AddWithValue("@FOLIOOT", FolioOT);
+                            int countHoy = Convert.ToInt32(cmdHoy.ExecuteScalar());
+
+                            if (countHoy > 0)
+                            {
+                                MessageBox.Show(
+                                    "No puedes cambiar el número de turnos hoy porque ya existen registros de producción para esta OT en el día actual.\n\n" +
+                                    "Primero elimina todos los registros de producción de hoy (usando clic derecho en la tabla de registros) y luego intenta cambiar el turno nuevamente.\n\n" +
+                                    "Esto evita inconsistencias en el cálculo de pendientes históricos.",
+                                    "Cambio de turno bloqueado",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Stop);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al verificar registros de hoy:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             bool hayRegistrosFueraDeRango = false;
             string mensajeError = "";
 
@@ -1096,31 +1149,25 @@ namespace ElastoSystem
             string nuevaMaquina = cbMaquinas.Text.Trim();
             string nuevasObservaciones = txbObservaciones.Text.Trim();
 
+            bool turnoCambio = !string.Equals(originalTurno, nuevoTurno, StringComparison.OrdinalIgnoreCase);
+
             var cambios = new List<string>();
-
             if (originalFechaIncio != nuevaFechaInicio)
-                cambios.Add($"Fecha Inicio: original {originalFechaIncio:dd/MM/yyyy} → cambió a {nuevaFechaInicio:dd/MM/yyyy}");
-
+                cambios.Add($"Fecha Inicio: {originalFechaIncio:dd/MM/yyyy} → {nuevaFechaInicio:dd/MM/yyyy}");
             if (originalFechaFinal != nuevaFechaFinal)
-                cambios.Add($"Fecha Término: original {originalFechaFinal:dd/MM/yyyy} → cambió a {nuevaFechaFinal:dd/MM/yyyy}");
-
+                cambios.Add($"Fecha Término: {originalFechaFinal:dd/MM/yyyy} → {nuevaFechaFinal:dd/MM/yyyy}");
             if (originalTurno != nuevoTurno)
-                cambios.Add($"Turno: original '{originalTurno}' → cambió a '{nuevoTurno}'");
-
+                cambios.Add($"Turno: '{originalTurno}' → '{nuevoTurno}'");
             if (originalLote != nuevoLote)
-                cambios.Add($"Lote: original '{originalLote}' → cambió a '{nuevoLote}'");
-
+                cambios.Add($"Lote: '{originalLote}' → '{nuevoLote}'");
             if (originalMolde != nuevoMolde)
-                cambios.Add($"Molde: original '{originalMolde}' → cambió a '{nuevoMolde}'");
-
+                cambios.Add($"Molde: '{originalMolde}' → '{nuevoMolde}'");
             if (originalCantidad != nuevaCantidad)
-                cambios.Add($"Cantidad: original {originalCantidad:N0} → cambió a {nuevaCantidad:N0}");
-
+                cambios.Add($"Cantidad: {originalCantidad:N0} → {nuevaCantidad:N0}");
             if (originalMaquina != nuevaMaquina)
-                cambios.Add($"Máquina: original '{originalMaquina}' → cambió a '{nuevaMaquina}'");
-
+                cambios.Add($"Máquina: '{originalMaquina}' → '{nuevaMaquina}'");
             if (originalObservaciones != nuevasObservaciones)
-                cambios.Add($"Observaciones: cambió (texto modificado)");
+                cambios.Add($"Observaciones: (texto modificado)");
 
             if (cambios.Count == 0)
             {
@@ -1128,7 +1175,7 @@ namespace ElastoSystem
                 return;
             }
 
-            string textoCambios = ""+string.Join("\n", cambios);
+            string textoCambios = string.Join("\n", cambios);
 
             try
             {
@@ -1137,15 +1184,18 @@ namespace ElastoSystem
                     conn.Open();
 
                     string insertCambios = @"
-                        INSERT INTO elastosystem_produccion_ot_cambios (Usuario, Fecha, Cambios, Folio)
-                        VALUES (@USUARIO, @FECHA, @CAMBIOS, @FOLIO)";
+                        INSERT INTO elastosystem_produccion_ot_cambios 
+                        (Usuario, Fecha, Cambios, Folio, Turno_Anterior, Turno_Nuevo)
+                        VALUES (@USUARIO, NOW(), @CAMBIOS, @FOLIO, @TURNO_ANT, @TURNO_NUEVO)";
 
                     using (MySqlCommand cmdInsert = new MySqlCommand(insertCambios, conn))
                     {
                         cmdInsert.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario ?? "DESCONOCIDO");
-                        cmdInsert.Parameters.AddWithValue("@FECHA", DateTime.Now);
                         cmdInsert.Parameters.AddWithValue("@CAMBIOS", textoCambios);
                         cmdInsert.Parameters.AddWithValue("@FOLIO", FolioOT);
+                        cmdInsert.Parameters.AddWithValue("@TURNO_ANT", turnoCambio ? originalTurno : DBNull.Value);
+                        cmdInsert.Parameters.AddWithValue("@TURNO_NUEVO", turnoCambio ? nuevoTurno : DBNull.Value);
+
                         cmdInsert.ExecuteNonQuery();
                     }
 
@@ -1175,7 +1225,6 @@ namespace ElastoSystem
                         cmdUpdate.Parameters.AddWithValue("@FOLIO", FolioOT);
 
                         int filas = cmdUpdate.ExecuteNonQuery();
-
                         if (filas > 0)
                         {
                             MessageBox.Show("Orden de trabajo actualizada correctamente.\n\nLos cambios han sido registrados.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);

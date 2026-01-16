@@ -69,7 +69,8 @@ namespace ElastoSystem
                                 ot.Maquina,
                                 ot.Molde
                             FROM elastosystem_produccion_ot ot
-                            INNER JOIN elastosystem_produccion_orden_produccion op ON ot.SF = op.SolicitudFabricacion
+                            INNER JOIN elastosystem_produccion_orden_produccion op 
+                                ON ot.SF = op.SolicitudFabricacion
                             WHERE ot.Estatus = 'ABIERTA' 
                                 AND ot.Nave = 'NAVE 1'
                                 AND @FECHA >= ot.FechaInicio;";
@@ -98,46 +99,58 @@ namespace ElastoSystem
                     foreach (DataRow row in dtOriginal.Rows)
                     {
                         string folio = row["Folio"].ToString();
-                        string turnoOT = (row["Turno"]?.ToString() ?? "").Trim().ToUpper();
+                        string turnoActual = row["Turno"].ToString().Trim().ToUpper();
 
-                        var turnosRegistrados = dtRegistrados.AsEnumerable()
+                        string turnoVigente = turnoActual;
+
+                        string queryHistorico = @"
+                            SELECT Turno_Nuevo
+                            FROM elastosystem_produccion_ot_cambios
+                            WHERE Folio = @FOLIO
+                                AND Fecha <= @FECHA
+                                AND Turno_Nuevo IS NOT NULL
+                            ORDER BY Fecha DESC, ID DESC
+                            LIMIT 1;";
+
+                        using (MySqlCommand cmdHist = new MySqlCommand(queryHistorico, conn))
+                        {
+                            cmdHist.Parameters.AddWithValue("@FOLIO", folio);
+                            cmdHist.Parameters.AddWithValue("@FECHA", fechaMostrada.Date.AddDays(1).AddSeconds(-1));
+                            object result = cmdHist.ExecuteScalar();
+                            if (result != null && result != DBNull.Value)
+                            {
+                                turnoVigente = result.ToString().Trim().ToUpper();
+                            }
+                        }
+
+                        var turnosRegistradosHoy = dtRegistrados.AsEnumerable()
                             .Where(r => r["Orden_Trabajo"].ToString() == folio)
                             .Select(r => r["Turno"].ToString().Trim().ToUpper())
                             .ToList();
 
-                        if (turnoOT == "1 TURNO")
+                        string[] turnosEsperados;
+                        if (turnoVigente == "1 TURNO")
                         {
-                            if (!turnosRegistrados.Contains("MIXTO"))
-                            {
-                                var nuevo = dtFinal.NewRow();
-                                nuevo.ItemArray = row.ItemArray.Clone() as object[];
-                                nuevo["Turno"] = "MIXTO";
-                                dtFinal.Rows.Add(nuevo);
-                            }
+                            turnosEsperados = new[] { "MIXTO" };
                         }
-                        else if (turnoOT == "2 TURNOS")
+                        else if (turnoVigente == "2 TURNOS")
                         {
-                            string[] posibles = { "MATUTINO", "VESPERTINO" };
-                            foreach (string t in posibles)
-                                if (!turnosRegistrados.Contains(t))
-                                {
-                                    var nuevo = dtFinal.NewRow();
-                                    nuevo.ItemArray = row.ItemArray.Clone() as object[];
-                                    nuevo["Turno"] = t;
-                                    dtFinal.Rows.Add(nuevo);
-                                }
+                            turnosEsperados = new[] { "MATUTINO", "VESPERTINO" };
                         }
                         else
                         {
-                            string[] posibles = { "MATUTINO", "VESPERTINO", "NOCTURNO" };
-                            foreach (string t in posibles)
-                                if (!turnosRegistrados.Contains(t))
-                                {
-                                    var nuevo = dtFinal.NewRow();
-                                    nuevo.ItemArray = row.ItemArray.Clone() as object[];
-                                    nuevo["Turno"] = t;
-                                    dtFinal.Rows.Add(nuevo);
-                                }
+                            turnosEsperados = new[] { "MATUTINO", "VESPERTINO", "NOCTURNO" }; 
+                        }
+
+                        foreach (string turnoEsperado in turnosEsperados)
+                        {
+                            if (!turnosRegistradosHoy.Contains(turnoEsperado))
+                            {
+                                var nuevo = dtFinal.NewRow();
+                                nuevo.ItemArray = row.ItemArray.Clone() as object[];
+                                nuevo["Turno"] = turnoEsperado;
+                                dtFinal.Rows.Add(nuevo);
+                            }
                         }
                     }
 
