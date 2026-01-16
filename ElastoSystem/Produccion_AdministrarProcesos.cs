@@ -1217,6 +1217,59 @@ namespace ElastoSystem
                 pbDescripcion.Visible = false;
 
                 CargarAyudasVisuales();
+                DefinirNoOperacion();
+            }
+        }
+
+        private void DefinirNoOperacion()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT NoOperacion
+                        FROM elastosystem_produccion_hoja_ruta
+                        WHERE Familia = @FAMILIA
+                            AND Estatus = 'ACTIVA'
+                        ORDER BY CAST(NoOperacion AS SIGNED) DESC
+                        LIMIT 1";
+
+                    using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
+
+                        object resultado = cmd.ExecuteScalar();
+                        int siguienteNumero;
+
+                        if (resultado != null && resultado != DBNull.Value)
+                        {
+                            int ultimo = Convert.ToInt32(resultado);
+
+                            siguienteNumero = (int)Math.Ceiling(ultimo / 10.0) * 10;
+
+                            if (ultimo % 10 == 0)
+                            {
+                                siguienteNumero += 10;
+                            }
+                        }
+                        else
+                        {
+                            siguienteNumero = 10;
+                        }
+
+                        txbNoOperacion.Text = siguienteNumero.ToString();
+                        txbNoOperacion.Focus();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al determinar el siguiente No. de Operación:\n" + ex.Message, "Error en Definir No. Operacion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txbNoOperacion.Text = "10";
+                txbNoOperacion.Focus();
             }
         }
 
@@ -1301,7 +1354,7 @@ namespace ElastoSystem
             }
             lblCamposObligatorios.Visible = false; pbCampos.Visible = false; pbNoOperacion.Visible = false; pbArea.Visible = false; pbNave.Visible = false; pbDescripcion.Visible = false;
             AgregarProceso();
-
+            DefinirNoOperacion();
         }
 
         private void txbNoOperacion_KeyPress(object sender, KeyPressEventArgs e)
@@ -1780,11 +1833,13 @@ namespace ElastoSystem
             cbAV.SelectedIndex = -1;
 
             MandarALlamarHojaRuta();
+            DefinirNoOperacion();
         }
 
         private void btnEliminarProceso_Click(object sender, EventArgs e)
         {
             OcultarProceso();
+            DefinirNoOperacion();
         }
 
         private void OcultarProceso()
@@ -1832,6 +1887,7 @@ namespace ElastoSystem
             }
             lblCamposObligatorios.Visible = false; pbCampos.Visible = false; pbNoOperacion.Visible = false; pbArea.Visible = false; pbNave.Visible = false; pbDescripcion.Visible = false;
             ActualizarProceso();
+            DefinirNoOperacion();
         }
 
         string oldNoOperacion = "", familia = "";

@@ -30,30 +30,30 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Produccion_AdministrarProcesos));
-            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle37 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle38 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle39 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle40 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle41 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle42 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle43 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle44 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle45 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle46 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle47 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle48 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle23 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle24 = new DataGridViewCellStyle();
             tabControl1 = new TabControl();
             tabHojaRuta = new TabPage();
             btnVerAV = new Button();
@@ -317,7 +317,7 @@
             cbAV.FormattingEnabled = true;
             cbAV.Location = new Point(623, 259);
             cbAV.Name = "cbAV";
-            cbAV.Size = new Size(262, 29);
+            cbAV.Size = new Size(262, 32);
             cbAV.TabIndex = 80;
             cbAV.SelectedIndexChanged += cbAV_SelectedIndexChanged;
             // 
@@ -329,7 +329,7 @@
             label35.ForeColor = Color.White;
             label35.Location = new Point(508, 264);
             label35.Name = "label35";
-            label35.Size = new Size(109, 21);
+            label35.Size = new Size(109, 24);
             label35.TabIndex = 79;
             label35.Text = "Ayuda Visual:";
             // 
@@ -340,7 +340,7 @@
             cbHule.FormattingEnabled = true;
             cbHule.Location = new Point(212, 258);
             cbHule.Name = "cbHule";
-            cbHule.Size = new Size(262, 29);
+            cbHule.Size = new Size(262, 32);
             cbHule.TabIndex = 78;
             // 
             // label19
@@ -351,7 +351,7 @@
             label19.ForeColor = Color.White;
             label19.Location = new Point(68, 262);
             label19.Name = "label19";
-            label19.Size = new Size(48, 21);
+            label19.Size = new Size(48, 24);
             label19.TabIndex = 77;
             label19.Text = "Hule:";
             // 
@@ -441,7 +441,7 @@
             lblCamposObligatorios.ForeColor = Color.White;
             lblCamposObligatorios.Location = new Point(634, 19);
             lblCamposObligatorios.Name = "lblCamposObligatorios";
-            lblCamposObligatorios.Size = new Size(186, 22);
+            lblCamposObligatorios.Size = new Size(188, 25);
             lblCamposObligatorios.TabIndex = 57;
             lblCamposObligatorios.Text = "Campos Obilgatorios";
             lblCamposObligatorios.Visible = false;
@@ -462,7 +462,7 @@
             label16.ForeColor = Color.White;
             label16.Location = new Point(68, 230);
             label16.Name = "label16";
-            label16.Size = new Size(77, 21);
+            label16.Size = new Size(77, 24);
             label16.TabIndex = 69;
             label16.Text = "Insumos:";
             // 
@@ -534,7 +534,7 @@
             label12.ForeColor = Color.White;
             label12.Location = new Point(481, 199);
             label12.Name = "label12";
-            label12.Size = new Size(198, 21);
+            label12.Size = new Size(198, 24);
             label12.TabIndex = 63;
             label12.Text = "Tiempo Operacion (min.):";
             // 
@@ -555,7 +555,7 @@
             label11.ForeColor = Color.White;
             label11.Location = new Point(68, 200);
             label11.Name = "label11";
-            label11.Size = new Size(211, 21);
+            label11.Size = new Size(211, 24);
             label11.TabIndex = 61;
             label11.Text = "Tiempo Preparacion (min.):";
             // 
@@ -584,7 +584,7 @@
             label10.ForeColor = Color.White;
             label10.Location = new Point(68, 168);
             label10.Name = "label10";
-            label10.Size = new Size(103, 21);
+            label10.Size = new Size(103, 24);
             label10.TabIndex = 58;
             label10.Text = "Preparacion:";
             // 
@@ -604,7 +604,7 @@
             label9.ForeColor = Color.White;
             label9.Location = new Point(68, 137);
             label9.Name = "label9";
-            label9.Size = new Size(138, 21);
+            label9.Size = new Size(138, 24);
             label9.TabIndex = 56;
             label9.Text = "Tipo de Maquina:";
             // 
@@ -616,7 +616,7 @@
             label8.ForeColor = Color.White;
             label8.Location = new Point(706, 68);
             label8.Name = "label8";
-            label8.Size = new Size(51, 21);
+            label8.Size = new Size(51, 24);
             label8.TabIndex = 54;
             label8.Text = "Nave:";
             // 
@@ -627,7 +627,7 @@
             cbArea.FormattingEnabled = true;
             cbArea.Location = new Point(433, 62);
             cbArea.Name = "cbArea";
-            cbArea.Size = new Size(245, 29);
+            cbArea.Size = new Size(245, 32);
             cbArea.TabIndex = 53;
             cbArea.SelectedIndexChanged += cbArea_SelectedIndexChanged;
             // 
@@ -639,7 +639,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(379, 65);
             label6.Name = "label6";
-            label6.Size = new Size(48, 21);
+            label6.Size = new Size(48, 24);
             label6.TabIndex = 52;
             label6.Text = "Area:";
             // 
@@ -651,7 +651,7 @@
             label5.ForeColor = Color.White;
             label5.Location = new Point(68, 65);
             label5.Name = "label5";
-            label5.Size = new Size(118, 21);
+            label5.Size = new Size(118, 24);
             label5.TabIndex = 50;
             label5.Text = "No. Operacion:";
             // 
@@ -662,7 +662,7 @@
             chbCritico.ForeColor = Color.White;
             chbCritico.Location = new Point(778, 228);
             chbCritico.Name = "chbCritico";
-            chbCritico.Size = new Size(77, 25);
+            chbCritico.Size = new Size(77, 28);
             chbCritico.TabIndex = 49;
             chbCritico.Text = "Critico";
             chbCritico.UseVisualStyleBackColor = true;
@@ -691,7 +691,7 @@
             cbFamilia.FormattingEnabled = true;
             cbFamilia.Location = new Point(192, 17);
             cbFamilia.Name = "cbFamilia";
-            cbFamilia.Size = new Size(206, 29);
+            cbFamilia.Size = new Size(206, 32);
             cbFamilia.TabIndex = 47;
             cbFamilia.SelectedIndexChanged += cbFamilia_SelectedIndexChanged;
             // 
@@ -711,7 +711,7 @@
             label7.ForeColor = Color.White;
             label7.Location = new Point(68, 106);
             label7.Name = "label7";
-            label7.Size = new Size(100, 21);
+            label7.Size = new Size(100, 24);
             label7.TabIndex = 45;
             label7.Text = "Descripcion:";
             // 
@@ -723,7 +723,7 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(68, 20);
             label4.Name = "label4";
-            label4.Size = new Size(68, 21);
+            label4.Size = new Size(68, 24);
             label4.TabIndex = 44;
             label4.Text = "Familia:";
             // 
@@ -749,43 +749,43 @@
             dgvHojaRuta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvHojaRuta.BackgroundColor = Color.FromArgb(205, 215, 224);
             dgvHojaRuta.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle27.BackColor = Color.White;
-            dataGridViewCellStyle27.Font = new Font("Montserrat", 11F, FontStyle.Bold);
-            dataGridViewCellStyle27.ForeColor = Color.Black;
-            dataGridViewCellStyle27.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle27.SelectionForeColor = Color.White;
-            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.True;
-            dgvHojaRuta.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat", 11F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvHojaRuta.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvHojaRuta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle28.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle28.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle28.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle28.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle28.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle28.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle28.WrapMode = DataGridViewTriState.False;
-            dgvHojaRuta.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvHojaRuta.DefaultCellStyle = dataGridViewCellStyle2;
             dgvHojaRuta.GridColor = SystemColors.ActiveCaptionText;
             dgvHojaRuta.Location = new Point(20, 298);
             dgvHojaRuta.Name = "dgvHojaRuta";
             dgvHojaRuta.ReadOnly = true;
-            dataGridViewCellStyle29.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle29.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle29.Font = new Font("Montserrat", 8.999999F);
-            dataGridViewCellStyle29.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle29.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle29.SelectionForeColor = Color.White;
-            dataGridViewCellStyle29.WrapMode = DataGridViewTriState.True;
-            dgvHojaRuta.RowHeadersDefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(205, 215, 224);
+            dataGridViewCellStyle3.Font = new Font("Montserrat", 8.999999F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvHojaRuta.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvHojaRuta.RowHeadersVisible = false;
-            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle30.BackColor = Color.White;
-            dataGridViewCellStyle30.Font = new Font("Montserrat", 11.25F);
-            dataGridViewCellStyle30.ForeColor = Color.Black;
-            dataGridViewCellStyle30.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle30.SelectionForeColor = Color.White;
-            dgvHojaRuta.RowsDefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 11.25F);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvHojaRuta.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvHojaRuta.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvHojaRuta.Size = new Size(1265, 365);
             dgvHojaRuta.TabIndex = 42;
@@ -945,7 +945,7 @@
             lblCamposAdmin.ForeColor = Color.White;
             lblCamposAdmin.Location = new Point(473, 42);
             lblCamposAdmin.Name = "lblCamposAdmin";
-            lblCamposAdmin.Size = new Size(186, 22);
+            lblCamposAdmin.Size = new Size(188, 25);
             lblCamposAdmin.TabIndex = 87;
             lblCamposAdmin.Text = "Campos Obilgatorios";
             lblCamposAdmin.Visible = false;
@@ -966,7 +966,7 @@
             label26.ForeColor = Color.White;
             label26.Location = new Point(41, 244);
             label26.Name = "label26";
-            label26.Size = new Size(165, 21);
+            label26.Size = new Size(165, 24);
             label26.TabIndex = 85;
             label26.Text = "Dibujo de Ingenieria:";
             // 
@@ -1013,7 +1013,7 @@
             label25.ForeColor = Color.White;
             label25.Location = new Point(39, 213);
             label25.Name = "label25";
-            label25.Size = new Size(167, 21);
+            label25.Size = new Size(167, 24);
             label25.TabIndex = 81;
             label25.Text = "No. de Subensamble:";
             // 
@@ -1033,7 +1033,7 @@
             label24.ForeColor = Color.White;
             label24.Location = new Point(39, 182);
             label24.Name = "label24";
-            label24.Size = new Size(141, 21);
+            label24.Size = new Size(141, 24);
             label24.TabIndex = 79;
             label24.Text = "Tamaño / Calibre:";
             // 
@@ -1053,7 +1053,7 @@
             label23.ForeColor = Color.White;
             label23.Location = new Point(39, 151);
             label23.Name = "label23";
-            label23.Size = new Size(74, 21);
+            label23.Size = new Size(74, 24);
             label23.TabIndex = 77;
             label23.Text = "Material:";
             // 
@@ -1065,7 +1065,7 @@
             cbLinea.Items.AddRange(new object[] { "BAJA TENSION", "MEDIA TENSION 15KV", "MEDIA TENSION 25KV", "MEDIA TENSION 35KV" });
             cbLinea.Location = new Point(120, 76);
             cbLinea.Name = "cbLinea";
-            cbLinea.Size = new Size(221, 29);
+            cbLinea.Size = new Size(221, 32);
             cbLinea.TabIndex = 76;
             // 
             // label21
@@ -1076,7 +1076,7 @@
             label21.ForeColor = Color.White;
             label21.Location = new Point(41, 80);
             label21.Name = "label21";
-            label21.Size = new Size(54, 21);
+            label21.Size = new Size(54, 24);
             label21.TabIndex = 75;
             label21.Text = "Linea:";
             // 
@@ -1096,7 +1096,7 @@
             label22.ForeColor = Color.White;
             label22.Location = new Point(39, 120);
             label22.Name = "label22";
-            label22.Size = new Size(75, 21);
+            label22.Size = new Size(75, 24);
             label22.TabIndex = 73;
             label22.Text = "Nombre:";
             // 
@@ -1174,43 +1174,43 @@
             dgvEncabezados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvEncabezados.BackgroundColor = Color.FromArgb(205, 215, 224);
             dgvEncabezados.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle31.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle31.BackColor = Color.White;
-            dataGridViewCellStyle31.Font = new Font("Montserrat", 11F, FontStyle.Bold);
-            dataGridViewCellStyle31.ForeColor = Color.Black;
-            dataGridViewCellStyle31.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle31.SelectionForeColor = Color.White;
-            dataGridViewCellStyle31.WrapMode = DataGridViewTriState.True;
-            dgvEncabezados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.White;
+            dataGridViewCellStyle5.Font = new Font("Montserrat", 11F, FontStyle.Bold);
+            dataGridViewCellStyle5.ForeColor = Color.Black;
+            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvEncabezados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvEncabezados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle32.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle32.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle32.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle32.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle32.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle32.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle32.WrapMode = DataGridViewTriState.False;
-            dgvEncabezados.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvEncabezados.DefaultCellStyle = dataGridViewCellStyle6;
             dgvEncabezados.GridColor = SystemColors.ActiveCaptionText;
             dgvEncabezados.Location = new Point(25, 285);
             dgvEncabezados.Name = "dgvEncabezados";
             dgvEncabezados.ReadOnly = true;
-            dataGridViewCellStyle33.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle33.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle33.Font = new Font("Montserrat", 8.999999F);
-            dataGridViewCellStyle33.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle33.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle33.SelectionForeColor = Color.White;
-            dataGridViewCellStyle33.WrapMode = DataGridViewTriState.True;
-            dgvEncabezados.RowHeadersDefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = Color.FromArgb(205, 215, 224);
+            dataGridViewCellStyle7.Font = new Font("Montserrat", 8.999999F);
+            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle7.SelectionForeColor = Color.White;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dgvEncabezados.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             dgvEncabezados.RowHeadersVisible = false;
-            dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle34.BackColor = Color.White;
-            dataGridViewCellStyle34.Font = new Font("Montserrat", 11.25F);
-            dataGridViewCellStyle34.ForeColor = Color.Black;
-            dataGridViewCellStyle34.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle34.SelectionForeColor = Color.White;
-            dgvEncabezados.RowsDefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = Color.White;
+            dataGridViewCellStyle8.Font = new Font("Montserrat", 11.25F);
+            dataGridViewCellStyle8.ForeColor = Color.Black;
+            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle8.SelectionForeColor = Color.White;
+            dgvEncabezados.RowsDefaultCellStyle = dataGridViewCellStyle8;
             dgvEncabezados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvEncabezados.Size = new Size(1265, 409);
             dgvEncabezados.TabIndex = 50;
@@ -1223,7 +1223,7 @@
             cbFamiliaAdministrar.FormattingEnabled = true;
             cbFamiliaAdministrar.Location = new Point(120, 40);
             cbFamiliaAdministrar.Name = "cbFamiliaAdministrar";
-            cbFamiliaAdministrar.Size = new Size(200, 29);
+            cbFamiliaAdministrar.Size = new Size(200, 32);
             cbFamiliaAdministrar.TabIndex = 49;
             cbFamiliaAdministrar.SelectedIndexChanged += cbFamiliaAdministrar_SelectedIndexChanged;
             // 
@@ -1235,7 +1235,7 @@
             label20.ForeColor = Color.White;
             label20.Location = new Point(40, 43);
             label20.Name = "label20";
-            label20.Size = new Size(68, 21);
+            label20.Size = new Size(68, 24);
             label20.TabIndex = 48;
             label20.Text = "Familia:";
             // 
@@ -1279,7 +1279,7 @@
             label31.ForeColor = Color.White;
             label31.Location = new Point(26, 17);
             label31.Name = "label31";
-            label31.Size = new Size(83, 21);
+            label31.Size = new Size(83, 24);
             label31.TabIndex = 77;
             label31.Text = "Buscador:";
             // 
@@ -1289,43 +1289,43 @@
             dgvHojasRuta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvHojasRuta.BackgroundColor = Color.FromArgb(205, 215, 224);
             dgvHojasRuta.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle35.BackColor = Color.White;
-            dataGridViewCellStyle35.Font = new Font("Montserrat", 11F, FontStyle.Bold);
-            dataGridViewCellStyle35.ForeColor = Color.Black;
-            dataGridViewCellStyle35.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle35.SelectionForeColor = Color.White;
-            dataGridViewCellStyle35.WrapMode = DataGridViewTriState.True;
-            dgvHojasRuta.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = Color.White;
+            dataGridViewCellStyle9.Font = new Font("Montserrat", 11F, FontStyle.Bold);
+            dataGridViewCellStyle9.ForeColor = Color.Black;
+            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle9.SelectionForeColor = Color.White;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            dgvHojasRuta.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dgvHojasRuta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle36.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle36.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle36.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle36.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle36.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle36.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle36.WrapMode = DataGridViewTriState.False;
-            dgvHojasRuta.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle10.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle10.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.False;
+            dgvHojasRuta.DefaultCellStyle = dataGridViewCellStyle10;
             dgvHojasRuta.GridColor = SystemColors.ActiveCaptionText;
             dgvHojasRuta.Location = new Point(15, 72);
             dgvHojasRuta.Name = "dgvHojasRuta";
             dgvHojasRuta.ReadOnly = true;
-            dataGridViewCellStyle37.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle37.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle37.Font = new Font("Montserrat", 8.999999F);
-            dataGridViewCellStyle37.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle37.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle37.SelectionForeColor = Color.White;
-            dataGridViewCellStyle37.WrapMode = DataGridViewTriState.True;
-            dgvHojasRuta.RowHeadersDefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = Color.FromArgb(205, 215, 224);
+            dataGridViewCellStyle11.Font = new Font("Montserrat", 8.999999F);
+            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle11.SelectionForeColor = Color.White;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            dgvHojasRuta.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
             dgvHojasRuta.RowHeadersVisible = false;
-            dataGridViewCellStyle38.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle38.BackColor = Color.White;
-            dataGridViewCellStyle38.Font = new Font("Montserrat", 11.25F);
-            dataGridViewCellStyle38.ForeColor = Color.Black;
-            dataGridViewCellStyle38.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle38.SelectionForeColor = Color.White;
-            dgvHojasRuta.RowsDefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = Color.White;
+            dataGridViewCellStyle12.Font = new Font("Montserrat", 11.25F);
+            dataGridViewCellStyle12.ForeColor = Color.Black;
+            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle12.SelectionForeColor = Color.White;
+            dgvHojasRuta.RowsDefaultCellStyle = dataGridViewCellStyle12;
             dgvHojasRuta.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvHojasRuta.Size = new Size(1243, 431);
             dgvHojasRuta.TabIndex = 69;
@@ -1367,7 +1367,7 @@
             label30.ForeColor = Color.White;
             label30.Location = new Point(26, 21);
             label30.Name = "label30";
-            label30.Size = new Size(136, 30);
+            label30.Size = new Size(138, 34);
             label30.TabIndex = 77;
             label30.Text = "Relacionar";
             // 
@@ -1377,43 +1377,43 @@
             dgvProductosFamilias.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProductosFamilias.BackgroundColor = Color.FromArgb(205, 215, 224);
             dgvProductosFamilias.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle39.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle39.BackColor = Color.White;
-            dataGridViewCellStyle39.Font = new Font("Montserrat", 11F, FontStyle.Bold);
-            dataGridViewCellStyle39.ForeColor = Color.Black;
-            dataGridViewCellStyle39.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle39.SelectionForeColor = Color.White;
-            dataGridViewCellStyle39.WrapMode = DataGridViewTriState.True;
-            dgvProductosFamilias.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.BackColor = Color.White;
+            dataGridViewCellStyle13.Font = new Font("Montserrat", 11F, FontStyle.Bold);
+            dataGridViewCellStyle13.ForeColor = Color.Black;
+            dataGridViewCellStyle13.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle13.SelectionForeColor = Color.White;
+            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
+            dgvProductosFamilias.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             dgvProductosFamilias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle40.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle40.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle40.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle40.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle40.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle40.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle40.WrapMode = DataGridViewTriState.False;
-            dgvProductosFamilias.DefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle14.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle14.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle14.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.False;
+            dgvProductosFamilias.DefaultCellStyle = dataGridViewCellStyle14;
             dgvProductosFamilias.GridColor = SystemColors.ActiveCaptionText;
             dgvProductosFamilias.Location = new Point(654, 43);
             dgvProductosFamilias.Name = "dgvProductosFamilias";
             dgvProductosFamilias.ReadOnly = true;
-            dataGridViewCellStyle41.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle41.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle41.Font = new Font("Montserrat", 8.999999F);
-            dataGridViewCellStyle41.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle41.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle41.SelectionForeColor = Color.White;
-            dataGridViewCellStyle41.WrapMode = DataGridViewTriState.True;
-            dgvProductosFamilias.RowHeadersDefaultCellStyle = dataGridViewCellStyle41;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.BackColor = Color.FromArgb(205, 215, 224);
+            dataGridViewCellStyle15.Font = new Font("Montserrat", 8.999999F);
+            dataGridViewCellStyle15.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle15.SelectionForeColor = Color.White;
+            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
+            dgvProductosFamilias.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
             dgvProductosFamilias.RowHeadersVisible = false;
-            dataGridViewCellStyle42.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle42.BackColor = Color.White;
-            dataGridViewCellStyle42.Font = new Font("Montserrat", 11.25F);
-            dataGridViewCellStyle42.ForeColor = Color.Black;
-            dataGridViewCellStyle42.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle42.SelectionForeColor = Color.White;
-            dgvProductosFamilias.RowsDefaultCellStyle = dataGridViewCellStyle42;
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.BackColor = Color.White;
+            dataGridViewCellStyle16.Font = new Font("Montserrat", 11.25F);
+            dataGridViewCellStyle16.ForeColor = Color.Black;
+            dataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle16.SelectionForeColor = Color.White;
+            dgvProductosFamilias.RowsDefaultCellStyle = dataGridViewCellStyle16;
             dgvProductosFamilias.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProductosFamilias.Size = new Size(604, 118);
             dgvProductosFamilias.TabIndex = 69;
@@ -1436,7 +1436,7 @@
             label29.ForeColor = Color.White;
             label29.Location = new Point(654, 15);
             label29.Name = "label29";
-            label29.Size = new Size(83, 21);
+            label29.Size = new Size(83, 24);
             label29.TabIndex = 75;
             label29.Text = "Buscador:";
             // 
@@ -1448,7 +1448,7 @@
             cbFamiliaRelacion.IntegralHeight = false;
             cbFamiliaRelacion.Location = new Point(105, 118);
             cbFamiliaRelacion.Name = "cbFamiliaRelacion";
-            cbFamiliaRelacion.Size = new Size(300, 29);
+            cbFamiliaRelacion.Size = new Size(300, 32);
             cbFamiliaRelacion.TabIndex = 73;
             // 
             // label28
@@ -1459,7 +1459,7 @@
             label28.ForeColor = Color.White;
             label28.Location = new Point(15, 121);
             label28.Name = "label28";
-            label28.Size = new Size(68, 21);
+            label28.Size = new Size(68, 24);
             label28.TabIndex = 70;
             label28.Text = "Familia:";
             // 
@@ -1487,7 +1487,7 @@
             label27.ForeColor = Color.White;
             label27.Location = new Point(15, 73);
             label27.Name = "label27";
-            label27.Size = new Size(82, 21);
+            label27.Size = new Size(82, 24);
             label27.TabIndex = 71;
             label27.Text = "Producto:";
             // 
@@ -1582,7 +1582,7 @@
             cbFamiliaAyV.Location = new Point(132, 62);
             cbFamiliaAyV.MaxDropDownItems = 6;
             cbFamiliaAyV.Name = "cbFamiliaAyV";
-            cbFamiliaAyV.Size = new Size(262, 29);
+            cbFamiliaAyV.Size = new Size(262, 32);
             cbFamiliaAyV.TabIndex = 8;
             cbFamiliaAyV.SelectedIndexChanged += cbFamiliaAyV_SelectedIndexChanged;
             // 
@@ -1610,7 +1610,7 @@
             label34.ForeColor = Color.White;
             label34.Location = new Point(46, 105);
             label34.Name = "label34";
-            label34.Size = new Size(69, 21);
+            label34.Size = new Size(69, 24);
             label34.TabIndex = 57;
             label34.Text = "Archivo:";
             // 
@@ -1622,7 +1622,7 @@
             label32.ForeColor = Color.White;
             label32.Location = new Point(46, 65);
             label32.Name = "label32";
-            label32.Size = new Size(68, 21);
+            label32.Size = new Size(68, 24);
             label32.TabIndex = 50;
             label32.Text = "Familia:";
             // 
@@ -1631,26 +1631,26 @@
             dgvAV.AllowUserToAddRows = false;
             dgvAV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvAV.BackgroundColor = Color.White;
-            dataGridViewCellStyle43.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle43.BackColor = Color.White;
-            dataGridViewCellStyle43.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            dataGridViewCellStyle43.ForeColor = Color.Black;
-            dataGridViewCellStyle43.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle43.SelectionForeColor = Color.White;
-            dataGridViewCellStyle43.WrapMode = DataGridViewTriState.True;
-            dgvAV.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle43;
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle17.BackColor = Color.White;
+            dataGridViewCellStyle17.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            dataGridViewCellStyle17.ForeColor = Color.Black;
+            dataGridViewCellStyle17.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle17.SelectionForeColor = Color.White;
+            dataGridViewCellStyle17.WrapMode = DataGridViewTriState.True;
+            dgvAV.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
             dgvAV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvAV.Location = new Point(21, 187);
             dgvAV.Name = "dgvAV";
             dgvAV.ReadOnly = true;
             dgvAV.RowHeadersVisible = false;
-            dataGridViewCellStyle44.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle44.BackColor = Color.White;
-            dataGridViewCellStyle44.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle44.ForeColor = Color.Black;
-            dataGridViewCellStyle44.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle44.SelectionForeColor = Color.White;
-            dgvAV.RowsDefaultCellStyle = dataGridViewCellStyle44;
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = Color.White;
+            dataGridViewCellStyle18.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle18.ForeColor = Color.Black;
+            dataGridViewCellStyle18.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle18.SelectionForeColor = Color.White;
+            dgvAV.RowsDefaultCellStyle = dataGridViewCellStyle18;
             dgvAV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvAV.Size = new Size(538, 150);
             dgvAV.TabIndex = 20;
@@ -1723,7 +1723,7 @@
             label33.ForeColor = Color.White;
             label33.Location = new Point(22, 25);
             label33.Name = "label33";
-            label33.Size = new Size(183, 27);
+            label33.Size = new Size(185, 31);
             label33.TabIndex = 21;
             label33.Text = "Ayudas Visuales";
             // 
@@ -1855,7 +1855,7 @@
             label17.ForeColor = Color.White;
             label17.Location = new Point(57, 86);
             label17.Name = "label17";
-            label17.Size = new Size(48, 21);
+            label17.Size = new Size(48, 24);
             label17.TabIndex = 49;
             label17.Text = "Hule:";
             // 
@@ -1864,26 +1864,26 @@
             dgvHules.AllowUserToAddRows = false;
             dgvHules.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvHules.BackgroundColor = Color.White;
-            dataGridViewCellStyle45.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle45.BackColor = Color.White;
-            dataGridViewCellStyle45.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            dataGridViewCellStyle45.ForeColor = Color.Black;
-            dataGridViewCellStyle45.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle45.SelectionForeColor = Color.White;
-            dataGridViewCellStyle45.WrapMode = DataGridViewTriState.True;
-            dgvHules.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle45;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.BackColor = Color.White;
+            dataGridViewCellStyle19.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            dataGridViewCellStyle19.ForeColor = Color.Black;
+            dataGridViewCellStyle19.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle19.SelectionForeColor = Color.White;
+            dataGridViewCellStyle19.WrapMode = DataGridViewTriState.True;
+            dgvHules.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
             dgvHules.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvHules.Location = new Point(22, 187);
             dgvHules.Name = "dgvHules";
             dgvHules.ReadOnly = true;
             dgvHules.RowHeadersVisible = false;
-            dataGridViewCellStyle46.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle46.BackColor = Color.White;
-            dataGridViewCellStyle46.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle46.ForeColor = Color.Black;
-            dataGridViewCellStyle46.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle46.SelectionForeColor = Color.White;
-            dgvHules.RowsDefaultCellStyle = dataGridViewCellStyle46;
+            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.BackColor = Color.White;
+            dataGridViewCellStyle20.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle20.ForeColor = Color.Black;
+            dataGridViewCellStyle20.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle20.SelectionForeColor = Color.White;
+            dgvHules.RowsDefaultCellStyle = dataGridViewCellStyle20;
             dgvHules.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvHules.Size = new Size(361, 139);
             dgvHules.TabIndex = 21;
@@ -1897,7 +1897,7 @@
             label18.ForeColor = Color.White;
             label18.Location = new Point(33, 25);
             label18.Name = "label18";
-            label18.Size = new Size(72, 27);
+            label18.Size = new Size(74, 31);
             label18.TabIndex = 22;
             label18.Text = "Hules";
             // 
@@ -1928,7 +1928,7 @@
             cbNaveAreas.Items.AddRange(new object[] { "NAVE 1", "NAVE 2" });
             cbNaveAreas.Location = new Point(122, 98);
             cbNaveAreas.Name = "cbNaveAreas";
-            cbNaveAreas.Size = new Size(205, 29);
+            cbNaveAreas.Size = new Size(205, 32);
             cbNaveAreas.TabIndex = 56;
             // 
             // txbAreas
@@ -1949,7 +1949,7 @@
             label14.ForeColor = Color.White;
             label14.Location = new Point(52, 101);
             label14.Name = "label14";
-            label14.Size = new Size(51, 21);
+            label14.Size = new Size(51, 24);
             label14.TabIndex = 50;
             label14.Text = "Nave:";
             // 
@@ -2020,7 +2020,7 @@
             label13.ForeColor = Color.White;
             label13.Location = new Point(52, 67);
             label13.Name = "label13";
-            label13.Size = new Size(48, 21);
+            label13.Size = new Size(48, 24);
             label13.TabIndex = 49;
             label13.Text = "Area:";
             // 
@@ -2046,26 +2046,26 @@
             dgvAreas.AllowUserToAddRows = false;
             dgvAreas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvAreas.BackgroundColor = Color.White;
-            dataGridViewCellStyle47.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle47.BackColor = Color.White;
-            dataGridViewCellStyle47.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            dataGridViewCellStyle47.ForeColor = Color.Black;
-            dataGridViewCellStyle47.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle47.SelectionForeColor = Color.White;
-            dataGridViewCellStyle47.WrapMode = DataGridViewTriState.True;
-            dgvAreas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle47;
+            dataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle21.BackColor = Color.White;
+            dataGridViewCellStyle21.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            dataGridViewCellStyle21.ForeColor = Color.Black;
+            dataGridViewCellStyle21.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle21.SelectionForeColor = Color.White;
+            dataGridViewCellStyle21.WrapMode = DataGridViewTriState.True;
+            dgvAreas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
             dgvAreas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvAreas.Location = new Point(21, 187);
             dgvAreas.Name = "dgvAreas";
             dgvAreas.ReadOnly = true;
             dgvAreas.RowHeadersVisible = false;
-            dataGridViewCellStyle48.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle48.BackColor = Color.White;
-            dataGridViewCellStyle48.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle48.ForeColor = Color.Black;
-            dataGridViewCellStyle48.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle48.SelectionForeColor = Color.White;
-            dgvAreas.RowsDefaultCellStyle = dataGridViewCellStyle48;
+            dataGridViewCellStyle22.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.BackColor = Color.White;
+            dataGridViewCellStyle22.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle22.ForeColor = Color.Black;
+            dataGridViewCellStyle22.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle22.SelectionForeColor = Color.White;
+            dgvAreas.RowsDefaultCellStyle = dataGridViewCellStyle22;
             dgvAreas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvAreas.Size = new Size(361, 139);
             dgvAreas.TabIndex = 21;
@@ -2080,7 +2080,7 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(22, 24);
             label2.Name = "label2";
-            label2.Size = new Size(72, 27);
+            label2.Size = new Size(74, 31);
             label2.TabIndex = 22;
             label2.Text = "Areas";
             // 
@@ -2108,7 +2108,7 @@
             label15.ForeColor = Color.White;
             label15.Location = new Point(46, 87);
             label15.Name = "label15";
-            label15.Size = new Size(68, 21);
+            label15.Size = new Size(68, 24);
             label15.TabIndex = 50;
             label15.Text = "Familia:";
             // 
@@ -2117,26 +2117,26 @@
             dgvFamilias.AllowUserToAddRows = false;
             dgvFamilias.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvFamilias.BackgroundColor = Color.White;
-            dataGridViewCellStyle25.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle25.BackColor = Color.White;
-            dataGridViewCellStyle25.Font = new Font("Montserrat", 12F, FontStyle.Bold);
-            dataGridViewCellStyle25.ForeColor = Color.Black;
-            dataGridViewCellStyle25.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle25.SelectionForeColor = Color.White;
-            dataGridViewCellStyle25.WrapMode = DataGridViewTriState.True;
-            dgvFamilias.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle23.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle23.BackColor = Color.White;
+            dataGridViewCellStyle23.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            dataGridViewCellStyle23.ForeColor = Color.Black;
+            dataGridViewCellStyle23.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle23.SelectionForeColor = Color.White;
+            dataGridViewCellStyle23.WrapMode = DataGridViewTriState.True;
+            dgvFamilias.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
             dgvFamilias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvFamilias.Location = new Point(21, 187);
             dgvFamilias.Name = "dgvFamilias";
             dgvFamilias.ReadOnly = true;
             dgvFamilias.RowHeadersVisible = false;
-            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle26.BackColor = Color.White;
-            dataGridViewCellStyle26.Font = new Font("Montserrat", 12F);
-            dataGridViewCellStyle26.ForeColor = Color.Black;
-            dataGridViewCellStyle26.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle26.SelectionForeColor = Color.White;
-            dgvFamilias.RowsDefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle24.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle24.BackColor = Color.White;
+            dataGridViewCellStyle24.Font = new Font("Montserrat", 12F);
+            dataGridViewCellStyle24.ForeColor = Color.Black;
+            dataGridViewCellStyle24.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle24.SelectionForeColor = Color.White;
+            dgvFamilias.RowsDefaultCellStyle = dataGridViewCellStyle24;
             dgvFamilias.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvFamilias.Size = new Size(361, 139);
             dgvFamilias.TabIndex = 20;
@@ -2205,7 +2205,7 @@
             label3.ForeColor = Color.White;
             label3.Location = new Point(22, 25);
             label3.Name = "label3";
-            label3.Size = new Size(99, 27);
+            label3.Size = new Size(101, 31);
             label3.TabIndex = 21;
             label3.Text = "Familias";
             // 
@@ -2234,7 +2234,7 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(16, 21);
             label1.Name = "label1";
-            label1.Size = new Size(426, 41);
+            label1.Size = new Size(428, 47);
             label1.TabIndex = 14;
             label1.Text = "ADMINISTRAR PROCESOS";
             // 
