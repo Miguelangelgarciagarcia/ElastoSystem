@@ -2130,6 +2130,8 @@ namespace ElastoSystem
             status = false;
             LimpiarCamposEncabezado();
             cbFamiliaAdministrar.SelectedIndex = -1;
+
+            CargarFamiliasAdmin();
         }
 
         private void btnAgregarEncabezado_Click(object sender, EventArgs e)
@@ -2269,23 +2271,28 @@ namespace ElastoSystem
             btnEliminarEncabezado.Visible = true;
             btnActualizarEncabezado.Visible = true;
             btnAgregarEncabezado.Visible = false;
-
             status = true;
-
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dgvEncabezados.Rows[e.RowIndex];
                 txbIDAdministrar.Text = row.Cells[0].Value.ToString();
-                cbFamiliaAdministrar.Text = row.Cells[1].Value.ToString();
+
+                string familia = row.Cells[1].Value.ToString();
+
+                if (!cbFamiliaAdministrar.Items.Contains(familia))
+                {
+                    cbFamiliaAdministrar.Items.Add(familia);
+                }
+
+                cbFamiliaAdministrar.SelectedItem = familia;
+
                 cbLinea.Text = row.Cells[2].Value.ToString();
                 txbNombreEncabezado.Text = row.Cells[3].Value.ToString();
                 txbMaterialEncabezado.Text = row.Cells[4].Value.ToString();
                 txbCalibreEncabezado.Text = row.Cells[5].Value.ToString();
                 txbSubensamble.Text = row.Cells[6].Value.ToString();
                 txbDibujo.Text = row.Cells[7].Value.ToString();
-
                 byte[] imagenBytes = (byte[])row.Cells[8].Value;
-
                 if (imagenBytes != null && imagenBytes.Length > 0)
                 {
                     using (MemoryStream ms = new MemoryStream(imagenBytes))
@@ -2300,7 +2307,6 @@ namespace ElastoSystem
                 {
                     pbImagen.Image = null;
                 }
-
                 cbFamiliaAdministrar.Enabled = false;
                 cbLinea.Enabled = false;
             }
@@ -2334,6 +2340,7 @@ namespace ElastoSystem
                             CargarEncabezados();
                             cbFamiliaAdministrar.Enabled = true;
                             cbLinea.Enabled = true;
+                            CargarFamiliasAdmin();
                         }
                         else
                         {
@@ -2416,6 +2423,7 @@ namespace ElastoSystem
                             btnNuevoEncabezado.Visible = false; btnEliminarEncabezado.Visible = false; btnActualizarEncabezado.Visible = false; btnAgregarEncabezado.Visible = true;
                             cbFamiliaAdministrar.Enabled = true;
                             cbLinea.Enabled = true;
+                            CargarFamiliasAdmin();
                         }
                         else
                         {
