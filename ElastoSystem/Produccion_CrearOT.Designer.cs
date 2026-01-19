@@ -128,6 +128,7 @@
             label1.TabIndex = 88;
             label1.Text = "CREAR ORDEN DE TRABAJO";
             label1.TextAlign = ContentAlignment.MiddleLeft;
+            label1.Click += label1_Click;
             // 
             // panel1
             // 
@@ -184,7 +185,7 @@
             btnVerEspecificacion.Location = new Point(165, 349);
             btnVerEspecificacion.Name = "btnVerEspecificacion";
             btnVerEspecificacion.Size = new Size(215, 29);
-            btnVerEspecificacion.TabIndex = 124;
+            btnVerEspecificacion.TabIndex = 10;
             btnVerEspecificacion.Text = "VER ESPECIFICACION";
             btnVerEspecificacion.UseVisualStyleBackColor = false;
             btnVerEspecificacion.Visible = false;
@@ -198,7 +199,7 @@
             chbNave2.Location = new Point(709, 137);
             chbNave2.Name = "chbNave2";
             chbNave2.Size = new Size(80, 26);
-            chbNave2.TabIndex = 123;
+            chbNave2.TabIndex = 14;
             chbNave2.Text = "NAVE 2";
             chbNave2.UseVisualStyleBackColor = true;
             chbNave2.CheckedChanged += chbNave2_CheckedChanged;
@@ -211,19 +212,20 @@
             chbNave1.Location = new Point(613, 137);
             chbNave1.Name = "chbNave1";
             chbNave1.Size = new Size(77, 26);
-            chbNave1.TabIndex = 122;
+            chbNave1.TabIndex = 13;
             chbNave1.Text = "NAVE 1";
             chbNave1.UseVisualStyleBackColor = true;
             chbNave1.CheckedChanged += chbNave1_CheckedChanged;
             // 
             // txbSolicitudFabricacion
             // 
+            txbSolicitudFabricacion.Enabled = false;
             txbSolicitudFabricacion.Font = new Font("Montserrat", 10F);
             txbSolicitudFabricacion.Location = new Point(614, 265);
             txbSolicitudFabricacion.Name = "txbSolicitudFabricacion";
             txbSolicitudFabricacion.ReadOnly = true;
             txbSolicitudFabricacion.Size = new Size(295, 24);
-            txbSolicitudFabricacion.TabIndex = 121;
+            txbSolicitudFabricacion.TabIndex = 17;
             txbSolicitudFabricacion.TextAlign = HorizontalAlignment.Center;
             // 
             // label16
@@ -257,7 +259,7 @@
             txbObservaciones.Multiline = true;
             txbObservaciones.Name = "txbObservaciones";
             txbObservaciones.Size = new Size(364, 47);
-            txbObservaciones.TabIndex = 119;
+            txbObservaciones.TabIndex = 18;
             // 
             // label14
             // 
@@ -273,12 +275,13 @@
             // 
             // txbProduccionXTurno
             // 
+            txbProduccionXTurno.Enabled = false;
             txbProduccionXTurno.Font = new Font("Montserrat", 10F);
             txbProduccionXTurno.Location = new Point(599, 211);
             txbProduccionXTurno.Name = "txbProduccionXTurno";
             txbProduccionXTurno.ReadOnly = true;
             txbProduccionXTurno.Size = new Size(310, 24);
-            txbProduccionXTurno.TabIndex = 116;
+            txbProduccionXTurno.TabIndex = 16;
             txbProduccionXTurno.TextAlign = HorizontalAlignment.Center;
             // 
             // cbMaquinas
@@ -289,7 +292,7 @@
             cbMaquinas.Location = new Point(544, 176);
             cbMaquinas.Name = "cbMaquinas";
             cbMaquinas.Size = new Size(365, 28);
-            cbMaquinas.TabIndex = 114;
+            cbMaquinas.TabIndex = 15;
             // 
             // label15
             // 
@@ -305,22 +308,24 @@
             // 
             // txbNombreArea
             // 
+            txbNombreArea.Enabled = false;
             txbNombreArea.Font = new Font("Montserrat", 10F);
             txbNombreArea.Location = new Point(544, 94);
             txbNombreArea.Name = "txbNombreArea";
             txbNombreArea.ReadOnly = true;
             txbNombreArea.Size = new Size(365, 24);
-            txbNombreArea.TabIndex = 113;
+            txbNombreArea.TabIndex = 12;
             txbNombreArea.TextAlign = HorizontalAlignment.Center;
             // 
             // txbArea
             // 
+            txbArea.Enabled = false;
             txbArea.Font = new Font("Montserrat", 10F);
             txbArea.Location = new Point(544, 62);
             txbArea.Name = "txbArea";
             txbArea.ReadOnly = true;
             txbArea.Size = new Size(365, 24);
-            txbArea.TabIndex = 112;
+            txbArea.TabIndex = 11;
             txbArea.TextAlign = HorizontalAlignment.Center;
             // 
             // label7
@@ -358,7 +363,7 @@
             btnCrearOT.Location = new Point(517, 370);
             btnCrearOT.Name = "btnCrearOT";
             btnCrearOT.Size = new Size(392, 36);
-            btnCrearOT.TabIndex = 109;
+            btnCrearOT.TabIndex = 19;
             btnCrearOT.Text = "CREAR ORDEN DE TRABAJO";
             btnCrearOT.UseVisualStyleBackColor = false;
             btnCrearOT.Click += btnCrearOT_Click;
@@ -384,16 +389,18 @@
             cbTurno.Location = new Point(132, 91);
             cbTurno.Name = "cbTurno";
             cbTurno.Size = new Size(274, 28);
-            cbTurno.TabIndex = 96;
+            cbTurno.TabIndex = 3;
+            cbTurno.SelectedIndexChanged += cbTurno_SelectedIndexChanged;
             // 
             // txbEspecificacion
             // 
+            txbEspecificacion.Enabled = false;
             txbEspecificacion.Font = new Font("Montserrat", 10F);
             txbEspecificacion.Location = new Point(133, 319);
             txbEspecificacion.Name = "txbEspecificacion";
             txbEspecificacion.ReadOnly = true;
             txbEspecificacion.Size = new Size(273, 24);
-            txbEspecificacion.TabIndex = 107;
+            txbEspecificacion.TabIndex = 9;
             txbEspecificacion.TextAlign = HorizontalAlignment.Center;
             // 
             // dtpFechaFinal
@@ -402,7 +409,7 @@
             dtpFechaFinal.Location = new Point(598, 17);
             dtpFechaFinal.Name = "dtpFechaFinal";
             dtpFechaFinal.Size = new Size(311, 24);
-            dtpFechaFinal.TabIndex = 77;
+            dtpFechaFinal.TabIndex = 2;
             // 
             // dtpFechaInicio
             // 
@@ -410,16 +417,17 @@
             dtpFechaInicio.Location = new Point(145, 17);
             dtpFechaInicio.Name = "dtpFechaInicio";
             dtpFechaInicio.Size = new Size(311, 24);
-            dtpFechaInicio.TabIndex = 76;
+            dtpFechaInicio.TabIndex = 1;
             // 
             // txbFamilia
             // 
+            txbFamilia.Enabled = false;
             txbFamilia.Font = new Font("Montserrat", 10F);
             txbFamilia.Location = new Point(133, 189);
             txbFamilia.Name = "txbFamilia";
             txbFamilia.ReadOnly = true;
             txbFamilia.Size = new Size(273, 24);
-            txbFamilia.TabIndex = 106;
+            txbFamilia.TabIndex = 5;
             txbFamilia.TextAlign = HorizontalAlignment.Center;
             // 
             // label5
@@ -448,12 +456,13 @@
             // 
             // txbProducto
             // 
+            txbProducto.Enabled = false;
             txbProducto.Font = new Font("Montserrat", 10F);
             txbProducto.Location = new Point(133, 157);
             txbProducto.Name = "txbProducto";
             txbProducto.ReadOnly = true;
             txbProducto.Size = new Size(273, 24);
-            txbProducto.TabIndex = 105;
+            txbProducto.TabIndex = 4;
             txbProducto.TextAlign = HorizontalAlignment.Center;
             // 
             // label2
@@ -512,7 +521,7 @@
             cbMolde.Location = new Point(132, 284);
             cbMolde.Name = "cbMolde";
             cbMolde.Size = new Size(273, 28);
-            cbMolde.TabIndex = 97;
+            cbMolde.TabIndex = 8;
             // 
             // txbLote
             // 
@@ -520,7 +529,7 @@
             txbLote.Location = new Point(133, 252);
             txbLote.Name = "txbLote";
             txbLote.Size = new Size(272, 24);
-            txbLote.TabIndex = 103;
+            txbLote.TabIndex = 7;
             txbLote.TextAlign = HorizontalAlignment.Center;
             // 
             // label6
@@ -577,7 +586,7 @@
             txbCantidad.Location = new Point(133, 220);
             txbCantidad.Name = "txbCantidad";
             txbCantidad.Size = new Size(272, 24);
-            txbCantidad.TabIndex = 101;
+            txbCantidad.TabIndex = 6;
             txbCantidad.TextAlign = HorizontalAlignment.Center;
             txbCantidad.KeyPress += txbCantidad_KeyPress;
             // 

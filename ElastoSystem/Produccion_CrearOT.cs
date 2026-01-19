@@ -47,8 +47,7 @@ namespace ElastoSystem
             //CargarMoldes();
 
             CargarMaquinas();
-
-            //CargaryCalcularProduccion();
+            cbTurno.SelectedIndex = -1;
         }
 
         private void ObtenerOTPrecreadas()
@@ -356,7 +355,7 @@ namespace ElastoSystem
 
         private void btnCrearOT_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(txbNombreArea.Text))
+            if (string.IsNullOrEmpty(txbNombreArea.Text))
             {
                 MessageBox.Show("EL CAMPO NOMBRE DE AREA NO PUEDE ESTAR VACÍO CONSULTA CON ADMINISTRADOR\nLO PUEDES ACTUALIZAR EN PRODUCCIÓN >> ADMINSTRAR PROCESOS >> RELACIONAR");
                 return;
@@ -366,13 +365,13 @@ namespace ElastoSystem
 
         private void RevisarDatos()
         {
-            if(dtpFechaFinal.Value < dtpFechaInicio.Value)
+            if (dtpFechaFinal.Value < dtpFechaInicio.Value)
             {
                 MessageBox.Show("LA FECHA FINAL NO PUEDE SER MENOR A LA FECHA INICIAL");
                 return;
             }
 
-            if(!int.TryParse(txbCantidad.Text.Trim(), out int cantidad) || cantidad <= 0)
+            if (!int.TryParse(txbCantidad.Text.Trim(), out int cantidad) || cantidad <= 0)
             {
                 MessageBox.Show("LA CANTIDAD DEBE SER UN NÚMERO ENTERO MAYOR A CERO");
                 return;
@@ -383,7 +382,7 @@ namespace ElastoSystem
                 return;
             }
             RevisarMaquinas();
-            
+
         }
 
         private void RevisarMaquinas()
@@ -396,7 +395,7 @@ namespace ElastoSystem
                 return;
             }
 
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -414,7 +413,7 @@ namespace ElastoSystem
 
                         object resultado = cmd.ExecuteScalar();
 
-                        if(resultado != null && resultado != DBNull.Value)
+                        if (resultado != null && resultado != DBNull.Value)
                         {
                             string folioActivo = resultado.ToString();
                             MessageBox.Show($"La máquina '{maquinaSeleccionada}' ya tiene una Orden de Trabajo activa.\n" +
@@ -428,7 +427,7 @@ namespace ElastoSystem
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL VERIFICAR LAS MAQUINAS: " + ex.Message);
                 }
@@ -443,7 +442,20 @@ namespace ElastoSystem
         {
             string nave = chbNave1.Checked ? "NAVE 1" : "NAVE 2";
 
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            int pxtValor = 0;
+            string textoPXT = txbProduccionXTurno.Text?.Trim();
+
+            if (!string.IsNullOrWhiteSpace(textoPXT))
+            {
+                string textoLimpio = textoPXT.Replace("*", "").Trim();
+
+                if (decimal.TryParse(textoLimpio, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal valorDecimal))
+                {
+                    pxtValor = (int)Math.Ceiling(valorDecimal);
+                }
+            }
+
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -451,12 +463,12 @@ namespace ElastoSystem
 
                     string query = @"INSERT INTO elastosystem_produccion_ot
                                     (Folio, FechaInicio, FechaTermino, Autorizo, Turno, Lote, Molde, Cantidad, Especificacion,
-                                    Area, NombreArea, Maquina, SF, Observaciones, Nave, Estatus)
+                                    Area, NombreArea, Maquina, SF, Observaciones, Nave, Estatus, PxT)
                                     VALUES
                                     (@FOLIO, @FECHAINICIO, @FECHATERMINO, @AUTORIZO, @TURNO, @LOTE, @MOLDE, @CANTIDAD, @ESPECIFICACION,
-                                    @AREA, @NOMBREAREA, @MAQUINA, @SF, @OBSERVACIONES, @NAVE, @ESTATUS)";
+                                    @AREA, @NOMBREAREA, @MAQUINA, @SF, @OBSERVACIONES, @NAVE, @ESTATUS, @PXT)";
 
-                    using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@FOLIO", lblFolioOT.Text.Trim());
                         cmd.Parameters.AddWithValue("@FECHAINICIO", dtpFechaInicio.Value.Date);
@@ -474,10 +486,11 @@ namespace ElastoSystem
                         cmd.Parameters.AddWithValue("@OBSERVACIONES", txbObservaciones.Text.Trim());
                         cmd.Parameters.AddWithValue("@NAVE", nave);
                         cmd.Parameters.AddWithValue("@ESTATUS", "ABIERTA");
+                        cmd.Parameters.AddWithValue("@PXT", pxtValor);
 
                         int filasAfectadas = cmd.ExecuteNonQuery();
 
-                        if(filasAfectadas > 0)
+                        if (filasAfectadas > 0)
                         {
                             string insertHistorico = @"
                                 INSERT INTO elastosystem_produccion_ot_cambios
@@ -503,7 +516,7 @@ namespace ElastoSystem
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL CREAR ORDEN DE TRABAJO: " + ex.Message);
                 }
@@ -512,6 +525,188 @@ namespace ElastoSystem
                     conn.Close();
                 }
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbTurno_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbTurno.SelectedIndex == -1)
+            {
+                txbProduccionXTurno.Text = "";
+            }
+            else
+            {
+                CargaryCalcularProduccion();
+            } 
+        }
+
+        private void CargaryCalcularProduccion()
+        {
+            if (cbTurno.SelectedIndex == -1 || string.IsNullOrWhiteSpace(txbProducto.Text) || string.IsNullOrWhiteSpace(lblFolioOT.Text))
+            {
+                txbProduccionXTurno.Text = "";
+                return;
+            }
+
+            string producto = txbProducto.Text.Trim();
+            string folioOT = lblFolioOT.Text.Trim();
+
+            string sufijoOT = folioOT.Contains("-") ? folioOT.Split('-').Last().Trim() : "";
+            if (string.IsNullOrEmpty(sufijoOT))
+            {
+                txbProduccionXTurno.Text = "Folio inválido";
+                return;
+            }
+
+            string opcionTurno = cbTurno.Text.Trim();
+
+            List<string> turnosPrincipal = new List<string>();
+
+            if (opcionTurno == "1 TURNO")
+            {
+                turnosPrincipal.Add("MIXTO");
+            }
+            else if (opcionTurno == "2 TURNOS")
+            {
+                turnosPrincipal.Add("MATUTINO");
+                turnosPrincipal.Add("VESPERTINO");
+            }
+            else if(opcionTurno == "3 TURNOS")
+            {
+                turnosPrincipal.Add("MATUTINO");
+                turnosPrincipal.Add("VESPERTINO");
+                turnosPrincipal.Add("NOCTURNO");
+            }
+            else
+            {
+                txbProduccionXTurno.Text = "Opción de turno no reconocida";
+                return;
+            }
+
+            using (var conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT (POP - PNCOP - Reproceso - PNCRevision) AS ProduccionNeta
+                        FROM elastosystem_produccion_registro_diario r
+                        JOIN elastosystem_produccion_ot o ON r.Orden_Trabajo = o.Folio
+                        JOIN elastosystem_almacen_solicitud_fabricacion s ON o.SF = s.Folio_ALT
+                        WHERE s.Clave = @PRODUCTO
+                            AND r.Orden_Trabajo LIKE CONCAT('%-', @SUFIJO)
+                            AND r.Turno IN @TURNOS
+                            AND (POP - PNCOP - Reproceso - PNCRevision) > 0
+                        ORDER BY ProduccionNeta DESC
+                        LIMIT 10";
+
+                    var producciones = new List<decimal>();
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@PRODUCTO", producto);
+                        cmd.Parameters.AddWithValue("@SUFIJO", sufijoOT);
+
+                        string turnosSQL = string.Join(",", turnosPrincipal.Select(t => $"'{t}'"));
+                        cmd.CommandText = cmd.CommandText.Replace("@TURNOS", $"({turnosSQL})");
+                        
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                if (!reader.IsDBNull(0))
+                                {
+                                    producciones.Add(reader.GetDecimal(0));
+                                }
+                            }
+                        }
+                    }
+
+                    string resultado = "";
+
+                    if (producciones.Count > 0)
+                    {
+                        decimal promedio = producciones.Average();
+                        int redondeado = (int)Math.Ceiling(promedio);
+                        resultado = redondeado.ToString();
+                    }
+                    else
+                    {
+                        resultado = CalcularConTurnoAlternativo(conn, producto, sufijoOT, opcionTurno);
+                    }
+
+                    txbProduccionXTurno.Text = resultado != "" ? resultado : "No hay registros para calcular";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CALCULAR PRODUCCIÓN POR TURNO:\n" + ex.Message);
+                    txbProduccionXTurno.Text = "ERROR";
+                }
+            }
+        }
+
+        private string CalcularConTurnoAlternativo(MySqlConnection conn, string producto, string sufijo, string opcionTurno)
+        {
+            List<string> turnosRespaldo = new List<string>();
+            bool buscandoMixto = opcionTurno == "1 TURNO";
+            decimal factor = 1m;
+
+            if (buscandoMixto)
+            {
+                turnosRespaldo.AddRange(new[] { "MATUTINO", "VESPERTINO", "NOCTURNO" });
+                factor = 9.5m / 7.5m;
+            }
+            else
+            {
+                turnosRespaldo.Add("MIXTO");
+                factor = 7.5m / 9.5m;
+            }
+
+            string queryRespaldo = @"
+                SELECT (POP - PNCOP - Reproceso - PNCRevision) AS ProduccionNeta
+                FROM elastosystem_produccion_registro_diario r
+                JOIN elastosystem_produccion_ot o ON r.Orden_Trabajo = o.Folio
+                JOIN elastosystem_almacen_solicitud_fabricacion s ON o.SF = s.Folio_ALT
+                WHERE s.Clave = @PRODUCTO
+                    AND r.Orden_Trabajo LIKE CONCAT('%-', @SUFIJO)
+                    AND r.Turno IN @TURNOS
+                    AND (POP - PNCOP - Reproceso - PNCRevision) > 0
+                ORDER BY ProduccionNeta DESC
+                LIMIT 5";
+
+            var valores = new List<decimal>();
+
+            using (var cmd = new MySqlCommand(queryRespaldo, conn))
+            {
+                cmd.Parameters.AddWithValue("@PRODUCTO", producto);
+                cmd.Parameters.AddWithValue("@SUFIJO", sufijo);
+
+                string turnosSQL = string.Join(",", turnosRespaldo.Select(t => $"'{t}'"));
+                cmd.CommandText = cmd.CommandText.Replace("@TURNOS", $"({turnosSQL})");
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (!reader.IsDBNull(0))
+                            valores.Add(reader.GetDecimal(0));
+                    }
+                }
+            }
+
+            if (valores.Count == 0)
+                return "No hay registros para calcular";
+
+            decimal promedioBase = valores.Average();
+            decimal ajustado = promedioBase * factor;
+            int resultado = (int)Math.Ceiling(ajustado);
+
+            return resultado + "*";
         }
     }
 }
