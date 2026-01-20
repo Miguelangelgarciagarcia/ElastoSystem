@@ -754,7 +754,7 @@
             label14.BackColor = Color.Transparent;
             label14.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             label14.ForeColor = Color.White;
-            label14.Location = new Point(132, 15);
+            label14.Location = new Point(132, 10);
             label14.Name = "label14";
             label14.Size = new Size(492, 24);
             label14.TabIndex = 88;
@@ -763,7 +763,7 @@
             // txbCantidad
             // 
             txbCantidad.Font = new Font("Montserrat", 12F);
-            txbCantidad.Location = new Point(341, 699);
+            txbCantidad.Location = new Point(341, 707);
             txbCantidad.Name = "txbCantidad";
             txbCantidad.Size = new Size(168, 27);
             txbCantidad.TabIndex = 98;
@@ -774,7 +774,7 @@
             label15.BackColor = Color.Transparent;
             label15.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             label15.ForeColor = Color.White;
-            label15.Location = new Point(515, 703);
+            label15.Location = new Point(515, 711);
             label15.Name = "label15";
             label15.Size = new Size(277, 24);
             label15.TabIndex = 97;
@@ -786,7 +786,7 @@
             checkBox2.BackColor = Color.Transparent;
             checkBox2.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             checkBox2.ForeColor = Color.White;
-            checkBox2.Location = new Point(42, 20);
+            checkBox2.Location = new Point(42, 9);
             checkBox2.Name = "checkBox2";
             checkBox2.Size = new Size(229, 26);
             checkBox2.TabIndex = 99;
@@ -799,7 +799,7 @@
             checkBox3.BackColor = Color.Transparent;
             checkBox3.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             checkBox3.ForeColor = Color.White;
-            checkBox3.Location = new Point(368, 20);
+            checkBox3.Location = new Point(368, 9);
             checkBox3.Name = "checkBox3";
             checkBox3.Size = new Size(102, 26);
             checkBox3.TabIndex = 100;
@@ -812,7 +812,7 @@
             checkBox4.BackColor = Color.Transparent;
             checkBox4.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             checkBox4.ForeColor = Color.White;
-            checkBox4.Location = new Point(553, 20);
+            checkBox4.Location = new Point(553, 9);
             checkBox4.Name = "checkBox4";
             checkBox4.Size = new Size(195, 26);
             checkBox4.TabIndex = 101;
@@ -825,9 +825,9 @@
             panel7.Controls.Add(checkBox4);
             panel7.Controls.Add(checkBox2);
             panel7.Controls.Add(checkBox3);
-            panel7.Location = new Point(14, 732);
+            panel7.Location = new Point(14, 749);
             panel7.Name = "panel7";
-            panel7.Size = new Size(793, 62);
+            panel7.Size = new Size(793, 45);
             panel7.TabIndex = 91;
             // 
             // Produccion_OP
