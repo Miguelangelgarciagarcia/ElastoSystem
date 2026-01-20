@@ -174,31 +174,63 @@ namespace ElastoSystem
         {
             dgvOperaciones.Rows.Clear();
 
-            string folio = lblFolioOP.Text;
-            string[] parteFolio = folio.Split('-');
-            string variableFolio = parteFolio.Length > 1 ? parteFolio[1] : folio;
+            string folioOP = lblFolioOP.Text?.Trim();
+            if (string.IsNullOrWhiteSpace(folioOP))
+            {
+                return;
+            }
+
+            string[] partesFolio = folioOP.Split('-');
+            string variableFolio = partesFolio.Length > 1 ? partesFolio[1] : folioOP;
+
+            if (!dgvOperaciones.Columns.Contains("Maquina"))
+            {
+                DataGridViewTextBoxColumn colMaquina = new DataGridViewTextBoxColumn
+                {
+                    Name = "Maquina",
+                    HeaderText = "Máquina",
+                    ReadOnly = true,
+                    Width = 150,
+                    DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleLeft }
+                };
+                dgvOperaciones.Columns.Add(colMaquina);
+            }
 
             using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
                     conn.Open();
-                    string query = @"SELECT ID, Descripcion, Operacion, Cantidad, Estatus
-                                FROM elastosystem_produccion_ot_precreadas
-                                WHERE OP = @OP AND Estatus <> 'Inactiva'
-                                ORDER BY
-                                    CAST(CASE
-                                        WHEN operacion REGEXP '^[0-9]+$' THEN Operacion
-                                        WHEN Operacion REGEXP '^[0-9]+-[A-Z]$' THEN SUBSTRING_INDEX(Operacion, '-', 1)
-                                        ELSE Operacion
-                                    END AS UNSIGNED),
-                                    CASE
-                                        WHEN Operacion REGEXP '^[0-9]+$' THEN ''
-                                        WHEN Operacion REGEXP '^[0-9]+-[A-Z]$' THEN SUBSTRING_INDEX(Operacion , '-', -1)
-                                    END";
+
+                    string query = @"
+                        SELECT 
+                            p.ID, 
+                            p.Descripcion, 
+                            p.Operacion, 
+                            p.Cantidad, 
+                            p.Estatus,
+                            COALESCE(o.Maquina, '') AS Maquina,
+                            COALESCE(o.Estatus, 'SIN_OT') AS EstatusOT
+                        FROM elastosystem_produccion_ot_precreadas p
+                        LEFT JOIN elastosystem_produccion_ot o
+                            ON o.Folio = CONCAT('OT-', @VARIABLEFOLIO, '-', p.Operacion)
+                        WHERE p.OP = @OP 
+                            AND p.Estatus <> 'Inactiva'
+                        ORDER BY
+                            CAST(CASE
+                                WHEN p.Operacion REGEXP '^[0-9]+$' THEN p.Operacion
+                                WHEN p.Operacion REGEXP '^[0-9]+-[A-Z]$' THEN SUBSTRING_INDEX(p.Operacion, '-', 1)
+                                ELSE p.Operacion
+                            END AS UNSIGNED),
+                            CASE
+                                WHEN p.Operacion REGEXP '^[0-9]+$' THEN ''
+                                WHEN p.Operacion REGEXP '^[0-9]+-[A-Z]$' THEN SUBSTRING_INDEX(p.Operacion , '-', -1)
+                            END";
+
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@OP", lblFolioOP.Text);
+                        cmd.Parameters.AddWithValue("@OP", folioOP);
+                        cmd.Parameters.AddWithValue("@VARIABLEFOLIO", variableFolio);
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -208,13 +240,40 @@ namespace ElastoSystem
                                 string descripcion = reader["Descripcion"].ToString();
                                 string operacion = reader["Operacion"].ToString();
                                 string cantidad = reader["Cantidad"].ToString();
+                                string maquina = reader["Maquina"].ToString();
+                                string estatusOT = reader["EstatusOT"].ToString().Trim().ToUpper();
+                                string otGenerada = $"OT-{variableFolio}-{operacion}";
 
-                                string ot = $"OT-{variableFolio}-{operacion}";
+                                int rowIndex = dgvOperaciones.Rows.Add(id, descripcion, otGenerada, cantidad, maquina);
 
-                                dgvOperaciones.Rows.Add(id, descripcion, ot, cantidad);
+                                DataGridViewRow row = dgvOperaciones.Rows[rowIndex];
+
+                                switch (estatusOT)
+                                {
+                                    case "ABIERTA":
+                                        row.DefaultCellStyle.BackColor = Color.LightGreen;
+                                        row.DefaultCellStyle.ForeColor = Color.Black;
+                                        break;
+
+                                    case "PAUSADA":
+                                        row.DefaultCellStyle.BackColor = Color.Yellow;
+                                        row.DefaultCellStyle.ForeColor = Color.Black;
+                                        break;
+
+                                    case "FINALIZADA":
+                                        row.DefaultCellStyle.BackColor = dgvOperaciones.DefaultCellStyle.BackColor;
+                                        row.DefaultCellStyle.ForeColor = dgvOperaciones.DefaultCellStyle.ForeColor;
+                                        break;
+
+                                    default:
+                                        row.DefaultCellStyle.BackColor = Color.LightCoral;
+                                        row.DefaultCellStyle.ForeColor = Color.Black;
+                                        break;
+                                }
                             }
                         }
                     }
+
 
                 }
                 catch (Exception ex)
@@ -265,7 +324,7 @@ namespace ElastoSystem
             }
 
             string[] partesFolio = folioBuscado.Split('-');
-            if(partesFolio.Length >= 3)
+            if (partesFolio.Length >= 3)
             {
                 _operacion = string.Join("-", partesFolio.Skip(2));
             }
@@ -275,24 +334,24 @@ namespace ElastoSystem
                 return;
             }
 
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
                     conn.Open();
                     string query = "SELECT COUNT(1) FROM elastosystem_produccion_ot WHERE Folio LIKE CONCAT('%', @FOLIO, '%')";
-                    using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@FOLIO", folioBuscado);
 
                         object result = cmd.ExecuteScalar();
                         int coincidencias = 0;
-                        if(result != null && int.TryParse(result.ToString(), out int count))
+                        if (result != null && int.TryParse(result.ToString(), out int count))
                         {
                             coincidencias = count;
                         }
 
-                        if(coincidencias > 0)
+                        if (coincidencias > 0)
                         {
                             AbrirOT();
                         }
@@ -302,7 +361,7 @@ namespace ElastoSystem
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL CONSULTAR FOLIO EN OT: " + ex.Message);
                 }
@@ -364,6 +423,8 @@ namespace ElastoSystem
                     form.SolicitudFabricacion = _folioSolicitudFabricacion;
                     form.Operacion = _operacion;
 
+                    dgvOperaciones.ClearSelection();
+                    dgvOperaciones.CurrentCell = null;
                     form.ShowDialog();
                 }
             }
@@ -386,15 +447,16 @@ namespace ElastoSystem
                     return;
                 }
 
-                using(var form = new Produccion_OT())
+                using (var form = new Produccion_OT())
                 {
                     form.FolioOT = folioOT;
                     form.ClaveProd = clave;
-
+                    dgvOperaciones.ClearSelection();
+                    dgvOperaciones.CurrentCell = null;
                     form.ShowDialog();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("ERROR AL ABRIR LA ORDEN DE TRABAJO: " + ex.Message);
             }
@@ -403,6 +465,33 @@ namespace ElastoSystem
         private void Produccion_OP_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void dgvOperaciones_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dgvOperaciones.ClearSelection();
+        }
+
+        private void Produccion_OP_Shown(object sender, EventArgs e)
+        {
+            dgvOperaciones.ClearSelection();
+            dgvOperaciones.CurrentCell = null;
+        }
+
+        private void chbProdEspecial_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chbLinea.Checked)
+            {
+                chbProdEspecial.Checked = false;
+            }
+        }
+
+        private void chbLinea_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chbProdEspecial.Checked)
+            {
+                chbLinea.Checked = false;
+            }
         }
     }
 }

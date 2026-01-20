@@ -67,6 +67,14 @@
             chbLinea = new CheckBox();
             lblAutorizo = new Label();
             panel5 = new Panel();
+            label12 = new Label();
+            label9 = new Label();
+            label6 = new Label();
+            label2 = new Label();
+            panel11 = new Panel();
+            panel10 = new Panel();
+            panel9 = new Panel();
+            panel8 = new Panel();
             dgvOperaciones = new DataGridView();
             ID = new DataGridViewTextBoxColumn();
             Descripcion = new DataGridViewTextBoxColumn();
@@ -86,9 +94,6 @@
             checkBox2 = new CheckBox();
             checkBox3 = new CheckBox();
             checkBox4 = new CheckBox();
-            label16 = new Label();
-            label17 = new Label();
-            label18 = new Label();
             panel7 = new Panel();
             panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -150,7 +155,7 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(12, 43);
             label1.Name = "label1";
-            label1.Size = new Size(378, 37);
+            label1.Size = new Size(378, 42);
             label1.TabIndex = 87;
             label1.Text = "ORDEN DE PRODUCCIÓN";
             // 
@@ -162,7 +167,7 @@
             lblFolioOP.ForeColor = Color.White;
             lblFolioOP.Location = new Point(678, 58);
             lblFolioOP.Name = "lblFolioOP";
-            lblFolioOP.Size = new Size(71, 22);
+            lblFolioOP.Size = new Size(73, 25);
             lblFolioOP.TabIndex = 88;
             lblFolioOP.Text = "ERROR";
             // 
@@ -174,7 +179,7 @@
             label21.ForeColor = Color.White;
             label21.Location = new Point(621, 58);
             label21.Name = "label21";
-            label21.Size = new Size(51, 22);
+            label21.Size = new Size(53, 25);
             label21.TabIndex = 89;
             label21.Text = "Folio:";
             // 
@@ -200,7 +205,7 @@
             lblCantidad.ForeColor = Color.White;
             lblCantidad.Location = new Point(655, 35);
             lblCantidad.Name = "lblCantidad";
-            lblCantidad.Size = new Size(66, 21);
+            lblCantidad.Size = new Size(66, 24);
             lblCantidad.TabIndex = 88;
             lblCantidad.Text = "ERROR";
             // 
@@ -212,7 +217,7 @@
             label5.ForeColor = Color.White;
             label5.Location = new Point(655, 12);
             label5.Name = "label5";
-            label5.Size = new Size(82, 21);
+            label5.Size = new Size(82, 24);
             label5.TabIndex = 87;
             label5.Text = "Cantidad:";
             // 
@@ -224,7 +229,7 @@
             lblDescripcion.ForeColor = Color.White;
             lblDescripcion.Location = new Point(134, 35);
             lblDescripcion.Name = "lblDescripcion";
-            lblDescripcion.Size = new Size(66, 21);
+            lblDescripcion.Size = new Size(66, 24);
             lblDescripcion.TabIndex = 86;
             lblDescripcion.Text = "ERROR";
             // 
@@ -236,7 +241,7 @@
             label7.ForeColor = Color.White;
             label7.Location = new Point(134, 12);
             label7.Name = "label7";
-            label7.Size = new Size(100, 21);
+            label7.Size = new Size(100, 24);
             label7.TabIndex = 85;
             label7.Text = "Descripcion:";
             // 
@@ -248,7 +253,7 @@
             lblClave.ForeColor = Color.White;
             lblClave.Location = new Point(15, 35);
             lblClave.Name = "lblClave";
-            lblClave.Size = new Size(66, 21);
+            lblClave.Size = new Size(66, 24);
             lblClave.TabIndex = 74;
             lblClave.Text = "ERROR";
             lblClave.TextChanged += lblClave_TextChanged;
@@ -261,7 +266,7 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(15, 12);
             label4.Name = "label4";
-            label4.Size = new Size(54, 21);
+            label4.Size = new Size(54, 24);
             label4.TabIndex = 73;
             label4.Text = "Clave:";
             // 
@@ -287,7 +292,7 @@
             label11.ForeColor = Color.White;
             label11.Location = new Point(15, 67);
             label11.Name = "label11";
-            label11.Size = new Size(122, 21);
+            label11.Size = new Size(122, 24);
             label11.TabIndex = 89;
             label11.Text = "Fecha Entrega:";
             // 
@@ -299,7 +304,7 @@
             lblFechaEntrega.ForeColor = Color.White;
             lblFechaEntrega.Location = new Point(143, 67);
             lblFechaEntrega.Name = "lblFechaEntrega";
-            lblFechaEntrega.Size = new Size(66, 21);
+            lblFechaEntrega.Size = new Size(66, 24);
             lblFechaEntrega.TabIndex = 88;
             lblFechaEntrega.Text = "ERROR";
             // 
@@ -311,7 +316,7 @@
             lblSolicitudFabricacion.ForeColor = Color.White;
             lblSolicitudFabricacion.Location = new Point(211, 12);
             lblSolicitudFabricacion.Name = "lblSolicitudFabricacion";
-            lblSolicitudFabricacion.Size = new Size(66, 21);
+            lblSolicitudFabricacion.Size = new Size(66, 24);
             lblSolicitudFabricacion.TabIndex = 86;
             lblSolicitudFabricacion.Text = "ERROR";
             // 
@@ -323,7 +328,7 @@
             label8.ForeColor = Color.White;
             label8.Location = new Point(15, 40);
             label8.Name = "label8";
-            label8.Size = new Size(102, 21);
+            label8.Size = new Size(102, 24);
             label8.TabIndex = 85;
             label8.Text = "Fecha Inicio:";
             label8.Click += label8_Click;
@@ -336,7 +341,7 @@
             lblFechaInicio.ForeColor = Color.White;
             lblFechaInicio.Location = new Point(123, 40);
             lblFechaInicio.Name = "lblFechaInicio";
-            lblFechaInicio.Size = new Size(66, 21);
+            lblFechaInicio.Size = new Size(66, 24);
             lblFechaInicio.TabIndex = 74;
             lblFechaInicio.Text = "ERROR";
             // 
@@ -348,7 +353,7 @@
             label10.ForeColor = Color.White;
             label10.Location = new Point(15, 12);
             label10.Name = "label10";
-            label10.Size = new Size(190, 21);
+            label10.Size = new Size(190, 24);
             label10.TabIndex = 73;
             label10.Text = "Solicitud de Fabricacion:";
             // 
@@ -416,15 +421,15 @@
             // 
             chbProdEspecial.AutoSize = true;
             chbProdEspecial.BackColor = Color.Transparent;
-            chbProdEspecial.Enabled = false;
             chbProdEspecial.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chbProdEspecial.ForeColor = Color.White;
             chbProdEspecial.Location = new Point(21, 39);
             chbProdEspecial.Name = "chbProdEspecial";
-            chbProdEspecial.Size = new Size(130, 25);
+            chbProdEspecial.Size = new Size(130, 28);
             chbProdEspecial.TabIndex = 94;
             chbProdEspecial.Text = "Prod Especial";
             chbProdEspecial.UseVisualStyleBackColor = false;
+            chbProdEspecial.CheckedChanged += chbProdEspecial_CheckedChanged;
             // 
             // label3
             // 
@@ -434,7 +439,7 @@
             label3.ForeColor = Color.White;
             label3.Location = new Point(15, 67);
             label3.Name = "label3";
-            label3.Size = new Size(76, 21);
+            label3.Size = new Size(76, 24);
             label3.TabIndex = 89;
             label3.Text = "Autorizo:";
             // 
@@ -442,15 +447,15 @@
             // 
             chbLinea.AutoSize = true;
             chbLinea.BackColor = Color.Transparent;
-            chbLinea.Enabled = false;
             chbLinea.Font = new Font("Montserrat", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chbLinea.ForeColor = Color.White;
             chbLinea.Location = new Point(21, 12);
             chbLinea.Name = "chbLinea";
-            chbLinea.Size = new Size(70, 25);
+            chbLinea.Size = new Size(70, 28);
             chbLinea.TabIndex = 93;
             chbLinea.Text = "Linea";
             chbLinea.UseVisualStyleBackColor = false;
+            chbLinea.CheckedChanged += chbLinea_CheckedChanged;
             // 
             // lblAutorizo
             // 
@@ -460,19 +465,107 @@
             lblAutorizo.ForeColor = Color.White;
             lblAutorizo.Location = new Point(97, 67);
             lblAutorizo.Name = "lblAutorizo";
-            lblAutorizo.Size = new Size(66, 21);
+            lblAutorizo.Size = new Size(66, 24);
             lblAutorizo.TabIndex = 88;
             lblAutorizo.Text = "ERROR";
             // 
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(3, 42, 76);
+            panel5.Controls.Add(label12);
+            panel5.Controls.Add(label9);
+            panel5.Controls.Add(label6);
+            panel5.Controls.Add(label2);
+            panel5.Controls.Add(panel11);
+            panel5.Controls.Add(panel10);
+            panel5.Controls.Add(panel9);
+            panel5.Controls.Add(panel8);
             panel5.Controls.Add(dgvOperaciones);
             panel5.Controls.Add(label13);
             panel5.Location = new Point(13, 264);
             panel5.Name = "panel5";
-            panel5.Size = new Size(792, 214);
+            panel5.Size = new Size(792, 232);
             panel5.TabIndex = 95;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.BackColor = Color.Transparent;
+            label12.Font = new Font("Montserrat", 6F, FontStyle.Bold);
+            label12.ForeColor = Color.White;
+            label12.Location = new Point(502, 210);
+            label12.Name = "label12";
+            label12.Size = new Size(73, 13);
+            label12.TabIndex = 96;
+            label12.Text = "OT FINALIZADA";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.BackColor = Color.Transparent;
+            label9.Font = new Font("Montserrat", 6F, FontStyle.Bold);
+            label9.ForeColor = Color.White;
+            label9.Location = new Point(431, 210);
+            label9.Name = "label9";
+            label9.Size = new Size(35, 13);
+            label9.TabIndex = 95;
+            label9.Text = "SIN OT";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.BackColor = Color.Transparent;
+            label6.Font = new Font("Montserrat", 6F, FontStyle.Bold);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(332, 210);
+            label6.Name = "label6";
+            label6.Size = new Size(63, 13);
+            label6.TabIndex = 94;
+            label6.Text = "OT PAUSADA";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Montserrat", 6F, FontStyle.Bold);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(239, 210);
+            label2.Name = "label2";
+            label2.Size = new Size(58, 13);
+            label2.TabIndex = 93;
+            label2.Text = "OT ABIERTA";
+            // 
+            // panel11
+            // 
+            panel11.BackColor = Color.Gray;
+            panel11.Location = new Point(486, 210);
+            panel11.Name = "panel11";
+            panel11.Size = new Size(10, 10);
+            panel11.TabIndex = 92;
+            // 
+            // panel10
+            // 
+            panel10.BackColor = Color.FromArgb(255, 128, 128);
+            panel10.Location = new Point(415, 210);
+            panel10.Name = "panel10";
+            panel10.Size = new Size(10, 10);
+            panel10.TabIndex = 91;
+            // 
+            // panel9
+            // 
+            panel9.BackColor = Color.Yellow;
+            panel9.Location = new Point(316, 210);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(10, 10);
+            panel9.TabIndex = 90;
+            // 
+            // panel8
+            // 
+            panel8.BackColor = Color.FromArgb(128, 255, 128);
+            panel8.Location = new Point(223, 210);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(10, 10);
+            panel8.TabIndex = 89;
             // 
             // dgvOperaciones
             // 
@@ -523,6 +616,7 @@
             dgvOperaciones.Size = new Size(764, 163);
             dgvOperaciones.TabIndex = 88;
             dgvOperaciones.CellDoubleClick += dgvOperaciones_CellDoubleClick;
+            dgvOperaciones.DataBindingComplete += dgvOperaciones_DataBindingComplete;
             // 
             // ID
             // 
@@ -560,7 +654,7 @@
             label13.ForeColor = Color.White;
             label13.Location = new Point(113, 11);
             label13.Name = "label13";
-            label13.Size = new Size(567, 21);
+            label13.Size = new Size(567, 24);
             label13.TabIndex = 87;
             label13.Text = "MATERIALES Y PROCESOS UTILIZADOS PARA FABRICAR EL PRODUCTO";
             // 
@@ -569,7 +663,7 @@
             panel6.BackColor = Color.FromArgb(3, 42, 76);
             panel6.Controls.Add(dgvIngresos);
             panel6.Controls.Add(label14);
-            panel6.Location = new Point(14, 484);
+            panel6.Location = new Point(14, 501);
             panel6.Name = "panel6";
             panel6.Size = new Size(792, 193);
             panel6.TabIndex = 96;
@@ -662,14 +756,14 @@
             label14.ForeColor = Color.White;
             label14.Location = new Point(132, 15);
             label14.Name = "label14";
-            label14.Size = new Size(493, 21);
+            label14.Size = new Size(492, 24);
             label14.TabIndex = 88;
             label14.Text = "PRODUCTOS TERMINADOS ENTREGADOS AL ALMACEN DE PT";
             // 
             // txbCantidad
             // 
             txbCantidad.Font = new Font("Montserrat", 12F);
-            txbCantidad.Location = new Point(341, 687);
+            txbCantidad.Location = new Point(341, 699);
             txbCantidad.Name = "txbCantidad";
             txbCantidad.Size = new Size(168, 27);
             txbCantidad.TabIndex = 98;
@@ -680,9 +774,9 @@
             label15.BackColor = Color.Transparent;
             label15.Font = new Font("Montserrat", 11F, FontStyle.Bold);
             label15.ForeColor = Color.White;
-            label15.Location = new Point(515, 691);
+            label15.Location = new Point(515, 703);
             label15.Name = "label15";
-            label15.Size = new Size(277, 21);
+            label15.Size = new Size(277, 24);
             label15.TabIndex = 97;
             label15.Text = "PRODUCCIÓN TOTAL ENTREGADA";
             // 
@@ -690,89 +784,50 @@
             // 
             checkBox2.AutoSize = true;
             checkBox2.BackColor = Color.Transparent;
-            checkBox2.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBox2.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             checkBox2.ForeColor = Color.White;
-            checkBox2.Location = new Point(197, 14);
+            checkBox2.Location = new Point(42, 20);
             checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(74, 24);
+            checkBox2.Size = new Size(229, 26);
             checkBox2.TabIndex = 99;
-            checkBox2.Text = "FIRMA";
+            checkBox2.Text = "GERENTE DE PRODUCCIÓN";
             checkBox2.UseVisualStyleBackColor = false;
             // 
             // checkBox3
             // 
             checkBox3.AutoSize = true;
             checkBox3.BackColor = Color.Transparent;
-            checkBox3.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBox3.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             checkBox3.ForeColor = Color.White;
-            checkBox3.Location = new Point(374, 14);
+            checkBox3.Location = new Point(368, 20);
             checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(74, 24);
+            checkBox3.Size = new Size(102, 26);
             checkBox3.TabIndex = 100;
-            checkBox3.Text = "FIRMA";
+            checkBox3.Text = "ALMACEN";
             checkBox3.UseVisualStyleBackColor = false;
             // 
             // checkBox4
             // 
             checkBox4.AutoSize = true;
             checkBox4.BackColor = Color.Transparent;
-            checkBox4.Font = new Font("Montserrat", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBox4.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             checkBox4.ForeColor = Color.White;
-            checkBox4.Location = new Point(520, 14);
+            checkBox4.Location = new Point(553, 20);
             checkBox4.Name = "checkBox4";
-            checkBox4.Size = new Size(74, 24);
+            checkBox4.Size = new Size(195, 26);
             checkBox4.TabIndex = 101;
-            checkBox4.Text = "FIRMA";
+            checkBox4.Text = "GERENTE DE CALIDAD";
             checkBox4.UseVisualStyleBackColor = false;
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.BackColor = Color.Transparent;
-            label16.Font = new Font("Montserrat", 9F, FontStyle.Bold);
-            label16.ForeColor = Color.White;
-            label16.Location = new Point(149, 41);
-            label16.Name = "label16";
-            label16.Size = new Size(179, 16);
-            label16.TabIndex = 102;
-            label16.Text = "GERENTE DE PRODUCCIÓN";
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.BackColor = Color.Transparent;
-            label17.Font = new Font("Montserrat", 9F, FontStyle.Bold);
-            label17.ForeColor = Color.White;
-            label17.Location = new Point(374, 41);
-            label17.Name = "label17";
-            label17.Size = new Size(70, 16);
-            label17.TabIndex = 103;
-            label17.Text = "ALMACEN";
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.BackColor = Color.Transparent;
-            label18.Font = new Font("Montserrat", 9F, FontStyle.Bold);
-            label18.ForeColor = Color.White;
-            label18.Location = new Point(482, 41);
-            label18.Name = "label18";
-            label18.Size = new Size(148, 16);
-            label18.TabIndex = 104;
-            label18.Text = "GERENTE DE CALIDAD";
             // 
             // panel7
             // 
             panel7.BackColor = Color.FromArgb(3, 42, 76);
             panel7.Controls.Add(checkBox4);
-            panel7.Controls.Add(label18);
             panel7.Controls.Add(checkBox2);
-            panel7.Controls.Add(label17);
             panel7.Controls.Add(checkBox3);
-            panel7.Controls.Add(label16);
-            panel7.Location = new Point(14, 725);
+            panel7.Location = new Point(14, 732);
             panel7.Name = "panel7";
-            panel7.Size = new Size(793, 69);
+            panel7.Size = new Size(793, 62);
             panel7.TabIndex = 91;
             // 
             // Produccion_OP
@@ -798,6 +853,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Produccion_OP";
             Load += Produccion_OP_Load;
+            Shown += Produccion_OP_Shown;
             panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
@@ -863,9 +919,6 @@
         private CheckBox checkBox2;
         private CheckBox checkBox3;
         private CheckBox checkBox4;
-        private Label label16;
-        private Label label17;
-        private Label label18;
         private Panel panel7;
         private DataGridViewTextBoxColumn ID;
         private DataGridViewTextBoxColumn Descripcion;
@@ -874,5 +927,13 @@
         private TextBox txbCliente;
         private TextBox txbEspecificacion;
         private TextBox txbOC;
+        private Panel panel8;
+        private Panel panel10;
+        private Panel panel9;
+        private Panel panel11;
+        private Label label2;
+        private Label label6;
+        private Label label12;
+        private Label label9;
     }
 }
