@@ -119,7 +119,13 @@
             chbSolicitudMtto = new CheckBox();
             chbMantenimiento = new CheckBox();
             tabPage1 = new TabPage();
+            panel14 = new Panel();
+            chbFirmaGProduccion = new CheckBox();
+            chbFirmaGCalidad = new CheckBox();
+            label15 = new Label();
+            chbFirmaAlmacen = new CheckBox();
             panel13 = new Panel();
+            chbEliminarRegistroProduccion = new CheckBox();
             chbActualizarOT = new CheckBox();
             chbEliminarFamilias = new CheckBox();
             label14 = new Label();
@@ -141,7 +147,6 @@
             chbComprasAlmacenar = new CheckBox();
             cbUsuariosEspeciales = new ComboBox();
             label8 = new Label();
-            chbEliminarRegistroProduccion = new CheckBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -162,6 +167,7 @@
             tabPermisosUsuarios.SuspendLayout();
             panel8.SuspendLayout();
             tabPage1.SuspendLayout();
+            panel14.SuspendLayout();
             panel13.SuspendLayout();
             panel12.SuspendLayout();
             panel11.SuspendLayout();
@@ -1328,6 +1334,7 @@
             // tabPage1
             // 
             tabPage1.BackgroundImage = Properties.Resources.fondocontrolalmacen;
+            tabPage1.Controls.Add(panel14);
             tabPage1.Controls.Add(panel13);
             tabPage1.Controls.Add(panel12);
             tabPage1.Controls.Add(panel11);
@@ -1344,6 +1351,66 @@
             tabPage1.Text = "Permisos Especiales";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // panel14
+            // 
+            panel14.BackColor = Color.FromArgb(3, 42, 76);
+            panel14.Controls.Add(chbFirmaGProduccion);
+            panel14.Controls.Add(chbFirmaGCalidad);
+            panel14.Controls.Add(label15);
+            panel14.Controls.Add(chbFirmaAlmacen);
+            panel14.Location = new Point(518, 93);
+            panel14.Name = "panel14";
+            panel14.Size = new Size(240, 240);
+            panel14.TabIndex = 16;
+            // 
+            // chbFirmaGProduccion
+            // 
+            chbFirmaGProduccion.AutoSize = true;
+            chbFirmaGProduccion.Font = new Font("Montserrat", 9F);
+            chbFirmaGProduccion.ForeColor = Color.White;
+            chbFirmaGProduccion.Location = new Point(15, 102);
+            chbFirmaGProduccion.Name = "chbFirmaGProduccion";
+            chbFirmaGProduccion.Size = new Size(167, 22);
+            chbFirmaGProduccion.TabIndex = 10;
+            chbFirmaGProduccion.Text = "Gerente de Producción";
+            chbFirmaGProduccion.UseVisualStyleBackColor = true;
+            // 
+            // chbFirmaGCalidad
+            // 
+            chbFirmaGCalidad.AutoSize = true;
+            chbFirmaGCalidad.Font = new Font("Montserrat", 9F);
+            chbFirmaGCalidad.ForeColor = Color.White;
+            chbFirmaGCalidad.Location = new Point(15, 74);
+            chbFirmaGCalidad.Name = "chbFirmaGCalidad";
+            chbFirmaGCalidad.Size = new Size(141, 22);
+            chbFirmaGCalidad.TabIndex = 9;
+            chbFirmaGCalidad.Text = "Gerente de Calidad";
+            chbFirmaGCalidad.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.BackColor = Color.Transparent;
+            label15.Font = new Font("Montserrat", 12F, FontStyle.Bold);
+            label15.ForeColor = Color.White;
+            label15.Location = new Point(15, 13);
+            label15.Name = "label15";
+            label15.Size = new Size(76, 25);
+            label15.TabIndex = 8;
+            label15.Text = "FIRMAS";
+            // 
+            // chbFirmaAlmacen
+            // 
+            chbFirmaAlmacen.AutoSize = true;
+            chbFirmaAlmacen.Font = new Font("Montserrat", 9F);
+            chbFirmaAlmacen.ForeColor = Color.White;
+            chbFirmaAlmacen.Location = new Point(15, 48);
+            chbFirmaAlmacen.Name = "chbFirmaAlmacen";
+            chbFirmaAlmacen.Size = new Size(81, 22);
+            chbFirmaAlmacen.TabIndex = 2;
+            chbFirmaAlmacen.Text = "Almacen";
+            chbFirmaAlmacen.UseVisualStyleBackColor = true;
+            // 
             // panel13
             // 
             panel13.BackColor = Color.FromArgb(3, 42, 76);
@@ -1352,10 +1419,22 @@
             panel13.Controls.Add(chbEliminarFamilias);
             panel13.Controls.Add(label14);
             panel13.Controls.Add(chbAdminOP);
-            panel13.Location = new Point(1010, 93);
+            panel13.Location = new Point(26, 339);
             panel13.Name = "panel13";
             panel13.Size = new Size(240, 240);
             panel13.TabIndex = 15;
+            // 
+            // chbEliminarRegistroProduccion
+            // 
+            chbEliminarRegistroProduccion.AutoSize = true;
+            chbEliminarRegistroProduccion.Font = new Font("Montserrat", 9F);
+            chbEliminarRegistroProduccion.ForeColor = Color.White;
+            chbEliminarRegistroProduccion.Location = new Point(15, 132);
+            chbEliminarRegistroProduccion.Name = "chbEliminarRegistroProduccion";
+            chbEliminarRegistroProduccion.Size = new Size(223, 22);
+            chbEliminarRegistroProduccion.TabIndex = 11;
+            chbEliminarRegistroProduccion.Text = "Eliminar Registro de Producción";
+            chbEliminarRegistroProduccion.UseVisualStyleBackColor = true;
             // 
             // chbActualizarOT
             // 
@@ -1410,7 +1489,7 @@
             panel12.BackColor = Color.FromArgb(3, 42, 76);
             panel12.Controls.Add(label13);
             panel12.Controls.Add(chbAjustes);
-            panel12.Location = new Point(764, 93);
+            panel12.Location = new Point(26, 93);
             panel12.Name = "panel12";
             panel12.Size = new Size(240, 240);
             panel12.TabIndex = 14;
@@ -1444,7 +1523,7 @@
             panel11.BackColor = Color.FromArgb(3, 42, 76);
             panel11.Controls.Add(label12);
             panel11.Controls.Add(chbMaquinadoVG);
-            panel11.Location = new Point(518, 93);
+            panel11.Location = new Point(1010, 93);
             panel11.Name = "panel11";
             panel11.Size = new Size(240, 240);
             panel11.TabIndex = 13;
@@ -1478,7 +1557,7 @@
             panel10.BackColor = Color.FromArgb(3, 42, 76);
             panel10.Controls.Add(label11);
             panel10.Controls.Add(chbMantenimientoVG);
-            panel10.Location = new Point(272, 93);
+            panel10.Location = new Point(764, 93);
             panel10.Name = "panel10";
             panel10.Size = new Size(240, 240);
             panel10.TabIndex = 12;
@@ -1540,7 +1619,7 @@
             panel9.Controls.Add(chbComprasVG);
             panel9.Controls.Add(label9);
             panel9.Controls.Add(chbComprasAlmacenar);
-            panel9.Location = new Point(26, 93);
+            panel9.Location = new Point(272, 93);
             panel9.Name = "panel9";
             panel9.Size = new Size(240, 240);
             panel9.TabIndex = 9;
@@ -1605,18 +1684,6 @@
             label8.TabIndex = 3;
             label8.Text = "Usuario:";
             // 
-            // chbEliminarRegistroProduccion
-            // 
-            chbEliminarRegistroProduccion.AutoSize = true;
-            chbEliminarRegistroProduccion.Font = new Font("Montserrat", 9F);
-            chbEliminarRegistroProduccion.ForeColor = Color.White;
-            chbEliminarRegistroProduccion.Location = new Point(15, 132);
-            chbEliminarRegistroProduccion.Name = "chbEliminarRegistroProduccion";
-            chbEliminarRegistroProduccion.Size = new Size(223, 22);
-            chbEliminarRegistroProduccion.TabIndex = 11;
-            chbEliminarRegistroProduccion.Text = "Eliminar Registro de Producción";
-            chbEliminarRegistroProduccion.UseVisualStyleBackColor = true;
-            // 
             // SistemasPermisos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1661,6 +1728,8 @@
             panel8.PerformLayout();
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
+            panel14.ResumeLayout(false);
+            panel14.PerformLayout();
             panel13.ResumeLayout(false);
             panel13.PerformLayout();
             panel12.ResumeLayout(false);
@@ -1788,5 +1857,10 @@
         private CheckBox chbIndicadorMtto;
         private CheckBox chbActualizarOT;
         private CheckBox chbEliminarRegistroProduccion;
+        private Panel panel14;
+        private CheckBox chbFirmaGCalidad;
+        private Label label15;
+        private CheckBox chbFirmaAlmacen;
+        private CheckBox chbFirmaGProduccion;
     }
 }
