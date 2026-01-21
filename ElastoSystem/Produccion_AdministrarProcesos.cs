@@ -616,6 +616,11 @@ namespace ElastoSystem
                 LimpiarCamposEncabezado();
                 CargarFamiliasAdmin();
                 CargarEncabezados();
+                if (cbFamiliaAdministrar.Enabled == false && cbLinea.Enabled == false)
+                {
+                    cbFamiliaAdministrar.Enabled = true;
+                    cbLinea.Enabled = true;
+                }
             }
             if (tabControl1.SelectedIndex == 2)
             {
@@ -996,10 +1001,42 @@ namespace ElastoSystem
         {
             if (string.IsNullOrWhiteSpace(txbHule.Text))
             {
-                MessageBox.Show("No puedes dejar la casilla vacia.");
+                MessageBox.Show("No puedes dejar la casilla vacia.", "Validacion", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            ActualizarHule();
+
+            string huleOriginal = txbHuleOriginal.Text.Trim();
+            string nuevoHule = txbHule.Text.Trim();
+
+            if (huleOriginal == nuevoHule)
+            {
+                MessageBox.Show("El nombre del hule no ha cambiado.", "Sin cambios", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DialogResult respuesta = MessageBox.Show(
+                $"Estás a punto de cambiar el nombre del hule de:\n\n" +
+                $"**{huleOriginal}** → **{nuevoHule}**\n\n" +
+                "Esto afectará:\n" +
+                "• Operaciones en la Hoja de Ruta y Encabezado\n\n" +
+                "¿Estás seguro de continuar?\n\n" +
+                "Esta acción NO se puede deshacer fácilmente.",
+                "Confirmar actualización de hule",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2
+            );
+
+            if (respuesta == DialogResult.Yes)
+            {
+                ActualizarHule();
+                CargarHules();
+                btnNuevoHules.PerformClick();
+            }
+            else
+            {
+                txbHule.Text = huleOriginal;
+            }
         }
 
         private void ActualizarHule()
@@ -1011,91 +1048,147 @@ namespace ElastoSystem
                     conn.Open();
 
                     string checkQuery = "SELECT COUNT(*) FROM elastosystem_produccion_hules WHERE Hule = @NUEVO_HULE AND Hule != @HULE_ORIGINAL";
-
-                    MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn);
-                    checkCmd.Parameters.AddWithValue("@NUEVO_HULE", txbHule.Text.Trim());
-                    checkCmd.Parameters.AddWithValue("@HULE_ORIGINAL", txbHuleOriginal.Text.Trim());
-
-                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                    if (count > 0)
+                    using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
                     {
-                        MessageBox.Show("El hule ya existe.");
-                        return;
+                        checkCmd.Parameters.AddWithValue("@NUEVO_HULE", txbHule.Text.Trim());
+                        checkCmd.Parameters.AddWithValue("@HULE_ORIGINAL", txbHuleOriginal.Text.Trim());
+                        int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                        if (count > 0)
+                        {
+                            MessageBox.Show("Ya existe un hule con el nuevo nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
                     }
 
                     string updateQuery = "UPDATE elastosystem_produccion_hules SET Hule = @HULE WHERE Hule = @HULE_ORIGINAL";
-
-                    MySqlCommand cmd = new MySqlCommand();
-                    cmd.Parameters.AddWithValue("@HULE", txbHule.Text.Trim());
-                    cmd.Parameters.AddWithValue("@HULE_ORIGINAL", txbHuleOriginal.Text.Trim());
-                    cmd.Connection = conn;
-                    cmd.CommandText = updateQuery;
-                    cmd.ExecuteNonQuery();
+                    using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@HULE", txbHule.Text.Trim());
+                        cmd.Parameters.AddWithValue("@HULE_ORIGINAL", txbHuleOriginal.Text.Trim());
+                        cmd.ExecuteNonQuery();
+                    }
 
                     ActualizarGeneralHules();
 
-                    MessageBox.Show("Hule actualizado correctamente.");
+                    MessageBox.Show("Hule actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     btnNuevoHules.PerformClick();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("ERROR AL ACTUALIZAR HULE: " + ex.Message);
-                }
-                finally
-                {
-                    conn.Close();
+                    MessageBox.Show("ERROR AL ACTUALIZAR HULE:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         private void ActualizarGeneralHules()
         {
+            string huleOriginal = txbHuleOriginal.Text.Trim();
+            string nuevoHule = txbHule.Text.Trim();
+
             using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
                     conn.Open();
 
-                    string huleOriginal = txbHuleOriginal.Text.Trim();
-                    string nuevoHule = txbHule.Text.Trim();
-
-                    string updateMaterialQuery = @"
-                        UPDATE elastosystem_produccion_encabezado
-                        SET Material = REPLACE(Material, @HULE_ORIGINAL, @NUEVO_HULE)
-                        WHERE Material LIKE CONCAT('%', @HULE_ORIGINAL, '%')";
-
-                    using (MySqlCommand cmdMaterial = new MySqlCommand(updateMaterialQuery, conn))
-                    {
-                        cmdMaterial.Parameters.AddWithValue("@HULE_ORIGINAL", huleOriginal);
-                        cmdMaterial.Parameters.AddWithValue("@NUEVO_HULE", nuevoHule);
-                        cmdMaterial.ExecuteNonQuery();
-                    }
-
-                    string updateInsumosQuery = @"
-                        UPDATE elastosystem_produccion_hoja_ruta
-                        SET Insumos = REPLACE(Insumos, @HULE_ORIGINAL, @NUEVO_HULE)
+                    string queryInsumos = @"
+                        SELECT ID, Insumos
+                        FROM elastosystem_produccion_hoja_ruta
                         WHERE Insumos LIKE CONCAT('%', @HULE_ORIGINAL, '%')";
 
-                    using (MySqlCommand cmdInsumos = new MySqlCommand(updateInsumosQuery, conn))
+                    using (MySqlCommand cmdSelect = new MySqlCommand(queryInsumos, conn))
                     {
-                        cmdInsumos.Parameters.AddWithValue("@HULE_ORIGINAL", huleOriginal);
-                        cmdInsumos.Parameters.AddWithValue("@NUEVO_HULE", nuevoHule);
-                        cmdInsumos.ExecuteNonQuery();
+                        cmdSelect.Parameters.AddWithValue("@HULE_ORIGINAL", huleOriginal);
+                        var updates = new List<(int id, string newInsumos)>();
+
+                        using (MySqlDataReader reader = cmdSelect.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int id = reader.GetInt32("ID");
+                                string insumos = reader.GetString("Insumos");
+                                string newInsumos = ReemplazarHuleEnCadena(insumos, huleOriginal, nuevoHule);
+                                updates.Add((id, newInsumos));
+                            }
+                        }
+
+                        foreach (var u in updates)
+                        {
+                            string updateQ = "UPDATE elastosystem_produccion_hoja_ruta SET Insumos = @NEW WHERE ID = @ID";
+                            using (MySqlCommand cmdU = new MySqlCommand(updateQ, conn))
+                            {
+                                cmdU.Parameters.AddWithValue("@NEW", u.newInsumos);
+                                cmdU.Parameters.AddWithValue("@ID", u.id);
+                                cmdU.ExecuteNonQuery();
+                            }
+                        }
                     }
+
+                    string queryMaterial = @"
+                        SELECT ID, Material
+                        FROM elastosystem_produccion_encabezado
+                        WHERE Material LIKE CONCAT('%', @HULE_ORIGINAL, '%')";
+
+                    using (MySqlCommand cmdSelectMat = new MySqlCommand(queryMaterial, conn))
+                    {
+                        cmdSelectMat.Parameters.AddWithValue("@HULE_ORIGINAL", huleOriginal);
+                        var updatesMat = new List<(int id, string newMaterial)>();
+
+                        using (MySqlDataReader reader = cmdSelectMat.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int id = reader.GetInt32("ID");
+                                string material = reader.GetString("Material");
+                                string newMaterial = ReemplazarHuleEnCadena(material, huleOriginal, nuevoHule);
+                                updatesMat.Add((id, newMaterial));
+                            }
+                        }
+
+                        foreach (var u in updatesMat)
+                        {
+                            string updateQ = "UPDATE elastosystem_produccion_encabezado SET Material = @NEW WHERE ID = @ID";
+                            using (MySqlCommand cmdU = new MySqlCommand(updateQ, conn))
+                            {
+                                cmdU.Parameters.AddWithValue("@NEW", u.newMaterial);
+                                cmdU.Parameters.AddWithValue("@ID", u.id);
+                                cmdU.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
+                    RevisarHule();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("ERROR AL ACTUALIZAR HULES EN TODOS LOS REGISTROS: " + ex.Message);
+                    MessageBox.Show("ERROR AL ACTUALIZAR HULES EN TODOS LOS REGISTROS:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                finally
+            }
+        }
+
+        private string ReemplazarHuleEnCadena(string cadena, string huleOriginal, string nuevoHule)
+        {
+            if (string.IsNullOrEmpty(cadena) || !cadena.Contains("//")) return cadena;
+
+            string[] partes = cadena.Split(new[] { "//" }, 2, StringSplitOptions.None);
+            string antes = partes[0].TrimEnd();
+            string despues = partes.Length > 1 ? "//" + partes[1].TrimStart() : "";
+
+            var hules = antes.Split(',')
+                             .Select(h => h.Trim())
+                             .Where(h => !string.IsNullOrWhiteSpace(h))
+                             .ToList();
+
+            for (int i = 0; i < hules.Count; i++)
+            {
+                if (hules[i] == huleOriginal)
                 {
-                    conn.Close();
+                    hules[i] = nuevoHule;
                 }
             }
 
-            //elastosystem_produccion_encabezado Material
-            //elastosystem_produccion_hoja_ruta Insumos
+            string nuevosHules = string.Join(", ", hules);
+            return nuevosHules + (string.IsNullOrEmpty(despues) ? "" : "" + despues);
         }
 
         private void tabHojaRuta_Click(object sender, EventArgs e)
@@ -1491,8 +1584,13 @@ namespace ElastoSystem
                             if(rowsAffected > 0)
                             {
                                 MessageBox.Show("Operación reactivada correctamente.");
-
-                                lblCamposObligatorios.Visible = false; pbCampos.Visible = false; pbNoOperacion.Visible = false; pbArea.Visible = false; pbNave.Visible = false; pbDescripcion.Visible = false;
+                                RevisarHule();
+                                lblCamposObligatorios.Visible = false; 
+                                pbCampos.Visible = false; 
+                                pbNoOperacion.Visible = false; 
+                                pbArea.Visible = false; 
+                                pbNave.Visible = false; 
+                                pbDescripcion.Visible = false;
                                 btnNuevo.Visible = false;
                                 btnEliminarProceso.Visible = false;
                                 btnActualizarProceso.Visible = false;
@@ -1634,37 +1732,34 @@ namespace ElastoSystem
         private void RevisarHule()
         {
             string familiaSeleccionada = cbFamilia.Text.Trim();
-
             using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
                     conn.Open();
-
                     string query = @"SELECT COUNT(*) FROM elastosystem_produccion_encabezado
                                     WHERE Familia = @FAMILIA";
-
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@FAMILIA", familiaSeleccionada);
-
                         int cantidad = Convert.ToInt32(cmd.ExecuteScalar());
-
                         if (cantidad > 0)
                         {
-                            string hojaRutaQuery = "SELECT Insumos FROM elastosystem_produccion_hoja_ruta WHERE Familia = @FAMILIA";
+                            string hojaRutaQuery = @"
+                                SELECT Insumos 
+                                FROM elastosystem_produccion_hoja_ruta 
+                                WHERE Familia = @FAMILIA
+                                    AND Estatus = 'ACTIVA'";
+
                             using (MySqlCommand hojaRutaCmd = new MySqlCommand(hojaRutaQuery, conn))
                             {
                                 hojaRutaCmd.Parameters.AddWithValue("@FAMILIA", familiaSeleccionada);
-
                                 using (MySqlDataReader reader = hojaRutaCmd.ExecuteReader())
                                 {
                                     List<string> listaHules = new List<string>();
-
                                     while (reader.Read())
                                     {
                                         string insumos = reader["Insumos"]?.ToString();
-
                                         if (!string.IsNullOrEmpty(insumos) && insumos.Contains("//"))
                                         {
                                             string[] partes = insumos.Split(new string[] { "//" }, StringSplitOptions.None);
@@ -1856,6 +1951,7 @@ namespace ElastoSystem
 
                     if(rowsAffected > 0)
                     {
+                        EliminarHuleDeEncabezado();
                         MessageBox.Show("Proceso eliminado correctamente.");
                         btnNuevo.PerformClick();
                         MandarALlamarHojaRuta();
@@ -1872,6 +1968,80 @@ namespace ElastoSystem
                 finally
                 {
                     conn.Close();
+                }
+            }
+        }
+
+        private void EliminarHuleDeEncabezado()
+        {
+            string familia = cbFamilia.SelectedItem?.ToString()?.Trim();
+            if (string.IsNullOrWhiteSpace(familia))
+            {
+                return;
+            }
+
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    List<string> hulesActivos = new List<string>();
+                    string queryHulesActivos = @"
+                        SELECT DISTINCT TRIM(SUBSTRING_INDEX(Insumos, '//', 1)) AS Hule
+                        FROM elastosystem_produccion_hoja_ruta
+                        WHERE Familia = @FAMILIA
+                            AND Estatus = 'ACTIVA'
+                            AND Insumos LIKE '%//%'
+                            AND TRIM(SUBSTRING_INDEX(Insumos, '//', 1)) <> ''";
+
+                    using (MySqlCommand cmdHules = new MySqlCommand(queryHulesActivos, conn))
+                    {
+                        cmdHules.Parameters.AddWithValue("@FAMILIA", familia);
+                        using (MySqlDataReader reader = cmdHules.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string hule = reader["Hule"].ToString().Trim();
+                                if (!string.IsNullOrWhiteSpace(hule))
+                                {
+                                    hulesActivos.Add(hule);
+                                }
+                            }
+                        }
+                    }
+
+                    string nuevosHules = hulesActivos.Count > 0
+                        ? string.Join(", ", hulesActivos) + " //"
+                        : "";
+
+
+                    string updateQuery = @"
+                        UPDATE elastosystem_produccion_encabezado
+                        SET Material = CASE
+                            WHEN Material LIKE '%//%' THEN
+                                CONCAT(@NUEVOS_HULES, ' ', TRIM(SUBSTRING_INDEX(Material, '//', -1)))
+                            ELSE
+                                @NUEVOS_HULES
+                        END
+                        WHERE Familia = @FAMILIA";
+
+                    using (MySqlCommand cmdUpdate = new MySqlCommand(updateQuery, conn))
+                    {
+                        cmdUpdate.Parameters.AddWithValue("@FAMILIA", familia);
+                        cmdUpdate.Parameters.AddWithValue("@NUEVOS_HULES", nuevosHules.TrimEnd());
+
+                        int filasActualizadas = cmdUpdate.ExecuteNonQuery();
+
+                        if (filasActualizadas > 0)
+                        {
+                            
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL ELIMINAR HULE DE ENCABEZADOS:\n" + ex.Message);
                 }
             }
         }
