@@ -36,6 +36,46 @@ namespace ElastoSystem
             chbFirmaGProduccion.CheckedChanged += CheckboxFirma_CheckedChanged;
             chbFirmaAlmacen.CheckedChanged += CheckboxFirma_CheckedChanged;
             chbFirmaGCalidad.CheckedChanged += CheckboxFirma_CheckedChanged;
+
+            RevisarPermisoRegistroPT();
+        }
+
+        private void RevisarPermisoRegistroPT()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT pm.RegistroPT
+                        FROM elastosystem_login l
+                        INNER JOIN elastosystem_permisos_menu pm ON l.ID = pm.ID
+                        WHERE l.Usuario = @USUARIO
+                        LIMIT 1";
+
+                    bool tienePermiso = false;
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            tienePermiso = Convert.ToBoolean(result);
+                        }
+                    }
+
+                    btnRegistrarPT.Visible = tienePermiso;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al verificar permiso para Registrar PT:\n" + ex.Message, "Error de permisos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    btnRegistrarPT.Visible = false;
+                }
+            }
         }
 
         private void CheckboxFirma_CheckedChanged(object sender, EventArgs e)

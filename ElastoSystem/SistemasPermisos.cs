@@ -1273,6 +1273,7 @@ namespace ElastoSystem
             chbAdminOP.Checked = false;
             chbEliminarFamilias.Checked = false;
             chbEliminarRegistroProduccion.Checked = false;
+            chbRegistroPT.Checked = false;
 
             chbFirmaAlmacen.Checked = false;
             chbFirmaGCalidad.Checked = false;
@@ -1324,7 +1325,7 @@ namespace ElastoSystem
             cmd.Connection = conn;
             try
             {
-                string query = "SELECT Compras_AlmacenarREQ, Compras_VG, Mantenimiento_VG, Maquinado_VG, Ajustes, AdminOP, EliminarFamilias, ActualizarOT, EliminarRegistroProd, Firma_Almacen, Firma_GCalidad, Firma_GProduccion FROM elastosystem_permisos_menu WHERE ID = @ID";
+                string query = "SELECT Compras_AlmacenarREQ, Compras_VG, Mantenimiento_VG, Maquinado_VG, Ajustes, AdminOP, EliminarFamilias, ActualizarOT, EliminarRegistroProd, Firma_Almacen, Firma_GCalidad, Firma_GProduccion, RegistroPT FROM elastosystem_permisos_menu WHERE ID = @ID";
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@ID", id);
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -1401,6 +1402,12 @@ namespace ElastoSystem
                     {
                         chbFirmaGProduccion.Checked = true;
                     }
+
+                    string registroPTValue = reader["RegistroPT"].ToString();
+                    if (registroPTValue == "True")
+                    {
+                        chbRegistroPT.Checked = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -1433,6 +1440,7 @@ namespace ElastoSystem
             bool boolAdminOP = chbAdminOP.Checked;
             bool boolEliminarFamilias = chbEliminarFamilias.Checked;
             bool boolEliminarRegistroProd = chbEliminarRegistroProduccion.Checked;
+            bool boolRegistroPT = chbRegistroPT.Checked;
 
             bool boolFirmaAlmacen = chbFirmaAlmacen.Checked;
             bool boolFirmaGCalidad = chbFirmaGCalidad.Checked;
@@ -1444,7 +1452,7 @@ namespace ElastoSystem
             try
             {
                 cmd.Connection = conn;
-                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Compras_AlmacenarREQ = " + boolAlmacenarReq + ", Compras_VG = " + boolComprasVG + ", Maquinado_VG = " + boolMaquinadoVG + ", Mantenimiento_VG = " + boolMantenimientoVG + ", Ajustes = " + boolAjustes + ", AdminOP = " + boolAdminOP + ", EliminarFamilias = " + boolEliminarFamilias + ", ActualizarOT = " + boolActualizarOT + ", EliminarRegistroProd = " + boolEliminarRegistroProd + ", Firma_Almacen = " + boolFirmaAlmacen + ", Firma_GCalidad = " + boolFirmaGCalidad + ", Firma_GProduccion = " + boolFirmaGProduccion + " WHERE ID = '" + lblNumeroEspecial.Text + "'";
+                cmd.CommandText = "UPDATE elastosystem_permisos_menu SET Compras_AlmacenarREQ = " + boolAlmacenarReq + ", Compras_VG = " + boolComprasVG + ", Maquinado_VG = " + boolMaquinadoVG + ", Mantenimiento_VG = " + boolMantenimientoVG + ", Ajustes = " + boolAjustes + ", AdminOP = " + boolAdminOP + ", EliminarFamilias = " + boolEliminarFamilias + ", ActualizarOT = " + boolActualizarOT + ", EliminarRegistroProd = " + boolEliminarRegistroProd + ", Firma_Almacen = " + boolFirmaAlmacen + ", Firma_GCalidad = " + boolFirmaGCalidad + ", Firma_GProduccion = " + boolFirmaGProduccion + ", RegistroPT = " + boolRegistroPT + " WHERE ID = '" + lblNumeroEspecial.Text + "'";
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Permisos Especiales Actualizados");
                 LimpiarCHBEscpeciales();

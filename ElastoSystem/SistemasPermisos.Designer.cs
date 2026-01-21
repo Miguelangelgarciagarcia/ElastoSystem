@@ -147,6 +147,7 @@
             chbComprasAlmacenar = new CheckBox();
             cbUsuariosEspeciales = new ComboBox();
             label8 = new Label();
+            chbRegistroPT = new CheckBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -1414,6 +1415,7 @@
             // panel13
             // 
             panel13.BackColor = Color.FromArgb(3, 42, 76);
+            panel13.Controls.Add(chbRegistroPT);
             panel13.Controls.Add(chbEliminarRegistroProduccion);
             panel13.Controls.Add(chbActualizarOT);
             panel13.Controls.Add(chbEliminarFamilias);
@@ -1684,6 +1686,18 @@
             label8.TabIndex = 3;
             label8.Text = "Usuario:";
             // 
+            // chbRegistroPT
+            // 
+            chbRegistroPT.AutoSize = true;
+            chbRegistroPT.Font = new Font("Montserrat", 9F);
+            chbRegistroPT.ForeColor = Color.White;
+            chbRegistroPT.Location = new Point(15, 160);
+            chbRegistroPT.Name = "chbRegistroPT";
+            chbRegistroPT.Size = new Size(115, 22);
+            chbRegistroPT.TabIndex = 12;
+            chbRegistroPT.Text = "Registro de PT";
+            chbRegistroPT.UseVisualStyleBackColor = true;
+            // 
             // SistemasPermisos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1862,5 +1876,6 @@
         private Label label15;
         private CheckBox chbFirmaAlmacen;
         private CheckBox chbFirmaGProduccion;
+        private CheckBox chbRegistroPT;
     }
 }
