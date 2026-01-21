@@ -29,7 +29,170 @@ namespace ElastoSystem
             _folioOP = folio;
             lblSolicitudFabricacion.Text = solicitud;
             _folioSolicitudFabricacion = solicitud;
+
             CargarInfoOP();
+            CargarFirmas();
+
+            chbFirmaGProduccion.CheckedChanged += CheckboxFirma_CheckedChanged;
+            chbFirmaAlmacen.CheckedChanged += CheckboxFirma_CheckedChanged;
+            chbFirmaGCalidad.CheckedChanged += CheckboxFirma_CheckedChanged;
+        }
+
+        private void CheckboxFirma_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox chk = sender as CheckBox;
+            if (chk == null) return;
+
+            string permisoRequerido = "";
+            string columnaDB = "";
+
+            if (chk == chbFirmaGProduccion)
+            {
+                permisoRequerido = "Firma_GProduccion";
+                columnaDB = "FProduccion";
+            }
+            else if (chk == chbFirmaAlmacen)
+            {
+                permisoRequerido = "Firma_Almacen";
+                columnaDB = "FAlmacen";
+            }
+            else if (chk == chbFirmaGCalidad)
+            {
+                permisoRequerido = "Firma_GCalidad";
+                columnaDB = "FCalidad";
+            }
+
+            if (!TienePermisoFirma(permisoRequerido))
+            {
+                MessageBox.Show($"No tienes permiso para firmar en {chk.Text}.", "Sin permiso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chk.CheckedChanged -= CheckboxFirma_CheckedChanged;
+                chk.Checked = !chk.Checked;
+                chk.CheckedChanged += CheckboxFirma_CheckedChanged;
+                return;
+            }
+
+            ActualizarFirmaEnBD(columnaDB, chk.Checked);
+
+            ValidarPosibilidadCerrarOP();
+        }
+
+        private bool TienePermisoFirma(string nombrePermiso)
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT p." + nombrePermiso + @"
+                        FROM elastosystem_permisos_menu p
+                        INNER JOIN elastosystem_login l ON p.ID = l.ID
+                        WHERE l.Usuario = @USUARIO";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@USUARIO", VariablesGlobales.Usuario);
+                        object result = cmd.ExecuteScalar();
+                        return result != null && Convert.ToBoolean(result);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
+        private void ActualizarFirmaEnBD(string columna, bool valor)
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = $@"
+                        UPDATE elastosystem_produccion_orden_produccion
+                        SET {columna} = @VALOR
+                        WHERE Folio_ALT = @FOLIO";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@VALOR", valor);
+                        cmd.Parameters.AddWithValue("@FOLIO", lblFolioOP.Text.Trim());
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"ERROR AL GUARDAR FIRMA {columna}:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void ValidarPosibilidadCerrarOP()
+        {
+            bool firmasCompletas = chbFirmaGProduccion.Checked &&
+                                   chbFirmaAlmacen.Checked &&
+                                   chbFirmaGCalidad.Checked;
+
+            if (!firmasCompletas) return;
+
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string queryEstatus = "SELECT Estatus FROM elastosystem_produccion_orden_produccion WHERE Folio_ALT = @FOLIO";
+                    using (MySqlCommand cmdEstatus = new MySqlCommand(queryEstatus, conn))
+                    {
+                        cmdEstatus.Parameters.AddWithValue("@FOLIO", lblFolioOP.Text.Trim());
+                        string estatus = cmdEstatus.ExecuteScalar()?.ToString()?.Trim();
+
+                        if (estatus != "Activa") return;
+                    }
+
+                    if (!decimal.TryParse(txbCantidad.Text, out decimal producida) ||
+                        !decimal.TryParse(lblCantidad.Text, out decimal solicitada) ||
+                        producida < solicitada)
+                    {
+                        return;
+                    }
+
+                    bool todasFinalizadas = true;
+                    foreach (DataGridViewRow row in dgvOperaciones.Rows)
+                    {
+                        string estatusOT = row.Cells["EstatusOT"].Value?.ToString()?.Trim().ToUpper();
+                        if (estatusOT != "FINALIZADA")
+                        {
+                            todasFinalizadas = false;
+                            break;
+                        }
+                    }
+
+                    if (!todasFinalizadas) return;
+
+                    DialogResult resp = MessageBox.Show(
+                        "La Orden de Producción cumple con todos los requisitos:\n" +
+                        "• Todas las firmas están completas\n" +
+                        "• Cantidad producida mayor o igual a la solicitada\n" +
+                        "• Todas las operaciones están FINALIZADAS\n\n" +
+                        "¿Desea cerrar la Orden de Producción ahora?",
+                        "Cerrar Orden de Producción",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
+
+                    if (resp == DialogResult.Yes)
+                    {
+                        //CERRAR ORDEN DE PRODUCCION
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL VALIDAR CIERRE DE OP:\n" + ex.Message);
+                }
+            }
         }
 
         [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]
@@ -130,6 +293,46 @@ namespace ElastoSystem
                 finally
                 {
                     conn.Close();
+                }
+            }
+        }
+
+        private void CargarFirmas()
+        {
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT FProduccion, FAlmacen, FCalidad,
+                               Estatus, CantidadSolicitada
+                        FROM elastosystem_produccion_orden_produccion
+                        WHERE Folio_ALT = @FOLIO";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FOLIO", lblFolioOP.Text.Trim());
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                chbFirmaGProduccion.Checked = reader.GetBoolean("FProduccion");
+                                chbFirmaAlmacen.Checked = reader.GetBoolean("FAlmacen");
+                                chbFirmaGCalidad.Checked = reader.GetBoolean("FCalidad");
+
+                                string estatusOP = reader["Estatus"].ToString().Trim();
+                                lblEstatusOP.Text = estatusOP;
+                            }
+                        }
+                    }
+
+                    ValidarPosibilidadCerrarOP();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR AL CARGAR FIRMAS:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -464,7 +667,7 @@ namespace ElastoSystem
 
         private void Produccion_OP_Load(object sender, EventArgs e)
         {
-
+            ValidarPosibilidadCerrarOP();
         }
 
         private void dgvOperaciones_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

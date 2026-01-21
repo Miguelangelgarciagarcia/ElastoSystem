@@ -91,10 +91,11 @@
             label14 = new Label();
             txbCantidad = new TextBox();
             label15 = new Label();
-            checkBox2 = new CheckBox();
-            checkBox3 = new CheckBox();
-            checkBox4 = new CheckBox();
+            chbFirmaGProduccion = new CheckBox();
+            chbFirmaAlmacen = new CheckBox();
+            chbFirmaGCalidad = new CheckBox();
             panel7 = new Panel();
+            lblEstatusOP = new Label();
             panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -762,9 +763,11 @@
             // 
             // txbCantidad
             // 
+            txbCantidad.Enabled = false;
             txbCantidad.Font = new Font("Montserrat", 12F);
             txbCantidad.Location = new Point(341, 707);
             txbCantidad.Name = "txbCantidad";
+            txbCantidad.ReadOnly = true;
             txbCantidad.Size = new Size(168, 27);
             txbCantidad.TabIndex = 98;
             // 
@@ -780,55 +783,67 @@
             label15.TabIndex = 97;
             label15.Text = "PRODUCCIÓN TOTAL ENTREGADA";
             // 
-            // checkBox2
+            // chbFirmaGProduccion
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.BackColor = Color.Transparent;
-            checkBox2.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            checkBox2.ForeColor = Color.White;
-            checkBox2.Location = new Point(42, 9);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(229, 26);
-            checkBox2.TabIndex = 99;
-            checkBox2.Text = "GERENTE DE PRODUCCIÓN";
-            checkBox2.UseVisualStyleBackColor = false;
+            chbFirmaGProduccion.AutoSize = true;
+            chbFirmaGProduccion.BackColor = Color.Transparent;
+            chbFirmaGProduccion.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chbFirmaGProduccion.ForeColor = Color.White;
+            chbFirmaGProduccion.Location = new Point(42, 10);
+            chbFirmaGProduccion.Name = "chbFirmaGProduccion";
+            chbFirmaGProduccion.Size = new Size(229, 26);
+            chbFirmaGProduccion.TabIndex = 99;
+            chbFirmaGProduccion.Text = "GERENTE DE PRODUCCIÓN";
+            chbFirmaGProduccion.UseVisualStyleBackColor = false;
             // 
-            // checkBox3
+            // chbFirmaAlmacen
             // 
-            checkBox3.AutoSize = true;
-            checkBox3.BackColor = Color.Transparent;
-            checkBox3.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            checkBox3.ForeColor = Color.White;
-            checkBox3.Location = new Point(368, 9);
-            checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(102, 26);
-            checkBox3.TabIndex = 100;
-            checkBox3.Text = "ALMACEN";
-            checkBox3.UseVisualStyleBackColor = false;
+            chbFirmaAlmacen.AutoSize = true;
+            chbFirmaAlmacen.BackColor = Color.Transparent;
+            chbFirmaAlmacen.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chbFirmaAlmacen.ForeColor = Color.White;
+            chbFirmaAlmacen.Location = new Point(368, 10);
+            chbFirmaAlmacen.Name = "chbFirmaAlmacen";
+            chbFirmaAlmacen.Size = new Size(102, 26);
+            chbFirmaAlmacen.TabIndex = 100;
+            chbFirmaAlmacen.Text = "ALMACEN";
+            chbFirmaAlmacen.UseVisualStyleBackColor = false;
             // 
-            // checkBox4
+            // chbFirmaGCalidad
             // 
-            checkBox4.AutoSize = true;
-            checkBox4.BackColor = Color.Transparent;
-            checkBox4.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            checkBox4.ForeColor = Color.White;
-            checkBox4.Location = new Point(553, 9);
-            checkBox4.Name = "checkBox4";
-            checkBox4.Size = new Size(195, 26);
-            checkBox4.TabIndex = 101;
-            checkBox4.Text = "GERENTE DE CALIDAD";
-            checkBox4.UseVisualStyleBackColor = false;
+            chbFirmaGCalidad.AutoSize = true;
+            chbFirmaGCalidad.BackColor = Color.Transparent;
+            chbFirmaGCalidad.Font = new Font("Montserrat", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chbFirmaGCalidad.ForeColor = Color.White;
+            chbFirmaGCalidad.Location = new Point(553, 10);
+            chbFirmaGCalidad.Name = "chbFirmaGCalidad";
+            chbFirmaGCalidad.Size = new Size(195, 26);
+            chbFirmaGCalidad.TabIndex = 101;
+            chbFirmaGCalidad.Text = "GERENTE DE CALIDAD";
+            chbFirmaGCalidad.UseVisualStyleBackColor = false;
             // 
             // panel7
             // 
             panel7.BackColor = Color.FromArgb(3, 42, 76);
-            panel7.Controls.Add(checkBox4);
-            panel7.Controls.Add(checkBox2);
-            panel7.Controls.Add(checkBox3);
+            panel7.Controls.Add(chbFirmaGCalidad);
+            panel7.Controls.Add(chbFirmaGProduccion);
+            panel7.Controls.Add(chbFirmaAlmacen);
             panel7.Location = new Point(14, 749);
             panel7.Name = "panel7";
             panel7.Size = new Size(793, 45);
             panel7.TabIndex = 91;
+            // 
+            // lblEstatusOP
+            // 
+            lblEstatusOP.AutoSize = true;
+            lblEstatusOP.BackColor = Color.Transparent;
+            lblEstatusOP.Font = new Font("Montserrat", 11F, FontStyle.Bold);
+            lblEstatusOP.ForeColor = Color.White;
+            lblEstatusOP.Location = new Point(27, 710);
+            lblEstatusOP.Name = "lblEstatusOP";
+            lblEstatusOP.Size = new Size(66, 24);
+            lblEstatusOP.TabIndex = 99;
+            lblEstatusOP.Text = "ERROR";
             // 
             // Produccion_OP
             // 
@@ -836,6 +851,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fondocontrolalmacen;
             ClientSize = new Size(817, 806);
+            Controls.Add(lblEstatusOP);
             Controls.Add(panel7);
             Controls.Add(txbCantidad);
             Controls.Add(label15);
@@ -916,9 +932,9 @@
         private DataGridViewTextBoxColumn Entrega;
         private TextBox txbCantidad;
         private Label label15;
-        private CheckBox checkBox2;
-        private CheckBox checkBox3;
-        private CheckBox checkBox4;
+        private CheckBox chbFirmaGProduccion;
+        private CheckBox chbFirmaAlmacen;
+        private CheckBox chbFirmaGCalidad;
         private Panel panel7;
         private DataGridViewTextBoxColumn ID;
         private DataGridViewTextBoxColumn Descripcion;
@@ -935,5 +951,6 @@
         private Label label6;
         private Label label12;
         private Label label9;
+        private Label lblEstatusOP;
     }
 }
