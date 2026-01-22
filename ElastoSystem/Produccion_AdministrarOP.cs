@@ -362,43 +362,91 @@ namespace ElastoSystem
         private void dgvOperaciones_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             btnActualizarOperacion.Visible = true;
-            btnDuplicarOperacion.Visible = true;
-
+            //btnDuplicarOperacion.Visible = true;
             txbDescripcion.Text = "";
             lblOT.Text = "ERROR";
             txbCantidadDGV.Text = "";
             cbEstatus.SelectedIndex = -1;
             lblID.Text = "ID ERROR";
 
+            if (e.RowIndex < 0) return;
+
             DataGridView dgv = (DataGridView)sender;
-            if (dgv.SelectedCells.Count > 0)
+
+            string otFolio = dgv.Rows[e.RowIndex].Cells[2].Value?.ToString()?.Trim() ?? "";
+
+            if (string.IsNullOrWhiteSpace(otFolio) || otFolio.Equals("SIN_OT", StringComparison.OrdinalIgnoreCase))
             {
-                int rowIndex = dgv.SelectedCells[0].RowIndex;
-
-                string id = dgv.Rows[rowIndex].Cells[0].Value.ToString();
-                lblID.Text = id;
-
-                string descripcion = dgv.Rows[rowIndex].Cells[1].Value.ToString();
-                txbDescripcion.Text = descripcion;
-
-                string ot = dgv.Rows[rowIndex].Cells[2].Value.ToString();
-                lblOT.Text = ot;
+                lblOT.Text = "SIN OT";
                 lblOT.Visible = true;
 
-                if (!string.IsNullOrEmpty(ot))
+                MessageBox.Show(
+                    "Esta operación una OT asiganda incluso aunque sea precreada. Revisar con el administrador.", "Operación sin OT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                dgv.Rows[e.RowIndex].Selected = true;
+                return;
+            }
+
+            bool existeOT = false;
+            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
                 {
-                    char ultimoCaracter = ot.Last();
-                    if (char.IsLetter(ultimoCaracter))
+                    conn.Open();
+                    string query = "SELECT COUNT(*) FROM elastosystem_produccion_ot WHERE Folio = @FOLIO";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        btnDuplicarOperacion.Visible = false;
+                        cmd.Parameters.AddWithValue("@FOLIO", otFolio);
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        existeOT = count > 0;
                     }
                 }
+                catch (Exception ex)
+                {
+                    existeOT = true;
+                    MessageBox.Show("ERROR AL VERIFICAR LA OT:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
 
-                string cantidad = dgv.Rows[rowIndex].Cells[3].Value.ToString();
+            if (existeOT)
+            {
+                lblOT.Visible = false;
+                btnActualizarOperacion.Visible = false;
+                //btnDuplicarOperacion.Visible = false;
+
+                MessageBox.Show(
+                    "No se puede actualizar una operación que ya tiene una OT creada en este apartado.\n\n" +
+                    "Esto se realiza directamente desde la ventana de la OT.\n" +
+                    "Aqui solo puedes modificar operaciones precreadas.",
+                    "Operación bloqueada",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                dgv.Rows[e.RowIndex].Selected = true;
+            }
+            else
+            {
+                string id = dgv.Rows[e.RowIndex].Cells[0].Value?.ToString() ?? "";
+                string descripcion = dgv.Rows[e.RowIndex].Cells[1].Value?.ToString() ?? "";
+                string cantidad = dgv.Rows[e.RowIndex].Cells[3].Value?.ToString() ?? "";
+                string estatus = dgv.Rows[e.RowIndex].Cells[4].Value?.ToString() ?? "";
+
+                lblID.Text = id;
+                txbDescripcion.Text = descripcion;
+                lblOT.Text = otFolio;
+                lblOT.Visible = true;
                 txbCantidadDGV.Text = cantidad;
-
-                string estatus = dgv.Rows[rowIndex].Cells[4].Value.ToString();
                 cbEstatus.SelectedItem = estatus;
+
+                btnActualizarOperacion.Visible = true;
+                //btnDuplicarOperacion.Visible = true;
+
+                char ultimoCaracter = otFolio.Last();
+                if (char.IsLetter(ultimoCaracter))
+                {
+                    //btnDuplicarOperacion.Visible = false;
+                }
             }
         }
 
@@ -434,7 +482,7 @@ namespace ElastoSystem
                         txbCantidadDGV.Clear();
                         cbEstatus.SelectedIndex = -1;
                         btnActualizarOperacion.Visible = false;
-                        btnDuplicarOperacion.Visible = false;
+                        //btnDuplicarOperacion.Visible = false;
 
                         CargarOperaciones();
                         dgvOperaciones.ClearSelection();
@@ -543,7 +591,7 @@ namespace ElastoSystem
                         txbCantidadDGV.Clear();
                         cbEstatus.SelectedIndex = -1;
                         btnActualizarOperacion.Visible = false;
-                        btnDuplicarOperacion.Visible = false;
+                        //btnDuplicarOperacion.Visible = false;
                         CargarOperaciones();
                     }
                 }
