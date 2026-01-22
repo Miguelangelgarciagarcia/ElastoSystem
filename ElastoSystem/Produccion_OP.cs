@@ -31,6 +31,7 @@ namespace ElastoSystem
             _folioSolicitudFabricacion = solicitud;
 
             CargarInfoOP();
+            CargarPT();
             CargarFirmas();
 
             chbFirmaGProduccion.CheckedChanged += CheckboxFirma_CheckedChanged;
@@ -38,6 +39,86 @@ namespace ElastoSystem
             chbFirmaGCalidad.CheckedChanged += CheckboxFirma_CheckedChanged;
 
             RevisarPermisoRegistroPT();
+        }
+
+        private void CargarPT()
+        {
+            string folioOP = lblFolioOP.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(folioOP))
+            {
+                txbCantidad.Text = "0";
+                dgvIngresos.Rows.Clear();
+                return;
+            }
+
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string querySuma = @"
+                        SELECT COALESCE(SUM(Cantidad), 0) AS TotalCantidad
+                        FROM elastosystem_produccion_pt
+                        WHERE OP = @OP";
+
+                    decimal totalCantidad = 0;
+                    using (MySqlCommand cmdSuma = new MySqlCommand(querySuma, conn))
+                    {
+                        cmdSuma.Parameters.AddWithValue("@OP", folioOP);
+                        object result = cmdSuma.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            totalCantidad = Convert.ToDecimal(result);
+                        }
+                    }
+
+                    txbCantidad.Text = totalCantidad.ToString("N0");
+
+                    string queryRegistros = @"
+                        SELECT
+                            ID,
+                            Fecha,
+                            Turno,
+                            Cantidad,
+                            Lote,
+                            Entrego
+                        FROM elastosystem_produccion_pt
+                        WHERE OP = @OP
+                        ORDER BY ID DESC";
+
+                    using (MySqlCommand cmdRegistros = new MySqlCommand(queryRegistros, conn))
+                    {
+                        cmdRegistros.Parameters.AddWithValue("@OP", folioOP);
+
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmdRegistros))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+
+                            dgvIngresos.DataSource = dt;
+
+                            dgvIngresos.Columns["Fecha"].DefaultCellStyle.Format = "dd/MM/yyyy";
+                            dgvIngresos.Columns["Cantidad"].DefaultCellStyle.Format = "N0";
+                            dgvIngresos.Columns["ID"].Visible = false;
+                        }
+                    }
+
+                    if (dgvIngresos.Rows.Count == 0)
+                    {
+
+                    }
+
+                    dgvIngresos.ClearSelection();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar registros de PT:\n" + ex.Message, "Error de carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txbCantidad.Text = "0";
+                    dgvIngresos.Rows.Clear();
+                }
+            }
         }
 
         private void RevisarPermisoRegistroPT()
@@ -450,7 +531,7 @@ namespace ElastoSystem
                             p.ID, 
                             p.Descripcion, 
                             p.Operacion, 
-                            p.Cantidad, 
+                            COALESCE(o.Cantidad, p.Cantidad) AS CantidadReal, 
                             p.Estatus,
                             COALESCE(o.Maquina, '') AS Maquina,
                             COALESCE(o.Estatus, 'SIN_OT') AS EstatusOT
@@ -482,7 +563,7 @@ namespace ElastoSystem
                                 string id = reader["ID"].ToString();
                                 string descripcion = reader["Descripcion"].ToString();
                                 string operacion = reader["Operacion"].ToString();
-                                string cantidad = reader["Cantidad"].ToString();
+                                string cantidad = reader["CantidadReal"].ToString();
                                 string maquina = reader["Maquina"].ToString();
                                 string estatusOT = reader["EstatusOT"].ToString().Trim().ToUpper();
                                 string otGenerada = $"OT-{variableFolio}-{operacion}";
@@ -668,7 +749,18 @@ namespace ElastoSystem
 
                     dgvOperaciones.ClearSelection();
                     dgvOperaciones.CurrentCell = null;
-                    form.ShowDialog();
+
+                    DialogResult resultado = form.ShowDialog(this);
+
+                    if(resultado == DialogResult.OK)
+                    {
+                        CargarOperaciones();
+                        ValidarPosibilidadCerrarOP();
+                    }
+                    else if (resultado == DialogResult.Cancel)
+                    {
+
+                    }
                 }
             }
             catch (Exception ex)
@@ -696,7 +788,14 @@ namespace ElastoSystem
                     form.ClaveProd = clave;
                     dgvOperaciones.ClearSelection();
                     dgvOperaciones.CurrentCell = null;
-                    form.ShowDialog();
+
+                    var resultado = form.ShowDialog(this);
+
+                    if (resultado == DialogResult.OK || resultado == DialogResult.Cancel)
+                    {
+                        CargarOperaciones();
+                        ValidarPosibilidadCerrarOP();
+                    }
                 }
             }
             catch (Exception ex)
@@ -735,6 +834,34 @@ namespace ElastoSystem
             {
                 chbLinea.Checked = false;
             }
+        }
+
+        private void btnRegistrarPT_Click(object sender, EventArgs e)
+        {
+            string folioOP = lblFolioOP.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(folioOP))
+            {
+                MessageBox.Show("No se pudo obtener el folio de la Orden de Producción.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (var formPT = new Produccion_PT(folioOP))
+            {
+                var resultado = formPT.ShowDialog(this);
+
+                if (resultado == DialogResult.OK)
+                {
+                    CargarInfoOP();
+                    CargarPT();
+                    ValidarPosibilidadCerrarOP();
+                }
+            }
+        }
+
+        private void dgvIngresos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dgvIngresos.ClearSelection();
         }
     }
 }

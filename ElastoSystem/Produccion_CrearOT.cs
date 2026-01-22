@@ -508,6 +508,7 @@ namespace ElastoSystem
                             }
 
                             MessageBox.Show("ORDEN DE TRABAJO CREADA EXITOSAMENTE");
+                            this.DialogResult = DialogResult.OK;
                             this.Close();
                         }
                         else

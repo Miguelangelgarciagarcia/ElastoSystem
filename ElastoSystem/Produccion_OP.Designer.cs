@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Produccion_OP));
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             panel4 = new Panel();
             pictureBox4 = new PictureBox();
             pictureBox6 = new PictureBox();
@@ -82,12 +82,8 @@
             Cantidad = new DataGridViewTextBoxColumn();
             label13 = new Label();
             panel6 = new Panel();
+            btnRegistrarPT = new Button();
             dgvIngresos = new DataGridView();
-            Fecha = new DataGridViewTextBoxColumn();
-            Turno = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            Lote = new DataGridViewTextBoxColumn();
-            Entrega = new DataGridViewTextBoxColumn();
             label14 = new Label();
             txbCantidad = new TextBox();
             label15 = new Label();
@@ -96,7 +92,6 @@
             chbFirmaGCalidad = new CheckBox();
             panel7 = new Panel();
             lblEstatusOP = new Label();
-            btnRegistrarPT = new Button();
             panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -575,45 +570,45 @@
             dgvOperaciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvOperaciones.BackgroundColor = Color.FromArgb(205, 215, 224);
             dgvOperaciones.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = Color.White;
-            dataGridViewCellStyle9.Font = new Font("Montserrat", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle9.ForeColor = Color.Black;
-            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle9.SelectionForeColor = Color.White;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            dgvOperaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Montserrat", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvOperaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvOperaciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvOperaciones.Columns.AddRange(new DataGridViewColumn[] { ID, Descripcion, OT, Cantidad });
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle10.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle10.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.False;
-            dgvOperaciones.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvOperaciones.DefaultCellStyle = dataGridViewCellStyle2;
             dgvOperaciones.GridColor = SystemColors.ActiveCaptionText;
             dgvOperaciones.Location = new Point(15, 38);
             dgvOperaciones.MultiSelect = false;
             dgvOperaciones.Name = "dgvOperaciones";
             dgvOperaciones.ReadOnly = true;
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle11.Font = new Font("Montserrat", 8.999999F);
-            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle11.SelectionForeColor = Color.White;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dgvOperaciones.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(205, 215, 224);
+            dataGridViewCellStyle3.Font = new Font("Montserrat", 8.999999F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvOperaciones.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvOperaciones.RowHeadersVisible = false;
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.BackColor = Color.White;
-            dataGridViewCellStyle12.Font = new Font("Montserrat", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle12.ForeColor = Color.Black;
-            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle12.SelectionForeColor = Color.White;
-            dgvOperaciones.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Montserrat", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dgvOperaciones.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvOperaciones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvOperaciones.Size = new Size(764, 163);
             dgvOperaciones.TabIndex = 88;
@@ -671,85 +666,71 @@
             panel6.Size = new Size(792, 193);
             panel6.TabIndex = 96;
             // 
+            // btnRegistrarPT
+            // 
+            btnRegistrarPT.BackColor = Color.FromArgb(255, 102, 0);
+            btnRegistrarPT.Cursor = Cursors.Hand;
+            btnRegistrarPT.FlatAppearance.BorderSize = 0;
+            btnRegistrarPT.FlatStyle = FlatStyle.Flat;
+            btnRegistrarPT.Font = new Font("Montserrat", 9F, FontStyle.Bold);
+            btnRegistrarPT.ForeColor = Color.White;
+            btnRegistrarPT.Location = new Point(664, 10);
+            btnRegistrarPT.Name = "btnRegistrarPT";
+            btnRegistrarPT.Size = new Size(110, 26);
+            btnRegistrarPT.TabIndex = 94;
+            btnRegistrarPT.Text = "Registrar PT";
+            btnRegistrarPT.UseVisualStyleBackColor = false;
+            btnRegistrarPT.Visible = false;
+            btnRegistrarPT.Click += btnRegistrarPT_Click;
+            // 
             // dgvIngresos
             // 
             dgvIngresos.AllowUserToAddRows = false;
             dgvIngresos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvIngresos.BackgroundColor = Color.FromArgb(205, 215, 224);
             dgvIngresos.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.BackColor = Color.White;
-            dataGridViewCellStyle13.Font = new Font("Montserrat", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle13.ForeColor = Color.Black;
-            dataGridViewCellStyle13.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle13.SelectionForeColor = Color.White;
-            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
-            dgvIngresos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.White;
+            dataGridViewCellStyle5.Font = new Font("Montserrat", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = Color.Black;
+            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvIngresos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvIngresos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvIngresos.Columns.AddRange(new DataGridViewColumn[] { Fecha, Turno, dataGridViewTextBoxColumn3, Lote, Entrega });
-            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle14.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle14.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle14.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.False;
-            dgvIngresos.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvIngresos.DefaultCellStyle = dataGridViewCellStyle6;
             dgvIngresos.GridColor = SystemColors.ActiveCaptionText;
             dgvIngresos.Location = new Point(13, 42);
             dgvIngresos.MultiSelect = false;
             dgvIngresos.Name = "dgvIngresos";
             dgvIngresos.ReadOnly = true;
-            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle15.BackColor = Color.FromArgb(205, 215, 224);
-            dataGridViewCellStyle15.Font = new Font("Montserrat", 8.999999F);
-            dataGridViewCellStyle15.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle15.SelectionForeColor = Color.White;
-            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
-            dgvIngresos.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = Color.FromArgb(205, 215, 224);
+            dataGridViewCellStyle7.Font = new Font("Montserrat", 8.999999F);
+            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle7.SelectionForeColor = Color.White;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dgvIngresos.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             dgvIngresos.RowHeadersVisible = false;
-            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.BackColor = Color.White;
-            dataGridViewCellStyle16.Font = new Font("Montserrat", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle16.ForeColor = Color.Black;
-            dataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(255, 102, 0);
-            dataGridViewCellStyle16.SelectionForeColor = Color.White;
-            dgvIngresos.RowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = Color.White;
+            dataGridViewCellStyle8.Font = new Font("Montserrat", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = Color.Black;
+            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(255, 102, 0);
+            dataGridViewCellStyle8.SelectionForeColor = Color.White;
+            dgvIngresos.RowsDefaultCellStyle = dataGridViewCellStyle8;
             dgvIngresos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvIngresos.Size = new Size(764, 139);
             dgvIngresos.TabIndex = 89;
-            // 
-            // Fecha
-            // 
-            Fecha.HeaderText = "Fecha";
-            Fecha.Name = "Fecha";
-            Fecha.ReadOnly = true;
-            // 
-            // Turno
-            // 
-            Turno.HeaderText = "Turno";
-            Turno.Name = "Turno";
-            Turno.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            dataGridViewTextBoxColumn3.FillWeight = 53.426712F;
-            dataGridViewTextBoxColumn3.HeaderText = "Cantidad";
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // Lote
-            // 
-            Lote.HeaderText = "# de Lote";
-            Lote.Name = "Lote";
-            Lote.ReadOnly = true;
-            // 
-            // Entrega
-            // 
-            Entrega.HeaderText = "Entrega";
-            Entrega.Name = "Entrega";
-            Entrega.ReadOnly = true;
+            dgvIngresos.DataBindingComplete += dgvIngresos_DataBindingComplete;
             // 
             // label14
             // 
@@ -772,6 +753,7 @@
             txbCantidad.ReadOnly = true;
             txbCantidad.Size = new Size(168, 27);
             txbCantidad.TabIndex = 98;
+            txbCantidad.TextAlign = HorizontalAlignment.Center;
             // 
             // label15
             // 
@@ -846,22 +828,7 @@
             lblEstatusOP.Size = new Size(66, 24);
             lblEstatusOP.TabIndex = 99;
             lblEstatusOP.Text = "ERROR";
-            // 
-            // btnRegistrarPT
-            // 
-            btnRegistrarPT.BackColor = Color.FromArgb(255, 102, 0);
-            btnRegistrarPT.Cursor = Cursors.Hand;
-            btnRegistrarPT.FlatAppearance.BorderSize = 0;
-            btnRegistrarPT.FlatStyle = FlatStyle.Flat;
-            btnRegistrarPT.Font = new Font("Montserrat", 9F, FontStyle.Bold);
-            btnRegistrarPT.ForeColor = Color.White;
-            btnRegistrarPT.Location = new Point(664, 10);
-            btnRegistrarPT.Name = "btnRegistrarPT";
-            btnRegistrarPT.Size = new Size(110, 26);
-            btnRegistrarPT.TabIndex = 94;
-            btnRegistrarPT.Text = "Registrar PT";
-            btnRegistrarPT.UseVisualStyleBackColor = false;
-            btnRegistrarPT.Visible = false;
+            lblEstatusOP.Visible = false;
             // 
             // Produccion_OP
             // 
@@ -943,11 +910,6 @@
         private DataGridView dgvOperaciones;
         private Label label14;
         private DataGridView dgvIngresos;
-        private DataGridViewTextBoxColumn Fecha;
-        private DataGridViewTextBoxColumn Turno;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private DataGridViewTextBoxColumn Lote;
-        private DataGridViewTextBoxColumn Entrega;
         private TextBox txbCantidad;
         private Label label15;
         private CheckBox chbFirmaGProduccion;
