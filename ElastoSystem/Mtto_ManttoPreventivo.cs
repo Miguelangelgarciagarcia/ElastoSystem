@@ -884,13 +884,12 @@ namespace ElastoSystem
                     {
                         IniciarActividad();
                         MessageBox.Show("Actividad asignada correctamente al activo");
-                        cbActivo.SelectedIndex = -1;
                         cbActividad.SelectedIndex = -1;
                         txbDescripcion.Clear();
                         txbPeriodicidad.Clear();
-                        dgvMantenimientos.DataSource = null;
-                        btnProximos.Visible = false;
-                        btnHistorial.Visible = false;
+                        dtpFechaInicio.Value = DateTime.Now;
+                        CargarActividadesAsignadas();
+                        CargarActividadesNoAsignadas();
                         return;
                     }
                     else
@@ -905,6 +904,92 @@ namespace ElastoSystem
                 finally
                 {
                     conn.Close();
+                }
+            }
+        }
+
+        private void CargarActividadesNoAsignadas()
+        {
+            cbActividad.Items.Clear();
+
+            if (chbMaquina.Checked == true)
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    try
+                    {
+                        conn.Open();
+                        string query = @"
+                            SELECT Actividad    
+                            FROM elastosystem_mtto_actividades
+                            WHERE ActividadDe = 'MAQUINAS'
+                            AND Actividad NOT IN (
+                                SELECT Actividad
+                                FROM elastosystem_mtto_actividadesxactivo
+                                WHERE Tipo = 'MAQUINA'
+                                AND Activo = @ACTIVO
+                            )
+                            ORDER BY Actividad";
+
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@ACTIVO", cbActivo.Text.ToString());
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                cbActividad.Items.Add(reader["Actividad"].ToString());
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("ERROR AL CARGAR ACTIVIDADES: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+            else
+            {
+                using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                {
+                    try
+                    {
+                        conn.Open();
+                        string query = @"
+                            SELECT Actividad
+                            FROM elastosystem_mtto_actividades
+                            WHERE ActividadDe = 'INFRESTRUCTURAS'
+                            AND Actividad NOT IN (
+                                SELECT Actividad
+                                FROM elastosystem_mtto_actividadesxactivo
+                                WHERE Tipo = 'INFRESTRUCTURA'
+                                AND Activo = @ACTIVO
+                            )
+                            ORDER BY Actividad";
+
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@ACTIVO", cbActivo.SelectedItem.ToString());
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                cbActividad.Items.Add(reader["Actividad"].ToString());
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("ERROR AL CARGAR ACTIVIDADES: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
                 }
             }
         }
@@ -1052,10 +1137,8 @@ namespace ElastoSystem
                     {
                         MessageBox.Show("ACTIVIDAD ELIMINADA CORRECTAMENTE");
                         btnNueva.PerformClick();
-                        cbActivo.SelectedIndex = -1;
-                        dgvMantenimientos.DataSource = null;
-                        btnProximos.Visible = false;
-                        btnHistorial.Visible = false;
+                        CargarActividadesAsignadas();
+                        CargarActividadesNoAsignadas();
                         return;
                     }
                 }
@@ -1115,10 +1198,8 @@ namespace ElastoSystem
 
                     MessageBox.Show("ACTIVIDAD ACTUALIZADA CORRECTAMENTE");
                     btnNueva.PerformClick();
-                    cbActivo.SelectedIndex = -1;
-                    dgvMantenimientos.DataSource = null;
-                    btnHistorial.Visible = false;
-                    btnProximos.Visible = false;
+                    CargarActividadesAsignadas();
+                    CargarActividadesNoAsignadas();
                     return;
                 }
                 catch (Exception ex)
