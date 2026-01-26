@@ -40,6 +40,7 @@ namespace ElastoSystem
             CargarPendientes();
             CargarFinalizados();
             Revisar();
+            dgvPendientes.ContextMenuStrip = cmsFinalizarPendientes;
         }
 
         private void CargarPendientes()
@@ -137,12 +138,63 @@ namespace ElastoSystem
 
         private void dgvPendientes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex >= 0)
+
+        }
+
+        private void dgvPendientes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
             {
                 int idSeleccionado = Convert.ToInt32(dgvPendientes.Rows[e.RowIndex].Cells["ID"].Value);
 
                 Mtto_CerrarMttoPreventivo frmCerrar = new Mtto_CerrarMttoPreventivo(idSeleccionado, this);
                 frmCerrar.ShowDialog();
+            }
+        }
+
+        private void cmsFinalizarPendientes_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (dgvPendientes.SelectedRows.Count <= 1)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        public DataGridView PendientesGrid => dgvPendientes;
+
+        private void tsmiFinalizarTodos_Click(object sender, EventArgs e)
+        {
+            if (dgvPendientes.SelectedRows.Count <= 1) return;
+
+            int cantidad = dgvPendientes.SelectedRows.Count;
+
+            DialogResult respuesta = MessageBox.Show(
+                $"¿Estás seguro que deseas FINALIZAR los {cantidad} pendientes seleccionados?",
+                "Confirmar finalización múltiple",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2
+            );
+
+            if (respuesta != DialogResult.Yes)
+            {
+                return;
+            }
+
+            var seleccionadas = dgvPendientes.SelectedRows
+                .Cast<DataGridViewRow>()
+                .Where(row => !row.IsNewRow)
+                .ToList();
+
+            Mtto_CerrarMultiple_Preventivo frmCerrarMultiple = new Mtto_CerrarMultiple_Preventivo(seleccionadas, this);
+
+            frmCerrarMultiple.ShowDialog();
+
+            if (frmCerrarMultiple.DialogResult == DialogResult.OK)
+            {
+                CargarPendientes();
+                CargarFinalizados();
+                Revisar();
             }
         }
     }

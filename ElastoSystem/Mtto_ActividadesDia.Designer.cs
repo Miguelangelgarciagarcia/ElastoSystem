@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mtto_ActividadesDia));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -43,11 +44,14 @@
             label3 = new Label();
             dgvPendientes = new DataGridView();
             dgvFinalizados = new DataGridView();
+            cmsFinalizarPendientes = new ContextMenuStrip(components);
+            tsmiFinalizarTodos = new ToolStripMenuItem();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btncerrar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvPendientes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvFinalizados).BeginInit();
+            cmsFinalizarPendientes.SuspendLayout();
             SuspendLayout();
             // 
             // panel3
@@ -97,7 +101,7 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(12, 40);
             label1.Name = "label1";
-            label1.Size = new Size(541, 44);
+            label1.Size = new Size(544, 49);
             label1.TabIndex = 58;
             label1.Text = "MANTENIMIENTO PREVENTIVO";
             // 
@@ -109,7 +113,7 @@
             lblCampos.ForeColor = Color.White;
             lblCampos.Location = new Point(808, 55);
             lblCampos.Name = "lblCampos";
-            lblCampos.Size = new Size(62, 22);
+            lblCampos.Size = new Size(64, 25);
             lblCampos.TabIndex = 59;
             lblCampos.Text = "Fecha:";
             // 
@@ -121,7 +125,7 @@
             lblFecha.ForeColor = Color.White;
             lblFecha.Location = new Point(876, 57);
             lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(134, 22);
+            lblFecha.Size = new Size(136, 25);
             lblFecha.TabIndex = 60;
             lblFecha.Text = "--/--/---- ERROR";
             // 
@@ -133,7 +137,7 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(26, 90);
             label2.Name = "label2";
-            label2.Size = new Size(159, 33);
+            label2.Size = new Size(161, 38);
             label2.TabIndex = 61;
             label2.Text = "Pendientes";
             // 
@@ -145,7 +149,7 @@
             label3.ForeColor = Color.White;
             label3.Location = new Point(26, 302);
             label3.Name = "label3";
-            label3.Size = new Size(157, 33);
+            label3.Size = new Size(159, 38);
             label3.TabIndex = 62;
             label3.Text = "Finalizados";
             // 
@@ -178,6 +182,7 @@
             dgvPendientes.Size = new Size(984, 159);
             dgvPendientes.TabIndex = 63;
             dgvPendientes.CellClick += dgvPendientes_CellClick;
+            dgvPendientes.CellDoubleClick += dgvPendientes_CellDoubleClick;
             // 
             // dgvFinalizados
             // 
@@ -208,6 +213,20 @@
             dgvFinalizados.Size = new Size(984, 161);
             dgvFinalizados.TabIndex = 64;
             // 
+            // cmsFinalizarPendientes
+            // 
+            cmsFinalizarPendientes.Items.AddRange(new ToolStripItem[] { tsmiFinalizarTodos });
+            cmsFinalizarPendientes.Name = "cmsFinalizarPendientes";
+            cmsFinalizarPendientes.Size = new Size(257, 48);
+            cmsFinalizarPendientes.Opening += cmsFinalizarPendientes_Opening;
+            // 
+            // tsmiFinalizarTodos
+            // 
+            tsmiFinalizarTodos.Name = "tsmiFinalizarTodos";
+            tsmiFinalizarTodos.Size = new Size(256, 22);
+            tsmiFinalizarTodos.Text = "Finalizar Pendientes Seleccionados";
+            tsmiFinalizarTodos.Click += tsmiFinalizarTodos_Click;
+            // 
             // Mtto_ActividadesDia
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -232,6 +251,7 @@
             ((System.ComponentModel.ISupportInitialize)btncerrar).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvPendientes).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvFinalizados).EndInit();
+            cmsFinalizarPendientes.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -248,5 +268,7 @@
         private Label label3;
         private DataGridView dgvPendientes;
         private DataGridView dgvFinalizados;
+        private ContextMenuStrip cmsFinalizarPendientes;
+        private ToolStripMenuItem tsmiFinalizarTodos;
     }
 }
