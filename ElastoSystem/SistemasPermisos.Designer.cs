@@ -72,6 +72,7 @@
             chbClientes = new CheckBox();
             chbVentas = new CheckBox();
             panel6 = new Panel();
+            chbOrdenesActivas = new CheckBox();
             chbOrdenProduccion = new CheckBox();
             chbAdministrarProcesos = new CheckBox();
             chbReporteProduccion = new CheckBox();
@@ -125,6 +126,7 @@
             label15 = new Label();
             chbFirmaAlmacen = new CheckBox();
             panel13 = new Panel();
+            chbRegistroPT = new CheckBox();
             chbEliminarRegistroProduccion = new CheckBox();
             chbActualizarOT = new CheckBox();
             chbEliminarFamilias = new CheckBox();
@@ -147,7 +149,6 @@
             chbComprasAlmacenar = new CheckBox();
             cbUsuariosEspeciales = new ComboBox();
             label8 = new Label();
-            chbRegistroPT = new CheckBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -701,6 +702,7 @@
             // panel6
             // 
             panel6.BackColor = Color.FromArgb(3, 42, 76);
+            panel6.Controls.Add(chbOrdenesActivas);
             panel6.Controls.Add(chbOrdenProduccion);
             panel6.Controls.Add(chbAdministrarProcesos);
             panel6.Controls.Add(chbReporteProduccion);
@@ -709,6 +711,19 @@
             panel6.Name = "panel6";
             panel6.Size = new Size(240, 291);
             panel6.TabIndex = 10;
+            // 
+            // chbOrdenesActivas
+            // 
+            chbOrdenesActivas.AutoSize = true;
+            chbOrdenesActivas.Font = new Font("Montserrat", 9F);
+            chbOrdenesActivas.ForeColor = Color.White;
+            chbOrdenesActivas.Location = new Point(15, 128);
+            chbOrdenesActivas.Name = "chbOrdenesActivas";
+            chbOrdenesActivas.Size = new Size(125, 22);
+            chbOrdenesActivas.TabIndex = 4;
+            chbOrdenesActivas.Text = "Ordenes Activas";
+            chbOrdenesActivas.UseVisualStyleBackColor = true;
+            chbOrdenesActivas.CheckedChanged += chbOrdenesActivas_CheckedChanged;
             // 
             // chbOrdenProduccion
             // 
@@ -1426,6 +1441,18 @@
             panel13.Size = new Size(240, 240);
             panel13.TabIndex = 15;
             // 
+            // chbRegistroPT
+            // 
+            chbRegistroPT.AutoSize = true;
+            chbRegistroPT.Font = new Font("Montserrat", 9F);
+            chbRegistroPT.ForeColor = Color.White;
+            chbRegistroPT.Location = new Point(15, 160);
+            chbRegistroPT.Name = "chbRegistroPT";
+            chbRegistroPT.Size = new Size(115, 22);
+            chbRegistroPT.TabIndex = 12;
+            chbRegistroPT.Text = "Registro de PT";
+            chbRegistroPT.UseVisualStyleBackColor = true;
+            // 
             // chbEliminarRegistroProduccion
             // 
             chbEliminarRegistroProduccion.AutoSize = true;
@@ -1686,18 +1713,6 @@
             label8.TabIndex = 3;
             label8.Text = "Usuario:";
             // 
-            // chbRegistroPT
-            // 
-            chbRegistroPT.AutoSize = true;
-            chbRegistroPT.Font = new Font("Montserrat", 9F);
-            chbRegistroPT.ForeColor = Color.White;
-            chbRegistroPT.Location = new Point(15, 160);
-            chbRegistroPT.Name = "chbRegistroPT";
-            chbRegistroPT.Size = new Size(115, 22);
-            chbRegistroPT.TabIndex = 12;
-            chbRegistroPT.Text = "Registro de PT";
-            chbRegistroPT.UseVisualStyleBackColor = true;
-            // 
             // SistemasPermisos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1877,5 +1892,6 @@
         private CheckBox chbFirmaAlmacen;
         private CheckBox chbFirmaGProduccion;
         private CheckBox chbRegistroPT;
+        private CheckBox chbOrdenesActivas;
     }
 }
