@@ -90,7 +90,7 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(43, 27);
             label1.Name = "label1";
-            label1.Size = new Size(362, 41);
+            label1.Size = new Size(364, 47);
             label1.TabIndex = 1;
             label1.Text = "ADMINISTRAR PT SAE";
             // 
@@ -102,7 +102,7 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(54, 100);
             label2.Name = "label2";
-            label2.Size = new Size(87, 22);
+            label2.Size = new Size(89, 25);
             label2.TabIndex = 2;
             label2.Text = "Producto:";
             // 
@@ -114,7 +114,7 @@
             cbProductos.FormattingEnabled = true;
             cbProductos.Location = new Point(288, 97);
             cbProductos.Name = "cbProductos";
-            cbProductos.Size = new Size(288, 30);
+            cbProductos.Size = new Size(288, 33);
             cbProductos.TabIndex = 3;
             cbProductos.SelectedIndexChanged += cbProductos_SelectedIndexChanged;
             // 
@@ -126,7 +126,7 @@
             label3.ForeColor = Color.White;
             label3.Location = new Point(54, 135);
             label3.Name = "label3";
-            label3.Size = new Size(164, 22);
+            label3.Size = new Size(165, 25);
             label3.TabIndex = 4;
             label3.Text = "Consumo Mensual:";
             // 
@@ -193,7 +193,7 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(43, 242);
             label4.Name = "label4";
-            label4.Size = new Size(321, 33);
+            label4.Size = new Size(322, 38);
             label4.TabIndex = 43;
             label4.Text = "REPORTE DE FACTURAS";
             // 
@@ -315,7 +315,7 @@
             lblProductos.ForeColor = Color.White;
             lblProductos.Location = new Point(821, 46);
             lblProductos.Name = "lblProductos";
-            lblProductos.Size = new Size(0, 22);
+            lblProductos.Size = new Size(0, 25);
             lblProductos.TabIndex = 48;
             lblProductos.Visible = false;
             // 
@@ -327,7 +327,7 @@
             lblClientes.ForeColor = Color.White;
             lblClientes.Location = new Point(821, 68);
             lblClientes.Name = "lblClientes";
-            lblClientes.Size = new Size(0, 22);
+            lblClientes.Size = new Size(0, 25);
             lblClientes.TabIndex = 49;
             lblClientes.Visible = false;
             // 
@@ -339,7 +339,7 @@
             lblFechas.ForeColor = Color.White;
             lblFechas.Location = new Point(821, 92);
             lblFechas.Name = "lblFechas";
-            lblFechas.Size = new Size(0, 22);
+            lblFechas.Size = new Size(0, 25);
             lblFechas.TabIndex = 50;
             lblFechas.Visible = false;
             // 
@@ -351,7 +351,7 @@
             lblFechaInicio.ForeColor = Color.White;
             lblFechaInicio.Location = new Point(821, 115);
             lblFechaInicio.Name = "lblFechaInicio";
-            lblFechaInicio.Size = new Size(0, 22);
+            lblFechaInicio.Size = new Size(0, 25);
             lblFechaInicio.TabIndex = 51;
             lblFechaInicio.Visible = false;
             // 
@@ -363,7 +363,7 @@
             lblFechaFinal.ForeColor = Color.White;
             lblFechaFinal.Location = new Point(821, 137);
             lblFechaFinal.Name = "lblFechaFinal";
-            lblFechaFinal.Size = new Size(0, 22);
+            lblFechaFinal.Size = new Size(0, 25);
             lblFechaFinal.TabIndex = 52;
             lblFechaFinal.Visible = false;
             // 
@@ -405,7 +405,7 @@
             label5.ForeColor = Color.White;
             label5.Location = new Point(54, 169);
             label5.Name = "label5";
-            label5.Size = new Size(217, 22);
+            label5.Size = new Size(217, 25);
             label5.TabIndex = 54;
             label5.Text = "Cantidad Maxima de 1 OC:";
             // 
@@ -436,7 +436,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(1025, 285);
             label6.Name = "label6";
-            label6.Size = new Size(125, 27);
+            label6.Size = new Size(127, 31);
             label6.TabIndex = 58;
             label6.Text = "Cargando...";
             // 

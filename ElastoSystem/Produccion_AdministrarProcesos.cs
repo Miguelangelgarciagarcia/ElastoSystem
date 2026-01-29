@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
 
 namespace ElastoSystem
 {
@@ -108,10 +110,10 @@ namespace ElastoSystem
 
                     object result = cmd.ExecuteScalar();
 
-                    if(result != null)
+                    if (result != null)
                     {
                         string estatus = result.ToString();
-                        if(estatus == "Activa")
+                        if (estatus == "Activa")
                         {
                             MessageBox.Show("La familia ya existe.");
                         }
@@ -120,10 +122,10 @@ namespace ElastoSystem
                             Produccion_ActivarFamilia activarFamiliaForm = new Produccion_ActivarFamilia();
                             DialogResult resultForm = activarFamiliaForm.ShowDialog();
 
-                            if(resultForm == DialogResult.OK)
+                            if (resultForm == DialogResult.OK)
                             {
                                 ActivarFamilia();
-                                
+
                                 txbFamilia.Clear();
                                 txbFamiliaOriginal.Clear();
                                 CargarFamilias();
@@ -180,7 +182,7 @@ namespace ElastoSystem
 
                     MessageBox.Show("Familia reactivada correctamente.");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL RECATIVAR FAMILIA: " + ex.Message);
                 }
@@ -1329,7 +1331,7 @@ namespace ElastoSystem
                         ORDER BY CAST(NoOperacion AS SIGNED) DESC
                         LIMIT 1";
 
-                    using(MySqlCommand cmd = new MySqlCommand(query, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
 
@@ -1471,10 +1473,10 @@ namespace ElastoSystem
 
                     object result = cmd.ExecuteScalar();
 
-                    if(result != null)
+                    if (result != null)
                     {
                         string estatus = result.ToString();
-                        if(estatus == "INACTIVA")
+                        if (estatus == "INACTIVA")
                         {
                             ReactivarOperacion();
                             return;
@@ -1568,9 +1570,9 @@ namespace ElastoSystem
             using (Produccion_ReactivarOperacion form = new Produccion_ReactivarOperacion())
             {
                 var result = form.ShowDialog();
-                if(result == DialogResult.OK)
+                if (result == DialogResult.OK)
                 {
-                    using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+                    using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
                     {
                         try
                         {
@@ -1581,15 +1583,15 @@ namespace ElastoSystem
                             updateCmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
                             int rowsAffected = updateCmd.ExecuteNonQuery();
 
-                            if(rowsAffected > 0)
+                            if (rowsAffected > 0)
                             {
                                 MessageBox.Show("Operación reactivada correctamente.");
                                 RevisarHule();
-                                lblCamposObligatorios.Visible = false; 
-                                pbCampos.Visible = false; 
-                                pbNoOperacion.Visible = false; 
-                                pbArea.Visible = false; 
-                                pbNave.Visible = false; 
+                                lblCamposObligatorios.Visible = false;
+                                pbCampos.Visible = false;
+                                pbNoOperacion.Visible = false;
+                                pbArea.Visible = false;
+                                pbNave.Visible = false;
                                 pbDescripcion.Visible = false;
                                 btnNuevo.Visible = false;
                                 btnEliminarProceso.Visible = false;
@@ -1619,7 +1621,7 @@ namespace ElastoSystem
                                 MessageBox.Show("No se pudo reactivar la operación.");
                             }
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             MessageBox.Show("ERROR AL REACTIVAR OPERACION: " + ex.Message);
                         }
@@ -1938,7 +1940,7 @@ namespace ElastoSystem
 
         private void OcultarProceso()
         {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -1949,7 +1951,7 @@ namespace ElastoSystem
                     updateCmd.Parameters.AddWithValue("@FAMILIA", cbFamilia.SelectedItem.ToString());
                     int rowsAffected = updateCmd.ExecuteNonQuery();
 
-                    if(rowsAffected > 0)
+                    if (rowsAffected > 0)
                     {
                         EliminarHuleDeEncabezado();
                         MessageBox.Show("Proceso eliminado correctamente.");
@@ -1961,7 +1963,7 @@ namespace ElastoSystem
                         MessageBox.Show("No se pudo eliminar el proceso.");
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ELIMINAR EL PROCESO: " + ex.Message);
                 }
@@ -2035,7 +2037,7 @@ namespace ElastoSystem
 
                         if (filasActualizadas > 0)
                         {
-                            
+
                         }
                     }
                 }
@@ -2074,7 +2076,7 @@ namespace ElastoSystem
                     string nuevaArea = cbArea.Text.Trim();
                     string nuevaNave = txbNave.Text.Trim();
 
-                    
+
                     string selectQuery = "SELECT NoOperacion, Familia FROM elastosystem_produccion_hoja_ruta WHERE ID = @ID";
                     using (MySqlCommand selectCmd = new MySqlCommand(selectQuery, conn))
                     {
@@ -2177,7 +2179,7 @@ namespace ElastoSystem
 
         private void ActualizarOTPrecreadasActivas()
         {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -2193,7 +2195,7 @@ namespace ElastoSystem
                             AND (ot.Operacion = @OLD_NO_OPERACION OR ot.Operacion LIKE CONCAT(@OLD_NO_OPERACION, '-%'))
                     ";
 
-                    using(MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
                     {
                         cmd.Parameters.AddWithValue("@NUEVO_NO_OPERACION", txbNoOperacion.Text.Trim());
                         cmd.Parameters.AddWithValue("@NUEVA_DESCRIPCION", txbDescripcion.Text.Trim());
@@ -2203,7 +2205,7 @@ namespace ElastoSystem
                         cmd.ExecuteNonQuery();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL ACTUALIZAR ORDENES DE TRABAJO PRECREADAS: " + ex.Message);
                 }
@@ -2415,7 +2417,7 @@ namespace ElastoSystem
 
                 try
                 {
-                    using (var imgTemp = Image.FromFile(rutaImagen))
+                    using (var imgTemp = System.Drawing.Image.FromFile(rutaImagen))
                     {
                         pbImagen.Image = new Bitmap(imgTemp);
                     }
@@ -2467,7 +2469,7 @@ namespace ElastoSystem
                 {
                     using (MemoryStream ms = new MemoryStream(imagenBytes))
                     {
-                        using (var imgTemp = Image.FromStream(ms))
+                        using (var imgTemp = System.Drawing.Image.FromStream(ms))
                         {
                             pbImagen.Image = new Bitmap(imgTemp);
                         }
@@ -3411,7 +3413,7 @@ namespace ElastoSystem
             Produccion_EliminarFamilia eliminarFamilia = new Produccion_EliminarFamilia();
             DialogResult result = eliminarFamilia.ShowDialog();
 
-            if(result == DialogResult.OK)
+            if (result == DialogResult.OK)
             {
                 OcultarFamilia();
 
@@ -3425,7 +3427,7 @@ namespace ElastoSystem
 
         private void OcultarFamilia()
         {
-            using(MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
             {
                 try
                 {
@@ -3441,13 +3443,473 @@ namespace ElastoSystem
 
                     MessageBox.Show("Familia oculta correctamente.");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR AL OCULTAR FAMILIA: " + ex.Message);
                 }
                 finally
                 {
                     conn.Close();
+                }
+            }
+        }
+
+        private void btnExportarPDF_Click(object sender, EventArgs e)
+        {
+            if (dgvHojaRuta == null  || dgvHojaRuta.Rows.Count == 0 || (dgvHojaRuta.Rows.Count == 1 && dgvHojaRuta.Rows[0].IsNewRow))
+            {
+                MessageBox.Show("No hay datos en la hoja de ruta para exportar a PDF.", "Sin información", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (cbFamilia == null || cbFamilia.SelectedItem == null || string.IsNullOrWhiteSpace(cbFamilia.Text))
+            {
+                MessageBox.Show("Debe seleccionar una familia antes de exportar.", "Familia requerida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string familiaSeleccionada = cbFamilia.Text.Trim();
+
+            bool existeEncabezado = false;
+            using (MySqlConnection conn = new MySqlConnection(VariablesGlobales.ConexionBDElastotecnica))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string queryConteo = @"
+                        SELECT COUNT(*)
+                        FROM elastosystem_produccion_encabezado
+                        WHERE Familia = @FAMILIA";
+
+                    using (MySqlCommand cmdConteo = new MySqlCommand(queryConteo, conn))
+                    {
+                        cmdConteo.Parameters.AddWithValue("@FAMILIA", familiaSeleccionada);
+                        int conteo = Convert.ToInt32(cmdConteo.ExecuteScalar());
+                        existeEncabezado = (conteo > 0);
+                    }
+
+                    if (!existeEncabezado)
+                    {
+                        MessageBox.Show($"No se encontró ningún encabezado de producción para la familia '{familiaSeleccionada}'.", "Sin datos de encabezado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    string linea = "";
+                    string nombre = "";
+                    string material = "";
+                    string calibre = "";
+                    int subensamble = 0;
+                    string dibIng = "";
+                    byte[] imagenBytes = null;
+
+                    string queryDatos = @"
+                        SELECT Linea, Nombre, Material, Calibre, Subensamble, DibIng, Imagen
+                        FROM elastosystem_produccion_encabezado
+                        WHERE Familia = @FAMILIA
+                        LIMIT 1";
+
+                    using (MySqlCommand cmdDatos = new MySqlCommand(queryDatos, conn))
+                    {
+                        cmdDatos.Parameters.AddWithValue("@FAMILIA", familiaSeleccionada);
+
+                        using (MySqlDataReader reader = cmdDatos.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                linea = reader["Linea"]?.ToString() ?? "";
+                                nombre = reader["Nombre"]?.ToString() ?? "";
+                                material = reader["Material"]?.ToString() ?? "";
+                                calibre = reader["Calibre"]?.ToString() ?? "";
+                                subensamble = reader["Subensamble"] != DBNull.Value ? Convert.ToInt32(reader["Subensamble"]) : 0;
+                                dibIng = reader["DibIng"]?.ToString() ?? "";
+                                if (reader["Imagen"] != DBNull.Value)
+                                {
+                                    imagenBytes = (byte[])reader["Imagen"];
+                                }
+                            }
+                        }
+                    }
+
+                    int totalOperaciones = 0;
+                    double totalPrepSeg = 0;
+                    double totalOpSeg = 0;
+
+                    foreach (DataGridViewRow fila in dgvHojaRuta.Rows)
+                    {
+                        if (fila.IsNewRow) continue;
+
+                        totalOperaciones++;
+
+                        double prep = 0;
+                        double op = 0;
+
+                        double.TryParse(fila.Cells["TiempoPreparacion"].Value?.ToString(), out prep);
+                        double.TryParse(fila.Cells["TiempoOperacion"].Value?.ToString(), out op);
+
+                        totalPrepSeg += prep;
+                        totalOpSeg += op;
+                    }
+
+                    double totalSegundos = totalPrepSeg + totalOpSeg;
+
+                    double totalPrepMin = totalPrepSeg / 60;
+                    double totalOpMin = totalOpSeg / 60;
+                    double totalMinutos = totalPrepMin + totalOpMin;
+
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = "Archivo PDF (*.pdf)|*.pdf";
+                    saveFileDialog.Title = "Guardar PDF";
+                    saveFileDialog.FileName = "HR-" + cbFamilia.Text.Trim() + ".pdf";
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        string rutaArchivo = saveFileDialog.FileName;
+
+                        iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4.Rotate(), 36, 36, 36, 36);
+
+                        PdfWriter.GetInstance(doc, new FileStream(rutaArchivo, FileMode.Create));
+                        doc.Open();
+
+                        iTextSharp.text.Font tituloCentradoFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 17);
+                        iTextSharp.text.Font cambiosFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLDOBLIQUE, 9);
+                        iTextSharp.text.Font tituloencabezadoFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9);
+                        iTextSharp.text.Font encabezadoFont = FontFactory.GetFont(FontFactory.HELVETICA, 9);
+                        iTextSharp.text.Font normalFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+                        iTextSharp.text.Font cantidadesFont = FontFactory.GetFont(FontFactory.HELVETICA, 11);
+
+                        PdfPTable tablaEncabezado = new PdfPTable(3);
+                        tablaEncabezado.WidthPercentage = 100;
+                        tablaEncabezado.SetWidths(new float[] { 25f, 50f, 25f });
+
+                        string rutaImagen = @"W:\Recursos_Sistemas\ElastoSystem\LogoElastoLargoHR.png";
+
+                        iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(rutaImagen);
+
+                        float anchoCeldaIzq = (doc.PageSize.Width - doc.LeftMargin - doc.RightMargin) * 0.20f;
+                        float altoCeldaIzq = 45f;
+
+                        img.ScaleToFit(anchoCeldaIzq, altoCeldaIzq);
+                        img.Alignment = Element.ALIGN_CENTER;
+
+                        PdfPCell celdaIzquierda = new PdfPCell(img)
+                        {
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            VerticalAlignment = Element.ALIGN_MIDDLE,
+                            Border = iTextSharp.text.Rectangle.BOX,
+                            Padding = 3f
+                        };
+
+                        tablaEncabezado.AddCell(celdaIzquierda);
+
+                        Paragraph textoCentro = new Paragraph("HOJA DE RUTA\nFABRICACIÓN DE PIEZAS Y ENSAMBLE", tituloCentradoFont);
+                        textoCentro.Alignment = Element.ALIGN_CENTER;
+
+                        PdfPCell celdaCentro = new PdfPCell(textoCentro);
+                        celdaCentro.HorizontalAlignment = Element.ALIGN_CENTER;
+                        celdaCentro.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        celdaCentro.Border = iTextSharp.text.Rectangle.BOX;
+                        tablaEncabezado.AddCell(celdaCentro);
+
+                        PdfPCell celdaDerecha = new PdfPCell(new Phrase("HR-" + cbFamilia.Text.Trim(), tituloCentradoFont));
+                        celdaDerecha.HorizontalAlignment = Element.ALIGN_CENTER;
+                        celdaDerecha.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        celdaDerecha.Border = iTextSharp.text.Rectangle.BOX;
+                        tablaEncabezado.AddCell(celdaDerecha);
+
+                        doc.Add(tablaEncabezado);
+                        doc.Add(new Paragraph("\n"));
+
+                        PdfPTable tablaControlCambios = new PdfPTable(5);
+                        tablaControlCambios.WidthPercentage = 100;
+
+                        tablaControlCambios.SetWidths(new float[] { 10f, 22.5f, 22.5f, 22.5f, 22.5f });
+
+                        PdfPCell tituloCambios = new PdfPCell(new Phrase("Control de cambios", cambiosFont))
+                        {
+                            Colspan = 5,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        };
+                        tablaControlCambios.AddCell(tituloCambios);
+
+                        string[] encabezados = { "Rev.", "Fecha", "Elaboró", "Revisó", "Aprobó" };
+                        foreach (string t in encabezados)
+                        {
+                            tablaControlCambios.AddCell(new PdfPCell(new Phrase(t, cambiosFont))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                Border = iTextSharp.text.Rectangle.BOX
+                            });
+                        }
+
+                        for (int j = 0; j < 5; j++)
+                        {
+                            tablaControlCambios.AddCell(new PdfPCell(new Phrase(" "))
+                            {
+                                Rowspan = 2,
+                                MinimumHeight = 20f,
+                                Border = iTextSharp.text.Rectangle.BOX
+                            });
+                        }
+
+                        PdfPTable tablaDerecha = new PdfPTable(6);
+                        tablaDerecha.WidthPercentage = 100;
+                        tablaDerecha.SetWidths(new float[] { 18f, 18f, 18f, 14f, 14f, 33f });
+
+                        float hNormal = 10f;
+
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase("Linea / Producto", tituloencabezadoFont))
+                        {
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase("Nombre", tituloencabezadoFont))
+                        {
+                            Colspan = 4,
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+
+                        PdfPCell ultimaColumna;
+
+                        if(imagenBytes != null)
+                        {
+                            iTextSharp.text.Image imga = iTextSharp.text.Image.GetInstance(imagenBytes);
+
+                            float anchoCelda = doc.PageSize.Width * 0.33f;
+                            float altoCelda = hNormal * 4;
+
+                            imga.ScaleToFit(anchoCelda, altoCelda);
+                            imga.Alignment = Element.ALIGN_CENTER;
+
+                            ultimaColumna = new PdfPCell(imga)
+                            {
+                                Rowspan = 4,
+                                MinimumHeight = altoCelda,
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE,
+                                Border = iTextSharp.text.Rectangle.BOX,
+                                Padding = 0f
+                            };
+                        }
+                        else
+                        {
+                            ultimaColumna = new PdfPCell(new Phrase(""))
+                            {
+                                Rowspan = 4,
+                                MinimumHeight = hNormal * 4,
+                                Border = iTextSharp.text.Rectangle.BOX
+                            };
+                        }
+
+                        tablaDerecha.AddCell(ultimaColumna);
+
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase(linea, encabezadoFont))
+                        {
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase(nombre, encabezadoFont))
+                        {
+                            Colspan = 4,
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase("Material", tituloencabezadoFont))
+                        {
+                            Colspan = 2,
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase("Tamaño / Calibre", tituloencabezadoFont))
+                        {
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase("No. de SE", tituloencabezadoFont))
+                        {
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase("Dib. Ing", tituloencabezadoFont))
+                        {
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase(material, encabezadoFont))
+                        {
+                            Colspan = 2,
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase(calibre, encabezadoFont))
+                        {
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase(subensamble.ToString(), encabezadoFont))
+                        {
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+                        tablaDerecha.AddCell(new PdfPCell(new Phrase(dibIng, encabezadoFont))
+                        {
+                            MinimumHeight = hNormal,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Border = iTextSharp.text.Rectangle.BOX
+                        });
+
+                        PdfPTable contenedora = new PdfPTable(2);
+                        contenedora.WidthPercentage = 100;
+                        contenedora.SetWidths(new float[] { 30f, 70f });
+
+                        contenedora.AddCell(new PdfPCell(tablaControlCambios) { Border = 0 });
+                        contenedora.AddCell(new PdfPCell(tablaDerecha) { Border = 0 });
+
+                        doc.Add(contenedora);
+
+                        doc.Add(new Paragraph("\n"));
+
+                        PdfPTable tablaHojaRuta = new PdfPTable(8);
+                        tablaHojaRuta.WidthPercentage = 100;
+
+                        tablaHojaRuta.SetWidths(new float[]
+                        {
+                            10f, 6f, 25f, 15f, 24f, 8f, 8f, 14f
+                        });
+
+                        string[] encabezadosRuta =
+                        {
+                            "Centro de trabajo",
+                            "No. De Op.",
+                            "Descripción de la operación",
+                            "Tipo de maquinaria o herramienta",
+                            "Preparación",
+                            "Tiempo de preparación (Seg.)",
+                            "Tiempo de operación (Seg.)",
+                            "Materiales o insumos"
+                        };
+
+                        foreach (string encabezado in encabezadosRuta)
+                        {
+                            tablaHojaRuta.AddCell(new PdfPCell(new Phrase(encabezado, tituloencabezadoFont))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE,
+                                Border = iTextSharp.text.Rectangle.BOX
+                            });
+                        }
+
+                        foreach (DataGridViewRow fila in dgvHojaRuta.Rows)
+                        {
+                            if (fila.IsNewRow) continue;
+
+                            tablaHojaRuta.AddCell(new PdfPCell(new Phrase(fila.Cells["Area"].Value?.ToString() ?? "", encabezadoFont))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE
+                            });
+                            tablaHojaRuta.AddCell(new PdfPCell(new Phrase(fila.Cells["NoOperacion"].Value?.ToString() ?? "", encabezadoFont))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE
+                            });
+                            tablaHojaRuta.AddCell(new PdfPCell(new Phrase(fila.Cells["Descripcion"].Value?.ToString() ?? "", encabezadoFont))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE
+                            });
+                            tablaHojaRuta.AddCell(new PdfPCell(new Phrase(fila.Cells["TipoMaquina"].Value?.ToString() ?? "", encabezadoFont))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE
+                            });
+                            tablaHojaRuta.AddCell(new PdfPCell(new Phrase(fila.Cells["Preparacion"].Value?.ToString() ?? "", encabezadoFont))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE
+                            });
+                            tablaHojaRuta.AddCell(new PdfPCell(new Phrase(fila.Cells["TiempoPreparacion"].Value?.ToString() ?? "", encabezadoFont))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE
+                            });
+                            tablaHojaRuta.AddCell(new PdfPCell(new Phrase(fila.Cells["TiempoOperacion"].Value?.ToString() ?? "", encabezadoFont))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE
+                            });
+                            tablaHojaRuta.AddCell(new PdfPCell(new Phrase(fila.Cells["Insumos"].Value?.ToString() ?? "", encabezadoFont))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE
+                            });
+                        }
+
+                        doc.Add(tablaHojaRuta);
+
+                        PdfPTable tablaTotales = new PdfPTable(7);
+                        tablaTotales.WidthPercentage = 65;
+                        tablaTotales.HorizontalAlignment = Element.ALIGN_RIGHT;
+
+                        tablaTotales.SetWidths(new float[]
+                        {
+                            22f, 4f, 6f, 24f, 13f, 13f, 18f
+                        });
+
+                        PdfPCell CeldaSinBorde(string texto)
+                        {
+                            return new PdfPCell(new Phrase(texto, cantidadesFont))
+                            {
+                                Border = iTextSharp.text.Rectangle.NO_BORDER,
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE
+                            };
+                        }
+
+                        tablaTotales.AddCell(CeldaSinBorde("Total de operaciones"));
+                        tablaTotales.AddCell(CeldaSinBorde(totalOperaciones.ToString()));
+                        tablaTotales.AddCell(CeldaSinBorde(""));
+                        tablaTotales.AddCell(CeldaSinBorde("Tiempo total segundos"));
+                        tablaTotales.AddCell(CeldaSinBorde(totalPrepSeg.ToString("0.##")));
+                        tablaTotales.AddCell(CeldaSinBorde(totalOpSeg.ToString("0.##")));
+                        tablaTotales.AddCell(CeldaSinBorde(totalSegundos.ToString("0.##")));
+
+                        tablaTotales.AddCell(CeldaSinBorde(""));
+                        tablaTotales.AddCell(CeldaSinBorde(""));
+                        tablaTotales.AddCell(CeldaSinBorde(""));
+                        tablaTotales.AddCell(CeldaSinBorde("Tiempo total minutos"));
+                        tablaTotales.AddCell(CeldaSinBorde(totalPrepMin.ToString("0.##")));
+                        tablaTotales.AddCell(CeldaSinBorde(totalOpMin.ToString("0.##")));
+                        tablaTotales.AddCell(CeldaSinBorde(totalMinutos.ToString("0.##")));
+
+                        doc.Add(new Paragraph("\n"));
+                        doc.Add(tablaTotales);
+
+                        doc.Close();
+
+                        if (File.Exists(rutaArchivo))
+                            System.Diagnostics.Process.Start("explorer.exe", rutaArchivo);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al verificar el encabezado de producción:\n" + ex.Message, "Error de base de datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
         }
